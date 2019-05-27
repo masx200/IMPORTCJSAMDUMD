@@ -12,6 +12,12 @@
 
 并且解决了包之间的依赖关系，如果依赖包当中的require函数需要，则在模块仓库中引入需要的模块包
 
+定义了模块包的define方法，require方法，module.exports对象和exports对象
+
+
+
+
+
 
 如果要动态异步加载es6模块,加载es6模块的方法:
 ```javascript
