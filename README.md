@@ -16,6 +16,19 @@ https://masx200.github.io/IMPORTCJSAMDUMD/dist/IMPORTCJSAMDUMD.js
   import("https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js").then(console.log)
 ```
 动态异步加载cjs,amd,umd模块用法:
+
+主函数,IMPORTCJSAMDUMD,返回一个promise对象,参数url和name都是字符串
+```javascript
+IMPORTCJSAMDUMD(url,name)
+```
+次对象,IMPORTCJSAMDUMD.GLOBALPACKAGESTORE,是所有加载过的模块的存储仓库对象
+```javascript
+IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]
+```
+次函数,IMPORTCJSAMDUMD.REQUIREPACKAGE,返回仓库中的模块,参数name是字符串
+```javascript
+IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
+```
 ```javascript
   IMPORTCJSAMDUMD('https://cdn.staticfile.org/jquery/3.4.1/jquery.js').then((m)=>{console.log(m.default.fn.jquery)})
  
