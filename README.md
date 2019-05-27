@@ -20,9 +20,12 @@
 ```
 ## 动态异步加载cjs,amd,umd模块用法:
 
-主函数,IMPORTCJSAMDUMD,返回一个promise对象,参数url和name都是字符串，把通过url加载的依赖包放入模块仓库中，命名为name
+主函数,IMPORTCJSAMDUMD,返回一个promise对象,参数url和name都是字符串，把通过url加载的依赖包放入模块仓库中，命名为name，promise之后的.then函数的回调函数的参数是module，module.default的模块的默认输出
 ```javascript
 IMPORTCJSAMDUMD(url,name)
+
+
+IMPORTCJSAMDUMD(url).then(m=>console.log(m.default))
 ```
 次对象,IMPORTCJSAMDUMD.GLOBALPACKAGESTORE,是所有加载过的模块的存储仓库对象
 ```javascript
