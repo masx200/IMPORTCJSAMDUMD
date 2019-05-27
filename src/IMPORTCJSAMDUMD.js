@@ -1,3 +1,6 @@
+//由于使用了async函数所以需要regeneratorRuntime
+import regeneratorRuntime from "regenerator-runtime";
+
 //包装cjs和amd和umd模块为异步加载promise方法
 /**
  *动态异步加载commonjs和umd和amd模块
