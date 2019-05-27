@@ -16,7 +16,7 @@
 如果要动态异步加载es6模块,加载es6模块的方法:
 ```javascript
 
-  import("https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js").then(console.log)
+  import(url).then(console.log)
 ```
 ## 动态异步加载cjs,amd,umd模块用法:
 
@@ -71,5 +71,9 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和IMPORTCJSAMDUMD.REQUIREPACKAGE(name)�
 // GLOBALPACKAGESTORE [jquery: ƒ, react: {…}, vue: ƒ]jquery: ƒ ( selector, context )react: {Children: {…}, createRef: ƒ, Component: ƒ, PureComponent: ƒ, createContext: ƒ, …}vue: ƒ wn(e)length: 0__proto__: Array(0)
 //(3) [{…}, {…}, {…}]0: {name: "jquery", default: ƒ, url: URL}1: {name: "react", default: {…}, url: URL}2: {name: "vue", default: ƒ, url: URL}length: 3__proto__: Array(0)
  
+
+//加载es6模块的方法
+
+  import("https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js").then(console.log)
  
 ```
