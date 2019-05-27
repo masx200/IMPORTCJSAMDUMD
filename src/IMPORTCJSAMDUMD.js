@@ -155,11 +155,14 @@ import regeneratorRuntime from "regenerator-runtime";
         (async () => {
           try {
             var response = await fetch(url);
-
+            if (!response.ok) {
+              throw new Error("fetch failed " + url);
+            }
             var scripttext = await response.text();
           } catch (e) {
             console.error(e);
             reject(e);
+            return;
           }
 
           var exports = {};
@@ -204,6 +207,7 @@ import regeneratorRuntime from "regenerator-runtime";
           } catch (e) {
             console.error(e);
             reject(e);
+            return;
           }
 
           // console.log(define.exports);
