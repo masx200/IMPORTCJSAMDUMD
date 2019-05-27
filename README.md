@@ -1,4 +1,7 @@
 # IMPORTCJSAMDUMD
+
+https://masx200.github.io/IMPORTCJSAMDUMD/dist/IMPORTCJSAMDUMD.js
+
 动态异步加载commonjs和umd和amd模块  ,包装cjs和amd和umd模块为异步加载promise方法
 
 如果要动态异步加载es6模块,加载es6模块的方法:
