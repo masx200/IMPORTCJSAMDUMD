@@ -1,5 +1,8 @@
 {
-  "dependencies": {
-    "regenerator-runtime": "^0.13.2"
-  }
+    "scripts": {
+        "build": "parcel build src/*.js"
+    },
+    "dependencies": {
+        "regenerator-runtime": "^0.13.2"
+    }
 }

@@ -179,7 +179,24 @@ import regeneratorRuntime from "regenerator-runtime";
               exports,
               scripttext
             ) {
-              eval(scripttext);
+            //   console.log(
+            //     Function(
+            //         "require",
+            //         "define",
+            //         "module",
+            //         "exports",
+            //         scripttext + `; return [exports, module.exports];`
+            //       ).toString()
+            //   );
+              //   eval(scripttext);
+              /* 有的网站安全考虑不能运行eval */
+              return Function(
+                "require",
+                "define",
+                "module",
+                "exports",
+                scripttext + `; return [exports, module.exports];`
+              )(require, define, module, exports);
               // for (let __key__ in module.exports ){
               //     module[__key__]=module.exports[__key__]
               // }
@@ -202,7 +219,7 @@ import regeneratorRuntime from "regenerator-runtime";
               //     // globalDefQueue[2]
               //   );
 
-              return [exports, module.exports];
+              //   return [exports, module.exports];
             })(require, define, module, exports, scripttext);
           } catch (e) {
             console.error(e);
