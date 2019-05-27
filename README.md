@@ -7,13 +7,18 @@
 [发布版本](https://masx200.github.io/IMPORTCJSAMDUMD/dist/IMPORTCJSAMDUMD.js)
 
 动态异步加载commonjs和umd和amd模块  ,包装cjs和amd和umd模块为异步加载promise方法
+，
+可以把模块放入模块仓库中，
+
+并且解决了包之间的依赖关系，如果依赖包当中的require函数需要，则在模块仓库中引入需要的模块包
+
 
 如果要动态异步加载es6模块,加载es6模块的方法:
 ```javascript
 
   import("https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js").then(console.log)
 ```
-动态异步加载cjs,amd,umd模块用法:
+## 动态异步加载cjs,amd,umd模块用法:
 
 主函数,IMPORTCJSAMDUMD,返回一个promise对象,参数url和name都是字符串
 ```javascript
@@ -23,13 +28,13 @@ IMPORTCJSAMDUMD(url,name)
 ```javascript
 IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]
 ```
-次函数,IMPORTCJSAMDUMD.REQUIREPACKAGE,返回仓库中的模块,参数name是字符串
+次函数,IMPORTCJSAMDUMD.REQUIREPACKAGE,返回模块仓库中的模块,参数name是字符串
 ```javascript
 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
 ```
 IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和IMPORTCJSAMDUMD.REQUIREPACKAGE(name)是相等的
 
-示例
+## 示例
 ```javascript
   IMPORTCJSAMDUMD('https://cdn.staticfile.org/jquery/3.4.1/jquery.js').then((m)=>{console.log(m.default.fn.jquery)})
  
