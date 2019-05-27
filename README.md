@@ -29,6 +29,9 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]
 ```javascript
 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
 ```
+IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和IMPORTCJSAMDUMD.REQUIREPACKAGE(name)是相等的
+
+示例
 ```javascript
   IMPORTCJSAMDUMD('https://cdn.staticfile.org/jquery/3.4.1/jquery.js').then((m)=>{console.log(m.default.fn.jquery)})
  
