@@ -233,24 +233,25 @@ import regeneratorRuntime from "regenerator-runtime";
             Object.keys(exportmodule[1]).length,
             Object.keys(define.exports).length
           ); */
+          console.log(exportmodule[0], exportmodule[1], define.exports);
           if (
             typeof exportmodule[0] !== "object" ||
-            JSON.stringify(exportmodule[0]) !== "{}" ||
-            Object.keys(exportmodule[0]).length
+            Object.keys(exportmodule[0]).length ||
+            JSON.stringify(exportmodule[0]) !== "{}"
           ) {
             console.log("检测到umd模块", url);
             moduleexport.default = exportmodule[0];
           } else if (
             typeof exportmodule[1] !== "object" ||
-            JSON.stringify(exportmodule[1]) !== "{}" ||
-            Object.keys(exportmodule[1]).length
+            Object.keys(exportmodule[1]).length ||
+            JSON.stringify(exportmodule[1]) !== "{}"
           ) {
             console.log("检测到cjs模块", url);
             moduleexport.default = exportmodule[1];
           } else if (
             typeof define.exports !== "object" ||
-            JSON.stringify(define.exports) !== "{}" ||
-            Object.keys(define.exports).length
+            Object.keys(define.exports).length ||
+            JSON.stringify(define.exports) !== "{}"
           ) {
             console.log("检测到amd模块", url);
             moduleexport.default = define.exports;
