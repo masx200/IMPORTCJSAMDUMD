@@ -6,7 +6,7 @@
 
 [发布版本](https://masx200.github.io/IMPORTCJSAMDUMD/dist/IMPORTCJSAMDUMD.js)
 
-动态异步加载commonjs和umd和amd模块  ,包装cjs和amd和umd模块为异步加载promise方法
+动态异步加载commonjs和umd和amd模块  ,包装cjs和amd和umd模块为异步加载promise方法,使用fetch方法来获取指定的模块包源代码
 ，
 可以把模块放入模块仓库中，
 
