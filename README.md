@@ -8,9 +8,9 @@
 ，
 可以把模块放入模块仓库中，
 
-并且解决了包之间的依赖关系，如果依赖包当中的 require 函数需要，则在模块仓库中引入需要的模块包
+并且解决了包之间的依赖关系，如果依赖包当中的 "require" 函数需要，则在模块仓库中引入需要的模块包
 
-定义了模块包的 define 方法，require 方法，module.exports 对象和 exports 对象
+定义了模块包的" define "方法，"require "方法，"module.exports "对象和 "exports "对象
 
 
 
