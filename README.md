@@ -4,7 +4,7 @@
 
 [发布版本](https://masx200.github.io/IMPORTCJSAMDUMD/dist/IMPORTCJSAMDUMD.js)
 
-动态异步加载 commonjs 和 umd 和 amd 模块 ,包装 cjs 和 amd 和 umd 模块为异步加载 promise 方法,使用 fetch 方法来获取指定的模块包源代码
+动态异步加载" commonjs "和 "umd "和 "amd" 模块 ,包装" cjs "和 "amd "和 "umd" 模块为异步加载" promise" 方法,使用" fetch "方法来获取指定的模块包源代码
 ，
 可以把模块放入模块仓库中，
 
@@ -12,15 +12,12 @@
 
 定义了模块包的" define "方法，"require "方法，"module.exports "对象和 "exports "对象
 
+"IMPORTCJSAMDUMD" 的函数功能类似于["systemjs"](https://github.com/systemjs/systemjs)的 "system.import" 函数，
 
-
-IMPORTCJSAMDUMD的函数功能类似于[systemjs](https://github.com/systemjs/systemjs)的system.import函数，
-
-IMPORTCJSAMDUMD的定义的"define"函数基于[requirejs](https://github.com/requirejs/requirejs)的 "define"函数
-
-
+"IMPORTCJSAMDUMD "的定义的"define"函数基于["requirejs"](https://github.com/requirejs/requirejs)的 "define"函数
 
 ## 加载有依赖关系的模块包的方法
+
 ```javascript
 (async () => {
   const [jquery, popper] = await Promise.all([
@@ -44,10 +41,10 @@ IMPORTCJSAMDUMD的定义的"define"函数基于[requirejs](https://github.com/re
 import(url).then(console.log);
 ```
 
-如果要兼容旧的浏览器，可以使用[es-module-shims](https://github.com/guybedford/es-module-shims)的"importShim"函数替换"import"函数
+如果要兼容旧的浏览器，可以使用["es-module-shims"](https://github.com/guybedford/es-module-shims)的"importShim"函数替换"import"函数
 
 ```javascript
-importShim('/path/to/module.js').then(x => console.log(x));
+importShim("/path/to/module.js").then(x => console.log(x));
 ```
 
 ## IMPORTCJSAMDUMD
@@ -58,10 +55,9 @@ And solve the dependencies between the packages, if the "require" function in th
 
 Defines the "define" method of the module package, the "require" method, the "module.exports" object, and the "exports" object
 
-The function of IMPORTCJSAMDUMD is similar to the system.import function of systemjs.
+The function of IMPORTCJSAMDUMD is similar to the "system.import" function of "systemjs".
 
 The "define" function defined by IMPORTCJSAMDUMD is based on the "define" function of requirejs.
-
 
 ## 动态异步加载 cjs,amd,umd 模块用法:
 
