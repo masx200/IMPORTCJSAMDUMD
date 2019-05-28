@@ -16,6 +16,8 @@
 
 "IMPORTCJSAMDUMD "的定义的"define"函数基于["requirejs"](https://github.com/requirejs/requirejs)的 "define"函数
 
+把未命名的模块以sha256(url)命名存入模块仓库中
+
 ## 加载有依赖关系的模块包的方法
 
 ```javascript
@@ -81,7 +83,7 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name];
 IMPORTCJSAMDUMD.REQUIREPACKAGE(name);
 ```
 
-IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)是相等的
+IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name].default和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)是相等的
 
 ## 示例
 
