@@ -19,7 +19,39 @@
 把未命名的模块以sha256(url)命名存入模块仓库中
 
 ## 加载有依赖关系的模块包的方法
+```javascript
 
+import IMPORTCJSAMDUMD from "../IMPORTCJSAMDUMD";
+(async () => {
+          const react = await IMPORTCJSAMDUMD(
+            "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js",
+            "react"
+          );
+          const [reactdom, reactrouterdom] = await Promise.all([
+            IMPORTCJSAMDUMD(
+              "https://cdn.staticfile.org/react-dom/16.8.6/umd/react-dom.production.min.js",
+              "react-dom"
+            ),
+            IMPORTCJSAMDUMD(
+              "https://cdn.staticfile.org/react-router-dom/5.0.0/react-router-dom.min.js",
+              "react-router-dom"
+            )
+          ]);
+          
+          var reactmodulearray = [react, reactdom, reactrouterdom];
+          myonloadfunc(reactmodulearray);
+          })();
+function myonloadfunc(reactmodulearray) {
+    
+      console.log(reactmodulearray);
+      const React = reactmodulearray[0].default;
+      const ReactDOM = reactmodulearray[1].default;
+      const ReactRouterDOM = reactmodulearray[2].default;
+      //............................
+      
+      }
+      
+```
 ```javascript
 (async () => {
   const [jquery, popper] = await Promise.all([
