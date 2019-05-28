@@ -49,6 +49,20 @@ import(url).then(console.log);
 ```javascript
 importShim('/path/to/module.js').then(x => console.log(x));
 ```
+
+## IMPORTCJSAMDUMD
+
+Dynamically asynchronously load commonjs and umd and amd modules, wrap cjs and amd and umd modules to load the promise method asynchronously, use the fetch method to get the specified module package source code, and put the module into the module repository.
+
+And solve the dependencies between the packages, if the "require" function in the dependent package needs, then introduce the required module package in the module repository
+
+Defines the "define" method of the module package, the "require" method, the "module.exports" object, and the "exports" object
+
+The function of IMPORTCJSAMDUMD is similar to the system.import function of systemjs.
+
+The "define" function defined by IMPORTCJSAMDUMD is based on the "define" function of requirejs.
+
+
 ## 动态异步加载 cjs,amd,umd 模块用法:
 
 主函数,IMPORTCJSAMDUMD,返回一个 promise 对象,参数 url 和 name 都是字符串，把通过 url 加载的依赖包放入模块仓库中，命名为 name，promise 之后的.then 函数的回调函数的参数是 module，module.default 的模块的默认输出
