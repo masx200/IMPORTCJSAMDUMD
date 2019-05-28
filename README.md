@@ -44,6 +44,11 @@ IMPORTCJSAMDUMD的定义的"define"函数基于[requirejs](https://github.com/re
 import(url).then(console.log);
 ```
 
+如果要兼容旧的浏览器，可以使用[es-module-shims](https://github.com/guybedford/es-module-shims)的"importShim"函数替换"import"函数
+
+```javascript
+importShim('/path/to/module.js').then(x => console.log(x));
+```
 ## 动态异步加载 cjs,amd,umd 模块用法:
 
 主函数,IMPORTCJSAMDUMD,返回一个 promise 对象,参数 url 和 name 都是字符串，把通过 url 加载的依赖包放入模块仓库中，命名为 name，promise 之后的.then 函数的回调函数的参数是 module，module.default 的模块的默认输出
