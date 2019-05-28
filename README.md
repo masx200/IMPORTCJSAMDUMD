@@ -15,6 +15,8 @@
 
 定义的"define"函数基于requirejs
 
+https://github.com/requirejs/requirejs
+
 ## 加载有依赖关系的模块包的方法
 ```javascript
 (async () => {
