@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "build": "parcel build src/*.js"
+        "build": "parcel build src/IMPORTCJSAMDUMD.js"
     },
     "dependencies": {
         "regenerator-runtime": "^0.13.2"
