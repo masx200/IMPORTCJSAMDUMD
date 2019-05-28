@@ -13,9 +13,12 @@
 定义了模块包的 define 方法，require 方法，module.exports 对象和 exports 对象
 
 
-定义的"define"函数基于requirejs
 
-https://github.com/requirejs/requirejs
+IMPORTCJSAMDUMD的函数功能类似于[systemjs](https://github.com/systemjs/systemjs)的system.import函数，
+
+IMPORTCJSAMDUMD的定义的"define"函数基于[requirejs](https://github.com/requirejs/requirejs)的 "define"函数
+
+
 
 ## 加载有依赖关系的模块包的方法
 ```javascript
