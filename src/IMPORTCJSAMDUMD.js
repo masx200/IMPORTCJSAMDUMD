@@ -115,7 +115,7 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
   function importcjsamdumd(url, packagename = undefined) {
     //   window.GLOBALPACKAGESTORE = window.GLOBALPACKAGESTORE || [];
     url = new URL(url);
-    url=url.href
+    url = url.href;
     // importcjsamdumd.packagename = packagename;
     function define(name, deps, callback) {
       define.globalDefQueue = [];
@@ -211,189 +211,190 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
     define.amd = true;
     return new Promise((resolve, reject) => {
       try {
-      	
-      ( () => {
-
-      
-     //   (async () => {
-        	
-        
-        
+        (() => {
+          //   (async () => {
+          var fetchpromise;
           try {
-          	
-          
-          fetch(url).then(response=>{
+            try {
+              fetchpromise = fetch(url).then(response => {
+                if (!response.ok) {
+                  throw new Error("fetch failed " + url);
+                }
 
- if (!response.ok) {
-              throw new Error("fetch failed " + url);
-            }
-            
-            return response.text();
-}).catch(e=>{
-
-            console.error(e);
-            reject(e);
+                return response.text();
+              });
+            } catch (e) {
+              console.error(e);
+              reject(e);
               return;
-}).then(scripttext=>{
-
-
-          var exports = {};
-          var module = {
-            exports: {}
-          };
-          define.exports = {};
-          // var globalDefQueue = [];
-          var exportmodule = [{}, {}];
-          try {
-            exportmodule = (function(
-              require,
-              define,
-              module,
-              exports,
-              scripttext
-            ) {
-              //   console.log(
-              //     Function(
-              //         "require",
-              //         "define",
-              //         "module",
-              //         "exports",
-              //         scripttext + `; return [exports, module.exports];`
-              //       ).toString()
-              //   );
-              //   eval(scripttext);
-              /* 有的网站安全考虑不能运行eval */
-              return Function(
-                "require",
-                "define",
-                "module",
-                "exports",
-                scripttext + `; return [exports, module.exports];`
-              )(require, define, module, exports);
-              // for (let __key__ in module.exports ){
-              //     module[__key__]=module.exports[__key__]
-              // }
-
-              //   var moduleexport = {};
-              //   console.log("exports", exports, "module.exports", module.exports);
-              //   //   console.log()
-              //   if (Object.keys(exports).length) {
-              //     moduleexport.default = exports;
-              //   } else if (Object.keys(module.exports).length) {
-              //     moduleexport.default = module.exports;
-              //   }
-
-              //   console.log(
-              //     "exports",
-              //     exports,
-              //     "module.exports",
-              //     module.exports,
-              //     // "globalDefQueue[2]",
-              //     // globalDefQueue[2]
-              //   );
-
-              //   return [exports, module.exports];
-            })(require, define, module, exports, scripttext);
-          } catch (e) {
-            console.error(e);
-            reject(e);
-            return;
-          }
-
-          // console.log(define.exports);
-          // console.log(exportmodule);
-          // exports = exportmodule[0];
-          // module.exports = exportmodule[1];
-          var moduleexport = {
-            name: undefined,
-            default: undefined,
-            url: undefined
-          };
-          // console.log(
-          //   "exports",
-          //   exports,
-          //   "module.exports",
-          //   module.exports,
-          // //   "globalDefQueue[2]",
-          // //   globalDefQueue[2]
-          // );
-          /* console.log(exportmodule[0], exportmodule[1], define.exports);
-          console.log(
-            Object.keys(exportmodule[0]).length,
-            Object.keys(exportmodule[1]).length,
-            Object.keys(define.exports).length
-          ); */
-          //   if(){
-          //   console.log(typeof exportmodule);
-          //   }
-          if (typeof exportmodule === "undefined") {
-            var exportmodule = [{}, {}];
-          }
-          if (typeof define.exports === "undefined") {
-            define.exports = {};
-          }
-          console.log(exportmodule[0], exportmodule[1], define.exports);
-          if (
-            typeof exportmodule[0] !== "object" ||
-            Object.keys(exportmodule[0]).length ||
-            JSON.stringify(exportmodule[0]) !== "{}"
-          ) {
-            console.log("检测到umd模块", url);
-            moduleexport.default = exportmodule[0];
-          } else if (
-            typeof exportmodule[1] !== "object" ||
-            Object.keys(exportmodule[1]).length ||
-            JSON.stringify(exportmodule[1]) !== "{}"
-          ) {
-            console.log("检测到cjs模块", url);
-            moduleexport.default = exportmodule[1];
-          } else if (
-            typeof define.exports !== "object" ||
-            Object.keys(define.exports).length ||
-            JSON.stringify(define.exports) !== "{}"
-          ) {
-            console.log("检测到amd模块", url);
-            moduleexport.default = define.exports;
-          }
-
-          if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
-            Object.defineProperty(moduleexport, Symbol.toStringTag, {
-              value: "Module"
-            });
-          }
-
-          if (typeof packagename !== "undefined") {
-            moduleexport.name = packagename;
-            importcjsamdumd.GLOBALPACKAGESTORE[packagename] =
-              moduleexport.default;
-          } else {
-            moduleexport.name = undefined;
-          }
-          moduleexport.url = url;
-          if (typeof moduleexport.default !== "undefined") {
-            if (typeof moduleexport.name !== "undefined") {
-              console.log(
-                "GLOBALPACKAGESTORE",
-                importcjsamdumd.GLOBALPACKAGESTORE
-              );
             }
-          } else {
-            console.warn("加载的模块没有输出", url);
-          }
 
-          resolve(moduleexport);
-          
+            //   .catch(e => {
+            //     console.error(e);
+            //     reject(e);
+            //     return;
+            //   })
+            try {
+              fetchpromise.then(scripttext => {
+                var exports = {};
+                var module = {
+                  exports: {}
+                };
+                define.exports = {};
+                // var globalDefQueue = [];
+                var exportmodule = [{}, {}];
+                try {
+                  exportmodule = (function(
+                    require,
+                    define,
+                    module,
+                    exports,
+                    scripttext
+                  ) {
+                    //   console.log(
+                    //     Function(
+                    //         "require",
+                    //         "define",
+                    //         "module",
+                    //         "exports",
+                    //         scripttext + `; return [exports, module.exports];`
+                    //       ).toString()
+                    //   );
+                    //   eval(scripttext);
+                    /* 有的网站安全考虑不能运行eval */
+                    return Function(
+                      "require",
+                      "define",
+                      "module",
+                      "exports",
+                      scripttext + `; return [exports, module.exports];`
+                    )(require, define, module, exports);
+                    // for (let __key__ in module.exports ){
+                    //     module[__key__]=module.exports[__key__]
+                    // }
 
+                    //   var moduleexport = {};
+                    //   console.log("exports", exports, "module.exports", module.exports);
+                    //   //   console.log()
+                    //   if (Object.keys(exports).length) {
+                    //     moduleexport.default = exports;
+                    //   } else if (Object.keys(module.exports).length) {
+                    //     moduleexport.default = module.exports;
+                    //   }
 
-}).catch(e=>{
+                    //   console.log(
+                    //     "exports",
+                    //     exports,
+                    //     "module.exports",
+                    //     module.exports,
+                    //     // "globalDefQueue[2]",
+                    //     // globalDefQueue[2]
+                    //   );
 
-            console.error(e);
-            reject(e);
+                    //   return [exports, module.exports];
+                  })(require, define, module, exports, scripttext);
+                } catch (e) {
+                  console.error(e);
+                  reject(e);
+                  return;
+                }
+
+                // console.log(define.exports);
+                // console.log(exportmodule);
+                // exports = exportmodule[0];
+                // module.exports = exportmodule[1];
+                var moduleexport = {
+                  name: undefined,
+                  default: undefined,
+                  url: undefined
+                };
+                // console.log(
+                //   "exports",
+                //   exports,
+                //   "module.exports",
+                //   module.exports,
+                // //   "globalDefQueue[2]",
+                // //   globalDefQueue[2]
+                // );
+                /* console.log(exportmodule[0], exportmodule[1], define.exports);
+console.log(
+  Object.keys(exportmodule[0]).length,
+  Object.keys(exportmodule[1]).length,
+  Object.keys(define.exports).length
+); */
+                //   if(){
+                //   console.log(typeof exportmodule);
+                //   }
+                if (typeof exportmodule === "undefined") {
+                  var exportmodule = [{}, {}];
+                }
+                if (typeof define.exports === "undefined") {
+                  define.exports = {};
+                }
+                console.log(exportmodule[0], exportmodule[1], define.exports);
+                if (
+                  typeof exportmodule[0] !== "object" ||
+                  Object.keys(exportmodule[0]).length ||
+                  JSON.stringify(exportmodule[0]) !== "{}"
+                ) {
+                  console.log("检测到umd模块", url);
+                  moduleexport.default = exportmodule[0];
+                } else if (
+                  typeof exportmodule[1] !== "object" ||
+                  Object.keys(exportmodule[1]).length ||
+                  JSON.stringify(exportmodule[1]) !== "{}"
+                ) {
+                  console.log("检测到cjs模块", url);
+                  moduleexport.default = exportmodule[1];
+                } else if (
+                  typeof define.exports !== "object" ||
+                  Object.keys(define.exports).length ||
+                  JSON.stringify(define.exports) !== "{}"
+                ) {
+                  console.log("检测到amd模块", url);
+                  moduleexport.default = define.exports;
+                }
+
+                if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
+                  Object.defineProperty(moduleexport, Symbol.toStringTag, {
+                    value: "Module"
+                  });
+                }
+
+                if (typeof packagename !== "undefined") {
+                  moduleexport.name = packagename;
+                  importcjsamdumd.GLOBALPACKAGESTORE[packagename] =
+                    moduleexport.default;
+                } else {
+                  moduleexport.name = undefined;
+                }
+                moduleexport.url = url;
+                if (typeof moduleexport.default !== "undefined") {
+                  if (typeof moduleexport.name !== "undefined") {
+                    console.log(
+                      "GLOBALPACKAGESTORE",
+                      importcjsamdumd.GLOBALPACKAGESTORE
+                    );
+                  }
+                } else {
+                  console.warn("加载的模块没有输出", url);
+                }
+
+                resolve(moduleexport);
+              });
+            } catch (e) {
+              console.error(e);
+              reject(e);
               return;
-})
-          
-          
-        /*    var response = await fetch(url);
+            }
+
+            //   .catch(e => {
+            //     console.error(e);
+            //     reject(e);
+            //     return;
+            //   });
+
+            /*    var response = await fetch(url);
             if (!response.ok) {
               throw new Error("fetch failed " + url);
             }
@@ -404,10 +405,10 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
             return;
           }
 */
-
-          
-          
-          
+          } catch (e) {
+            console.error(e);
+            reject(e);
+          }
         })();
       } catch (e) {
         console.error(e);
