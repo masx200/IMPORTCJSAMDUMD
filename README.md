@@ -124,7 +124,7 @@ IMPORTCJSAMDUMD("https://cdn.staticfile.org/jquery/3.4.1/jquery.js").then(m => {
   console.log(m.default.fn.jquery);
 });
 
-var jquery = IMPORTCJSAMDUMD.GLOBALPACKAGESTORE.jquery;
+var jquery = IMPORTCJSAMDUMD.GLOBALPACKAGESTORE.jquery.default;
 
 Promise.all([
   IMPORTCJSAMDUMD("https://cdn.bootcss.com/jquery/3.4.1/jquery.js"),
