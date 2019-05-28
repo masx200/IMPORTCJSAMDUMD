@@ -1,5 +1,5 @@
-//由于使用了async函数所以需要regeneratorRuntime
-import regeneratorRuntime from "regenerator-runtime";
+//由于使用了async函数所以需要regeneratorRuntime//
+//import regeneratorRuntime from "regenerator-runtime";
 
 //包装cjs和amd和umd模块为异步加载promise方法
 /**
@@ -57,6 +57,7 @@ import regeneratorRuntime from "regenerator-runtime";
   function importcjsamdumd(url, packagename = undefined) {
     //   window.GLOBALPACKAGESTORE = window.GLOBALPACKAGESTORE || [];
     url = new URL(url);
+    url=url.href
     // importcjsamdumd.packagename = packagename;
     function define(name, deps, callback) {
       define.globalDefQueue = [];
@@ -152,18 +153,31 @@ import regeneratorRuntime from "regenerator-runtime";
     define.amd = true;
     return new Promise((resolve, reject) => {
       try {
-        (async () => {
+      	
+      ( () => {
+
+      
+     //   (async () => {
+        	
+        
+        
           try {
-            var response = await fetch(url);
-            if (!response.ok) {
+          	
+          
+          fetch(url).then(response=>{
+
+ if (!response.ok) {
               throw new Error("fetch failed " + url);
             }
-            var scripttext = await response.text();
-          } catch (e) {
+            
+            return response.text();
+}).catch(e=>{
+
             console.error(e);
             reject(e);
-            return;
-          }
+              return;
+}).then(scripttext=>{
+
 
           var exports = {};
           var module = {
@@ -310,6 +324,32 @@ import regeneratorRuntime from "regenerator-runtime";
           }
 
           resolve(moduleexport);
+          
+
+
+}).catch(e=>{
+
+            console.error(e);
+            reject(e);
+              return;
+})
+          
+          
+        /*    var response = await fetch(url);
+            if (!response.ok) {
+              throw new Error("fetch failed " + url);
+            }
+            var scripttext = await response.text();
+          } catch (e) {
+            console.error(e);
+            reject(e);
+            return;
+          }
+*/
+
+          
+          
+          
         })();
       } catch (e) {
         console.error(e);
