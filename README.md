@@ -2,7 +2,7 @@
 
 [源代码 ](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/src/IMPORTCJSAMDUMD.js)
 
-[发布版本](https://masx200.github.io/IMPORTCJSAMDUMD/dist/IMPORTCJSAMDUMD.js)
+[发布版本](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/dist/IMPORTCJSAMDUMD.js)
 
 动态异步加载" commonjs "和 "umd "和 "amd" 模块 ,包装" cjs "和 "amd "和 "umd" 模块为异步加载" promise" 方法,使用" fetch "方法来获取指定的模块包源代码
 ，
