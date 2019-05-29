@@ -1,8 +1,10 @@
 {
     "scripts": {
+        "start": "live-server ./ --port=9090",
         "build": "parcel build src/IMPORTCJSAMDUMD.js"
     },
     "dependencies": {
-        "regenerator-runtime": "^0.13.2"
+        "regenerator-runtime": "^0.13.2",
+        "live-server": "^1.2.1"
     }
 }
