@@ -16,7 +16,48 @@
 
 "IMPORTCJSAMDUMD "的定义的"define"函数基于["requirejs"](https://github.com/requirejs/requirejs)的 "define"函数
 
-把未命名的模块以sha256(url)命名存入模块仓库中
+把未命名的模块以 sha256(url)命名存入模块仓库中
+
+# 更新:
+
+1.可以在一句 IMPORTCJSAMDUMD 语句中,传入多个模块的 url 的 name 了,返回一个数组,相当于 promise.all 的语法糖,
+
+2.可以尝试乱序加载有依赖更新的模块包了,加载之前,先把模块的 url 和 name 信息存入模块配置列表,如果依赖的包还没有加载完成,则多次尝试加载,最终可以加载完成
+
+甚至是这么变态的依赖关系,这么乱序加载,都可以!
+
+```javascript
+IMPORTCJSAMDUMD(
+  [
+    "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js",
+    "bootstrap"
+  ],
+  ["https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js", "jquery"],
+  ["https://cdn.staticfile.org/mui/3.7.1/js/mui.min.js", "mui"],
+  [
+    "https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js",
+    "clipboard"
+  ],
+  [
+    "https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js",
+    "popper.js"
+  ],
+  [
+    "https://cdn.staticfile.org/react-dom/16.8.6/umd/react-dom.production.min.js",
+    "react-dom"
+  ],
+  [
+    "https://cdn.staticfile.org/react-router-dom/5.0.0/react-router-dom.min.js",
+    "react-router-dom"
+  ],
+  [
+    "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js",
+    "react"
+  ]
+)
+  .then(console.log)
+  .catch(console.warn);
+```
 
 ## 加载有依赖关系的模块包的方法
 
@@ -83,7 +124,7 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name];
 IMPORTCJSAMDUMD.REQUIREPACKAGE(name);
 ```
 
-IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name].default和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)是相等的
+IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name].default 和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)是相等的
 
 ## 示例
 
