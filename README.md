@@ -18,6 +18,24 @@
 
 把未命名的模块以 sha256(url)命名存入模块仓库中
 
+
+相比systemjs和requirejs的优势:
+
+1.跟systemjs的import函数的全局运行模块的代码,会修改全局变量,相比,
+
+IMPORTCJSAMDUMD中所有模块的代码全部放在函数闭包中执行,不允许模块中的代码修改全局变量
+
+2.systemjs不支持在模块代码中的require函数来加载依赖包,也不支持识别amd模块中的define函数的定义模块的名称的功能,导致这些有依赖关系的模块都会到全局变量中寻找需要的模块,否则加载失败,
+
+IMPORTCJSAMDUMD支持在模块内部使用require函数和define函数定义依赖关系,并在模块仓库中查找需要的模块,不允许模块修改全局变量
+
+比如说jquery和jquery-ui都是amd模块定义方式,jquery-ui依赖于jquery
+
+比如说bootstrap是umd模块定义方式,bootstrap依赖于jquery和popper.js
+
+3.requriejs不支持cjs和umd模块的定义方式,使用比较麻烦,
+
+
 # 更新:
 
 1.可以在一句 IMPORTCJSAMDUMD 语句中,传入多个模块的 url 的 name 了,返回一个数组,相当于 promise.all 的语法糖,
