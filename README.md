@@ -19,7 +19,7 @@
 把未命名的模块以 sha256(url)命名存入模块仓库中
 
 
-相比systemjs和requirejs的优势:
+# 相比systemjs和requirejs的优势:
 
 1.跟systemjs的import函数的全局运行模块的代码,会修改全局变量,相比,
 
