@@ -536,8 +536,14 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
                           "module",
                           "exports",
 
-                          `\/\* ${url} \*\/;${scripttext};\/\* ${url} \*\/;return [exports, module.exports, define.exports]; `
-
+                          `\/\* ${url} \*\/;
+                          \n
+                          ${scripttext};
+                          \n
+                          \/\* ${url} \*\/;
+                          
+                          return [exports, module.exports, define.exports]; `
+                          /* 这里必须换行因为如果遇到最后一行是注释的话,这句return也被注释了 */
                           //  +
                           // `;\n return [exports, module.exports, define.exports]; \n` +
                           // ` \/\* ${url} \*\/`
