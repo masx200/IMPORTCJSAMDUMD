@@ -16,7 +16,7 @@
 
 "IMPORTCJSAMDUMD "的定义的"define"函数基于["requirejs"](https://github.com/requirejs/requirejs)的 "define"函数
 
-把未命名的模块以 sha256(url)命名存入模块仓库中
+把未命名的模块以 (url)命名存入模块仓库中
 
 
 # 相比systemjs和requirejs的优势:
