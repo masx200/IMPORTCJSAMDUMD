@@ -18,6 +18,18 @@
 
 把未命名的模块以 (url)命名存入模块仓库中
 
+# 安装模块
+
+```
+npm install https://github.com/masx200/IMPORTCJSAMDUMD.git --save
+```
+
+或者
+
+```
+yarn add https://github.com/masx200/IMPORTCJSAMDUMD.git
+
+```
 
 # 相比systemjs和requirejs的优势:
 
