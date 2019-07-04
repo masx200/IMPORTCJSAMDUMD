@@ -20,41 +20,90 @@
 
 # 安装模块
 
-```
-npm install https://github.com/masx200/IMPORTCJSAMDUMD.git --save
+```bash
+npm install --save https://github.com/masx200/IMPORTCJSAMDUMD.git
 ```
 
 或者
 
-```
+```shell
 yarn add https://github.com/masx200/IMPORTCJSAMDUMD.git
 
 ```
 
-# 相比systemjs和requirejs的优势:
+# 相比 systemjs 和 requirejs 的优势:
 
-1.跟systemjs的import函数的全局运行模块的代码,会修改全局变量,相比,
+1.跟 systemjs 的 import 函数的全局运行模块的代码,会修改全局变量,相比,
 
-IMPORTCJSAMDUMD中所有模块的代码全部放在函数闭包中执行,
+IMPORTCJSAMDUMD 中所有模块的代码全部放在函数闭包中执行,
 
-2.systemjs不支持在模块代码中的require函数来加载依赖包,也不支持识别amd模块中的define函数的定义模块的名称的功能,导致这些有依赖关系的模块都会到全局变量中寻找需要的模块,否则加载失败,
+2.systemjs 不支持在模块代码中的 require 函数来加载依赖包,也不支持识别 amd 模块中的 define 函数的定义模块的名称的功能,导致这些有依赖关系的模块都会到全局变量中寻找需要的模块,否则加载失败,
 
-IMPORTCJSAMDUMD支持在模块内部使用require函数和define函数定义依赖关系,并在模块仓库中查找需要的模块
+IMPORTCJSAMDUMD 支持在模块内部使用 require 函数和 define 函数定义依赖关系,并在模块仓库中查找需要的模块
 
-比如说jquery和jquery-ui都是amd模块定义方式,jquery-ui依赖于jquery
+比如说 jquery 和 jquery-ui 都是 amd 模块定义方式,jquery-ui 依赖于 jquery
 
-比如说bootstrap是umd模块定义方式,bootstrap依赖于jquery和popper.js
+比如说 bootstrap 是 umd 模块定义方式,bootstrap 依赖于 jquery 和 popper.js
 
-3.requriejs不支持cjs和umd模块的定义方式,使用比较麻烦,
-
+3.requriejs 不支持 cjs 和 umd 模块的定义方式,使用比较麻烦,
 
 # 更新:乱序加载有依赖关系的模块包
+
+导入模块
+
+```javascript
+import IMPORTCJSAMDUMD from "importcjsamdumd";
+```
+
+### 新版用法:
+
+全面升级支持
+
+传参一个 `object`参数,返回`promise`内含一个 `object`
+
+```javascript
+IMPORTCJSAMDUMD({
+  bootstrap:
+    "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.bundle.js",
+  jquery: "https://cdn.staticfile.org/jquery/3.4.1/jquery.js"
+}).then(console.log);
+
+IMPORTCJSAMDUMD({
+  react:
+    "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.development.js",
+  "react-dom":
+    "https://cdn.staticfile.org/react-dom/16.9.0-alpha.0/umd/react-dom.development.js",
+  vue: "https://cdn.staticfile.org/vue/2.6.10/vue.js"
+}).then(console.log);
+/*
+ {bootstrap: Module, jquery: Module}
+bootstrap: Module {name: "bootstrap", default: {…}, url: "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.bundle.js", Symbol(Symbol.toStringTag): "Module"}
+jquery: Module {name: "jquery", default: ƒ, url: "https://cdn.staticfile.org/jquery/3.4.1/jquery.js", Symbol(Symbol.toStringTag): "Module"}
+__proto__: Object 
+
+
+*/
+
+/* 
+
+{react: Module, react-dom: Module, vue: Module}
+react: Module {name: "react", default: {…}, url: "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.development.js", Symbol(Symbol.toStringTag): "Module"}
+react-dom: Module {name: "react-dom", default: {…}, url: "https://cdn.staticfile.org/react-dom/16.9.0-alpha.0/umd/react-dom.development.js", Symbol(Symbol.toStringTag): "Module"}
+vue: Module {name: "vue", default: ƒ, url: "https://cdn.staticfile.org/vue/2.6.10/vue.js", Symbol(Symbol.toStringTag): "Module"}
+__proto__: Object
+
+*/
+```
 
 1.可以在一句 IMPORTCJSAMDUMD 语句中,传入多个模块的 url 的 name 了,返回一个数组,相当于 promise.all 的语法糖,
 
 2.可以尝试乱序加载有依赖关系的模块包了,加载之前,先把模块的 url 和 name 信息存入模块配置列表,如果依赖的包还没有加载完成,则多次尝试加载,最终可以加载完成
 
 甚至是这么变态的依赖关系,这么乱序加载,都可以!
+
+### 旧版用法:
+
+传参 多个`Array`参数,返回`promise`内含一个 `Array`
 
 ```javascript
 IMPORTCJSAMDUMD(
@@ -90,39 +139,37 @@ IMPORTCJSAMDUMD(
 ```
 
 ## 加载有依赖关系的模块包的方法
-```javascript
 
+```javascript
 import IMPORTCJSAMDUMD from "../IMPORTCJSAMDUMD";
 (async () => {
-          const react = await IMPORTCJSAMDUMD(
-            "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js",
-            "react"
-          );
-          const [reactdom, reactrouterdom] = await Promise.all([
-            IMPORTCJSAMDUMD(
-              "https://cdn.staticfile.org/react-dom/16.8.6/umd/react-dom.production.min.js",
-              "react-dom"
-            ),
-            IMPORTCJSAMDUMD(
-              "https://cdn.staticfile.org/react-router-dom/5.0.0/react-router-dom.min.js",
-              "react-router-dom"
-            )
-          ]);
-          
-          var reactmodulearray = [react, reactdom, reactrouterdom];
-          myonloadfunc(reactmodulearray);
-          })();
+  const react = await IMPORTCJSAMDUMD(
+    "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js",
+    "react"
+  );
+  const [reactdom, reactrouterdom] = await Promise.all([
+    IMPORTCJSAMDUMD(
+      "https://cdn.staticfile.org/react-dom/16.8.6/umd/react-dom.production.min.js",
+      "react-dom"
+    ),
+    IMPORTCJSAMDUMD(
+      "https://cdn.staticfile.org/react-router-dom/5.0.0/react-router-dom.min.js",
+      "react-router-dom"
+    )
+  ]);
+
+  var reactmodulearray = [react, reactdom, reactrouterdom];
+  myonloadfunc(reactmodulearray);
+})();
 function myonloadfunc(reactmodulearray) {
-    
-      console.log(reactmodulearray);
-      const React = reactmodulearray[0].default;
-      const ReactDOM = reactmodulearray[1].default;
-      const ReactRouterDOM = reactmodulearray[2].default;
-      //............................
-      
-      }
-      
+  console.log(reactmodulearray);
+  const React = reactmodulearray[0].default;
+  const ReactDOM = reactmodulearray[1].default;
+  const ReactRouterDOM = reactmodulearray[2].default;
+  //............................
+}
 ```
+
 ```javascript
 (async () => {
   const [jquery, popper] = await Promise.all([

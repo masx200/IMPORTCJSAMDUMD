@@ -13,7 +13,7 @@ IMPORTCJSAMDUMD(["https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstra
 
  */
 //由于使用了async函数所以需要regeneratorRuntime//
-import regeneratorRuntime from "regenerator-runtime";
+// import regeneratorRuntime from "regenerator-runtime";
 
 //包装cjs和amd和umd模块为异步加载promise方法
 /**
@@ -115,25 +115,25 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
   var IMPORTCJSAMDUMD = importcjsamdumd;
   if ("object" == typeof exports && "undefined" != typeof module) {
     module.exports = importcjsamdumd;
+  } else {
+    global.IMPORTCJSAMDUMD = IMPORTCJSAMDUMD || importcjsamdumd;
   }
   //   try {
   //     console.log(global.IMPORTCJSAMDUMD.GLOBALPACKAGESTORE);
   //   } catch (error) {}
 
-  global.IMPORTCJSAMDUMD = global.IMPORTCJSAMDUMD || importcjsamdumd;
-  global.IMPORTCJSAMDUMD.REQUIREPACKAGE =
-    global.IMPORTCJSAMDUMD.REQUIREPACKAGE || require;
-  global.IMPORTCJSAMDUMD.GLOBALPACKAGESTORE =
-    global.IMPORTCJSAMDUMD.GLOBALPACKAGESTORE || {};
-  //   global.IMPORTCJSAMDUMD.PACKAGECONFIGLIST =
-  //     global.IMPORTCJSAMDUMD.PACKAGECONFIGLIST || {};
+  //  IMPORTCJSAMDUMD =IMPORTCJSAMDUMD || importcjsamdumd;
+  IMPORTCJSAMDUMD.REQUIREPACKAGE = IMPORTCJSAMDUMD.REQUIREPACKAGE || require;
+  IMPORTCJSAMDUMD.GLOBALPACKAGESTORE = IMPORTCJSAMDUMD.GLOBALPACKAGESTORE || {};
+  //  IMPORTCJSAMDUMD.PACKAGECONFIGLIST =
+  //    IMPORTCJSAMDUMD.PACKAGECONFIGLIST || {};
 
   // console.log(eval(`(async function(){return await})`))
   /* 为了不要把全局的模块仓库覆盖 */
   //   try {
   //     console.log(global.IMPORTCJSAMDUMD.GLOBALPACKAGESTORE);
   //   } catch (error) {}
-  //   if (typeof global.IMPORTCJSAMDUMD.GLOBALPACKAGESTORE.sha256 === "undefined") {
+  //   if (typeof IMPORTCJSAMDUMD.GLOBALPACKAGESTORE.sha256 === "undefined") {
   //     importcjsamdumd(
   //       "https://cdn.staticfile.org/js-sha256/0.9.0/sha256.min.js",
   //       "sha256"
@@ -141,7 +141,7 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
   //   }
   // reqiregenerator=require()
   function require(packagename = undefined) {
-    var findpackage = global.IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename];
+    var findpackage = IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename];
     if (findpackage) {
       console.log("在模块仓库中找到了", packagename, findpackage.url);
       return findpackage.default;
@@ -151,7 +151,7 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
     //   //   console.warn("模块仓库中没有找到,但是模块列表中存在" + packagename);
     // //   throw new Error("模块仓库中没有找到,但是模块列表中存在  " + packagename);
     //   /*  //   console.log(global.IMPORTCJSAMDUMD.PACKAGECONFIGLIST[packagename].url);
-    // //   var urltoload = global.IMPORTCJSAMDUMD.PACKAGECONFIGLIST[packagename].url;
+    // //   var urltoload =IMPORTCJSAMDUMD.PACKAGECONFIGLIST[packagename].url;
     // //   var stingtoeval = `(async ()=>{moduletoload=(await window.IMPORTCJSAMDUMD('${urltoload}'))})()`;
     // //   //   console.log(stingtoeval);
     // //   var moduletoload;
@@ -189,21 +189,76 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
 
   //   }
 
+  function isobject(a) {
+    return (
+      typeof a === "object" &&
+      Object.prototype.toString.call(a) === "[object Object]"
+    );
+  }
+  function isArray(a) {
+    return (
+      typeof a === "object" &&
+      Object.prototype.toString.call(a) === "[object Array]"
+    );
+  }
   async function importcjsamdumd(url, packagename = undefined) {
     // console.log("输入的参数为", Array(...arguments));
-    if (typeof url === "object" || typeof packagename === "object") {
+
+    if (isobject(url)) {
+      /* 如果传入参数是个对象则应该返回一个对象 */
+      var 输入参数array = Object.keys(url).map(key => {
+        var packageurl = url[key];
+        var packagenm = key;
+        return [packageurl, packagenm];
+      });
+
+      var suoyouimportpromise = [];
+      try {
+        // console.log("第一次尝试批量加载模块");
+        suoyouimportpromise = await Promise.all(
+          输入参数array.map(e => {
+            return IMPORTCJSAMDUMD(e[0], e[1]);
+          })
+        );
+        // return suoyouimportpromise;
+        /* 这里return无效,因为有finally */
+      } catch (error) {
+        console.warn(error);
+        suoyouimportpromise = await Promise.all(
+          输入参数array.map(e => {
+            return IMPORTCJSAMDUMD(e[0], e[1]);
+          })
+        );
+      } finally {
+        suoyouimportpromise = await Promise.all(
+          输入参数array.map(e => {
+            return IMPORTCJSAMDUMD(e[0], e[1]);
+          })
+        );
+        // return suoyouimportpromise;
+      }
+
+      var objecttoreturn = {};
+      suoyouimportpromise.forEach(m => {
+        objecttoreturn[m.name] = m;
+      });
+      return objecttoreturn;
+    } else if (
+      (isArray(url) && typeof url === "object") ||
+      typeof packagename === "object"
+    ) {
+      /* 如果传入参数是个数组则应该返回一个数组 */
       var 已经加载过的模块数量 = 0;
       for (var canshuinput of Array(...arguments)) {
         var inputpackagename = canshuinput[1];
         var inputurl = canshuinput[0];
 
         if (
-          typeof global.IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[inputpackagename] !==
+          typeof IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[inputpackagename] !==
             "undefined" &&
-          typeof global.IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[inputpackagename]
+          typeof IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[inputpackagename]
             .default !== "undefined" &&
-          global.IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[inputpackagename].url ===
-            inputurl
+          IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[inputpackagename].url === inputurl
         ) {
           //   console.log(
           //     "模块仓库中已经存在模块,不会重新加载",
@@ -222,7 +277,7 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
               resolve(
                 /* 返回的是模块不是模块的默认输出 */
 
-                global.IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename]
+                IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename]
               );
             });
           })
@@ -247,7 +302,7 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
         if (typeof packagename === "undefined") {
           packagename = new URL(url).href;
         }
-        // global.IMPORTCJSAMDUMD.PACKAGECONFIGLIST[packagename] = {
+        //IMPORTCJSAMDUMD.PACKAGECONFIGLIST[packagename] = {
         //   name: packagename,
         // //   sha256: sha256(url),
         //   url: url
@@ -255,7 +310,7 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
       });
 
       /* 如果不存在则多次尝试 */
-      var suoyouimportpromise;
+      var suoyouimportpromise = [];
       try {
         // console.log("第一次尝试批量加载模块");
         suoyouimportpromise = await Promise.all(
@@ -339,7 +394,7 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
         );
       }
       //   window.GLOBALPACKAGESTORE = window.GLOBALPACKAGESTORE || [];
-      //   if (typeof packagename === "undefined") {
+      //   if (typeof  packagename === "undefined") {
       //     packagename = sha256(url);
       //   }
       if (typeof packagename === "undefined") {
@@ -348,14 +403,14 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
       url = new URL(url);
       url = url.href;
 
-      //   global.IMPORTCJSAMDUMD.PACKAGECONFIGLIST[packagename] = {
+      //  IMPORTCJSAMDUMD.PACKAGECONFIGLIST[packagename] = {
       //     name: packagename,
       //     // sha256: sha256(url),
       //     url: url
       //   };
       //   console.log(
       //     " IMPORTCJSAMDUMD.PACKAGECONFIGLIST",
-      //     global.IMPORTCJSAMDUMD.PACKAGECONFIGLIST
+      //    IMPORTCJSAMDUMD.PACKAGECONFIGLIST
       //   );
       function define(name, deps, callback) {
         define.amd = true;
@@ -453,11 +508,11 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
       /* 如果模块仓库中存在所需要的模块则不会重新加载,减少性能消耗 */
 
       if (
-        typeof global.IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename] !==
+        typeof IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename] !==
           "undefined" &&
-        typeof global.IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename]
-          .default !== "undefined" &&
-        global.IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename].url === url
+        typeof IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename].default !==
+          "undefined" &&
+        IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename].url === url
       ) {
         // console.log("模块仓库中已经存在模块,不会重新加载", url,packagename);
 
@@ -465,7 +520,7 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
           resolve(
             /* 返回的是模块不是模块的默认输出 */
 
-            global.IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename]
+            IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename]
           );
         });
       } else {
@@ -596,7 +651,7 @@ console.log(
   Object.keys(define.exports).length
 ); */
                     //   if(){
-                    //   console.log(typeof exportmodule);
+                    //   console.log(typeof  exportmodule);
                     //   }
                     if (typeof exportmodule === "undefined") {
                       var exportmodule = [{}, {}, {}];
@@ -629,7 +684,7 @@ console.log(
                       Object.keys(exportmodule[2]).length ||
                       JSON.stringify(exportmodule[2]) !== "{}"
 
-                      // typeof define.exports !== "object" ||
+                      // typeof  define.exports !== "object" ||
                       // Object.keys(define.exports).length ||
                       // JSON.stringify(define.exports) !== "{}"
                     ) {
@@ -652,17 +707,17 @@ console.log(
                       if (typeof packagename !== "undefined") {
                         /* 修改模块仓库里面存放模块,而不是模块的默认输出 */
                         moduleexport.name = packagename;
-                        //   global.IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename] =
+                        //  IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename] =
                         //     moduleexport.default;
 
-                        global.IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[
+                        IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[
                           packagename
                         ] = moduleexport;
                       } else {
                         /* 如果存在不要重复加载了sha256 */
                         //   moduleexport.name = sha256(url);
                         packagename = url;
-                        global.IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[
+                        IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[
                           packagename
                           // sha256(url)
                         ] = moduleexport;
@@ -676,7 +731,7 @@ console.log(
                       if (typeof moduleexport.name !== "undefined") {
                         // console.log(
                         //   "IMPORTCJSAMDUMD.GLOBALPACKAGESTORE",
-                        //   global.IMPORTCJSAMDUMD.GLOBALPACKAGESTORE
+                        //  IMPORTCJSAMDUMD.GLOBALPACKAGESTORE
                         // );
                       }
                     } else {
@@ -725,7 +780,7 @@ console.log(
         });
       }
     } else {
-      throw new Error("输入的类型错误,输入的类型必须是字符串或者数组");
+      throw new Error("输入的类型错误,输入的类型必须是字符串或者数组或对象");
     }
   }
 })(
@@ -742,16 +797,16 @@ console.log(
 
 // });
 /*(function (global, factory) {
-        typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('react')) :
-        typeof define === 'function' && define.amd ? define(['react'], factory) :
+        typeof  exports === 'object' && typeof  module !== 'undefined' ? module.exports = factory(require('react')) :
+        typeof  define === 'function' && define.amd ? define(['react'], factory) :
         (global.ReactDOM = factory(global.React));
     }(this, (function (React) { 'use strict';
     
     
     
     (function (global, factory) {
-      typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('jquery'), require('popper.js')) :
-      typeof define === 'function' && define.amd ? define(['exports', 'jquery', 'popper.js'], factory) :
+      typeof  exports === 'object' && typeof  module !== 'undefined' ? factory(exports, require('jquery'), require('popper.js')) :
+      typeof  define === 'function' && define.amd ? define(['exports', 'jquery', 'popper.js'], factory) :
       (global = global || self, factory(global.bootstrap = {}, global.jQuery, global.Popper));
     }(this, function (exports, $, Popper) { 'use strict';
     
@@ -759,7 +814,7 @@ console.log(
     
     
     (function( factory ) {
-        if ( typeof define === "function" && define.amd ) {
+        if ( typeof  define === "function" && define.amd ) {
     
             // AMD. Register as an anonymous module.
             define([ "jquery" ], factory );
@@ -779,8 +834,8 @@ console.log(
     
     
     (function (global, factory) {
-        typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-        typeof define === 'function' && define.amd ? define(factory) :
+        typeof  exports === 'object' && typeof  module !== 'undefined' ? module.exports = factory() :
+        typeof  define === 'function' && define.amd ? define(factory) :
         (global.VueRouter = factory());
     }(this, (function () { 'use strict';
     
