@@ -61,6 +61,8 @@ import IMPORTCJSAMDUMD from "importcjsamdumd";
 
 传参一个 `object`参数,返回`promise`内含一个 `object`
 
+键名为模块的名称，键值为网址
+
 ```javascript
 IMPORTCJSAMDUMD({
   bootstrap:
