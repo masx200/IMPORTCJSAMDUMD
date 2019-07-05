@@ -2,8 +2,6 @@
 
 [源代码 ](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/src/IMPORTCJSAMDUMD.js)
 
-
-
 动态异步加载" commonjs "和 "umd "和 "amd" 模块 ,包装" cjs "和 "amd "和 "umd" 模块为异步加载" promise" 方法,使用" fetch "方法来获取指定的模块包源代码
 ，
 可以把模块放入模块仓库中，
@@ -17,8 +15,6 @@
 "IMPORTCJSAMDUMD "的定义的"define"函数基于["requirejs"](https://github.com/requirejs/requirejs)的 "define"函数
 
 把未命名的模块以 (url)命名存入模块仓库中
-
-
 
 # 相比 systemjs 和 requirejs 的优势:
 
@@ -56,27 +52,21 @@ yarn add https://github.com/masx200/IMPORTCJSAMDUMD.git
 ```javascript
 import IMPORTCJSAMDUMD from "importcjsamdumd";
 ```
-# 函数参数第一项可以是字符串网址，或者数组，或者对象
 
+# 函数参数第一项可以是字符串网址，或者数组，或者对象
 
 ```javascript
 IMPORTCJSAMDUMD({
-  "名称1":
-    "网址1",
-  "名称2": "网址2"
-})
+  名称1: "网址1",
+  名称2: "网址2"
+});
 ```
+
 如果第一个参数是网址，则第二个参数名称可以省略，默认以网址作为名称
+
 ```javascript
-IMPORTCJSAMDUMD(
-  
-    "网址1"
-,"名称1"
-  
-)
+IMPORTCJSAMDUMD("网址1", "名称1");
 ```
-
-
 
 ### 新版用法:
 
@@ -304,7 +294,6 @@ Promise.all([
   ),
   IMPORTCJSAMDUMD("https://cdn.staticfile.org/vue/2.6.10/vue.min.js", "vue")
 ]).then(console.log);
-
 
 //加载es6模块的方法
 
