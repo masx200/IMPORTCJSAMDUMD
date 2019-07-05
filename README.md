@@ -18,18 +18,7 @@
 
 把未命名的模块以 (url)命名存入模块仓库中
 
-# 安装模块
 
-```bash
-npm install --save https://github.com/masx200/IMPORTCJSAMDUMD.git
-```
-
-或者
-
-```shell
-yarn add https://github.com/masx200/IMPORTCJSAMDUMD.git
-
-```
 
 # 相比 systemjs 和 requirejs 的优势:
 
@@ -47,6 +36,19 @@ IMPORTCJSAMDUMD 支持在模块内部使用 require 函数和 define 函数定�
 
 3.requriejs 不支持 cjs 和 umd 模块的定义方式,使用比较麻烦,
 
+# 安装模块
+
+```bash
+npm install --save https://github.com/masx200/IMPORTCJSAMDUMD.git
+```
+
+或者
+
+```shell
+yarn add https://github.com/masx200/IMPORTCJSAMDUMD.git
+
+```
+
 # 更新:乱序加载有依赖关系的模块包
 
 导入模块
@@ -54,6 +56,27 @@ IMPORTCJSAMDUMD 支持在模块内部使用 require 函数和 define 函数定�
 ```javascript
 import IMPORTCJSAMDUMD from "importcjsamdumd";
 ```
+# 函数参数第一项可以是字符串网址，或者数组，或者对象
+
+
+```javascript
+IMPORTCJSAMDUMD({
+  "名称1":
+    "网址1",
+  "名称2": "网址2"
+})
+```
+如果第一个参数是网址，则第二个参数名称可以省略，默认以网址作为名称
+```javascript
+IMPORTCJSAMDUMD(
+  
+    "网址1"
+,"名称1"
+  
+)
+```
+
+
 
 ### 新版用法:
 
