@@ -266,8 +266,8 @@
       if (typeof packagename === "undefined") {
         packagename = new URL(url).href;
       }
-      url = new URL(url);
-      url = url.href;
+      url = new URL(url).href;
+      //url = url.href;
       
       
       
