@@ -194,13 +194,13 @@ return await new Promise(resolve => {
  );
  });
  } else {
-return await new Promise((resolve, reject) => {
+return await new Promise(async(resolve, reject) => {
  try {
  (() => {
-var fetchpromise;
+var fetchpromisetext;
  try {
  try {
- fetchpromise = fetch(url).then(response => {
+ fetchpromisetext = await fetch(url).then(response => {
  if (!response.ok) {
  throw new Error("fetch failed " + url);
  }
@@ -212,7 +212,7 @@ var fetchpromise;
  return;
  }
 try {
- fetchpromise.then(scripttext => {
+ (scripttext => {
  var exports = {};
  var module = {
  exports: {}
