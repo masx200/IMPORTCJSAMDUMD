@@ -97,6 +97,13 @@ define.exports = define.globalDefQueue[0][2](...canshu);
  async function importcjsamdumd(url, packagename = undefined) {
  "use strict";
  if (isobject(url)) {
+ 	function newobjjson(obj) {
+  if (typeof obj !== "object") {
+    throw new TypeError("传入的参数必须是个object!");
+  }
+  return JSON.parse(JSON.stringify(obj));
+}
+url=newobjjson(url)
  var 输入参数array = Object.keys(url).map(key => {
  var packageurl = url[key];
  var packagenm = key;
