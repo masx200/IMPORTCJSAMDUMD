@@ -38,6 +38,8 @@ function isobject(a) {
  define.exports = {};
   function define(name, deps, callback) {
 "use strict";
+define.exports = {};
+
  define.amd = true;
  define.globalDefQueue = [];
 var op = Object.prototype;
