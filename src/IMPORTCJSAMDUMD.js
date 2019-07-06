@@ -35,6 +35,65 @@ function isobject(a) {
  Object.prototype.toString.call(a) === "[object Array]"
  );
  }
+ 
+  function define(name, deps, callback) {
+"use strict";
+ define.amd = true;
+ define.globalDefQueue = [];
+var op = Object.prototype;
+ var ostring = op.toString;
+ var useInteractive = false;
+ function isArray(it) {
+ return ostring.call(it) === "[object Array]";
+ }
+ function isFunction(it) {
+ return ostring.call(it) === "[object Function]";
+ }
+ var node, context;
+if (typeof name !== "string") {
+callback = deps;
+ deps = name;
+ name = null;
+ }
+if (!isArray(deps)) {
+ callback = deps;
+ deps = null;
+ }
+ if (!deps && isFunction(callback)) {
+ deps = [];
+if (callback.length) {
+ callback
+ .toString()
+ .replace(commentRegExp, commentReplace)
+ .replace(cjsRequireRegExp, function(match, dep) {
+ deps.push(dep);
+ });
+deps = (callback.length === 1
+ ? ["require"]
+ : ["require", "exports", "module"]
+ ).concat(deps);
+ }
+ }
+ if (useInteractive) {
+ node = currentlyAddingScript || getInteractiveScript();
+ if (node) {
+ if (!name) {
+ name = node.getAttribute("data-requiremodule");
+ }
+ context = contexts[node.getAttribute("data-requirecontext")];
+ }
+ }
+ if (context) {
+ context.defQueue.push([name, deps, callback]);
+ context.defQueueMap[name] = true;
+ } else {
+ define.globalDefQueue.push([name, deps, callback]);
+ }
+ console.log("检测到amd模块", define.globalDefQueue[0]);
+ var canshu = define.globalDefQueue[0][1].map(e => require(e));
+define.exports = define.globalDefQueue[0][2](...canshu);
+ }
+ define.amd = true;
  async function importcjsamdumd(url, packagename = undefined) {
  "use strict";
  if (isobject(url)) {
@@ -117,70 +176,7 @@ if (typeof url === "undefined" || url === "" || packagename === "") {
  packagename = new URL(url).href;
  }
  url = new URL(url).href;
- function define(name, deps, callback) {
-"use strict";
- define.amd = true;
- define.globalDefQueue = [];
-var op = Object.prototype;
- var ostring = op.toString;
- var useInteractive = false;
- function isArray(it) {
- return ostring.call(it) === "[object Array]";
- }
- function isFunction(it) {
- return ostring.call(it) === "[object Function]";
- }
- var node, context;
-if (typeof name !== "string") {
-callback = deps;
- deps = name;
- name = null;
- }
-if (!isArray(deps)) {
- callback = deps;
- deps = null;
- }
- if (!deps && isFunction(callback)) {
- deps = [];
-if (callback.length) {
- callback
- .toString()
- .replace(commentRegExp, commentReplace)
- .replace(cjsRequireRegExp, function(match, dep) {
- deps.push(dep);
- });
-deps = (callback.length === 1
- ? ["require"]
- : ["require", "exports", "module"]
- ).concat(deps);
- }
- }
- if (useInteractive) {
- node = currentlyAddingScript || getInteractiveScript();
- if (node) {
- if (!name) {
- name = node.getAttribute("data-requiremodule");
- }
- context = contexts[node.getAttribute("data-requirecontext")];
- }
- }
- if (context) {
- context.defQueue.push([name, deps, callback]);
- context.defQueueMap[name] = true;
- } else {
- define.globalDefQueue.push([name, deps, callback]);
- }
- console.log("检测到amd模块", define.globalDefQueue[0]);
- if (
- typeof define.globalDefQueue[0][0] === "string" &&
- typeof packagename === "undefined"
- ) {
- packagename = define.globalDefQueue[0][0];
- }
- var canshu = define.globalDefQueue[0][1].map(e => require(e));
-define.exports = define.globalDefQueue[0][2](...canshu);
- }
- define.amd = true;
+
  if (
  typeof IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename] !==
  "undefined" &&
@@ -312,7 +308,7 @@ if (typeof moduleexport.default !== "undefined") {
  }
  resolve(moduleexport);
  return;
- });
+ })(fetchpromisetext);
  } catch (e) {
  console.error(e);
  reject(e);
