@@ -35,7 +35,7 @@ function isobject(a) {
  Object.prototype.toString.call(a) === "[object Array]"
  );
  }
- 
+ define.exports = {};
   function define(name, deps, callback) {
 "use strict";
  define.amd = true;
