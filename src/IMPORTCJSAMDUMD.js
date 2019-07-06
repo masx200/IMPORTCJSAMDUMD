@@ -596,7 +596,14 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name]和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)
                           //  +
                           // `;\n return [exports, module.exports, define.exports]; \n` +
                           // ` \/\* ${url} \*\/`
-                        )(require, define, module, exports);
+                          
+                          
+                        )
+                        /*
+functionObject.call( [ thisObj [, arg1 [, arg2 [, args...]]]] )
+thisObj	可选/Object类型指定执行functionObject函数时，函数内部this指针引用的对象。
+*/
+.call(module.exports,require, define, module, exports);
                         // for (let __key__ in module.exports ){
                         //     module[__key__]=module.exports[__key__]
                         // }
