@@ -126,8 +126,8 @@
       typeof packagename === "object"
     ) {
    
-      var 已经加载过的模块数量 = 0;
-      for (var canshuinput of Array(...arguments)) {
+  //    var 已经加载过的模块数量 = 0;
+ /*     for (var canshuinput of Array(...arguments)) {
         var inputpackagename = canshuinput[1];
         var inputurl = canshuinput[0];
         if (
@@ -142,10 +142,10 @@
           
           
           
-          已经加载过的模块数量++;
+       //   已经加载过的模块数量++;
         }
-      }
-      if (已经加载过的模块数量 >= Array(...arguments).length) {
+      }*/
+   /*   if (已经加载过的模块数量 >= Array(...arguments).length) {
         
         return await Promise.all(
           Array(...arguments).map(inputarray => {
@@ -160,7 +160,7 @@
       }
       
       
-      
+      */
       
       
       Array(...arguments).forEach(e => {
