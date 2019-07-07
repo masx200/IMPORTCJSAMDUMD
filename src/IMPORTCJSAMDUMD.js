@@ -1,16 +1,17 @@
 "use strict";
 (global => {
  "use strict";
+ var GLOBALPACKAGESTORE="GLOBALPACKAGESTORE"
  var IMPORTCJSAMDUMD = importcjsamdumd;
  if ("object" == typeof exports && "undefined" != typeof module) {
  module.exports = importcjsamdumd;
  } else {
  global.IMPORTCJSAMDUMD = importcjsamdumd;
  }
- IMPORTCJSAMDUMD.REQUIREPACKAGE = IMPORTCJSAMDUMD.REQUIREPACKAGE || require;
- IMPORTCJSAMDUMD.GLOBALPACKAGESTORE = IMPORTCJSAMDUMD.GLOBALPACKAGESTORE || {};
+ IMPORTCJSAMDUMD.REQUIREPACKAGE =  require;
+ IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] =  {};
 function require(packagename = undefined) {
- var findpackage = IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename];
+ var findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
  if (findpackage) {
  console.log("在模块仓库中找到了", packagename, findpackage.url);
  return findpackage.default;
@@ -167,15 +168,15 @@ if (typeof url === "undefined" || url === "" || packagename === "") {
  url = new URL(url).href;
 
  if (
- typeof IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename] !==
+ typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename] !==
  "undefined" &&
- typeof IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename].default !==
+ typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename].default !==
  "undefined" &&
- IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename].url === url
+ IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename].url === url
  ) {
 return await new Promise(resolve => {
  resolve(
- IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[packagename]
+ IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename]
  );
  });
  } else {
@@ -276,12 +277,12 @@ moduleexport.default = exportmodule[2];
 if (typeof moduleexport.default !== "undefined") {
  if (typeof packagename !== "undefined") {
  moduleexport.name = packagename;
- IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[
+ IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][
  packagename
  ] = moduleexport;
  } else {
  packagename = url;
- IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[
+ IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][
  packagename
 ] = moduleexport;
 }
