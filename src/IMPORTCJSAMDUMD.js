@@ -63,31 +63,11 @@ if (!isArray(deps)) {
  }
  if (!deps && isFunction(callback)) {
  deps = [];
-if (callback.length) {
- callback
- .toString()
- .replace(commentRegExp, commentReplace)
- .replace(cjsRequireRegExp, function(match, dep) {
- deps.push(dep);
- });
-deps = (callback.length === 1
- ? ["require"]
- : ["require", "exports", "module"]
- ).concat(deps);
+
  }
- }
- if (useInteractive) {
- node = currentlyAddingScript || getInteractiveScript();
- if (node) {
- if (!name) {
- name = node.getAttribute("data-requiremodule");
- }
- context = contexts[node.getAttribute("data-requirecontext")];
- }
- }
- if (context) {
- context.defQueue.push([name, deps, callback]);
- context.defQueueMap[name] = true;
+
+ if (0) {
+
  } else {
  define.globalDefQueue.push([name, deps, callback]);
  }
