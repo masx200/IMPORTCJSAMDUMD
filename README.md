@@ -108,7 +108,9 @@ vue: Module {name: "vue", default: ƒ, url: "https://cdn.staticfile.org/vue/2.6.
 __proto__: Object
 
 */
+```
 
+```javascript
 (async () => {
   let {
     react: { default: React },
