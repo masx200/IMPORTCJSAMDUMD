@@ -10,7 +10,8 @@
   }
   IMPORTCJSAMDUMD.REQUIREPACKAGE = require;
   IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] = {};
-  function require(packagename = undefined) {
+  function require(packagename) {
+    "use strict";
     var findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
     if (findpackage) {
       console.log("在模块仓库中找到了", packagename, findpackage.url);
@@ -71,7 +72,8 @@
     define.exports = define.globalDefQueue[0][2](...canshu);
   }
   define.amd = true;
-  async function importcjsamdumd(url, packagename = undefined) {
+  async function importcjsamdumd(url, packagename) {
+    "use strict";
     if (isobject(url)) {
       function newobjjson(obj) {
         if (typeof obj !== "object") {
