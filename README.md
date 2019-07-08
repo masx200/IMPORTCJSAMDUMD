@@ -169,7 +169,7 @@ IMPORTCJSAMDUMD(
   .catch(console.warn);
 ```
 
-## 加载有依赖关系的模块包的方法
+## 旧版用法:加载有依赖关系的模块包的方法
 
 ```javascript
 import IMPORTCJSAMDUMD from "../IMPORTCJSAMDUMD";
