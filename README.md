@@ -108,6 +108,20 @@ vue: Module {name: "vue", default: ƒ, url: "https://cdn.staticfile.org/vue/2.6.
 __proto__: Object
 
 */
+
+(async () => {
+  let {
+    react: { default: React },
+    "react-dom": { default: ReactDOM }
+  } = await IMPORTCJSAMDUMD({
+    react:
+      "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.development.js",
+    "react-dom":
+      "https://cdn.staticfile.org/react-dom/16.9.0-alpha.0/umd/react-dom.development.js"
+  });
+
+  console.log(React, ReactDOM);
+})();
 ```
 
 1.可以在一句 IMPORTCJSAMDUMD 语句中,传入多个模块的 url 的 name 了,返回一个数组,相当于 promise.all 的语法糖,
