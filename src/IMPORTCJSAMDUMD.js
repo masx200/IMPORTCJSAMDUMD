@@ -173,9 +173,9 @@
           resolve(IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename]);
         });
       } else {
-        return await new Promise(async(resolve, reject) => {
+        return await new Promise(async (resolve, reject) => {
           try {
-          await  (async () => {
+            await (async () => {
               var fetchpromisetext;
               try {
                 try {
