@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = module.exports = {
   env: {
     browser: true,
     es6: true,
@@ -13,7 +13,11 @@ module.exports = {
   },
   parserOptions: {
     ecmaVersion: 2019,
-    sourceType: "module"
+    sourceType: "module",
+    ecmaFeatures: {
+      jsx: true
+    }
   },
   rules: {}
 };
+;
