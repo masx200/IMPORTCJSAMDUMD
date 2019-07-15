@@ -396,7 +396,6 @@ return [exports, module.exports, define.exports]; `
   // eslint-disable-next-line no-undef
   (typeof globalThis !== "undefined" ? globalThis : false) ||
     (typeof window !== "undefined" ? window : false) ||
-    // eslint-disable-next-line no-undef
     (typeof WorkerGlobalScope !== "undefined" ? WorkerGlobalScope : false) ||
     // eslint-disable-next-line no-undef
     this
