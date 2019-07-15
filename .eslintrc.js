@@ -1,4 +1,4 @@
-module.exports = module.exports = {
+module.exports = {
   env: {
     browser: true,
     es6: true,
@@ -20,4 +20,3 @@ module.exports = module.exports = {
   },
   rules: {}
 };
-;
