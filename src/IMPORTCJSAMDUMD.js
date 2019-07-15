@@ -31,6 +31,7 @@
   }
   function isArray(a) {
     return (
+      Array.isArray(a) &&
       typeof a === "object" &&
       Object.prototype.toString.call(a) === "[object Array]"
     );
@@ -45,7 +46,7 @@
     var op = Object.prototype;
     var ostring = op.toString;
     function isArray(it) {
-      return ostring.call(it) === "[object Array]";
+      return Array.isArray(a) && ostring.call(it) === "[object Array]";
     }
     function isFunction(it) {
       return ostring.call(it) === "[object Function]";
