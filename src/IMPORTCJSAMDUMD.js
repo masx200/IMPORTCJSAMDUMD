@@ -255,7 +255,10 @@
                             "define",
                             "module",
                             "exports",
-                            `/* ${url} */;
+                            `
+                            "use strict";
+                            
+                            /* ${url} */;
 \n
 ${scripttext};
 \n
