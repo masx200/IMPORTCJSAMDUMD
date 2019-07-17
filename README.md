@@ -53,6 +53,8 @@ yarn add https://github.com/masx200/IMPORTCJSAMDUMD.git
 import IMPORTCJSAMDUMD from "importcjsamdumd";
 ```
 
+# 默认在模块加载时开启了严格模式!
+
 # 函数参数第一项可以是字符串网址，或者数组，或者对象
 
 ```javascript
@@ -90,24 +92,6 @@ IMPORTCJSAMDUMD({
     "https://cdn.staticfile.org/react-dom/16.9.0-alpha.0/umd/react-dom.development.js",
   vue: "https://cdn.staticfile.org/vue/2.6.10/vue.js"
 }).then(console.log);
-/*
- {bootstrap: Module, jquery: Module}
-bootstrap: Module {name: "bootstrap", default: {…}, url: "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.bundle.js", Symbol(Symbol.toStringTag): "Module"}
-jquery: Module {name: "jquery", default: ƒ, url: "https://cdn.staticfile.org/jquery/3.4.1/jquery.js", Symbol(Symbol.toStringTag): "Module"}
-__proto__: Object 
-
-
-*/
-
-/* 
-
-{react: Module, react-dom: Module, vue: Module}
-react: Module {name: "react", default: {…}, url: "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.development.js", Symbol(Symbol.toStringTag): "Module"}
-react-dom: Module {name: "react-dom", default: {…}, url: "https://cdn.staticfile.org/react-dom/16.9.0-alpha.0/umd/react-dom.development.js", Symbol(Symbol.toStringTag): "Module"}
-vue: Module {name: "vue", default: ƒ, url: "https://cdn.staticfile.org/vue/2.6.10/vue.js", Symbol(Symbol.toStringTag): "Module"}
-__proto__: Object
-
-*/
 ```
 
 ```javascript
