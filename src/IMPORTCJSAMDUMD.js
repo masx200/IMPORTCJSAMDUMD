@@ -20,8 +20,7 @@
       return findpackage.default;
     } else {
       throw new Error(
-        `Cannot find module in packagestore, 模块仓库中没有找到,
-` + packagename
+        `Cannot find module in packagestore, 模块仓库中没有找到, ` + packagename
       );
     }
   }
