@@ -1,6 +1,21 @@
 "use strict";
 (global => {
   "use strict";
+  function 定义default(target, def) {
+    Object.defineProperty(target, "default", {
+      enumerable: true,
+
+      get() {
+        return def;
+      }
+    });
+  }
+  const namesymbol = Symbol.for("name");
+
+  const urlsymbol = Symbol.for("url");
+
+  const sourcesymbol = Symbol.for("source");
+
   const GLOBALPACKAGESTORE = "PACKAGESTORE";
   // const globalDefQueue = "globalDefQueue";
   const IMPORTCJSAMDUMD = importcjsamdumd;
@@ -9,14 +24,68 @@
   } else {
     global.IMPORTCJSAMDUMD = importcjsamdumd;
   }
-  IMPORTCJSAMDUMD.REQUIREPACKAGE = require;
+  IMPORTCJSAMDUMD.REQUIREPACKAGE = function getmodule(packagename) {
+    "use strict";
+
+    if (packagename === "") {
+      throw new TypeError("字符串不能为空");
+    }
+    if (typeof packagename !== "string") {
+      throw new TypeError("参数必须为字符串");
+    }
+    const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
+    if (findpackage) {
+      console.log("在模块仓库中找到了", packagename, findpackage[urlsymbol]);
+      //   return { ...findpackage };
+
+      return new Proxy(findpackage, {
+        // ownKeys(target) {
+        //   return [...Object.keys(target), Symbol.toStringTag];
+        // },
+        // has(target, name) {
+        //   // console.log('has' + name);
+
+        //   if (typeof name === "symbol") {
+        //     return false;
+        //   }
+        //   return Reflect.has(target, name);
+        // },
+        // get(target, propertyKey) {
+        //   //   if (typeof propertyKey === "symbol") {
+        //   //     return;
+        //   //   }
+        //   // console.log('GET ' + propertyKey);
+        //   return Reflect.get(target, propertyKey); // [propertyKey];
+        // },
+        set() {
+          return false;
+        },
+        deleteProperty() {
+          // console.log('delete' + name);
+          // return Reflect.deleteProperty(target, name);
+          return false;
+        }
+      });
+    } else {
+      throw new Error(
+        `Cannot find module in packagestore, 模块仓库中没有找到, ` + packagename
+      );
+    }
+  };
   IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] =
     IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] || {};
   function require(packagename) {
     "use strict";
+    if (packagename === "") {
+      throw new TypeError("字符串不能为空");
+    }
+    if (typeof packagename !== "string") {
+      throw new TypeError("参数必须为字符串");
+    }
+
     const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
     if (findpackage) {
-      console.log("在模块仓库中找到了", packagename, findpackage.url);
+      console.log("在模块仓库中找到了", packagename, findpackage[urlsymbol]);
       return findpackage.default;
     } else {
       throw new Error(
@@ -78,7 +147,15 @@
     define.exports = defineglobalDefQueue[0][2](...canshu);
   }
   define.amd = true;
-  async function importcjsamdumd(url, packagename) {
+
+  async function importcjsamdumd() {
+    return oldimportcjsamdumd(...arguments).catch(e => {
+      console.warn(e);
+      return oldimportcjsamdumd(...arguments);
+    });
+  }
+
+  async function oldimportcjsamdumd(url, packagename) {
     "use strict";
     function newobjjson(obj) {
       if (typeof obj !== "object") {
@@ -88,7 +165,7 @@
     }
     async function 同时发起多个(a) {
       return await Promise.all(
-        a.map(e => {
+        Array.from(a).map(e => {
           return IMPORTCJSAMDUMD(e[0], e[1]);
         })
       );
@@ -127,7 +204,7 @@
       }
       let objecttoreturn = {};
       suoyouimportpromise.forEach(m => {
-        objecttoreturn[m.name] = m;
+        objecttoreturn[m[namesymbol]] = m;
       });
       return objecttoreturn;
     } else if (
@@ -195,7 +272,7 @@
           "undefined" &&
         typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename].default !==
           "undefined" &&
-        IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename].url === url
+        IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename][urlsymbol] === url
       ) {
         return IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
         // return await new Promise(resolve => {
@@ -205,13 +282,15 @@
         typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url] !== "undefined" &&
         typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url].default !==
           "undefined" &&
-        IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url].url === url
+        IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url][urlsymbol] === url
       ) {
         /* 如果先用url作为名称加载，后用packagename加载，则复制一份 */
         IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename] =
           IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url];
 
-        IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename].name = packagename;
+        IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename][
+          namesymbol
+        ] = packagename;
         return IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url];
       } else {
         return await new Promise((resolve, reject) => {
@@ -240,7 +319,7 @@
                       };
                       define.exports = {};
                       let exportmodule = [{}, {}, {}];
-                      let modulesrcfun;
+                      var modulesrcfun;
                       try {
                         exportmodule = (function(
                           require,
@@ -254,16 +333,7 @@
                             "define",
                             "module",
                             "exports",
-                            `
-                            "use strict";
-                            
-                            /* ${url} */;
-\n
-${scripttext};
-\n
-/* ${url} */;
-\n
-return [exports, module.exports, define.exports]; `
+                            `"use strict";\n/* ${url} */;\n${scripttext};\n/* ${url} */;\nreturn [exports, module.exports, define.exports]; `
                           );
                           modulesrcfun = 模块加载函数;
                           return 模块加载函数.call(
@@ -280,16 +350,42 @@ return [exports, module.exports, define.exports]; `
                         return;
                       }
                       const moduleexport = {
-                        name: packagename,
-                        default: undefined,
-                        url: url,
-                        source: modulesrcfun
+                        // [namesymbol]: packagename,
+                        default: undefined
+                        // [urlsymbol]: url,
+                        // [sourcesymbol]: modulesrcfun
                       };
+
+                      Object.defineProperties(moduleexport, {
+                        [namesymbol]: {
+                          value: packagename,
+                          configurable: true,
+                          writable: true,
+                          enumerable: false
+                        },
+                        [urlsymbol]: {
+                          value: url,
+                          configurable: true,
+                          writable: true,
+                          enumerable: false
+                        },
+                        [sourcesymbol]: {
+                          //   value: packagename,
+                          //   get() {
+                          //     return modulesrcfun;
+                          //   },
+                          value: modulesrcfun,
+                          //   configurable: true,
+                          //   writable: true,
+                          enumerable: false
+                        }
+                      });
                       if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
                         Object.defineProperty(
                           moduleexport,
                           Symbol.toStringTag,
                           {
+                            //   enumerable:t,
                             value: "Module"
                           }
                         );
@@ -315,7 +411,17 @@ return [exports, module.exports, define.exports]; `
                         //   JSON.stringify(exportmodule[0]) !== "{}"
                       ) {
                         console.log("检测到umd模块", url, packagename);
-                        moduleexport.default = exportmodule[0];
+
+                        const exportdefault = exportmodule[0];
+                        定义default(moduleexport, exportdefault);
+                        // Object.defineProperty(moduleexport, "default", {
+                        //   enumerable: true,
+
+                        //   get() {
+                        //     return exportdefault;
+                        //   }
+                        // });
+                        // moduleexport.default = exportmodule[0];
                       } else if (
                         非空对象(exportmodule[1])
                         //   typeof exportmodule[1] !== "object" ||
@@ -323,7 +429,17 @@ return [exports, module.exports, define.exports]; `
                         //   JSON.stringify(exportmodule[1]) !== "{}"
                       ) {
                         console.log("检测到cjs模块", url, packagename);
-                        moduleexport.default = exportmodule[1];
+                        // moduleexport.default = exportmodule[1];
+                        const exportdefault = exportmodule[1];
+
+                        定义default(moduleexport, exportdefault);
+                        // Object.defineProperty(moduleexport, "default", {
+                        //   enumerable: true,
+
+                        //   get() {
+                        //     return exportdefault;
+                        //   }
+                        // });
                       } else if (
                         非空对象(exportmodule[2])
                         //   typeof exportmodule[2] !== "object" ||
@@ -331,9 +447,18 @@ return [exports, module.exports, define.exports]; `
                         //   JSON.stringify(exportmodule[2]) !== "{}"
                       ) {
                         console.log("检测到amd模块", url, packagename);
-                        moduleexport.default = exportmodule[2];
+                        // moduleexport.default = exportmodule[2];
+                        const exportdefault = exportmodule[2];
+                        // Object.defineProperty(moduleexport, "default", {
+                        //   enumerable: true,
+
+                        //   get() {
+                        //     return exportdefault;
+                        //   }
+                        // });
+                        定义default(moduleexport, exportdefault);
                       } else {
-                        //   moduleexport.url = url;
+                        //   moduleexport[urlsymbol] = url;
                         console.warn("加载的模块没有输出", url, packagename);
                         resolve(moduleexport);
                         return;
@@ -341,7 +466,7 @@ return [exports, module.exports, define.exports]; `
 
                       if (typeof moduleexport.default !== "undefined") {
                         if (typeof packagename !== "undefined") {
-                          // moduleexport.name = packagename;
+                          // moduleexport[namesymbol] = packagename;
                           IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][
                             packagename
                           ] = moduleexport;
@@ -353,12 +478,12 @@ return [exports, module.exports, define.exports]; `
                         //   ] = moduleexport;
                         // }
                       }
-                      // moduleexport.url = url;
+                      // moduleexport[urlsymbol] = url;
                       if (typeof moduleexport.default !== "undefined") {
-                        // if (typeof moduleexport.name !== "undefined") {
+                        // if (typeof moduleexport[namesymbol] !== "undefined") {
                         // }
                       } else {
-                        //   moduleexport.url = url;
+                        //   moduleexport[urlsymbol] = url;
                         console.warn("加载的模块没有输出", packagename, url);
                         resolve(moduleexport);
                         return;
@@ -367,7 +492,19 @@ return [exports, module.exports, define.exports]; `
                       /* 复制一份 */
                       IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url] =
                         IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
-                      // IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url].name = url;
+                      // IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url][namesymbol] = url;
+
+                      Object.keys(moduleexport.default)
+                        .filter(t => t !== "default")
+                        .forEach(key => {
+                          Object.defineProperty(moduleexport, key, {
+                            enumerable: true,
+                            get() {
+                              return moduleexport.default[key];
+                            }
+                          });
+                        });
+
                       resolve(moduleexport);
                       return;
                     })(fetchpromisetext);
