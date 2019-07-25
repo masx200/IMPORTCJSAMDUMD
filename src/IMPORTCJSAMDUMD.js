@@ -1,7 +1,7 @@
 "use strict";
 (global => {
   "use strict";
-  const GLOBALPACKAGESTORE = "GLOBALPACKAGESTORE";
+  const GLOBALPACKAGESTORE = "PACKAGESTORE";
   // const globalDefQueue = "globalDefQueue";
   const IMPORTCJSAMDUMD = importcjsamdumd;
   if ("object" == typeof exports && "undefined" != typeof module) {
