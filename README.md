@@ -236,10 +236,10 @@ IMPORTCJSAMDUMD(url, name);
 IMPORTCJSAMDUMD(url).then(m => console.log(m.default));
 ```
 
-次对象,IMPORTCJSAMDUMD.GLOBALPACKAGESTORE,是所有加载过的模块的存储仓库对象
+次对象,IMPORTCJSAMDUMD.PACKAGESTORE,是所有加载过的模块的存储仓库对象
 
 ```javascript
-IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name];
+IMPORTCJSAMDUMD.PACKAGESTORE[name];
 ```
 
 次函数,IMPORTCJSAMDUMD.REQUIREPACKAGE,返回模块仓库中的模块,参数 name 是字符串
@@ -248,7 +248,7 @@ IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name];
 IMPORTCJSAMDUMD.REQUIREPACKAGE(name);
 ```
 
-IMPORTCJSAMDUMD.GLOBALPACKAGESTORE[name].default 和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)是相等的
+IMPORTCJSAMDUMD.PACKAGESTORE[name].default 和 IMPORTCJSAMDUMD.REQUIREPACKAGE(name)是相等的
 
 ## 示例
 
@@ -257,7 +257,7 @@ IMPORTCJSAMDUMD("https://cdn.staticfile.org/jquery/3.4.1/jquery.js").then(m => {
   console.log(m.default.fn.jquery);
 });
 
-var jquery = IMPORTCJSAMDUMD.GLOBALPACKAGESTORE.jquery.default;
+var jquery = IMPORTCJSAMDUMD.PACKAGESTORE.jquery.default;
 
 Promise.all([
   IMPORTCJSAMDUMD("https://cdn.bootcss.com/jquery/3.4.1/jquery.js"),
