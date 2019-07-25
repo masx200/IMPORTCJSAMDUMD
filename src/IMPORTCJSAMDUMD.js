@@ -1,5 +1,5 @@
 "use strict";
-(global => {
+export default /* global  */ (() => {
   "use strict";
   function 定义default(target, def) {
     Object.defineProperty(target, "default", {
@@ -22,7 +22,7 @@
   if ("object" == typeof exports && "undefined" != typeof module) {
     module.exports = importcjsamdumd;
   } else {
-    global.IMPORTCJSAMDUMD = importcjsamdumd;
+    // global.IMPORTCJSAMDUMD = importcjsamdumd;
   }
   IMPORTCJSAMDUMD.REQUIREPACKAGE = function getmodule(packagename) {
     "use strict";
@@ -531,6 +531,8 @@
       throw new Error("输入的类型错误,输入的类型必须是字符串或者数组或对象");
     }
   }
+
+  return IMPORTCJSAMDUMD;
 })(
   // eslint-disable-next-line no-undef
   (typeof globalThis !== "undefined" ? globalThis : false) ||
