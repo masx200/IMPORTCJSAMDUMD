@@ -149,7 +149,7 @@ export default /* global  */ (() => {
   define.amd = true;
 
   async function importcjsamdumd() {
-    return oldimportcjsamdumd(...arguments).catch(e => {
+    return await oldimportcjsamdumd(...arguments).catch(e => {
       console.warn(e);
       return oldimportcjsamdumd(...arguments);
     });
