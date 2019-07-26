@@ -23,6 +23,7 @@ try {
       document.head.appendChild(s);
       s.onload = () => {
         resolve(window[Symbol.for("import-" + url)]);
+        Reflect.deleteProperty(window, Symbol.for("import-" + url));
         document.head.removeChild(s);
 
         window.removeEventListener("error", errorhandler);
