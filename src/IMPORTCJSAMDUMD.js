@@ -453,7 +453,10 @@ export default /* global  */
                         } else {
                           //   moduleexport[urlsymbol] = url;
                           console.warn("加载的模块没有输出", url, packagename);
-                          resolve(moduleexport);
+                          // resolve(moduleexport);
+                          reject(
+                            Error("加载的模块没有输出" + packagename + url)
+                          );
                           return;
                         }
                       }
@@ -520,7 +523,8 @@ export default /* global  */
                       } else {
                         //   moduleexport[urlsymbol] = url;
                         console.warn("加载的模块没有输出", packagename, url);
-                        resolve(moduleexport);
+                        // resolve(moduleexport);
+                        reject(Error("加载的模块没有输出" + packagename + url));
                         return;
                       }
                       /* 加载完成之后， IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][                            url]*/
