@@ -1,4 +1,5 @@
 "use strict";
+import dynamicimportshim from "./dynamicimportshim.js";
 export default /* global  */ (() => {
   "use strict";
   function 定义default(target, def) {
@@ -346,6 +347,13 @@ export default /* global  */ (() => {
                         })(require, define, module, exports, scripttext);
                       } catch (e) {
                         console.warn(e);
+
+                        /*  如果是es模块,则使用dynamicimportshim加载*/
+                        if (
+                          e instanceof SyntaxError &&
+                          e.message === "Unexpected token export"
+                        ) {
+                        }
                         reject(e);
                         return;
                       }
