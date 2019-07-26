@@ -533,11 +533,10 @@ export default /* global  */ (() => {
   }
 
   return IMPORTCJSAMDUMD;
-})(
-  // eslint-disable-next-line no-undef
-  (typeof globalThis !== "undefined" ? globalThis : false) ||
+})();
+// eslint-disable-next-line no-undef
+/*   (typeof globalThis !== "undefined" ? globalThis : false) ||
     (typeof window !== "undefined" ? window : false) ||
     (typeof WorkerGlobalScope !== "undefined" ? WorkerGlobalScope : false) ||
     // eslint-disable-next-line no-undef
-    this
-);
+    this */
