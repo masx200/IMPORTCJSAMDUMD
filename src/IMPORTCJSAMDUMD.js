@@ -1,6 +1,6 @@
 "use strict";
 import dynamicimportshim from "./dynamicimportshim.js";
-import { createBlob } from "./createblob.js";
+// import { createBlob } from "./createblob.js";
 
 export default /* global  */
 
