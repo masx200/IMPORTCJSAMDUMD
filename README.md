@@ -1,8 +1,10 @@
 # IMPORTCJSAMDUMD
 
-[源代码 ](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/src/IMPORTCJSAMDUMD.js)
+[查看源代码 ](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/src/IMPORTCJSAMDUMD.js)
 
-https://masx200.github.io/IMPORTCJSAMDUMD/src/IMPORTCJSAMDUMD.js
+[ES模块](https://masx200.github.io/IMPORTCJSAMDUMD/src/IMPORTCJSAMDUMD.js)
+
+[commonjs模块](https://masx200.github.io/IMPORTCJSAMDUMD/dist/main.js)
 
 ## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES" 模块四合一
 
