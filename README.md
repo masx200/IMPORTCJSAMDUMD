@@ -4,7 +4,7 @@
 
 https://masx200.github.io/IMPORTCJSAMDUMD/src/IMPORTCJSAMDUMD.js
 
-## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES" 模块四合一 
+## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES" 模块四合一
 
 包装" cjs "和 "amd "和 "umd" 和"ES" 模块为异步加载" promise" 方法,使用" fetch "方法来获取指定的模块包源代码
 ，
@@ -306,4 +306,10 @@ Promise.all([
 import("https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js").then(
   console.log
 );
+```
+
+### 使用 webpack 打包模块输出
+
+```
+webpack --output-library-target="commonjs-module" -p .\src\IMPORTCJSAMDUMD.js
 ```
