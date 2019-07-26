@@ -2,9 +2,9 @@
 
 [查看源代码 ](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/src/IMPORTCJSAMDUMD.js)
 
-[ES模块](https://masx200.github.io/IMPORTCJSAMDUMD/src/IMPORTCJSAMDUMD.js)
+[ES 模块](https://masx200.github.io/IMPORTCJSAMDUMD/src/IMPORTCJSAMDUMD.js)
 
-[commonjs模块](https://masx200.github.io/IMPORTCJSAMDUMD/dist/main.js)
+[commonjs 模块](https://masx200.github.io/IMPORTCJSAMDUMD/dist/main.js)
 
 ## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES" 模块四合一
 
@@ -216,6 +216,8 @@ IMPORTCJSAMDUMD(url).then(console.log);
 
 基于 ["es-module-shims"](https://github.com/guybedford/es-module-shims)
 
+先当成 `umd` 模块运行,监测到报错之后,当成 `es` 模块运行
+
 <!-- 如果要兼容旧的浏览器，可以使用["es-module-shims"](https://github.com/guybedford/es-module-shims)的"importShim"函数替换"import"函数 -->
 
 <!-- ```javascript
@@ -312,6 +314,6 @@ import("https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js").then(
 
 ### 使用 webpack 打包模块输出
 
-```
+```shell
 webpack --output-library-target="commonjs-module" -p .\src\IMPORTCJSAMDUMD.js
 ```
