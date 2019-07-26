@@ -8,8 +8,13 @@ try {
   dynamicimportshim = async function(url) {
     return await new Promise((resolve, reject) => {
       url = new URL(url).href;
+
+      window.addEventListener("error", e => {
+        console.warn(e);
+        reject(e.error);
+      });
       const topLevelBlobUrl = createBlob(
-        `import*as m from'${url}';window[Symbol.for('${"import-" + url}')]=m`
+        `import*as m from'${url}';\nwindow[Symbol.for('${"import-" + url}')]=m`
       );
       const s = document.createElement("script");
       s.type = "module";
