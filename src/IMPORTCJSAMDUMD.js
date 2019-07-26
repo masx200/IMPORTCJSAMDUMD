@@ -373,12 +373,12 @@ export default /* global  */
                             const exportdefault = await dynamicimportshim(
                               topLevelBlobUrl
                             );
-
+                            var module__exportdefault = exportdefault.default;
                             定义default(
                               moduleexport,
-                              exportdefault.default
-                                ? exportdefault.default
-                                : exportdefault
+                              module__exportdefault.default
+                                ? module__exportdefault.default
+                                : module__exportdefault
                             );
                           } catch (error) {
                             console.warn(e);
