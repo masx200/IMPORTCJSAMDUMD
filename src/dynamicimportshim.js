@@ -3,6 +3,7 @@ import { createBlob } from "./createblob.js";
 let dynamicimportshim;
 try {
   dynamicimportshim = Function("u", "return import(u)");
+  throw Error();
 } catch (error) {
   dynamicimportshim = async function(url) {
     return await new Promise((resolve, reject) => {
