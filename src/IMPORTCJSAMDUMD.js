@@ -358,8 +358,6 @@ export default /* global  */
 
                         处理非es模块(exportmodule);
                       } catch (e) {
-                        console.warn(e);
-
                         /*  如果是es模块,则使用dynamicimportshim加载*/
                         if (
                           e instanceof SyntaxError &&
@@ -381,12 +379,13 @@ export default /* global  */
                                 ? exportdefault.default
                                 : exportdefault
                             );
-                          } catch (error) {
+                          } catch (e) {
                             console.warn(e);
                             reject(e);
                             return;
                           }
                         } else {
+                          console.warn(e);
                           reject(e);
                           return;
                         }
