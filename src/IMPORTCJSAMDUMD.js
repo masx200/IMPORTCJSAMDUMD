@@ -342,7 +342,9 @@ export default /* global  */
                         // [sourcesymbol]: modulesrcfun
                       };
                       try {
-                        exportmodule = (function(
+                        // exportmodule =
+
+                        (function(
                           require,
                           define,
                           module,
@@ -354,7 +356,8 @@ export default /* global  */
                             "define",
                             "module",
                             "exports",
-                            `"use strict";\n/* ${url} */;\n${scripttext};\n/* ${url} */;\nreturn [exports, module.exports, define.exports]; `
+                            `"use strict";\n/* ${url} */;\n${scripttext};\n/* ${url} */;\n`
+                            // `"use strict";\n/* ${url} */;\n${scripttext};\n/* ${url} */;\nreturn [exports, module.exports, define.exports]; `
                           );
                           modulesrcfun = 模块加载函数;
                           return 模块加载函数.call(
@@ -365,7 +368,11 @@ export default /* global  */
                             exports
                           );
                         })(require, define, module, exports, scripttext);
-
+                        exportmodule = [
+                          exports,
+                          module.exports,
+                          define.exports
+                        ];
                         处理非es模块(exportmodule);
                       } catch (e) {
                         /*  如果是es模块,则使用dynamicimportshim加载*/
