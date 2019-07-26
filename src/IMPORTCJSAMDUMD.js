@@ -9,7 +9,8 @@ export default /* global  */
   function 定义default(target, def) {
     Object.defineProperty(target, "default", {
       enumerable: true,
-
+      // writable: true,
+      // configurable: true,
       get() {
         return def;
       }
@@ -24,11 +25,11 @@ export default /* global  */
   const GLOBALPACKAGESTORE = "PACKAGESTORE";
   // const globalDefQueue = "globalDefQueue";
   const IMPORTCJSAMDUMD = importcjsamdumd;
-  if ("object" == typeof exports && "undefined" != typeof module) {
-    module.exports = importcjsamdumd;
-  } else {
-    // global.IMPORTCJSAMDUMD = importcjsamdumd;
-  }
+  // if ("object" == typeof exports && "undefined" != typeof module) {
+  //   module.exports = importcjsamdumd;
+  // } else {
+  //   // global.IMPORTCJSAMDUMD = importcjsamdumd;
+  // }
   IMPORTCJSAMDUMD.REQUIREPACKAGE = function getmodule(packagename) {
     "use strict";
 
