@@ -361,14 +361,17 @@ export default /* global  */
                       } catch (e) {
                         /*  如果是es模块,则使用dynamicimportshim加载*/
                         if (
-                          (e instanceof SyntaxError &&
-                            /* chrome浏览器报错信息 */
-                            e.message === "Unexpected token export") ||
-                          /* edge浏览器报错不同 */
-                          "Syntax error" === e.message ||
-                          /* 火狐浏览器报错不同 */
-                          "export declarations may only appear at top level of a module" ===
-                            e.message
+                          // (
+                          e instanceof SyntaxError
+
+                          //   &&
+                          //   /* chrome浏览器报错信息 */
+                          //   e.message === "Unexpected token export") ||
+                          // /* edge浏览器报错不同 */
+                          // "Syntax error" === e.message ||
+                          // /* 火狐浏览器报错不同 */
+                          // "export declarations may only appear at top level of a module" ===
+                          //   e.message
                         ) {
                           // const topLevelBlobUrl = createBlob(
                           //   `"use strict";\n/* ${url} */;\nexport*as default from'${url}';\n/* ${url} */;\n `
