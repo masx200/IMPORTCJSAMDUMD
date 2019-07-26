@@ -365,20 +365,21 @@ export default /* global  */
                           e instanceof SyntaxError &&
                           e.message === "Unexpected token export"
                         ) {
-                          const topLevelBlobUrl = createBlob(
-                            `"use strict";\n/* ${url} */;\nexport*as default from'${url}';\n/* ${url} */;\n `
-                          );
+                          // const topLevelBlobUrl = createBlob(
+                          //   `"use strict";\n/* ${url} */;\nexport*as default from'${url}';\n/* ${url} */;\n `
+                          // );
+                          const topLevelBlobUrl = url;
                           modulesrcfun = topLevelBlobUrl;
                           try {
                             const exportdefault = await dynamicimportshim(
                               topLevelBlobUrl
                             );
-                            var module__exportdefault = exportdefault.default;
+                            // var module__exportdefault = exportdefault.default;
                             定义default(
                               moduleexport,
-                              module__exportdefault.default
-                                ? module__exportdefault.default
-                                : module__exportdefault
+                              exportdefault.default
+                                ? exportdefault.default
+                                : exportdefault
                             );
                           } catch (error) {
                             console.warn(e);
