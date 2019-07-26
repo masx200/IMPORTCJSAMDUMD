@@ -8,11 +8,12 @@ try {
   dynamicimportshim = async function(url) {
     return await new Promise((resolve, reject) => {
       url = new URL(url).href;
-
-      window.addEventListener("error", e => {
+      const errorhandler = e => {
         console.warn(e);
         reject(e.error);
-      });
+        window.removeEventListener("error", errorhandler);
+      };
+      window.addEventListener("error", errorhandler);
       const topLevelBlobUrl = createBlob(
         `import*as m from'${url}';\nwindow[Symbol.for('${"import-" + url}')]=m`
       );
@@ -22,10 +23,12 @@ try {
       document.head.appendChild(s);
       s.onload = () => {
         resolve(window[Symbol.for("import-" + url)]);
+        window.removeEventListener("error", errorhandler);
       };
       s.onerror = e => {
         console.warn(e);
         reject(e);
+        window.removeEventListener("error", errorhandler);
       };
     });
   };
