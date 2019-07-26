@@ -1,12 +1,20 @@
 "use strict";
 import dynamicimportshim from "./dynamicimportshim.js";
 // import { createBlob } from "./createblob.js";
-
+const 加载的模块没有输出 = "加载的模块没有输出";
 export default /* global  */
 
 (() => {
   "use strict";
   function 定义default(target, def) {
+    /* 如果模块的输出是一个模块 */
+    if (def[Symbol.toStringTag] === "Module" && def.default) {
+      def = def.default;
+    }
+    // def[Symbol.toStringTag]==="Module"?
+    // def=def.default
+    // :;
+
     Object.defineProperty(target, "default", {
       enumerable: true,
       // writable: true,
@@ -472,11 +480,9 @@ export default /* global  */
                           定义default(moduleexport, exportdefault);
                         } else {
                           //   moduleexport[urlsymbol] = url;
-                          console.warn("加载的模块没有输出", url, packagename);
+                          console.warn(加载的模块没有输出, url, packagename);
                           // resolve(moduleexport);
-                          reject(
-                            Error("加载的模块没有输出" + packagename + url)
-                          );
+                          reject(Error(加载的模块没有输出 + packagename + url));
                           return;
                         }
                       }
@@ -542,9 +548,9 @@ export default /* global  */
                         // }
                       } else {
                         //   moduleexport[urlsymbol] = url;
-                        console.warn("加载的模块没有输出", packagename, url);
+                        console.warn(加载的模块没有输出, packagename, url);
                         // resolve(moduleexport);
-                        reject(Error("加载的模块没有输出" + packagename + url));
+                        reject(Error(加载的模块没有输出 + packagename + url));
                         return;
                       }
                       /* 加载完成之后， IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][                            url]*/
