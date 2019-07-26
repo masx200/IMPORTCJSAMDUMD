@@ -1,6 +1,10 @@
 "use strict";
 import dynamicimportshim from "./dynamicimportshim.js";
-export default /* global  */ (() => {
+import { createBlob } from "./createblob.js";
+
+export default /* global  */
+
+(() => {
   "use strict";
   function 定义default(target, def) {
     Object.defineProperty(target, "default", {
@@ -313,7 +317,7 @@ export default /* global  */ (() => {
                     return;
                   }
                   try {
-                    (scripttext => {
+                    await (async scripttext => {
                       let exports = {};
                       const module = {
                         exports: {}
@@ -321,6 +325,12 @@ export default /* global  */ (() => {
                       define.exports = {};
                       let exportmodule = [{}, {}, {}];
                       var modulesrcfun;
+                      const moduleexport = {
+                        // [namesymbol]: packagename,
+                        default: undefined
+                        // [urlsymbol]: url,
+                        // [sourcesymbol]: modulesrcfun
+                      };
                       try {
                         exportmodule = (function(
                           require,
@@ -345,6 +355,8 @@ export default /* global  */ (() => {
                             exports
                           );
                         })(require, define, module, exports, scripttext);
+
+                        处理非es模块(exportmodule);
                       } catch (e) {
                         console.warn(e);
 
@@ -353,16 +365,104 @@ export default /* global  */ (() => {
                           e instanceof SyntaxError &&
                           e.message === "Unexpected token export"
                         ) {
+                          const topLevelBlobUrl = createBlob(
+                            `"use strict";\n/* ${url} */;\n${scripttext};\n/* ${url} */;\n `
+                          );
+                          try {
+                            const exportdefault = await dynamicimportshim(
+                              topLevelBlobUrl
+                            );
+
+                            定义default(moduleexport, exportdefault.default);
+                          } catch (error) {
+                            console.warn(e);
+                            reject(e);
+                            return;
+                          }
                         }
-                        reject(e);
-                        return;
+                        // reject(e);
+                        // return;
                       }
-                      const moduleexport = {
-                        // [namesymbol]: packagename,
-                        default: undefined
-                        // [urlsymbol]: url,
-                        // [sourcesymbol]: modulesrcfun
-                      };
+                      function 处理非es模块(exportmodule) {
+                        if (typeof exportmodule === "undefined") {
+                          exportmodule = [{}, {}, {}];
+                        }
+                        if (typeof define.exports === "undefined") {
+                          define.exports = {};
+                        }
+                        function 非空对象(o) {
+                          return (
+                            typeof o !== "object" ||
+                            Object.keys(o).length ||
+                            JSON.stringify(o) !== "{}"
+                          );
+                        }
+                        if (
+                          非空对象(exportmodule[0])
+                          //   typeof exportmodule[0] !== "object" ||
+                          //   Object.keys(exportmodule[0]).length ||
+                          //   JSON.stringify(exportmodule[0]) !== "{}"
+                        ) {
+                          console.log("检测到umd模块", url, packagename);
+
+                          const exportdefault = exportmodule[0];
+                          定义default(moduleexport, exportdefault);
+                          // Object.defineProperty(moduleexport, "default", {
+                          //   enumerable: true,
+
+                          //   get() {
+                          //     return exportdefault;
+                          //   }
+                          // });
+                          // moduleexport.default = exportmodule[0];
+                        } else if (
+                          非空对象(exportmodule[1])
+                          //   typeof exportmodule[1] !== "object" ||
+                          //   Object.keys(exportmodule[1]).length ||
+                          //   JSON.stringify(exportmodule[1]) !== "{}"
+                        ) {
+                          console.log("检测到cjs模块", url, packagename);
+                          // moduleexport.default = exportmodule[1];
+                          const exportdefault = exportmodule[1];
+
+                          定义default(moduleexport, exportdefault);
+                          // Object.defineProperty(moduleexport, "default", {
+                          //   enumerable: true,
+
+                          //   get() {
+                          //     return exportdefault;
+                          //   }
+                          // });
+                        } else if (
+                          非空对象(exportmodule[2])
+                          //   typeof exportmodule[2] !== "object" ||
+                          //   Object.keys(exportmodule[2]).length ||
+                          //   JSON.stringify(exportmodule[2]) !== "{}"
+                        ) {
+                          console.log("检测到amd模块", url, packagename);
+                          // moduleexport.default = exportmodule[2];
+                          const exportdefault = exportmodule[2];
+                          // Object.defineProperty(moduleexport, "default", {
+                          //   enumerable: true,
+
+                          //   get() {
+                          //     return exportdefault;
+                          //   }
+                          // });
+                          定义default(moduleexport, exportdefault);
+                        } else {
+                          //   moduleexport[urlsymbol] = url;
+                          console.warn("加载的模块没有输出", url, packagename);
+                          resolve(moduleexport);
+                          return;
+                        }
+                      }
+                      // const moduleexport = {
+                      //   // [namesymbol]: packagename,
+                      //   default: undefined
+                      //   // [urlsymbol]: url,
+                      //   // [sourcesymbol]: modulesrcfun
+                      // };
 
                       Object.defineProperties(moduleexport, {
                         [namesymbol]: {
@@ -397,79 +497,6 @@ export default /* global  */ (() => {
                             value: "Module"
                           }
                         );
-                      }
-                      if (typeof exportmodule === "undefined") {
-                        exportmodule = [{}, {}, {}];
-                      }
-                      if (typeof define.exports === "undefined") {
-                        define.exports = {};
-                      }
-
-                      function 非空对象(o) {
-                        return (
-                          typeof o !== "object" ||
-                          Object.keys(o).length ||
-                          JSON.stringify(o) !== "{}"
-                        );
-                      }
-                      if (
-                        非空对象(exportmodule[0])
-                        //   typeof exportmodule[0] !== "object" ||
-                        //   Object.keys(exportmodule[0]).length ||
-                        //   JSON.stringify(exportmodule[0]) !== "{}"
-                      ) {
-                        console.log("检测到umd模块", url, packagename);
-
-                        const exportdefault = exportmodule[0];
-                        定义default(moduleexport, exportdefault);
-                        // Object.defineProperty(moduleexport, "default", {
-                        //   enumerable: true,
-
-                        //   get() {
-                        //     return exportdefault;
-                        //   }
-                        // });
-                        // moduleexport.default = exportmodule[0];
-                      } else if (
-                        非空对象(exportmodule[1])
-                        //   typeof exportmodule[1] !== "object" ||
-                        //   Object.keys(exportmodule[1]).length ||
-                        //   JSON.stringify(exportmodule[1]) !== "{}"
-                      ) {
-                        console.log("检测到cjs模块", url, packagename);
-                        // moduleexport.default = exportmodule[1];
-                        const exportdefault = exportmodule[1];
-
-                        定义default(moduleexport, exportdefault);
-                        // Object.defineProperty(moduleexport, "default", {
-                        //   enumerable: true,
-
-                        //   get() {
-                        //     return exportdefault;
-                        //   }
-                        // });
-                      } else if (
-                        非空对象(exportmodule[2])
-                        //   typeof exportmodule[2] !== "object" ||
-                        //   Object.keys(exportmodule[2]).length ||
-                        //   JSON.stringify(exportmodule[2]) !== "{}"
-                      ) {
-                        console.log("检测到amd模块", url, packagename);
-                        // moduleexport.default = exportmodule[2];
-                        const exportdefault = exportmodule[2];
-                        // Object.defineProperty(moduleexport, "default", {
-                        //   enumerable: true,
-
-                        //   get() {
-                        //     return exportdefault;
-                        //   }
-                        // });
-                        定义default(moduleexport, exportdefault);
-                      } else {
-                        //   moduleexport[urlsymbol] = url;
-                        console.warn("加载的模块没有输出", url, packagename);
-                        resolve(moduleexport);
-                        return;
                       }
 
                       if (typeof moduleexport.default !== "undefined") {
