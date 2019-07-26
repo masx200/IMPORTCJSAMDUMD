@@ -40,7 +40,7 @@ export default /* global  */
     }
     const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
     if (findpackage) {
-      console.log("在模块仓库中找到了", packagename, findpackage[urlsymbol]);
+      // console.log("在模块仓库中找到了", packagename, findpackage[urlsymbol]);
       //   return { ...findpackage };
 
       return new Proxy(findpackage, {
@@ -90,7 +90,7 @@ export default /* global  */
 
     const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
     if (findpackage) {
-      console.log("在模块仓库中找到了", packagename, findpackage[urlsymbol]);
+      // console.log("在模块仓库中找到了", packagename, findpackage[urlsymbol]);
       return findpackage.default;
     } else {
       throw new Error(
@@ -98,10 +98,11 @@ export default /* global  */
       );
     }
   }
-  function isobject(a) {
+  function isobject(o) {
     return (
-      typeof a === "object" &&
-      Object.prototype.toString.call(a) === "[object Object]"
+      typeof o === "object" &&
+      Object.prototype.toString.call(o) === "[object Object]" &&
+      o.__proto__ === Object.prototype
     );
   }
   function isArray(a) {
@@ -147,7 +148,7 @@ export default /* global  */
     {
       defineglobalDefQueue.push([name, deps, callback]);
     }
-    console.log("检测到amd模块", defineglobalDefQueue[0]);
+    // console.log("检测到amd模块", defineglobalDefQueue[0]);
     const canshu = defineglobalDefQueue[0][1].map(e => require(e));
     define.exports = defineglobalDefQueue[0][2](...canshu);
   }
@@ -412,7 +413,7 @@ export default /* global  */
                           //   Object.keys(exportmodule[0]).length ||
                           //   JSON.stringify(exportmodule[0]) !== "{}"
                         ) {
-                          console.log("检测到umd模块", url, packagename);
+                          // console.log("检测到umd模块", url, packagename);
 
                           const exportdefault = exportmodule[0];
                           定义default(moduleexport, exportdefault);
@@ -430,7 +431,7 @@ export default /* global  */
                           //   Object.keys(exportmodule[1]).length ||
                           //   JSON.stringify(exportmodule[1]) !== "{}"
                         ) {
-                          console.log("检测到cjs模块", url, packagename);
+                          // console.log("检测到cjs模块", url, packagename);
                           // moduleexport.default = exportmodule[1];
                           const exportdefault = exportmodule[1];
 
@@ -448,7 +449,7 @@ export default /* global  */
                           //   Object.keys(exportmodule[2]).length ||
                           //   JSON.stringify(exportmodule[2]) !== "{}"
                         ) {
-                          console.log("检测到amd模块", url, packagename);
+                          // console.log("检测到amd模块", url, packagename);
                           // moduleexport.default = exportmodule[2];
                           const exportdefault = exportmodule[2];
                           // Object.defineProperty(moduleexport, "default", {
