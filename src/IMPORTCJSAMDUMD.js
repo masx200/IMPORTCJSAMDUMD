@@ -368,17 +368,26 @@ export default /* global  */
                           const topLevelBlobUrl = createBlob(
                             `"use strict";\n/* ${url} */;\n${scripttext};\n/* ${url} */;\n `
                           );
+                          modulesrcfun = topLevelBlobUrl;
                           try {
                             const exportdefault = await dynamicimportshim(
                               topLevelBlobUrl
                             );
 
-                            定义default(moduleexport, exportdefault.default);
+                            定义default(
+                              moduleexport,
+                              exportdefault.default
+                                ? exportdefault.default
+                                : exportdefault
+                            );
                           } catch (error) {
                             console.warn(e);
                             reject(e);
                             return;
                           }
+                        } else {
+                          reject(e);
+                          return;
                         }
                         // reject(e);
                         // return;

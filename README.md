@@ -4,7 +4,9 @@
 
 https://masx200.github.io/IMPORTCJSAMDUMD/src/IMPORTCJSAMDUMD.js
 
-动态异步加载" commonjs "和 "umd "和 "amd" 模块 ,包装" cjs "和 "amd "和 "umd" 模块为异步加载" promise" 方法,使用" fetch "方法来获取指定的模块包源代码
+动态异步加载" commonjs "和 "umd "和 "amd"和"ES" 模块四合一 ,
+
+包装" cjs "和 "amd "和 "umd" 和"ES" 模块为异步加载" promise" 方法,使用" fetch "方法来获取指定的模块包源代码
 ，
 可以把模块放入模块仓库中，
 
@@ -204,17 +206,19 @@ function myonloadfunc(reactmodulearray) {
 })();
 ```
 
-### 如果要动态异步加载 es6 模块,加载 es6 模块的方法:
+### 如果要动态异步加载 ES 模块,加载 es6 模块的方法:
 
 ```javascript
-import(url).then(console.log);
+IMPORTCJSAMDUMD(url).then(console.log);
 ```
 
-如果要兼容旧的浏览器，可以使用["es-module-shims"](https://github.com/guybedford/es-module-shims)的"importShim"函数替换"import"函数
+基于 ["es-module-shims"](https://github.com/guybedford/es-module-shims)
 
-```javascript
+<!-- 如果要兼容旧的浏览器，可以使用["es-module-shims"](https://github.com/guybedford/es-module-shims)的"importShim"函数替换"import"函数 -->
+
+<!-- ```javascript
 importShim("/path/to/module.js").then(x => console.log(x));
-```
+``` -->
 
 ## IMPORTCJSAMDUMD
 
