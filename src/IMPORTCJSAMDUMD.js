@@ -366,7 +366,7 @@ export default /* global  */
                           e.message === "Unexpected token export"
                         ) {
                           const topLevelBlobUrl = createBlob(
-                            `"use strict";\n/* ${url} */;\n${scripttext};\n/* ${url} */;\n `
+                            `"use strict";\n/* ${url} */;\nexport*from'${url}';\n/* ${url} */;\n `
                           );
                           modulesrcfun = topLevelBlobUrl;
                           try {
