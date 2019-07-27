@@ -1,1 +1,1 @@
-export * from "./IMPORTCJSAMDUMD";
+export * from "./IMPORTCJSAMDUMD.js";
