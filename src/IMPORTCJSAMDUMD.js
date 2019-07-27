@@ -367,15 +367,9 @@ export default /* global  */
                             require,
                             define,
                             module,
-                            exports
+                            exports.exports
                           );
-                        })(
-                          require,
-                          define,
-                          module,
-                          exports.exports,
-                          scripttext
-                        );
+                        })(require, define, module, exports, scripttext);
                         const exportmodule = [
                           exports.exports ? exports.exports : {},
                           module.exports ? module.exports : {},
