@@ -368,6 +368,7 @@ export default /* global  */
                             define,
                             module,
                             exports.exports
+                            /* 如果在函数内修改exports的值,则无法获取输出,只能在修改exports的属性的时候,获取到 */
                           );
                         })(require, define, module, exports, scripttext);
                         const exportmodule = [
