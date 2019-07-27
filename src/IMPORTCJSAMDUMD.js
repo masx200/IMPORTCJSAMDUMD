@@ -329,7 +329,9 @@ export default /* global  */
                   try {
                     await (async scripttext => {
                       const exports = {
-                        exports: {}
+                        exports: {
+                          [Symbol.toStringTag]: "Module"
+                        }
                       };
                       const module = {
                         exports: {}
