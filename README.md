@@ -2,7 +2,7 @@
 
 [查看源代码 ](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/src/IMPORTCJSAMDUMD.js)
 
-[ES 模块](https://masx200.github.io/IMPORTCJSAMDUMD/src/IMPORTCJSAMDUMD.js)
+[ES 模块](https://masx200.github.io/IMPORTCJSAMDUMD/src/index.js)
 
 [commonjs 模块](https://masx200.github.io/IMPORTCJSAMDUMD/dist/main.js)
 
