@@ -328,12 +328,14 @@ export default /* global  */
                   }
                   try {
                     await (async scripttext => {
-                      let exports = {};
+                      const exports = {
+                        exports: {}
+                      };
                       const module = {
                         exports: {}
                       };
                       define.exports = {};
-                      let exportmodule = [{}, {}, {}];
+                      //   let exportmodule = [{}, {}, {}];
                       var modulesrcfun;
                       const moduleexport = {
                         // [namesymbol]: packagename,
@@ -367,11 +369,17 @@ export default /* global  */
                             module,
                             exports
                           );
-                        })(require, define, module, exports, scripttext);
-                        exportmodule = [
-                          exports,
-                          module.exports,
-                          define.exports
+                        })(
+                          require,
+                          define,
+                          module,
+                          exports.exports,
+                          scripttext
+                        );
+                        const exportmodule = [
+                          exports.exports ? exports.exports : {},
+                          module.exports ? module.exports : {},
+                          define.exports ? define.exports : {}
                         ];
                         处理非es模块(exportmodule);
                       } catch (e) {
@@ -489,7 +497,11 @@ export default /* global  */
                           //   moduleexport[urlsymbol] = url;
                           console.warn(加载的模块没有输出, url, packagename);
                           // resolve(moduleexport);
-                          reject(Error(加载的模块没有输出 + packagename + url));
+                          reject(
+                            Error(
+                              加载的模块没有输出 + " " + packagename + " " + url
+                            )
+                          );
                           return;
                         }
                       }
