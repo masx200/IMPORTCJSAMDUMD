@@ -1,1 +1,2 @@
-export * from "./IMPORTCJSAMDUMD.js";
+import moduleName from "./IMPORTCJSAMDUMD.js";
+export default moduleName;
