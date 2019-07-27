@@ -317,3 +317,5 @@ import("https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js").then(
 ```shell
 webpack --output-library-target="commonjs2" -p .\src\IMPORTCJSAMDUMD.js
 ```
+
+https://webpack.docschina.org/configuration/output/#output-librarytarget
