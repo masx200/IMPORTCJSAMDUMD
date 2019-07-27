@@ -315,7 +315,7 @@ import("https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js").then(
 ### 使用 webpack 打包模块输出
 
 ```shell
-webpack --output-library-target="commonjs2" -p .\src\IMPORTCJSAMDUMD.js
+webpack --output-library-target="commonjs2" -p ./src/index.js
 ```
 
 https://webpack.docschina.org/configuration/output/#output-librarytarget
