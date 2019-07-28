@@ -116,8 +116,9 @@ export default /* global  */
   }
   function isArray(a) {
     return (
-      Array.isArray(a) &&
+  
       typeof a === "object" &&
+          Array.isArray(a) &&
       Object.prototype.toString.call(a) === "[object Array]"
     );
   }
@@ -186,6 +187,13 @@ export default /* global  */
       );
     }
     if (isobject(url)) {
+    	
+    
+    
+    
+    return await (async(url)=>{
+
+    
       url = newobjjson(url);
       const 输入参数array = Object.keys(url).map(key => {
         const packageurl = url[key];
@@ -222,6 +230,14 @@ export default /* global  */
         objecttoreturn[m[namesymbol]] = m;
       });
       return objecttoreturn;
+      
+})(url)
+    
+
+      
+      
+      
+      
     } else if (
       (isArray(url) && typeof url === "object") ||
       typeof packagename === "object"
@@ -249,6 +265,13 @@ export default /* global  */
 
 
 */
+
+
+return await (async()=>{
+	
+	
+	
+	
       let suoyouimportpromise = [];
       const 传入参数arr = Array(...arguments);
       // async function 同时发起多个(a) {
@@ -282,7 +305,25 @@ export default /* global  */
         // );
       }
       return suoyouimportpromise;
-    } else if (typeof url === "string" || typeof packagename === "string") {
+      
+      
+      })(
+
+...arguments
+)
+      
+    } else if (typeof url === "string"
+
+ || typeof packagename === "string"
+
+) {
+    	
+    
+    
+    
+    return await (async(url,packagename )=>{
+    
+    
       if (typeof url === "undefined" || url === "" || packagename === "") {
         throw new Error(
           "输入的类型错误,输入的字符串不能为空,url不能为undefined"
@@ -319,6 +360,9 @@ export default /* global  */
         ] = packagename;
         return IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url];
       } else {
+      	
+      
+      
         return await new Promise((resolve, reject) => {
           (async () => {
             try {
@@ -624,6 +668,18 @@ export default /* global  */
           })();
         });
       }
+      
+      
+      
+      
+      
+      
+           })(
+
+url,packagename
+)
+      
+      
     } else {
       throw new Error("输入的类型错误,输入的类型必须是字符串或者数组或对象");
     }
