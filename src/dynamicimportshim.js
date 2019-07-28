@@ -8,12 +8,28 @@ try {
   dynamicimportshim = async function(url) {
     return await new Promise((resolve, reject) => {
       url = new URL(url).href;
-      const errorhandler = e => {
+      function removeerrorlisten(f) {
+        try {
+          window.removeEventListener("error", f);
+        } catch (error) {
+          //
+        }
+      }
+      function removescript(e) {
+        try {
+          document.head.removeChild(e);
+        } catch (error) {
+          //
+        }
+      }
+      function errorhandler(e) {
         console.warn(e);
         reject(e.error);
-        document.head.removeChild(s);
-        window.removeEventListener("error", errorhandler);
-      };
+
+        removescript(s);
+        removeerrorlisten(errorhandler);
+        // window.removeEventListener("error", errorhandler);
+      }
       window.addEventListener("error", errorhandler);
       const topLevelBlobUrl = createBlob(
         `import*as m from'${url}';\nwindow[Symbol.for('${"import-" + url}')]=m`
@@ -25,15 +41,28 @@ try {
       s.onload = () => {
         resolve(window[Symbol.for("import-" + url)]);
         Reflect.deleteProperty(window, Symbol.for("import-" + url));
-        document.head.removeChild(s);
-
-        window.removeEventListener("error", errorhandler);
+        // document.head.removeChild(s);
+        // try {
+        //   document.head.removeChild(s);
+        // } catch (error) {
+        //   //
+        // }
+        removescript(s);
+        removeerrorlisten(errorhandler);
+        // window.removeEventListener("error", errorhandler);
       };
       s.onerror = e => {
         console.warn(e);
         reject(e);
-        document.head.removeChild(s);
-        window.removeEventListener("error", errorhandler);
+        // document.head.removeChild(s);
+        // window.removeEventListener("error", errorhandler);
+        removeerrorlisten(errorhandler);
+        // try {
+        //   document.head.removeChild(s);
+        // } catch (error) {
+        //   //
+        // }
+        removescript(s);
       };
     });
   };
