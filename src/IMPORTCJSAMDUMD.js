@@ -523,13 +523,13 @@ export default /* global  */
                       Object.defineProperties(moduleexport, {
                         [namesymbol]: {
                           value: packagename,
-                          configurable: true,
+                         // configurable: true,
                           writable: true,
                           enumerable: false
                         },
                         [urlsymbol]: {
                           value: url,
-                          configurable: true,
+                         // configurable: true,
                           writable: true,
                           enumerable: false
                         },
