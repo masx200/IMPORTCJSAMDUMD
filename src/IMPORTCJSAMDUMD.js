@@ -226,6 +226,13 @@ export default /* global  */
       (isArray(url) && typeof url === "object") ||
       typeof packagename === "object"
     ) {
+
+
+/*
+
+
+
+
       Array(...arguments).forEach(e => {
         const url = e[0];
         let packagename = e[1];
@@ -238,6 +245,10 @@ export default /* global  */
           packagename = new URL(url).href;
         }
       });
+
+
+
+*/
       let suoyouimportpromise = [];
       const 传入参数arr = Array(...arguments);
       // async function 同时发起多个(a) {
