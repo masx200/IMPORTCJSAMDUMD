@@ -570,10 +570,15 @@ export default /* global  */
                         // }
                       }
                       // moduleexport[urlsymbol] = url;
+
+/*
                       if (typeof moduleexport.default !== "undefined") {
                         // if (typeof moduleexport[namesymbol] !== "undefined") {
                         // }
-                      } else {
+                      }
+
+*/
+ else {
                         //   moduleexport[urlsymbol] = url;
                         console.warn(加载的模块没有输出, packagename, url);
                         // resolve(moduleexport);
