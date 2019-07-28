@@ -622,6 +622,7 @@ return await (async()=>{
                       }
 
 */
+/*
  else {
                         //   moduleexport[urlsymbol] = url;
                         console.warn(加载的模块没有输出, packagename, url);
@@ -629,6 +630,8 @@ return await (async()=>{
                         reject(Error(加载的模块没有输出 + packagename + url));
                         return;
                       }
+                      */
+                      
                       /* 加载完成之后， IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][                            url]*/
                       /* 复制一份 */
                       IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url] =
