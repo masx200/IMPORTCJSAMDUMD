@@ -470,6 +470,17 @@ return await (async()=>{
                             reject(e);
                             return;
                           }
+              if(
+typeof moduleexport.default === "undefined"
+)
+            {
+                        //   moduleexport[urlsymbol] = url;
+                        console.warn(加载的模块没有输出, packagename, url);
+                        // resolve(moduleexport);
+                        reject(Error(加载的模块没有输出 + packagename + url));
+                        return;
+                          }
+                          
                         } else {
                           console.warn(e);
                           reject(e);
@@ -623,7 +634,8 @@ return await (async()=>{
 
 */
 /*
- else {
+ else 
+{
                         //   moduleexport[urlsymbol] = url;
                         console.warn(加载的模块没有输出, packagename, url);
                         // resolve(moduleexport);
