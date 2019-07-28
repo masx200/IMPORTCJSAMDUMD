@@ -11,6 +11,7 @@ try {
       const errorhandler = e => {
         console.warn(e);
         reject(e.error);
+document.head.removeChild(s);
         window.removeEventListener("error", errorhandler);
       };
       window.addEventListener("error", errorhandler);
@@ -31,6 +32,7 @@ try {
       s.onerror = e => {
         console.warn(e);
         reject(e);
+document.head.removeChild(s);
         window.removeEventListener("error", errorhandler);
       };
     });
