@@ -69,6 +69,8 @@ import IMPORTCJSAMDUMD from "importcjsamdumd";
 
 # 默认在模块加载时开启了严格模式!
 
+`"use strict"`
+
 # 函数参数第一项可以是字符串网址，或者数组，或者对象
 
 ```javascript
