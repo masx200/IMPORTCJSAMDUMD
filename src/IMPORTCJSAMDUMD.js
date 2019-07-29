@@ -1,11 +1,12 @@
 "use strict";
 import dynamicimportshim from "./dynamicimportshim.js";
 // import { createBlob } from "./createblob.js";
-const 加载的模块没有输出 = "加载的模块没有输出";
+
 export default /* global  */
 
 (() => {
   "use strict";
+  const 加载的模块没有输出 = "加载的模块没有输出";
   function 定义default(target, def) {
     /* 如果模块的输出是一个模块 */
     if (def[Symbol.toStringTag] === "Module" && def.default) {
