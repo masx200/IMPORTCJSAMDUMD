@@ -194,13 +194,32 @@ export default /* global  */
     // }
     const handleerror = async e => {
       console.warn(e);
+      if (e.urlorname) {
+        if (isurl(e.urlorname)) {
+          console.log("补充加载依赖的模块网址", e.urlorname);
 
-      if (isurl(e.urlorname)) {
-        console.log("补充加载依赖的模块网址", e.urlorname);
+          // initialtry.catch(handleerror);
+          await importcjsamdumd(e.urlorname);
+          // initialtry.catch(handleerror);
+        } else {
+          if (
+            isobject(inarguments[0]) &&
+            Reflect.has(inarguments[0], e.urlorname)
+          ) {
+            try {
+              await importcjsamdumd(...inarguments);
+            } catch (error) {
+              console.warn(error);
+              throw e;
+            }
+          } else {
+            throw e;
+          }
 
-        // initialtry.catch(handleerror);
-        await importcjsamdumd(e.urlorname);
-        // initialtry.catch(handleerror);
+          // return await importcjsamdumd(...inarguments);
+        }
+      } else {
+        throw e;
       }
       return await importcjsamdumd(...inarguments);
     };
@@ -387,7 +406,7 @@ export default /* global  */
                         return response.text();
                       });
                     } catch (e) {
-                      console.error(e);
+                      console.warn(e);
                       reject(e);
                       return;
                     }
@@ -710,34 +729,34 @@ export default /* global  */
                         IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url] =
                           IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
                         // IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url][namesymbol] = url;
-
-                        Object.keys(moduleexport.default)
-                          .filter(t => t !== "default")
-                          .forEach(key => {
-                            Object.defineProperty(moduleexport, key, {
-                              enumerable: true,
-                              get() {
-                                return moduleexport.default[key];
-                              }
+                        !!moduleexport.default &&
+                          Object.keys(moduleexport.default)
+                            .filter(t => t !== "default")
+                            .forEach(key => {
+                              Object.defineProperty(moduleexport, key, {
+                                enumerable: true,
+                                get() {
+                                  return moduleexport.default[key];
+                                }
+                              });
                             });
-                          });
 
                         resolve(moduleexport);
                         return;
                       })(fetchpromisetext);
                     } catch (e) {
-                      console.error(e);
+                      console.warn(e);
                       reject(e);
                       return;
                     }
                   } catch (e) {
-                    console.error(e);
+                    console.warn(e);
                     reject(e);
                     return;
                   }
                 })();
               } catch (e) {
-                console.error(e);
+                console.warn(e);
                 reject(e);
                 return;
               }
