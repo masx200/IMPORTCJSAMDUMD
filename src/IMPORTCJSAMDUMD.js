@@ -39,7 +39,8 @@ export default /* global  */
   // } else {
   //   // global.IMPORTCJSAMDUMD = importcjsamdumd;
   // }
-  IMPORTCJSAMDUMD.REQUIREPACKAGE = function getmodule(packagename) {
+  IMPORTCJSAMDUMD.REQUIREPACKAGE = getmodule;
+  function getmodule(packagename) {
     "use strict";
 
     if (packagename === "") {
@@ -86,7 +87,7 @@ export default /* global  */
         `Cannot find module in packagestore, 模块仓库中没有找到, ` + packagename
       );
     }
-  };
+  }
   IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] =
     IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] || {};
   function require(packagename) {
