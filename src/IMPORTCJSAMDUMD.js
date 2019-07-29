@@ -104,9 +104,15 @@ export default /* global  */
       // console.log("在模块仓库中找到了", packagename, findpackage[urlsymbol]);
       return findpackage.default;
     } else {
-      throw new Error(
+      let errormes = new Error(
         `Cannot find module in packagestore, 模块仓库中没有找到, ` + packagename
       );
+
+      errormes.urlorname = packagename;
+      throw errormes;
+      // throw new Error(
+      //   `Cannot find module in packagestore, 模块仓库中没有找到, ` + packagename
+      // );
     }
   }
   function isobject(o) {
@@ -164,12 +170,54 @@ export default /* global  */
     define.exports = defineglobalDefQueue[0][2](...canshu);
   }
   define.amd = true;
+  function isurl(url) {
+    var flag = false;
+    try {
+      if (url === "") {
+        throw new TypeError("字符串不能为空");
+      }
+      if (typeof url !== "string") {
+        throw new TypeError("参数必须为字符串");
+      }
 
-  async function importcjsamdumd() {
-    return await oldimportcjsamdumd(...arguments).catch(e => {
+      url = new URL(url).href;
+      flag = true;
+    } catch (error) {
+      flag = false;
+    }
+    return flag;
+  }
+  async function importcjsamdumd(...inarguments /* url */) {
+    const initialtry = oldimportcjsamdumd(...inarguments);
+    // async function handleerror(e){
+
+    // }
+    const handleerror = async e => {
       console.warn(e);
-      return oldimportcjsamdumd(...arguments);
-    });
+
+      if (isurl(e.urlorname)) {
+        console.log("补充加载依赖的模块网址", e.urlorname);
+
+        // initialtry.catch(handleerror);
+        await importcjsamdumd(e.urlorname);
+        // initialtry.catch(handleerror);
+      }
+      return await importcjsamdumd(...inarguments);
+    };
+
+    // return await oldimportcjsamdumd(...inarguments)
+    return await initialtry.catch(
+      //   async e => {
+      //   console.warn(e);
+
+      //   if (isurl(e.urlorname)) {
+      //     console.log("补充加载依赖的模块网址", e.urlorname);
+      //     await importcjsamdumd(e.urlorname);
+      //   }
+      //   return await oldimportcjsamdumd(...arguments);
+      // }
+      handleerror
+    );
   }
 
   async function oldimportcjsamdumd(url, packagename) {
@@ -231,26 +279,26 @@ export default /* global  */
       typeof packagename === "object"
     ) {
       /*
-
-
-
-
-      Array(...arguments).forEach(e => {
-        const url = e[0];
-        let packagename = e[1];
-        if (typeof url === "undefined" || url === "" || packagename === "") {
-          throw new Error(
-            "输入的类型错误,输入的字符串不能为空,url不能为undefined"
-          );
-        }
-        if (typeof packagename === "undefined") {
-          packagename = new URL(url).href;
-        }
-      });
-
-
-
-*/
+  
+  
+  
+  
+        Array(...arguments).forEach(e => {
+          const url = e[0];
+          let packagename = e[1];
+          if (typeof url === "undefined" || url === "" || packagename === "") {
+            throw new Error(
+              "输入的类型错误,输入的字符串不能为空,url不能为undefined"
+            );
+          }
+          if (typeof packagename === "undefined") {
+            packagename = new URL(url).href;
+          }
+        });
+  
+  
+  
+  */
 
       return await (async () => {
         let suoyouimportpromise = [];
@@ -383,7 +431,43 @@ export default /* global  */
                             modulesrcfun = 模块加载函数;
                             return 模块加载函数.call(
                               module.exports,
-                              require,
+
+                              urlorname => {
+                                urlorname = String(urlorname);
+                                if (urlorname === "") {
+                                  throw new TypeError("字符串不能为空");
+                                }
+                                function getbaseurl(url) {
+                                  var objurl = new URL(url);
+                                  var a = objurl.pathname.split("/");
+                                  a[a.length - 1] = "";
+                                  var path = objurl.origin + a.join("/");
+                                  return path;
+                                }
+
+                                function 格式化url(urlorname) {
+                                  if (
+                                    String(urlorname).startsWith("./") ||
+                                    String(urlorname).startsWith("../")
+                                  ) {
+                                    if (!String(urlorname).endsWith(".js")) {
+                                      urlorname += ".js";
+                                    }
+                                    urlorname = new URL(baseurl + urlorname)
+                                      .href;
+                                  }
+
+                                  return urlorname;
+                                }
+                                const baseurl = getbaseurl(url);
+
+                                urlorname = 格式化url(urlorname);
+
+                                return require(urlorname);
+                              },
+
+                              // require
+
                               define,
                               module,
                               exports.exports
@@ -441,7 +525,13 @@ export default /* global  */
                               );
                               // resolve(moduleexport);
                               reject(
-                                Error(加载的模块没有输出 + packagename + url)
+                                Error(
+                                  加载的模块没有输出 +
+                                    " " +
+                                    packagename +
+                                    " " +
+                                    url
+                                )
                               );
                               return;
                             }
@@ -598,22 +688,22 @@ export default /* global  */
                         // moduleexport[urlsymbol] = url;
 
                         /*
-                      if (typeof moduleexport.default !== "undefined") {
-                        // if (typeof moduleexport[namesymbol] !== "undefined") {
-                        // }
-                      }
-
-*/
+                        if (typeof moduleexport.default !== "undefined") {
+                          // if (typeof moduleexport[namesymbol] !== "undefined") {
+                          // }
+                        }
+  
+  */
                         /*
- else 
-{
-                        //   moduleexport[urlsymbol] = url;
-                        console.warn(加载的模块没有输出, packagename, url);
-                        // resolve(moduleexport);
-                        reject(Error(加载的模块没有输出 + packagename + url));
-                        return;
-                      }
-                      */
+   else 
+  {
+                          //   moduleexport[urlsymbol] = url;
+                          console.warn(加载的模块没有输出, packagename, url);
+                          // resolve(moduleexport);
+                          reject(Error(加载的模块没有输出 + packagename + url));
+                          return;
+                        }
+                        */
 
                         /* 加载完成之后， IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][                            url]*/
                         /* 复制一份 */
