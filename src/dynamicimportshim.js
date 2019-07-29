@@ -32,15 +32,20 @@ try {
       }
       window.addEventListener("error", errorhandler);
       const topLevelBlobUrl = createBlob(
-        `import*as m from'${url}';\nwindow[Symbol.for('${"import-" + url}')]=m`
+        // `import*as m from'${url}';\nwindow[Symbol.for('${"import-" + url}')]=m`
+        `import*as m from'${url}';\ndocument.currentScript[Symbol.for('${"import-" +
+          url}')]=m`
       );
       const s = document.createElement("script");
       s.type = "module";
       s.src = topLevelBlobUrl;
       document.head.appendChild(s);
+      // const
       s.onload = () => {
-        resolve(window[Symbol.for("import-" + url)]);
-        Reflect.deleteProperty(window, Symbol.for("import-" + url));
+        resolve(s[Symbol.for("import-" + url)]);
+        Reflect.deleteProperty(s, Symbol.for("import-" + url));
+        // resolve(window[Symbol.for("import-" + url)]);
+        // Reflect.deleteProperty(window, Symbol.for("import-" + url));
         // document.head.removeChild(s);
         // try {
         //   document.head.removeChild(s);
