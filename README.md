@@ -22,6 +22,14 @@
 
 把未命名的模块以 (url)命名存入模块仓库中
 
+
+
+# 更新！可以使用相对路径加载同类型的模块！
+
+可以在commonjs模块中使用相对路径加载commonjs模块了！
+
+可以在ES模块中使用相对路径加载ES模块了！
+
 # 相比 systemjs 和 requirejs 的优势:
 
 1.跟 systemjs 的 import 函数的全局运行模块的代码,会修改全局变量,相比,
@@ -307,7 +315,7 @@ Promise.all([
 
 //加载es6模块的方法
 
-import("https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js").then(
+IMPORTCJSAMDUMD("https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js").then(
   console.log
 );
 ```
