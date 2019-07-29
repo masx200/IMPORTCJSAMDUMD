@@ -329,3 +329,14 @@ webpack --output-library-target="commonjs2" -p ./src/index.js
 ```
 
 https://webpack.docschina.org/configuration/output/#output-librarytarget
+
+
+# 推荐几个优秀的前端开源项目库 CDN 加速服务加速网站
+
+https://www.jsdelivr.com/
+
+http://staticfile.org/
+
+https://www.bootcdn.cn/
+
+https://cdnjs.com/
