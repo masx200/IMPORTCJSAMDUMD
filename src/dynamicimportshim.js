@@ -32,9 +32,10 @@ try {
       }
       window.addEventListener("error", errorhandler);
       const topLevelBlobUrl = createBlob(
-        // `import*as m from'${url}';\nwindow[Symbol.for('${"import-" + url}')]=m`
-        `import*as m from'${url}';\ndocument.currentScript[Symbol.for('${"import-" +
-          url}')]=m`
+        `import*as m from'${url}';\nwindow[Symbol.for('${"import-" + url}')]=m`
+        /* TypeError: Unable to set property 'Symbol(import-https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js)' of undefined or null reference at Anonymous function (blob:http://127.0.0.1:8080/4f31c6d8-3282-4466-b04b-9952068d51e0:2:1) at module (blob:http://127.0.0.1:8080/4f31c6d8-3282-4466-b04b-9952068d51e0:1:1) */
+        // `import*as m from'${url}';\ndocument.currentScript[Symbol.for('${"import-" +
+        //   url}')]=m`
       );
       const s = document.createElement("script");
       s.type = "module";
@@ -42,10 +43,10 @@ try {
       document.head.appendChild(s);
       // const
       s.onload = () => {
-        resolve(s[Symbol.for("import-" + url)]);
-        Reflect.deleteProperty(s, Symbol.for("import-" + url));
-        // resolve(window[Symbol.for("import-" + url)]);
-        // Reflect.deleteProperty(window, Symbol.for("import-" + url));
+        // resolve(s[Symbol.for("import-" + url)]);
+        // Reflect.deleteProperty(s, Symbol.for("import-" + url));
+        resolve(window[Symbol.for("import-" + url)]);
+        Reflect.deleteProperty(window, Symbol.for("import-" + url));
         // document.head.removeChild(s);
         // try {
         //   document.head.removeChild(s);
