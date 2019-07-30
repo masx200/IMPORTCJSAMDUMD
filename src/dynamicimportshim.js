@@ -39,13 +39,13 @@ URL.revokeObjectURL(s.src)
       function errorhandler(e) {
         console.warn(e);
         reject(e.error);
-
+/*
         removescript(s);
         removeerrorlisten(errorhandler);
         // window.removeEventListener("error", errorhandler);
 URL.revokeObjectURL(s.src)      
-
-
+*/
+clearsideeffect()
 }
       window.addEventListener("error", errorhandler);
       const topLevelBlobUrl = createBlob(
@@ -70,18 +70,20 @@ URL.revokeObjectURL(s.src)
         // } catch (error) {
         //   //
         // }
-        removescript(s);
+       /* removescript(s);
         removeerrorlisten(errorhandler);
         // window.removeEventListener("error", errorhandler);
    
 URL.revokeObjectURL(s.src)
+*/
+clearsideeffect()
    };
       s.onerror = e => {
         console.warn(e);
         reject(e);
         // document.head.removeChild(s);
         // window.removeEventListener("error", errorhandler);
-        removeerrorlisten(errorhandler);
+      /*  removeerrorlisten(errorhandler);
         // try {
         //   document.head.removeChild(s);
         // } catch (error) {
@@ -90,7 +92,8 @@ URL.revokeObjectURL(s.src)
         removescript(s);
     
 URL.revokeObjectURL(s.src)
-
+*/
+clearsideeffect()
   };
     });
   };
