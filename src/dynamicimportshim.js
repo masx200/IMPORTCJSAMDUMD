@@ -13,8 +13,9 @@ if (url === "") {
     if (typeof url !== "string") {
       throw new TypeError("参数必须为字符串");
     }
+   url = new URL(url).href;
     return await new Promise((resolve, reject) => {
-      url = new URL(url).href;
+   
       function removeerrorlisten(f) {
         try {
           window.removeEventListener("error", f);
