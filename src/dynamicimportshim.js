@@ -15,7 +15,13 @@ if (url === "") {
     }
    url = new URL(url).href;
     return await new Promise((resolve, reject) => {
-   
+   function clearsideeffect(){
+        removescript(s);
+        removeerrorlisten(errorhandler);
+        // window.removeEventListener("error", errorhandler);
+URL.revokeObjectURL(s.src)
+
+}
       function removeerrorlisten(f) {
         try {
           window.removeEventListener("error", f);
