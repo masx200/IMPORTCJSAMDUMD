@@ -6,7 +6,9 @@ export default /* global  */
 
 (() => {
   "use strict";
+  const 字符串不能为空 = "字符串不能为空";
   const 加载的模块没有输出 = "加载的模块没有输出";
+  const 参数必须为字符串 = "参数必须为字符串";
   function 定义default(target, def) {
     /* 如果模块的输出是一个模块 */
     if (def[Symbol.toStringTag] === "Module" && def.default) {
@@ -44,10 +46,10 @@ export default /* global  */
     "use strict";
 
     if (packagename === "") {
-      throw new TypeError("字符串不能为空");
+      throw new TypeError(字符串不能为空);
     }
     if (typeof packagename !== "string") {
-      throw new TypeError("参数必须为字符串");
+      throw new TypeError(参数必须为字符串);
     }
     const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
     if (findpackage) {
@@ -93,10 +95,10 @@ export default /* global  */
   function require(packagename) {
     "use strict";
     if (packagename === "") {
-      throw new TypeError("字符串不能为空");
+      throw new TypeError(字符串不能为空);
     }
     if (typeof packagename !== "string") {
-      throw new TypeError("参数必须为字符串");
+      throw new TypeError(参数必须为字符串);
     }
 
     const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
@@ -174,10 +176,10 @@ export default /* global  */
     var flag = false;
     try {
       if (url === "") {
-        throw new TypeError("字符串不能为空");
+        throw new TypeError(字符串不能为空);
       }
       if (typeof url !== "string") {
-        throw new TypeError("参数必须为字符串");
+        throw new TypeError(参数必须为字符串);
       }
 
       url = new URL(url).href;
@@ -240,10 +242,10 @@ export default /* global  */
   }
   function assertstring(s) {
     if (s === "") {
-      throw new TypeError("字符串不能为空");
+      throw new TypeError(字符串不能为空);
     }
     if (typeof s !== "string") {
-      throw new TypeError("参数必须为字符串");
+      throw new TypeError(参数必须为字符串);
     }
     return true;
   }
@@ -466,7 +468,7 @@ export default /* global  */
                               urlorname => {
                                 urlorname = String(urlorname);
                                 if (urlorname === "") {
-                                  throw new TypeError("字符串不能为空");
+                                  throw new TypeError(字符串不能为空);
                                 }
                                 function getbaseurl(url) {
                                   var objurl = new URL(url);
@@ -777,7 +779,9 @@ export default /* global  */
         }
       })(url, packagename);
     } else {
-      throw new Error("输入的类型错误,输入的类型必须是字符串或者数组或对象");
+      throw new TypeError(
+        "输入的类型错误,输入的类型必须是字符串或者数组或对象"
+      );
     }
   }
 
