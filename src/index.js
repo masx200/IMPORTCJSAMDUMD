@@ -475,7 +475,7 @@ export default /* global  */
                               module.exports,
 
                               urlorname => {
-assertstring(urlorname)
+                                assertstring(urlorname);
                                 urlorname = String(urlorname);
                                 if (urlorname === "") {
                                   throw new TypeError(字符串不能为空);
@@ -488,7 +488,7 @@ assertstring(urlorname)
                                   return path;
                                 }
 
-                                function 格式化url(baseurl,urlorname) {
+                                function 格式化url(baseurl, urlorname) {
                                   if (
                                     String(urlorname).startsWith("./") ||
                                     String(urlorname).startsWith("../")
@@ -504,7 +504,7 @@ assertstring(urlorname)
                                 }
                                 const baseurl = getbaseurl(url);
 
-                                urlorname = 格式化url(baseurl,urlorname);
+                                urlorname = 格式化url(baseurl, urlorname);
 
                                 return require(urlorname);
                               },
