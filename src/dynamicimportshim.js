@@ -5,6 +5,8 @@ export default //
 /*  */
 (() => {
   "use strict";
+  const 参数必须为字符串 = "参数必须为字符串";
+  const 字符串不能为空 = "字符串不能为空";
   function createBlob(source) {
     return URL.createObjectURL(
       new Blob([source], { type: "application/javascript" })
@@ -17,10 +19,10 @@ export default //
   } catch (error) {
     dynamicimportshim = async function(url) {
       if (url === "") {
-        throw new TypeError("字符串不能为空");
+        throw new TypeError(字符串不能为空);
       }
       if (typeof url !== "string") {
-        throw new TypeError("参数必须为字符串");
+        throw new TypeError(参数必须为字符串);
       }
       url = new URL(url).href;
       return await new Promise((resolve, reject) => {

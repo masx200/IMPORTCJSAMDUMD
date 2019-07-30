@@ -6,9 +6,18 @@ export default /* global  */
 
 (() => {
   "use strict";
+
+  const 补充加载依赖的模块网址 = "补充加载依赖的模块网址";
   const 字符串不能为空 = "字符串不能为空";
   const 加载的模块没有输出 = "加载的模块没有输出";
   const 参数必须为字符串 = "参数必须为字符串";
+  const 模块仓库中没有找到 =
+    "Cannot find module in packagestore, 模块仓库中没有找到, ";
+  const 输入的类型错误输入的类型必须是字符串或者数组或对象 =
+    "输入的类型错误,输入的类型必须是字符串或者数组或对象";
+  const 非法字符串 = "输入的类型错误,输入的字符串不能为空,url不能为undefined";
+
+  const 传入的参数必须是个object = "传入的参数必须是个object";
   function 定义default(target, def) {
     /* 如果模块的输出是一个模块 */
     if (def[Symbol.toStringTag] === "Module" && def.default) {
@@ -85,9 +94,7 @@ export default /* global  */
         }
       });
     } else {
-      throw new Error(
-        `Cannot find module in packagestore, 模块仓库中没有找到, ` + packagename
-      );
+      throw new Error(模块仓库中没有找到 + packagename);
     }
   }
   IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] =
@@ -106,9 +113,7 @@ export default /* global  */
       // console.log("在模块仓库中找到了", packagename, findpackage[urlsymbol]);
       return findpackage.default;
     } else {
-      let errormes = new Error(
-        `Cannot find module in packagestore, 模块仓库中没有找到, ` + packagename
-      );
+      let errormes = new Error(模块仓库中没有找到 + packagename);
 
       errormes.urlorname = packagename;
       throw errormes;
@@ -198,7 +203,7 @@ export default /* global  */
       console.warn(e);
       if (e.urlorname) {
         if (isurl(e.urlorname)) {
-          console.log("补充加载依赖的模块网址", e.urlorname);
+          console.log(补充加载依赖的模块网址, e.urlorname);
 
           // initialtry.catch(handleerror);
           await importcjsamdumd(e.urlorname);
@@ -253,7 +258,10 @@ export default /* global  */
     "use strict";
     function newobjjson(obj) {
       if (typeof obj !== "object") {
-        throw new TypeError("传入的参数必须是个object!");
+        throw new TypeError(
+          // "传入的参数必须是个object!"
+          传入的参数必须是个object
+        );
       }
       return JSON.parse(JSON.stringify(obj));
     }
@@ -369,8 +377,9 @@ export default /* global  */
       // assertstring(packagename);
       return await (async (url, packagename) => {
         if (typeof url === "undefined" || url === "" || packagename === "") {
-          throw new Error(
-            "输入的类型错误,输入的字符串不能为空,url不能为undefined"
+          throw new TypeError(
+            // "输入的类型错误,输入的字符串不能为空,url不能为undefined"
+            非法字符串
           );
         }
         if (typeof packagename === "undefined") {
@@ -780,7 +789,8 @@ export default /* global  */
       })(url, packagename);
     } else {
       throw new TypeError(
-        "输入的类型错误,输入的类型必须是字符串或者数组或对象"
+        // "输入的类型错误,输入的类型必须是字符串或者数组或对象"
+        输入的类型错误输入的类型必须是字符串或者数组或对象
       );
     }
   }
