@@ -238,7 +238,15 @@ export default /* global  */
       handleerror
     );
   }
-
+  function assertstring(s) {
+    if (s === "") {
+      throw new TypeError("字符串不能为空");
+    }
+    if (typeof s !== "string") {
+      throw new TypeError("参数必须为字符串");
+    }
+    return true;
+  }
   async function oldimportcjsamdumd(url, packagename) {
     "use strict";
     function newobjjson(obj) {
@@ -355,6 +363,8 @@ export default /* global  */
         return suoyouimportpromise;
       })(...arguments);
     } else if (typeof url === "string" || typeof packagename === "string") {
+      assertstring(url);
+      // assertstring(packagename);
       return await (async (url, packagename) => {
         if (typeof url === "undefined" || url === "" || packagename === "") {
           throw new Error(
@@ -373,10 +383,11 @@ export default /* global  */
             "undefined" &&
           IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename][urlsymbol] === url
         ) {
-          return IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
+          // return IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
           // return await new Promise(resolve => {
           //   resolve(IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename]);
           // });
+          return getmodule(packagename);
         } else if (
           typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url] !== "undefined" &&
           typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url].default !==
@@ -390,7 +401,8 @@ export default /* global  */
           IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename][
             namesymbol
           ] = packagename;
-          return IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url];
+          // return IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url];
+          return getmodule(url);
         } else {
           return await new Promise((resolve, reject) => {
             (async () => {
