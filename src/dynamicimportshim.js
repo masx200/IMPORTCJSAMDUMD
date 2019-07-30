@@ -37,7 +37,10 @@ if (url === "") {
         removescript(s);
         removeerrorlisten(errorhandler);
         // window.removeEventListener("error", errorhandler);
-      }
+URL.revokeObjectURL(s.src)      
+
+
+}
       window.addEventListener("error", errorhandler);
       const topLevelBlobUrl = createBlob(
         `import*as m from'${url}';\nwindow[Symbol.for('${"import-" + url}')]=m`
@@ -64,7 +67,9 @@ if (url === "") {
         removescript(s);
         removeerrorlisten(errorhandler);
         // window.removeEventListener("error", errorhandler);
-      };
+   
+URL.revokeObjectURL(s.src)
+   };
       s.onerror = e => {
         console.warn(e);
         reject(e);
@@ -77,7 +82,10 @@ if (url === "") {
         //   //
         // }
         removescript(s);
-      };
+    
+URL.revokeObjectURL(s.src)
+
+  };
     });
   };
 }
