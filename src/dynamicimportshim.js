@@ -57,6 +57,7 @@ clearsideeffect()
       const s = document.createElement("script");
       s.type = "module";
       s.src = topLevelBlobUrl;
+      s.async=true
       document.head.appendChild(s);
       // const
       s.onload = () => {
