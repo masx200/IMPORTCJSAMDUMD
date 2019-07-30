@@ -1,27 +1,29 @@
-import { createBlob } from "./createblob.js";
-
+// import { createBlob } from "./createblob.js";
+function createBlob(source) {
+  return URL.createObjectURL(
+    new Blob([source], { type: "application/javascript" })
+  );
+}
 let dynamicimportshim;
 try {
   dynamicimportshim = Function("u", "return import(u)");
   // throw Error();
 } catch (error) {
   dynamicimportshim = async function(url) {
-
-if (url === "") {
+    if (url === "") {
       throw new TypeError("字符串不能为空");
     }
     if (typeof url !== "string") {
       throw new TypeError("参数必须为字符串");
     }
-   url = new URL(url).href;
+    url = new URL(url).href;
     return await new Promise((resolve, reject) => {
-   function clearsideeffect(){
+      function clearsideeffect() {
         removescript(s);
         removeerrorlisten(errorhandler);
         // window.removeEventListener("error", errorhandler);
-URL.revokeObjectURL(s.src)
-
-}
+        URL.revokeObjectURL(s.src);
+      }
       function removeerrorlisten(f) {
         try {
           window.removeEventListener("error", f);
@@ -39,14 +41,14 @@ URL.revokeObjectURL(s.src)
       function errorhandler(e) {
         console.warn(e);
         reject(e.error);
-/*
+        /*
         removescript(s);
         removeerrorlisten(errorhandler);
         // window.removeEventListener("error", errorhandler);
 URL.revokeObjectURL(s.src)      
 */
-clearsideeffect()
-}
+        clearsideeffect();
+      }
       window.addEventListener("error", errorhandler);
       const topLevelBlobUrl = createBlob(
         `import*as m from'${url}';\nwindow[Symbol.for('${"import-" + url}')]=m`
@@ -57,7 +59,7 @@ clearsideeffect()
       const s = document.createElement("script");
       s.type = "module";
       s.src = topLevelBlobUrl;
-      s.async=true
+      s.async = true;
       document.head.appendChild(s);
       // const
       s.onload = () => {
@@ -71,20 +73,20 @@ clearsideeffect()
         // } catch (error) {
         //   //
         // }
-       /* removescript(s);
+        /* removescript(s);
         removeerrorlisten(errorhandler);
         // window.removeEventListener("error", errorhandler);
    
 URL.revokeObjectURL(s.src)
 */
-clearsideeffect()
-   };
+        clearsideeffect();
+      };
       s.onerror = e => {
         console.warn(e);
         reject(e);
         // document.head.removeChild(s);
         // window.removeEventListener("error", errorhandler);
-      /*  removeerrorlisten(errorhandler);
+        /*  removeerrorlisten(errorhandler);
         // try {
         //   document.head.removeChild(s);
         // } catch (error) {
@@ -94,8 +96,8 @@ clearsideeffect()
     
 URL.revokeObjectURL(s.src)
 */
-clearsideeffect()
-  };
+        clearsideeffect();
+      };
     });
   };
 }
