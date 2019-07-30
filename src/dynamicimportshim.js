@@ -4,6 +4,7 @@
 export default //
 /*  */
 (() => {
+  "use strict";
   function createBlob(source) {
     return URL.createObjectURL(
       new Blob([source], { type: "application/javascript" })
