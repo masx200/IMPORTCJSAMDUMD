@@ -6,6 +6,13 @@ try {
   // throw Error();
 } catch (error) {
   dynamicimportshim = async function(url) {
+
+if (url === "") {
+      throw new TypeError("字符串不能为空");
+    }
+    if (typeof url !== "string") {
+      throw new TypeError("参数必须为字符串");
+    }
     return await new Promise((resolve, reject) => {
       url = new URL(url).href;
       function removeerrorlisten(f) {
