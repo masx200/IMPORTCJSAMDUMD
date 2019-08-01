@@ -462,7 +462,7 @@ export default /* global  */
                             exports,
                             scripttext
                           ) {
-                            const 模块加载函数 = Function(
+                            const 模块加载函数 = new Function(
                               "require",
                               "define",
                               "module",
