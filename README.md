@@ -30,6 +30,8 @@
 
 可以在ES模块中使用相对路径加载ES模块了！
 
+甚至可以在commonjs模块中加载ES模块了!
+
 # 相比 systemjs 和 requirejs 的优势:
 
 1.跟 systemjs 的 import 函数的全局运行模块的代码,会修改全局变量,相比,
