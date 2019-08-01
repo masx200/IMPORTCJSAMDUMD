@@ -367,3 +367,9 @@ terser   -c -m -o ./dist/index.esm.min.js --verbose  ./dist/index.esm.js
 ```bash
 terser   -c -m -o ./dist/index.cjs.min.js --verbose  ./dist/index.cjs.js
 ```
+
+### 使用 terser 删除所有 console 的函数调用
+
+`terser --compress drop_console=true -m -o ./dist/index.esm.min.js --verbose ./dist/index.esm.js`
+
+`terser --compress drop_console=true -m -o ./dist/index.cjs.min.js --verbose ./dist/index.cjs.js`
