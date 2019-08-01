@@ -22,15 +22,13 @@
 
 把未命名的模块以 (url)命名存入模块仓库中
 
-
-
 # 更新！可以使用相对路径加载同类型的模块！
 
-可以在commonjs模块中使用相对路径加载commonjs模块了！
+可以在 commonjs 模块中使用相对路径加载 commonjs 模块了！
 
-可以在ES模块中使用相对路径加载ES模块了！
+可以在 ES 模块中使用相对路径加载 ES 模块了！
 
-甚至可以在commonjs模块中加载ES模块了!
+甚至可以在 commonjs 模块中加载 ES 模块了!
 
 # 相比 systemjs 和 requirejs 的优势:
 
@@ -319,9 +317,9 @@ Promise.all([
 
 //加载es6模块的方法
 
-IMPORTCJSAMDUMD("https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js").then(
-  console.log
-);
+IMPORTCJSAMDUMD(
+  "https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js"
+).then(console.log);
 ```
 
 ### 使用 webpack 打包模块输出
@@ -331,7 +329,6 @@ webpack --output-library-target="commonjs2" -p ./src/index.js
 ```
 
 https://webpack.docschina.org/configuration/output/#output-librarytarget
-
 
 # 推荐几个优秀的前端开源项目库 CDN 加速服务加速网站
 
