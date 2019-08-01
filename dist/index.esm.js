@@ -173,7 +173,13 @@ var coreload = //
                   try {
                     // exportmodule =
 
-                    (function(require, define, module, exports, scripttext) {
+                    (function(
+                      myrequirefun,
+                      define,
+                      module,
+                      exports,
+                      scripttext
+                    ) {
                       const 模块加载函数 = new Function(
                         "require",
                         "define",
@@ -217,7 +223,7 @@ var coreload = //
 
                           urlorname = 格式化url(baseurl, urlorname);
 
-                          return require(urlorname);
+                          return myrequirefun(urlorname);
                         },
 
                         // require
@@ -527,7 +533,7 @@ function define(name, deps, callback) {
   defineglobalDefQueue.push([name, deps, callback]);
   //   }
   // console.log("检测到amd模块", defineglobalDefQueue[0]);
-  const canshu = defineglobalDefQueue[0][1].map(e => require(e));
+  const canshu = defineglobalDefQueue[0][1].map(e => myrequirefun(e));
   define.exports = defineglobalDefQueue[0][2](...canshu);
 }
 define.amd = true;
@@ -636,8 +642,8 @@ const IMPORTCJSAMDUMD = (() => {
   }
   IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] =
     IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] || {};
-  myrequirefun = require;
-  function require(packagename) {
+  myrequirefun = requireinstead;
+  function requireinstead(packagename) {
     if (packagename === "") {
       throw new TypeError(字符串不能为空$1);
     }

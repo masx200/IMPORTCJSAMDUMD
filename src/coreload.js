@@ -4,7 +4,7 @@ import IMPORTCJSAMDUMD, {
   定义default,
   assertstring,
   define,
-  myrequirefun as require
+  myrequirefun //as require
 } from "./IMPORTCJSAMDUMD";
 const 字符串不能为空 = "字符串不能为空";
 const 加载的模块没有输出 = "加载的模块没有输出";
@@ -65,7 +65,13 @@ export default //
                   try {
                     // exportmodule =
 
-                    (function(require, define, module, exports, scripttext) {
+                    (function(
+                      myrequirefun,
+                      define,
+                      module,
+                      exports,
+                      scripttext
+                    ) {
                       const 模块加载函数 = new Function(
                         "require",
                         "define",
@@ -109,7 +115,7 @@ export default //
 
                           urlorname = 格式化url(baseurl, urlorname);
 
-                          return require(urlorname);
+                          return myrequirefun(urlorname);
                         },
 
                         // require
@@ -119,7 +125,7 @@ export default //
                         exports.exports
                         /* 如果在函数内修改exports的值,则无法获取输出,只能在修改exports的属性的时候,获取到 */
                       );
-                    })(require, define, module, exports, scripttext);
+                    })(myrequirefun, define, module, exports, scripttext);
                     const exportmodule = [
                       exports.exports ? exports.exports : {},
                       module.exports ? module.exports : {},

@@ -51,7 +51,7 @@ function define(name, deps, callback) {
   defineglobalDefQueue.push([name, deps, callback]);
   //   }
   // console.log("检测到amd模块", defineglobalDefQueue[0]);
-  const canshu = defineglobalDefQueue[0][1].map(e => require(e));
+  const canshu = defineglobalDefQueue[0][1].map(e => myrequirefun(e));
   define.exports = defineglobalDefQueue[0][2](...canshu);
 }
 define.amd = true;
@@ -162,8 +162,8 @@ const IMPORTCJSAMDUMD = (() => {
   }
   IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] =
     IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] || {};
-  myrequirefun = require;
-  function require(packagename) {
+  myrequirefun = requireinstead;
+  function requireinstead(packagename) {
     "use strict";
     if (packagename === "") {
       throw new TypeError(字符串不能为空);
