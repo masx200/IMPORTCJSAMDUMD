@@ -322,14 +322,6 @@ IMPORTCJSAMDUMD(
 ).then(console.log);
 ```
 
-### 使用 webpack 打包模块输出
-
-```shell
-webpack --output-library-target="commonjs2" -p ./src/index.js
-```
-
-https://webpack.docschina.org/configuration/output/#output-librarytarget
-
 # 推荐几个优秀的前端开源项目库 CDN 加速服务加速网站
 
 https://www.jsdelivr.com/
@@ -339,3 +331,33 @@ http://staticfile.org/
 https://www.bootcdn.cn/
 
 https://cdnjs.com/
+
+https://unpkg.com/
+
+# 模块打包输出,并压缩
+
+## 使用 webpack 打包模块输出
+
+```shell
+webpack --output-library-target=commonjs2 -p  -o ./dist/index.cjs.js  --verbose ./src/index.js
+```
+
+## 使用 rollup 打包模块输出
+
+```shell
+rollup -f esm -i ./src/index.js -o ./dist/index.esm.js
+```
+
+```bash
+rollup -f cjs -i ./src/index.js -o ./dist/index.cjs.js
+```
+
+## 使用 terser 压缩模块
+
+```bash
+terser   -c -m -o ./dist/index.esm.min.js --verbose  ./dist/index.esm.js
+```
+
+```bash
+terser   -c -m -o ./dist/index.cjs.min.js --verbose  ./dist/index.cjs.js
+```
