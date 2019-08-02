@@ -16,7 +16,7 @@ export default //
   let dynamicimportshim;
   try {
     dynamicimportshim = Function("u", "return import(u)");
-    throw Error();
+    // throw Error();
   } catch (error) {
     dynamicimportshim = async function(url) {
       if (url === "") {
