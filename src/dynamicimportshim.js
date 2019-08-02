@@ -6,9 +6,9 @@ function createBlob(source) {
     new Blob([source], { type: "application/javascript" })
   );
 }
-export default //
+export default dynamicimportshim; //
 /*  */
-(() => {
+var dynamicimportshim = (() => {
   "use strict";
   const 参数必须为字符串 = "参数必须为字符串";
   const 字符串不能为空 = "字符串不能为空";
