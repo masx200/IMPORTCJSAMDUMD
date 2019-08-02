@@ -93,9 +93,9 @@ var dynamicimportshim = (() => {
     */
             clearsideeffect();
           };
-          s.onerror = e => {
+          s.onerror = () => {
             //e是EVENT!
-            console.warn(e);
+            // console.warn(e);
             reject(new Error("import load failed from network"));
             // document.head.removeChild(s);
             // window.removeEventListener("error", errorhandler);
