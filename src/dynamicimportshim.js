@@ -99,6 +99,9 @@ var dynamicimportshim = (() => {
             clearsideeffect();
           };
           s.onerror = () => {
+            /* 网络错误触发这个error */
+            /* TypeError: Failed to fetch dynamically imported module
+            TypeError: error loading dynamically imported module */
             // edge中第1次加载输出这个错误
             //e是EVENT!
             // console.warn(e);
