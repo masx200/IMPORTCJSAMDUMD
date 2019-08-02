@@ -2,3 +2,58 @@
 # yarn lockfile v1
 
 
+"@types/estree@0.0.39":
+  version "0.0.39"
+  resolved "https://registry.npm.taobao.org/@types/estree/download/@types/estree-0.0.39.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Festree%2Fdownload%2F%40types%2Festree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
+  integrity sha1-4Xfmme4bjCLSMXTKqnQiZEOJUJ8=
+
+"@types/node@^12.6.3":
+  version "12.6.9"
+  resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-12.6.9.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-12.6.9.tgz#ffeee23afdc19ab16e979338e7b536fdebbbaeaf"
+  integrity sha1-/+7iOv3BmrFul5M457U2/eu7rq8=
+
+acorn@^6.2.0:
+  version "6.2.1"
+  resolved "https://registry.npm.taobao.org/acorn/download/acorn-6.2.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Facorn%2Fdownload%2Facorn-6.2.1.tgz#3ed8422d6dec09e6121cc7a843ca86a330a86b51"
+  integrity sha1-PthCLW3sCeYSHMeoQ8qGozCoa1E=
+
+buffer-from@^1.0.0:
+  version "1.1.1"
+  resolved "https://registry.npm.taobao.org/buffer-from/download/buffer-from-1.1.1.tgz#32713bc028f75c02fdb710d7c7bcec1f2c6070ef"
+  integrity sha1-MnE7wCj3XAL9txDXx7zsHyxgcO8=
+
+commander@^2.20.0:
+  version "2.20.0"
+  resolved "https://registry.npm.taobao.org/commander/download/commander-2.20.0.tgz?cache=0&sync_timestamp=1564195111889&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcommander%2Fdownload%2Fcommander-2.20.0.tgz#d58bb2b5c1ee8f87b0d340027e9e94e222c5a422"
+  integrity sha1-1YuytcHuj4ew00ACfp6U4iLFpCI=
+
+rollup@^1.18.0:
+  version "1.18.0"
+  resolved "https://registry.npm.taobao.org/rollup/download/rollup-1.18.0.tgz?cache=0&sync_timestamp=1564658049147&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frollup%2Fdownload%2Frollup-1.18.0.tgz#98ea36472523ed712e20c0e996fd051882f787e6"
+  integrity sha1-mOo2RyUj7XEuIMDplv0FGIL3h+Y=
+  dependencies:
+    "@types/estree" "0.0.39"
+    "@types/node" "^12.6.3"
+    acorn "^6.2.0"
+
+source-map-support@~0.5.12:
+  version "0.5.13"
+  resolved "https://registry.npm.taobao.org/source-map-support/download/source-map-support-0.5.13.tgz#31b24a9c2e73c2de85066c0feb7d44767ed52932"
+  integrity sha1-MbJKnC5zwt6FBmwP631Edn7VKTI=
+  dependencies:
+    buffer-from "^1.0.0"
+    source-map "^0.6.0"
+
+source-map@^0.6.0, source-map@~0.6.1:
+  version "0.6.1"
+  resolved "https://registry.npm.taobao.org/source-map/download/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
+  integrity sha1-dHIq8y6WFOnCh6jQu95IteLxomM=
+
+terser@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.npm.taobao.org/terser/download/terser-4.1.2.tgz?cache=0&sync_timestamp=1562580696479&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fterser%2Fdownload%2Fterser-4.1.2.tgz#b2656c8a506f7ce805a3f300a2ff48db022fa391"
+  integrity sha1-smVsilBvfOgFo/MAov9I2wIvo5E=
+  dependencies:
+    commander "^2.20.0"
+    source-map "~0.6.1"
+    source-map-support "~0.5.12"
