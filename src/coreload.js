@@ -5,7 +5,7 @@ import IMPORTCJSAMDUMD, {
   assertstring,
   define,
   myrequirefun //as require
-} from "./IMPORTCJSAMDUMD";
+} from "./IMPORTCJSAMDUMD.js";
 const 字符串不能为空 = "字符串不能为空";
 const 加载的模块没有输出 = "加载的模块没有输出";
 const namesymbol = Symbol.for("name");
@@ -20,9 +20,9 @@ export default //
 
 //
 (url, packagename) => {
-  return (function() {
-    return 主核心加载模块函数;
-  })();
+  //   return (function() {
+  return 主核心加载模块函数;
+  //   })();
 
   function 主核心加载模块函数(resolve, reject) {
     return ((resolve, reject) => {
@@ -45,6 +45,7 @@ export default //
               }
               try {
                 await (async scripttext => {
+                  let moduletype;
                   const exports = {
                     exports: {
                       [Symbol.toStringTag]: "Module"
@@ -62,6 +63,7 @@ export default //
                     // [urlsymbol]: url,
                     // [sourcesymbol]: modulesrcfun
                   };
+
                   try {
                     // exportmodule =
 
@@ -132,6 +134,7 @@ export default //
                       define.exports ? define.exports : {}
                     ];
                     处理非es模块(exportmodule);
+                    moduletype = "cjs";
                   } catch (e) {
                     /*  如果是es模块,则使用dynamicimportshim加载*/
                     if (
@@ -151,12 +154,26 @@ export default //
                       //   `"use strict";\n/* ${url} */;\nexport*as default from'${url}';\n/* ${url} */;\n `
                       // );
                       const topLevelBlobUrl = url;
-                      modulesrcfun = topLevelBlobUrl;
+                      //   modulesrcfun = topLevelBlobUrl;
+                      modulesrcfun = scripttext;
                       try {
                         const exportdefault = await dynamicimportshim(
                           topLevelBlobUrl
                         );
+                        moduletype = "esm";
                         // var module__exportdefault = exportdefault.default;
+
+                        Object.keys(exportdefault)
+                          .filter(t => t !== "default")
+                          .forEach(key => {
+                            Object.defineProperty(moduleexport, key, {
+                              enumerable: true,
+                              get() {
+                                return exportdefault[key];
+                              }
+                            });
+                          });
+
                         定义default(
                           moduleexport,
                           exportdefault.default
@@ -283,7 +300,7 @@ export default //
                     [urlsymbol]: {
                       value: url,
                       // configurable: true,
-                      writable: true,
+                      //   writable: true,
                       enumerable: false
                     },
                     [sourcesymbol]: {
@@ -294,6 +311,10 @@ export default //
                       value: modulesrcfun,
                       //   configurable: true,
                       //   writable: true,
+                      enumerable: false
+                    },
+                    [Symbol.for("type")]: {
+                      value: moduletype,
                       enumerable: false
                     }
                   });

@@ -1,17 +1,18 @@
 "use strict";
 // import { createBlob } from "./createblob.js";
-
+export { createBlob };
+function createBlob(source) {
+  return URL.createObjectURL(
+    new Blob([source], { type: "application/javascript" })
+  );
+}
 export default //
 /*  */
 (() => {
   "use strict";
   const 参数必须为字符串 = "参数必须为字符串";
   const 字符串不能为空 = "字符串不能为空";
-  function createBlob(source) {
-    return URL.createObjectURL(
-      new Blob([source], { type: "application/javascript" })
-    );
-  }
+
   let dynamicimportshim;
   try {
     dynamicimportshim = Function("u", "return import(u)");
@@ -26,6 +27,7 @@ export default //
       }
       url = new URL(url).href;
       return await new Promise((resolve, reject) => {
+        const s = document.createElement("script");
         function clearsideeffect() {
           removescript(s);
           removeerrorlisten(errorhandler);
@@ -65,7 +67,7 @@ URL.revokeObjectURL(s.src)
           // `import*as m from'${url}';\ndocument.currentScript[Symbol.for('${"import-" +
           //   url}')]=m`
         );
-        const s = document.createElement("script");
+
         s.type = "module";
         s.src = topLevelBlobUrl;
         s.async = true;

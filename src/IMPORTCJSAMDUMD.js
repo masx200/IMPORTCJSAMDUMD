@@ -10,7 +10,7 @@ const 参数必须为字符串 = "参数必须为字符串";
 const 字符串不能为空 = "字符串不能为空";
 // import dynamicimportshim from "./dynamicimportshim.js";
 // import { createBlob } from "./createblob.js";
-import coreload from "./coreload";
+import coreload from "./coreload.js";
 export let myrequirefun;
 // export define(a,b,c){
 export { define };
