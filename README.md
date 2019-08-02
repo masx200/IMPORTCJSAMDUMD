@@ -1,5 +1,7 @@
 # IMPORTCJSAMDUMD
 
+## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES" 模块四合一
+
 [查看源代码 ](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/src/index.js)
 
 [ES 模块](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/dist/index.esm.js)
@@ -11,6 +13,14 @@
 https://masx200.github.io/IMPORTCJSAMDUMD/dist/index.cjs.min.js
 
 https://masx200.github.io/IMPORTCJSAMDUMD/dist/index.esm.min.js
+
+# 更新！可以使用相对路径加载同类型的模块！
+
+可以在 commonjs 模块中使用相对路径加载 commonjs 模块了！
+
+可以在 ES 模块中使用相对路径加载 ES 模块了！
+
+甚至可以在 commonjs 模块中加载 ES 模块了!
 
 ## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES" 模块四合一
 
@@ -27,14 +37,6 @@ https://masx200.github.io/IMPORTCJSAMDUMD/dist/index.esm.min.js
 "IMPORTCJSAMDUMD "的定义的"define"函数基于["requirejs"](https://github.com/requirejs/requirejs)的 "define"函数
 
 把未命名的模块以 (url)命名存入模块仓库中
-
-# 更新！可以使用相对路径加载同类型的模块！
-
-可以在 commonjs 模块中使用相对路径加载 commonjs 模块了！
-
-可以在 ES 模块中使用相对路径加载 ES 模块了！
-
-甚至可以在 commonjs 模块中加载 ES 模块了!
 
 # 相比 systemjs 和 requirejs 的优势:
 
