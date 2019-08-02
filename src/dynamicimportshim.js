@@ -99,6 +99,8 @@ var dynamicimportshim = (() => {
             //e是EVENT!
             // console.warn(e);
             reject(new TypeError("import load failed from network"));
+            /* EDGE浏览器中先触发onerror事件! */
+            /* 在chrome和firefox中则不是 */
             /* TypeError: Failed to resolve module specifier "vue". Relative references must start with either "/", "./", or "../". */
             /* TypeError: "Error resolving module specifier: vue" */
             // document.head.removeChild(s);
