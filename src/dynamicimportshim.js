@@ -52,6 +52,9 @@ var dynamicimportshim = (() => {
             }
           }
           function errorhandler(e) {
+            /*
+              edge中第二次加载输出这个错误
+              Error: fetch import module failed */
             console.warn(e.error);
             reject(e.error);
             /*
@@ -96,9 +99,10 @@ var dynamicimportshim = (() => {
             clearsideeffect();
           };
           s.onerror = () => {
+            // edge中第1次加载输出这个错误
             //e是EVENT!
             // console.warn(e);
-            reject(new TypeError("import load failed from network"));
+            reject(new Error("import load failed from network"));
             /* EDGE浏览器中先触发onerror事件! */
             /* 在chrome和firefox中则不是 */
             /* TypeError: Failed to resolve module specifier "vue". Relative references must start with either "/", "./", or "../". */
