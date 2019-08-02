@@ -1,12 +1,14 @@
 "use strict";
 // import { createBlob } from "./createblob.js";
 export { createBlob };
+export default dynamicimportshim;
+
 function createBlob(source) {
   return URL.createObjectURL(
     new Blob([source], { type: "application/javascript" })
   );
 }
-export default dynamicimportshim; //
+//
 /*  */
 var dynamicimportshim = (() => {
   "use strict";
@@ -96,7 +98,9 @@ var dynamicimportshim = (() => {
           s.onerror = () => {
             //e是EVENT!
             // console.warn(e);
-            reject(new Error("import load failed from network"));
+            reject(new TypeError("import load failed from network"));
+            /* TypeError: Failed to resolve module specifier "vue". Relative references must start with either "/", "./", or "../". */
+            /* TypeError: "Error resolving module specifier: vue" */
             // document.head.removeChild(s);
             // window.removeEventListener("error", errorhandler);
             /*  removeerrorlisten(errorhandler);
