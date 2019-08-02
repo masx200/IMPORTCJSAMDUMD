@@ -3,8 +3,8 @@
     "build": "yarn buildcjs && yarn buildesm && yarn minifyesm  && yarn minifycjs",
     "buildcjs": "rollup -f cjs -i ./src/index.js -o ./dist/index.cjs.js ",
     "buildesm": "rollup -f esm -i ./src/index.js -o ./dist/index.esm.js",
-    "minifyesm": "terser  --compress drop_console=true -m -o ./dist/index.esm.min.js --verbose  ./dist/index.esm.js    --toplevel",
-    "minifycjs": "terser  --compress drop_console=true -m -o ./dist/index.cjs.min.js --verbose  ./dist/index.cjs.js     --toplevel"
+    "minifyesm": "terser  --compress drop_console=true -m -o ./dist/index.esm.min.js --verbose  ./dist/index.esm.js    --toplevel -b ascii_only=true",
+    "minifycjs": "terser  --compress drop_console=true -m -o ./dist/index.cjs.min.js --verbose  ./dist/index.cjs.js     --toplevel -b ascii_only=true"
   },
   "name": "importcjsamdumd",
   "version": "2.1.4",
