@@ -8,7 +8,7 @@
 
 [cjs 模块](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/dist/index.cjs.js)
 
-## 获取模块
+## 获取已压缩模块
 
 https://masx200.github.io/IMPORTCJSAMDUMD/dist/index.cjs.min.js
 
