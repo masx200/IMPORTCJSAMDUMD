@@ -6,11 +6,11 @@
 
 [cjs 模块](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/dist/index.cjs.js)
 
-## 获取模块从 CDN
+## 获取模块
 
-https://cdn.jsdelivr.net/gh/masx200/IMPORTCJSAMDUMD@2.1.4/dist/index.cjs.min.js
+https://masx200.github.io/IMPORTCJSAMDUMD/dist/index.cjs.min.js
 
-https://cdn.jsdelivr.net/gh/masx200/IMPORTCJSAMDUMD@2.1.4/dist/index.esm.min.js
+https://masx200.github.io/IMPORTCJSAMDUMD/dist/index.esm.min.js
 
 ## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES" 模块四合一
 
