@@ -1,6 +1,25 @@
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
+const myterserplugin = terser({
+  toplevel: true,
+  output: {
+    // ecma: 5,
+    comments: !1,
+    /* 在terserplugin中可以转换成unicode  */
+    ascii_only: !0
+  },
+  compress: {
+    // ecma: 5,
+    // warnings: !1,
+    // comparisons: !1,
+    // inline: 2,
+    drop_console: true,
+    drop_debugger: true,
+    pure_funcs: ["console.log"]
+  },
+  mangle: true
+});
 export default [
   {
     input: "./src/index.js",
@@ -18,10 +37,11 @@ export default [
       }
     ],
     plugins: [
+      myterserplugin,
       resolve(), // tells Rollup how to find date-fns in node_modules
-      commonjs(), // converts date-fns to ES modules
+      commonjs() // converts date-fns to ES modules
       // production &&
-      terser() // minify, but only in production
+      //   terser() // minify, but only in production
       //   buble({transforms: {dangerousForOf: true}})
     ]
   },
@@ -37,10 +57,11 @@ export default [
       }
     ],
     plugins: [
+      myterserplugin,
       resolve(), // tells Rollup how to find date-fns in node_modules
-      commonjs(), // converts date-fns to ES modules
+      commonjs() // converts date-fns to ES modules
       // production &&
-      terser() // minify, but only in production
+      //   terser() // minify, but only in production
       //   buble({transforms: {dangerousForOf: true}})
     ]
   },
