@@ -1,7 +1,6 @@
 "use strict";
 // import { createBlob } from "./createblob.js";
 export { createBlob };
-export default dynamicimportshim;
 
 function createBlob(source) {
   return URL.createObjectURL(
@@ -10,7 +9,7 @@ function createBlob(source) {
 }
 //
 /*  */
-var dynamicimportshim = (() => {
+let dynamicimportshimfun = (() => {
   "use strict";
   const 参数必须为字符串 = "参数必须为字符串";
   const 字符串不能为空 = "字符串不能为空";
@@ -105,7 +104,7 @@ var dynamicimportshim = (() => {
             // edge中第1次加载输出这个错误
             //e是EVENT!
             // console.warn(e);
-            reject(new Error("import load failed from network"+url));
+            reject(new Error("import load failed from network" + url));
             /* EDGE浏览器中先触发onerror事件! */
             /* 在chrome和firefox中则不是 */
             /* TypeError: Failed to resolve module specifier "vue". Relative references must start with either "/", "./", or "../". */
@@ -135,3 +134,4 @@ var dynamicimportshim = (() => {
 })();
 
 //export default dynamicimportshim;
+export default dynamicimportshimfun;
