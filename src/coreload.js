@@ -133,78 +133,89 @@ export default //
                       module.exports ? module.exports : {},
                       define.exports ? define.exports : {}
                     ];
-                    处理非es模块(exportmodule);
+                    处理非es模块(moduleexport, exportmodule);
                     moduletype = "cjs";
                   } catch (e) {
-                    /*  如果是es模块,则使用dynamicimportshim加载*/
-                    if (
-                      // (
-                      e instanceof SyntaxError
-
-                      //   &&
-                      //   /* chrome浏览器报错信息 */
-                      //   e.message === "Unexpected token export") ||
-                      // /* edge浏览器报错不同 */
-                      // "Syntax error" === e.message ||
-                      // /* 火狐浏览器报错不同 */
-                      // "export declarations may only appear at top level of a module" ===
-                      //   e.message
-                    ) {
-                      // const topLevelBlobUrl = createBlob(
-                      //   `"use strict";\n/* ${url} */;\nexport*as default from'${url}';\n/* ${url} */;\n `
-                      // );
-                      const topLevelBlobUrl = url;
-                      //   modulesrcfun = topLevelBlobUrl;
+                    console.warn(e);
+                    try {
+                      moduleexport.default = JSON.parse(scripttext);
+                      console.log("检测到json模块 " + url);
                       modulesrcfun = scripttext;
-                      try {
-                        const exportdefault = await dynamicimportshim(
-                          topLevelBlobUrl
-                        );
-                        moduletype = "esm";
-                        // var module__exportdefault = exportdefault.default;
+                      moduletype = "json";
+                    } catch (error) {
+                      console.warn(error);
+                      if (
+                        // (
+                        e instanceof SyntaxError
 
-                        Object.keys(exportdefault)
-                          .filter(t => t !== "default")
-                          .forEach(key => {
-                            Object.defineProperty(moduleexport, key, {
-                              enumerable: true,
-                              get() {
-                                return exportdefault[key];
-                              }
+                        //   &&
+                        //   /* chrome浏览器报错信息 */
+                        //   e.message === "Unexpected token export") ||
+                        // /* edge浏览器报错不同 */
+                        // "Syntax error" === e.message ||
+                        // /* 火狐浏览器报错不同 */
+                        // "export declarations may only appear at top level of a module" ===
+                        //   e.message
+                      ) {
+                        // const topLevelBlobUrl = createBlob(
+                        //   `"use strict";\n/* ${url} */;\nexport*as default from'${url}';\n/* ${url} */;\n `
+                        // );
+                        const topLevelBlobUrl = url;
+                        //   modulesrcfun = topLevelBlobUrl;
+                        modulesrcfun = scripttext;
+                        try {
+                          const exportdefault = await dynamicimportshim(
+                            topLevelBlobUrl
+                          );
+                          moduletype = "esm";
+                          // var module__exportdefault = exportdefault.default;
+
+                          Object.keys(exportdefault)
+                            .filter(t => t !== "default")
+                            .forEach(key => {
+                              Object.defineProperty(moduleexport, key, {
+                                enumerable: true,
+                                get() {
+                                  return exportdefault[key];
+                                }
+                              });
                             });
-                          });
 
-                        定义default(
-                          moduleexport,
-                          exportdefault.default
-                            ? exportdefault.default
-                            : exportdefault
-                        );
-                      } catch (e) {
+                          定义default(
+                            moduleexport,
+                            exportdefault.default
+                              ? exportdefault.default
+                              : exportdefault
+                          );
+                        } catch (e) {
+                          console.warn(e);
+                          reject(e);
+                          return;
+                        }
+                        if (typeof moduleexport.default === "undefined") {
+                          //   moduleexport[urlsymbol] = url;
+                          console.warn(加载的模块没有输出, packagename, url);
+                          // resolve(moduleexport);
+                          reject(
+                            Error(
+                              加载的模块没有输出 + " " + packagename + " " + url
+                            )
+                          );
+                          return;
+                        }
+                      } else {
                         console.warn(e);
                         reject(e);
                         return;
                       }
-                      if (typeof moduleexport.default === "undefined") {
-                        //   moduleexport[urlsymbol] = url;
-                        console.warn(加载的模块没有输出, packagename, url);
-                        // resolve(moduleexport);
-                        reject(
-                          Error(
-                            加载的模块没有输出 + " " + packagename + " " + url
-                          )
-                        );
-                        return;
-                      }
-                    } else {
-                      console.warn(e);
-                      reject(e);
-                      return;
                     }
+                    /* 如果是个json的话,也会报错 SyntaxError*/
+                    /*  如果是es模块,则使用dynamicimportshim加载*/
+
                     // reject(e);
                     // return;
                   }
-                  function 处理非es模块(exportmodule) {
+                  function 处理非es模块(moduleexport, exportmodule) {
                     if (typeof exportmodule === "undefined") {
                       exportmodule = [{}, {}, {}];
                     }
