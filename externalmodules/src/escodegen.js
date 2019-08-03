@@ -35,7 +35,7 @@ import esutils from "esutils";
   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/*global exports:true, require:true, global:true*/
+// /*global exports:true, require:true, global:true*/
 // (function () {
 ("use strict");
 
@@ -43,8 +43,8 @@ var Syntax,
   Precedence,
   BinaryPrecedence,
   SourceNode,
-  estraverse,
-  esutils,
+  //   estraverse,
+  //   esutils,
   base,
   indent,
   json,
@@ -489,7 +489,7 @@ function escapeString(str) {
     } else if (
       !esutils.code.isIdentifierPartES5(code) &&
       ((json && code < 0x20) /* SP */ ||
-        (!json && !escapeless && (code < 0x20 /* SP */ || code > 0x7e) /* ~ */))
+        (!json && !escapeless && (code < 0x20 /* SP */ || code > 0x7e))) /* ~ */
     ) {
       result += escapeAllowedCharacter(code, str.charCodeAt(i + 1));
       continue;

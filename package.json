@@ -16,10 +16,12 @@
     "module": "./dist/index.esm.min.js",
     "devDependencies": {
         "rollup": "^1.18.0",
-        "terser": "^4.1.2",
         "rollup-plugin-commonjs": "^10.0.2",
         "rollup-plugin-node-resolve": "^5.2.0",
-        "rollup-plugin-terser": "^5.1.1"
+        "rollup-plugin-terser": "^5.1.1",
+        "terser": "^4.1.2",
+        "estraverse": "^4.2.0",
+        "esutils": "^2.0.3"
     },
     "dependencies": {}
 }
