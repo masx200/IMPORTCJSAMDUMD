@@ -5,13 +5,44 @@ function isArray(a) {
     Object.prototype.toString.call(a) === "[object Array]"
   );
 }
+  const GLOBALPACKAGESTORE = "PACKAGESTORE";
+  function isobject(o) {
+    return (
+      typeof o === "object" &&
+      Object.prototype.toString.call(o) === "[object Object]" &&
+      o.__proto__ === Object.prototype
+    );
+  }
 const 参数必须为字符串 = "参数必须为字符串";
 ("use strict");
 const 字符串不能为空 = "字符串不能为空";
 // import dynamicimportshim from "./dynamicimportshim.js";
 // import { createBlob } from "./createblob.js";
 import coreload from "./coreload.js";
-export let myrequirefun;
+export let myrequirefun=function requireinstead(packagename) {
+    "use strict";
+    if (packagename === "") {
+      throw new TypeError(字符串不能为空);
+    }
+    if (typeof packagename !== "string") {
+      throw new TypeError(参数必须为字符串);
+    }
+
+    const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
+    if (findpackage) {
+      // console.log("在模块仓库中找到了", packagename, findpackage[urlsymbol]);
+      return findpackage.default;
+    } else {
+      let errormes = new Error(模块仓库中没有找到 + packagename);
+
+      errormes.urlorname = packagename;
+      throw errormes;
+      // throw new Error(
+      //   `Cannot find module in packagestore, 模块仓库中没有找到, ` + packagename
+      // );
+    }
+  }
+
 // export define(a,b,c){
 export { define };
 define.exports = {};
@@ -105,7 +136,7 @@ const IMPORTCJSAMDUMD = (() => {
 
   //   const sourcesymbol = Symbol.for("source");
 
-  const GLOBALPACKAGESTORE = "PACKAGESTORE";
+
   // const globalDefQueue = "globalDefQueue";
   const IMPORTCJSAMDUMD = importcjsamdumd;
   // if ("object" == typeof exports && "undefined" != typeof module) {
@@ -162,37 +193,8 @@ const IMPORTCJSAMDUMD = (() => {
   }
   IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] =
     IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] || {};
-  myrequirefun = requireinstead;
-  function requireinstead(packagename) {
-    "use strict";
-    if (packagename === "") {
-      throw new TypeError(字符串不能为空);
-    }
-    if (typeof packagename !== "string") {
-      throw new TypeError(参数必须为字符串);
-    }
-
-    const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
-    if (findpackage) {
-      // console.log("在模块仓库中找到了", packagename, findpackage[urlsymbol]);
-      return findpackage.default;
-    } else {
-      let errormes = new Error(模块仓库中没有找到 + packagename);
-
-      errormes.urlorname = packagename;
-      throw errormes;
-      // throw new Error(
-      //   `Cannot find module in packagestore, 模块仓库中没有找到, ` + packagename
-      // );
-    }
-  }
-  function isobject(o) {
-    return (
-      typeof o === "object" &&
-      Object.prototype.toString.call(o) === "[object Object]" &&
-      o.__proto__ === Object.prototype
-    );
-  }
+//  myrequirefun = requireinstead;
+  
 
   //   define.exports = {};
   //   function define(name, deps, callback) {
@@ -465,10 +467,12 @@ const IMPORTCJSAMDUMD = (() => {
           // return IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url];
           return getmodule(url);
         } else {
-          const 主核心加载模块函数 = coreload(url, packagename);
+        	return await coreload(url, packagename);
+    /* 
+     const 主核心加载模块函数 = coreload(url, packagename);
           return await new Promise(
             主核心加载模块函数
-
+*/
             //             (resolve, reject) => {
             //             (async () => {
             //               try {
@@ -840,7 +844,7 @@ const IMPORTCJSAMDUMD = (() => {
             //               }
             //             })();
             //           }
-          );
+          //c);
         }
       })(url, packagename);
     } else {
