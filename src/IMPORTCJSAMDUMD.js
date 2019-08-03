@@ -130,7 +130,7 @@ define.exports = {};
   function isFunction(it) {
   	  const op = Object.prototype;
   const ostring = op.toString;
-    return ostring.call(it) === "[object Function]";
+    return "function"===typeof it&&ostring.call(it) === "[object Function]";
   }
 function define(name, deps, callback) {
   "use strict";
