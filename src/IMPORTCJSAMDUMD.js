@@ -1,3 +1,37 @@
+
+    function newobjjson(obj) {
+      if (typeof obj !== "object") {
+        throw new TypeError(
+          // "传入的参数必须是个object!"
+          传入的参数必须是个object
+        );
+      }
+      return JSON.parse(JSON.stringify(obj));
+    }
+    async function 同时发起多个(a) {
+      return await Promise.all(
+        Array.from(a).map(e => {
+          return IMPORTCJSAMDUMD(e[0], e[1]);
+        })
+      );
+    }
+  function isurl(url) {
+    var flag = false;
+    try {
+      if (url === "") {
+        throw new TypeError(字符串不能为空);
+      }
+      if (typeof url !== "string") {
+        throw new TypeError(参数必须为字符串);
+      }
+
+      url = new URL(url).href;
+      flag = true;
+    } catch (error) {
+      flag = false;
+    }
+    return flag;
+  }
 function isArray(a) {
   return (
     typeof a === "object" &&
@@ -5,6 +39,53 @@ function isArray(a) {
     Object.prototype.toString.call(a) === "[object Array]"
   );
 }
+
+  function getmodule(packagename) {
+    "use strict";
+
+    if (packagename === "") {
+      throw new TypeError(字符串不能为空);
+    }
+    if (typeof packagename !== "string") {
+      throw new TypeError(参数必须为字符串);
+    }
+    const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
+    if (findpackage) {
+      // console.log("在模块仓库中找到了", packagename, findpackage[urlsymbol]);
+      //   return { ...findpackage };
+
+      return new Proxy(findpackage, {
+        // ownKeys(target) {
+        //   return [...Object.keys(target), Symbol.toStringTag];
+        // },
+        // has(target, name) {
+        //   // console.log('has' + name);
+
+        //   if (typeof name === "symbol") {
+        //     return false;
+        //   }
+        //   return Reflect.has(target, name);
+        // },
+        // get(target, propertyKey) {
+        //   //   if (typeof propertyKey === "symbol") {
+        //   //     return;
+        //   //   }
+        //   // console.log('GET ' + propertyKey);
+        //   return Reflect.get(target, propertyKey); // [propertyKey];
+        // },
+        set() {
+          return false;
+        },
+        deleteProperty() {
+          // console.log('delete' + name);
+          // return Reflect.deleteProperty(target, name);
+          return false;
+        }
+      });
+    } else {
+      throw new Error(模块仓库中没有找到 + packagename);
+    }
+  }
   const GLOBALPACKAGESTORE = "PACKAGESTORE";
   function isobject(o) {
     return (
@@ -46,21 +127,26 @@ export let myrequirefun=function requireinstead(packagename) {
 // export define(a,b,c){
 export { define };
 define.exports = {};
+  function isFunction(it) {
+  	  const op = Object.prototype;
+  const ostring = op.toString;
+    return ostring.call(it) === "[object Function]";
+  }
 function define(name, deps, callback) {
   "use strict";
   define.exports = {};
 
   define.amd = true;
   const defineglobalDefQueue = [];
+/*
   const op = Object.prototype;
   const ostring = op.toString;
+*/
   // function isArray(it) {
   //   const a = it;
   //   return Array.isArray(a) && ostring.call(it) === "[object Array]";
   // }
-  function isFunction(it) {
-    return ostring.call(it) === "[object Function]";
-  }
+
   if (typeof name !== "string") {
     callback = deps;
     deps = name;
@@ -144,53 +230,7 @@ const IMPORTCJSAMDUMD = (() => {
   // } else {
   //   // global.IMPORTCJSAMDUMD = importcjsamdumd;
   // }
-  IMPORTCJSAMDUMD.REQUIREPACKAGE = getmodule;
-  function getmodule(packagename) {
-    "use strict";
 
-    if (packagename === "") {
-      throw new TypeError(字符串不能为空);
-    }
-    if (typeof packagename !== "string") {
-      throw new TypeError(参数必须为字符串);
-    }
-    const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
-    if (findpackage) {
-      // console.log("在模块仓库中找到了", packagename, findpackage[urlsymbol]);
-      //   return { ...findpackage };
-
-      return new Proxy(findpackage, {
-        // ownKeys(target) {
-        //   return [...Object.keys(target), Symbol.toStringTag];
-        // },
-        // has(target, name) {
-        //   // console.log('has' + name);
-
-        //   if (typeof name === "symbol") {
-        //     return false;
-        //   }
-        //   return Reflect.has(target, name);
-        // },
-        // get(target, propertyKey) {
-        //   //   if (typeof propertyKey === "symbol") {
-        //   //     return;
-        //   //   }
-        //   // console.log('GET ' + propertyKey);
-        //   return Reflect.get(target, propertyKey); // [propertyKey];
-        // },
-        set() {
-          return false;
-        },
-        deleteProperty() {
-          // console.log('delete' + name);
-          // return Reflect.deleteProperty(target, name);
-          return false;
-        }
-      });
-    } else {
-      throw new Error(模块仓库中没有找到 + packagename);
-    }
-  }
   IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] =
     IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] || {};
 //  myrequirefun = requireinstead;
@@ -237,23 +277,7 @@ const IMPORTCJSAMDUMD = (() => {
   //     define.exports = defineglobalDefQueue[0][2](...canshu);
   //   }
   //   define.amd = true;
-  function isurl(url) {
-    var flag = false;
-    try {
-      if (url === "") {
-        throw new TypeError(字符串不能为空);
-      }
-      if (typeof url !== "string") {
-        throw new TypeError(参数必须为字符串);
-      }
 
-      url = new URL(url).href;
-      flag = true;
-    } catch (error) {
-      flag = false;
-    }
-    return flag;
-  }
   async function importcjsamdumd(...inarguments /* url */) {
     const initialtry = oldimportcjsamdumd(...inarguments);
     // async function handleerror(e){
@@ -308,22 +332,7 @@ const IMPORTCJSAMDUMD = (() => {
 
   async function oldimportcjsamdumd(url, packagename) {
     ("use strict");
-    function newobjjson(obj) {
-      if (typeof obj !== "object") {
-        throw new TypeError(
-          // "传入的参数必须是个object!"
-          传入的参数必须是个object
-        );
-      }
-      return JSON.parse(JSON.stringify(obj));
-    }
-    async function 同时发起多个(a) {
-      return await Promise.all(
-        Array.from(a).map(e => {
-          return IMPORTCJSAMDUMD(e[0], e[1]);
-        })
-      );
-    }
+
     if (isobject(url)) {
       return await (async url => {
         url = newobjjson(url);
@@ -864,3 +873,4 @@ const IMPORTCJSAMDUMD = (() => {
     // eslint-disable-next-line no-undef
     this */
 export default IMPORTCJSAMDUMD;
+  IMPORTCJSAMDUMD.REQUIREPACKAGE = getmodule;
