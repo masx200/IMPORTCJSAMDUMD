@@ -4,13 +4,17 @@
 
 [查看源代码 ](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/src/index.js)
 
-[ES 模块](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/dist/index.esm.js)
+<!-- [ES 模块](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/dist/index.esm.js)
 
-[cjs 模块](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/dist/index.cjs.js)
+[cjs 模块](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/dist/index.cjs.js) -->
 
 ## 获取已压缩模块
 
+### ES 模块
+
 https://masx200.github.io/IMPORTCJSAMDUMD/dist/index.cjs.min.js
+
+###cjs 模块
 
 https://masx200.github.io/IMPORTCJSAMDUMD/dist/index.esm.min.js
 
