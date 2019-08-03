@@ -490,6 +490,7 @@ var coreload = //
                     Object.keys(moduleexport.default)
                       .filter(t => t !== "default")
                       .forEach(key => {
+                        /* TypeError: Cannot redefine property: md5 */
                         try {
                           Object.defineProperty(moduleexport, key, {
                             enumerable: true,

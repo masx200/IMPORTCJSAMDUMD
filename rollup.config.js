@@ -1,6 +1,7 @@
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
+import json from "rollup-plugin-json";
 const myterserplugin = terser({
   toplevel: true,
   output: {
@@ -37,6 +38,7 @@ export default [
       }
     ],
     plugins: [
+      json(),
       myterserplugin,
       resolve(), // tells Rollup how to find date-fns in node_modules
       commonjs() // converts date-fns to ES modules
@@ -57,6 +59,7 @@ export default [
       }
     ],
     plugins: [
+      json(),
       myterserplugin,
       resolve(), // tells Rollup how to find date-fns in node_modules
       commonjs() // converts date-fns to ES modules
@@ -81,6 +84,28 @@ export default [
       }
     ],
     plugins: [
+      json(),
+      resolve(), // tells Rollup how to find date-fns in node_modules
+      commonjs() // converts date-fns to ES modules
+      // production &&
+      //   terser() // minify, but only in production
+      //   buble({transforms: {dangerousForOf: true}})
+    ]
+  },
+  {
+    input: "./externalmodules/src/index.js",
+    output: [
+      {
+        // {
+        file: "./externalmodules/dist/index.esm.js",
+        format: "esm",
+        sourceMap: false
+        //   }
+      }
+    ],
+    plugins: [
+      json(),
+      //   myterserplugin,
       resolve(), // tells Rollup how to find date-fns in node_modules
       commonjs() // converts date-fns to ES modules
       // production &&
