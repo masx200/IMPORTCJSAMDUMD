@@ -490,12 +490,16 @@ var coreload = //
                     Object.keys(moduleexport.default)
                       .filter(t => t !== "default")
                       .forEach(key => {
-                        Object.defineProperty(moduleexport, key, {
-                          enumerable: true,
-                          get() {
-                            return moduleexport.default[key];
-                          }
-                        });
+                        try {
+                          Object.defineProperty(moduleexport, key, {
+                            enumerable: true,
+                            get() {
+                              return moduleexport.default[key];
+                            }
+                          });
+                        } catch (error) {
+                          //
+                        }
                       });
 
                   resolve(moduleexport);
