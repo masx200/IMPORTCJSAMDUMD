@@ -14,9 +14,9 @@
 
 https://masx200.github.io/IMPORTCJSAMDUMD/dist/index.cjs.min.js
 
-### cjs 模块
+<!-- ### cjs 模块
 
-https://masx200.github.io/IMPORTCJSAMDUMD/dist/index.esm.min.js
+https://masx200.github.io/IMPORTCJSAMDUMD/dist/index.esm.min.js -->
 
 # 更新！可以使用相对路径加载同类型的模块！
 

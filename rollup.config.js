@@ -43,5 +43,28 @@ export default [
       terser() // minify, but only in production
       //   buble({transforms: {dangerousForOf: true}})
     ]
+  },
+  {
+    input: "./src/index.js",
+    output: [
+      //   {
+      //     file: "./dist/index.cjs.min.js",
+      //     format: "cjs",
+      //     // name: "acorn",
+      //     sourceMap: false
+      //   },
+      {
+        file: "./dist/index.esm.js",
+        format: "esm",
+        sourceMap: false
+      }
+    ],
+    plugins: [
+      resolve(), // tells Rollup how to find date-fns in node_modules
+      commonjs() // converts date-fns to ES modules
+      // production &&
+      //   terser() // minify, but only in production
+      //   buble({transforms: {dangerousForOf: true}})
+    ]
   }
 ];
