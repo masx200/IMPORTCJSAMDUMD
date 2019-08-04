@@ -14,6 +14,16 @@
 
 https://masx200.github.io/IMPORTCJSAMDUMD/dist/index.esm.min.js
 
+或者从cdn获取
+
+https://cdn.jsdelivr.net/gh/masx200/IMPORTCJSAMDUMD@latest/dist/index.esm.min.js
+
+
+```html
+<script type="module">
+import xxxxxxx from "https://cdn.jsdelivr.net/gh/masx200/IMPORTCJSAMDUMD@latest/dist/index.esm.min.js"
+</script>
+```
 <!-- ### cjs 模块
 
 https://masx200.github.io/IMPORTCJSAMDUMD/dist/index.esm.min.js -->
@@ -97,6 +107,9 @@ IMPORTCJSAMDUMD({
 ```javascript
 IMPORTCJSAMDUMD("网址1", "名称1");
 ```
+
+函数返回值为promise对象
+
 
 ### 新版用法:
 
@@ -326,6 +339,8 @@ https://cdnjs.com/
 
 https://unpkg.com/
 
+<!--
+
 # 模块打包输出,并压缩
 
 ## 使用 webpack 打包模块输出
@@ -358,4 +373,15 @@ terser   -c -m -o ./dist/index.cjs.min.js --verbose  ./dist/index.cjs.js  --topl
 
 `terser --compress drop_console=true -m -o ./dist/index.esm.min.js --verbose ./dist/index.esm.js --toplevel`
 
+
+
+
+
 `terser --compress drop_console=true -m -o ./dist/index.cjs.min.js --verbose ./dist/index.cjs.js --toplevel`
+
+
+
+
+
+
+-->
