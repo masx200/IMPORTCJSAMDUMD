@@ -23,44 +23,23 @@ const myterserplugin = terser({
   mangle: true
 });
 export default [
-  {
-    input: "./src/index.js",
-    output: [
-      //   {
-      //     file: "./dist/index.cjs.min.js",
-      //     format: "cjs",
-      //     // name: "acorn",
-      //     sourceMap: false
-      //   },
-      {
-        file: "./dist/index.esm.js",
-        format: "esm",
-        sourcemap: true
-      }
-    ],
-    plugins: [
-      json(),
-      resolve(), // tells Rollup how to find date-fns in node_modules
-      commonjs() // converts date-fns to ES modules
-      // production &&
-      //   terser() // minify, but only in production
-      //   buble({transforms: {dangerousForOf: true}})
-    ]
-  },
   //   {
-  //     input: "./externalmodules/src/index.js",
+  //     input: "./src/index.js",
   //     output: [
+  //   {
+  //     file: "./dist/index.cjs.min.js",
+  //     format: "cjs",
+  //     // name: "acorn",
+  //     sourceMap: false
+  //   },
   //       {
-  //         // {
-  //         file: "./externalmodules/dist/index.esm.js",
+  //         file: "./dist/acorn-parse-escodegen-generate.esm.js",
   //         format: "esm",
   //         sourceMap: false
-  //         //   }
   //       }
   //     ],
   //     plugins: [
   //       json(),
-  //       //   myterserplugin,
   //       resolve(), // tells Rollup how to find date-fns in node_modules
   //       commonjs() // converts date-fns to ES modules
   //       // production &&
@@ -69,18 +48,61 @@ export default [
   //     ]
   //   },
   {
-    input: "./src/index.js",
+    input: "./externalmodules/src/index.js",
     output: [
-      //   {
-      //     file: "./dist/index.cjs.min.js",
-      //     format: "cjs",
-      //     // name: "acorn",
-      //     sourceMap: false
-      //   },
       {
-        file: "./dist/index.esm.min.js",
+        // {
+        file: "./externalmodules/dist/acorn-parse-escodegen-generate.esm.js",
         format: "esm",
         sourcemap: true
+        //   }
+      }
+    ],
+    plugins: [
+      json(),
+      //   myterserplugin,
+      resolve(), // tells Rollup how to find date-fns in node_modules
+      commonjs() // converts date-fns to ES modules
+      // production &&
+      //   terser() // minify, but only in production
+      //   buble({transforms: {dangerousForOf: true}})
+    ]
+  },
+  //   {
+  //     input: "./dist/acorn-parse-escodegen-generate.esm.js",
+  //     output: [
+  //       //   {
+  //       //     file: "./dist/index.cjs.min.js",
+  //       //     format: "cjs",
+  //       //     // name: "acorn",
+  //       //     sourceMap: false
+  //       //   },
+  //       {
+  //         file: "./dist/acorn-parse-escodegen-generate.esm.min.js",
+  //         format: "esm",
+  //         sourceMap: false
+  //       }
+  //     ],
+  //     plugins: [
+  //       json(),
+  //       myterserplugin,
+  //       resolve(), // tells Rollup how to find date-fns in node_modules
+  //       commonjs() // converts date-fns to ES modules
+  //       // production &&
+  //       //   terser() // minify, but only in production
+  //       //   buble({transforms: {dangerousForOf: true}})
+  //     ]
+  //   },
+  {
+    input: "./externalmodules/src/index.js",
+    output: [
+      {
+        // {
+        file:
+          "./externalmodules/dist/acorn-parse-escodegen-generate.esm.min.js",
+        format: "esm",
+        sourcemap: true
+        //   }
       }
     ],
     plugins: [
@@ -93,25 +115,4 @@ export default [
       //   buble({transforms: {dangerousForOf: true}})
     ]
   }
-  //   {
-  //     input: "./externalmodules/dist/index.esm.js",
-  //     output: [
-  //       {
-  //         // {
-  //         file: "./externalmodules/dist/index.esm.min.js",
-  //         format: "esm",
-  //         sourceMap: false
-  //         //   }
-  //       }
-  //     ],
-  //     plugins: [
-  //       json(),
-  //       myterserplugin,
-  //       resolve(), // tells Rollup how to find date-fns in node_modules
-  //       commonjs() // converts date-fns to ES modules
-  //       // production &&
-  //       //   terser() // minify, but only in production
-  //       //   buble({transforms: {dangerousForOf: true}})
-  //     ]
-  //   }
 ];

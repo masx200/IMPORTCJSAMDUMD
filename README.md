@@ -144,39 +144,19 @@ IMPORTCJSAMDUMD({
 
 甚至是这么变态的依赖关系,这么乱序加载,都可以!
 
-### 旧版用法:
+### 加载多个未命名的模块用法:
 
-传参 多个`Array`参数,返回`promise`内含一个 `Array`
+传参 一个或多个`Array`参数,返回`promise`内含一个 `Array`
 
 ```javascript
-IMPORTCJSAMDUMD(
-  [
-    "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js",
-    "bootstrap"
-  ],
-  ["https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js", "jquery"],
-  ["https://cdn.staticfile.org/mui/3.7.1/js/mui.min.js", "mui"],
-  [
-    "https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js",
-    "clipboard"
-  ],
-  [
-    "https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js",
-    "popper.js"
-  ],
-  [
-    "https://cdn.staticfile.org/react-dom/16.8.6/umd/react-dom.production.min.js",
-    "react-dom"
-  ],
-  [
-    "https://cdn.staticfile.org/react-router-dom/5.0.0/react-router-dom.min.js",
-    "react-router-dom"
-  ],
-  [
-    "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js",
-    "react"
-  ]
-)
+IMPORTCJSAMDUMD([
+  "https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js",
+  "https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js",
+
+  "https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js",
+  "https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js",
+  "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js"
+])
   .then(console.log)
   .catch(console.warn);
 ```

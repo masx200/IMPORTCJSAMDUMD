@@ -930,9 +930,16 @@ const IMPORTCJSAMDUMD = (() => {
   
   */
 
-      return await (async () => {
+      return await (async (...args) => {
+        async function 同时发起多个字符串(a) {
+          return await Promise.all(
+            Array.from(a).map(e => {
+              return IMPORTCJSAMDUMD(e);
+            })
+          );
+        }
         let suoyouimportpromise = [];
-        const 传入参数arr = Array(...arguments);
+        const 传入参数arr = JSON.parse(JSON.stringify(Array(...args).flat()));
         // async function 同时发起多个(a) {
         //   return await Promise.all(
         //     a.map(e => {
@@ -941,7 +948,7 @@ const IMPORTCJSAMDUMD = (() => {
         //   );
         // }
         try {
-          suoyouimportpromise = await 同时发起多个(传入参数arr);
+          suoyouimportpromise = await 同时发起多个字符串(传入参数arr);
           // suoyouimportpromise = await Promise.all(
           //   Array(...arguments).map(e => {
           //     return IMPORTCJSAMDUMD(e[0], e[1]);
@@ -949,14 +956,14 @@ const IMPORTCJSAMDUMD = (() => {
           // );
         } catch (error) {
           console.warn(error);
-          suoyouimportpromise = await 同时发起多个(传入参数arr);
+          suoyouimportpromise = await 同时发起多个字符串(传入参数arr);
           // suoyouimportpromise = await Promise.all(
           //   Array(...arguments).map(e => {
           //     return IMPORTCJSAMDUMD(e[0], e[1]);
           //   })
           // );
         } finally {
-          suoyouimportpromise = await 同时发起多个(传入参数arr);
+          suoyouimportpromise = await 同时发起多个字符串(传入参数arr);
           // suoyouimportpromise = await Promise.all(
           //   Array(...arguments).map(e => {
           //     return IMPORTCJSAMDUMD(e[0], e[1]);
@@ -964,7 +971,7 @@ const IMPORTCJSAMDUMD = (() => {
           // );
         }
         return suoyouimportpromise;
-      })();
+      })(...arguments);
     } else if (typeof url === "string" || typeof packagename === "string") {
       assertstring(url);
       // assertstring(packagename);
@@ -1400,3 +1407,4 @@ const IMPORTCJSAMDUMD = (() => {
 })();
 
 export default IMPORTCJSAMDUMD;
+//# sourceMappingURL=index.esm.js.map
