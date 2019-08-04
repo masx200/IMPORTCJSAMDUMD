@@ -98,6 +98,9 @@ IMPORTCJSAMDUMD({
 IMPORTCJSAMDUMD("网址1", "名称1");
 ```
 
+函数返回值为promise对象
+
+
 ### 新版用法:
 
 全面升级支持
