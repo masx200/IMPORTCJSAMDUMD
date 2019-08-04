@@ -2,7 +2,7 @@
 
 ## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES" 模块四合一
 
-[查看源代码 ](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/src/index.js)
+<!-- [查看源代码 ](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/src/index.js) -->
 
 <!-- [ES 模块](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/dist/index.esm.js)
 
@@ -20,7 +20,7 @@ https://cdn.jsdelivr.net/gh/masx200/IMPORTCJSAMDUMD@latest/dist/index.esm.min.js
 
 ```html
 <script type="module">
-  import xxxxxxx from "https://cdn.jsdelivr.net/gh/masx200/IMPORTCJSAMDUMD@latest/dist/index.esm.min.js";
+  import IMPORTCJSAMDUMD from "https://cdn.jsdelivr.net/gh/masx200/IMPORTCJSAMDUMD@latest/dist/index.esm.min.js";
 </script>
 ```
 
@@ -81,13 +81,13 @@ yarn add https://github.com/masx200/IMPORTCJSAMDUMD.git
 
 ```
 
-# 更新:乱序加载有依赖关系的模块包
-
 导入模块
 
 ```javascript
 import IMPORTCJSAMDUMD from "importcjsamdumd";
 ```
+
+# 更新:乱序加载有依赖关系的模块包
 
 # 默认在模块加载时开启了严格模式!
 
