@@ -2,6 +2,10 @@
 
 ## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES" 模块四合一
 
+非常简洁小巧的工具，压缩后仅有7.47 KB
+
+还包含了动态加载es模块的`import()`的polyfill
+
 <!-- [查看源代码 ](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/src/index.js) -->
 
 <!-- [ES 模块](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/dist/index.esm.js)
