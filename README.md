@@ -14,6 +14,16 @@
 
 https://masx200.github.io/IMPORTCJSAMDUMD/dist/index.esm.min.js
 
+或者从cdn获取
+
+https://cdn.jsdelivr.net/gh/masx200/IMPORTCJSAMDUMD@2.1.7/dist/index.esm.min.js
+
+
+```html
+<script type="module">
+import xxxxxxx from "https://cdn.jsdelivr.net/gh/masx200/IMPORTCJSAMDUMD@2.1.7/dist/index.esm.min.js"
+</script>
+```
 <!-- ### cjs 模块
 
 https://masx200.github.io/IMPORTCJSAMDUMD/dist/index.esm.min.js -->
