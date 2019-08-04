@@ -1,4 +1,5 @@
-import estraverse from "estraverse";
+import { Syntax } from "./estraverse.js";
+export { attachComments }from "./estraverse.js";
 import esutils from "esutils";
 /*
   Copyright (C) 2012-2014 Yusuke Suzuki <utatane.tea@gmail.com>
@@ -39,7 +40,7 @@ import esutils from "esutils";
 // (function () {
 ("use strict");
 
-var Syntax,
+var //Syntax,
   Precedence,
   BinaryPrecedence,
   SourceNode,
@@ -69,7 +70,7 @@ var Syntax,
 // estraverse = require('estraverse');
 // esutils = require('esutils');
 
-Syntax = estraverse.Syntax;
+// Syntax = estraverse.Syntax;
 
 // Generation is done by generateExpression.
 function isExpression(node) {
@@ -1249,7 +1250,7 @@ CodeGenerator.Statement = {
     return "continue" + this.semicolon(flags);
   },
 
-  ClassBody: function(stmt, flags) {
+  ClassBody: function(stmt) {
     var result = ["{", newline],
       that = this;
 
@@ -1275,7 +1276,7 @@ CodeGenerator.Statement = {
     return result;
   },
 
-  ClassDeclaration: function(stmt, flags) {
+  ClassDeclaration: function(stmt) {
     var result, fragment;
     result = ["class"];
     if (stmt.id) {
@@ -1314,7 +1315,7 @@ CodeGenerator.Statement = {
     ]);
   },
 
-  CatchClause: function(stmt, flags) {
+  CatchClause: function(stmt) {
     var result,
       that = this;
     withIndent(function() {
@@ -1339,7 +1340,7 @@ CodeGenerator.Statement = {
     return "debugger" + this.semicolon(flags);
   },
 
-  EmptyStatement: function(stmt, flags) {
+  EmptyStatement: function() {
     return ";";
   },
 
@@ -1712,7 +1713,7 @@ CodeGenerator.Statement = {
     ];
   },
 
-  TryStatement: function(stmt, flags) {
+  TryStatement: function(stmt) {
     var result, i, iz, guardedHandlers;
 
     result = ["try", this.maybeBlock(stmt.block, S_TFFF)];
@@ -1768,7 +1769,7 @@ CodeGenerator.Statement = {
     return result;
   },
 
-  SwitchStatement: function(stmt, flags) {
+  SwitchStatement: function(stmt) {
     var result,
       fragment,
       i,
@@ -1962,7 +1963,7 @@ CodeGenerator.Statement = {
     ];
   },
 
-  Program: function(stmt, flags) {
+  Program: function(stmt) {
     var result, fragment, i, iz, bodyFlags;
     iz = stmt.body.length;
     result = [safeConcatenation && iz > 0 ? "\n" : ""];
@@ -2022,7 +2023,7 @@ CodeGenerator.Statement = {
     return result;
   },
 
-  FunctionDeclaration: function(stmt, flags) {
+  FunctionDeclaration: function(stmt) {
     return [
       generateAsyncPrefix(stmt, true),
       "function",
@@ -2114,7 +2115,7 @@ CodeGenerator.Expression = {
     );
   },
 
-  ArrowFunctionExpression: function(expr, precedence, flags) {
+  ArrowFunctionExpression: function(expr, precedence) {
     return parenthesize(
       this.generateFunctionBody(expr),
       Precedence.ArrowFunction,
@@ -2301,7 +2302,7 @@ CodeGenerator.Expression = {
     return parenthesize(result, Precedence.Member, precedence);
   },
 
-  MetaProperty: function(expr, precedence, flags) {
+  MetaProperty: function(expr, precedence) {
     var result;
     result = [];
     result.push(
@@ -2316,7 +2317,7 @@ CodeGenerator.Expression = {
     return parenthesize(result, Precedence.Member, precedence);
   },
 
-  UnaryExpression: function(expr, precedence, flags) {
+  UnaryExpression: function(expr, precedence) {
     var result, fragment, rightCharCode, leftSource, leftCharCode;
     fragment = this.generateExpression(expr.argument, Precedence.Unary, E_TTT);
 
@@ -2351,7 +2352,7 @@ CodeGenerator.Expression = {
     return parenthesize(result, Precedence.Unary, precedence);
   },
 
-  YieldExpression: function(expr, precedence, flags) {
+  YieldExpression: function(expr, precedence) {
     var result;
     if (expr.delegate) {
       result = "yield*";
@@ -2367,7 +2368,7 @@ CodeGenerator.Expression = {
     return parenthesize(result, Precedence.Yield, precedence);
   },
 
-  AwaitExpression: function(expr, precedence, flags) {
+  AwaitExpression: function(expr, precedence) {
     var result = join(
       expr.all ? "await*" : "await",
       this.generateExpression(expr.argument, Precedence.Await, E_TTT)
@@ -2375,7 +2376,7 @@ CodeGenerator.Expression = {
     return parenthesize(result, Precedence.Await, precedence);
   },
 
-  UpdateExpression: function(expr, precedence, flags) {
+  UpdateExpression: function(expr, precedence) {
     if (expr.prefix) {
       return parenthesize(
         [
@@ -2396,7 +2397,7 @@ CodeGenerator.Expression = {
     );
   },
 
-  FunctionExpression: function(expr, precedence, flags) {
+  FunctionExpression: function(expr) {
     var result = [generateAsyncPrefix(expr, true), "function"];
     if (expr.id) {
       result.push(generateStarSuffix(expr) || noEmptySpace());
@@ -2457,11 +2458,11 @@ CodeGenerator.Expression = {
     return result;
   },
 
-  RestElement: function(expr, precedence, flags) {
+  RestElement: function(expr) {
     return "..." + this.generatePattern(expr.argument);
   },
 
-  ClassExpression: function(expr, precedence, flags) {
+  ClassExpression: function(expr) {
     var result, fragment;
     result = ["class"];
     if (expr.id) {
@@ -2482,7 +2483,7 @@ CodeGenerator.Expression = {
     return result;
   },
 
-  MethodDefinition: function(expr, precedence, flags) {
+  MethodDefinition: function(expr) {
     var result, fragment;
     if (expr["static"]) {
       result = ["static" + space];
@@ -2504,7 +2505,7 @@ CodeGenerator.Expression = {
     return join(result, fragment);
   },
 
-  Property: function(expr, precedence, flags) {
+  Property: function(expr) {
     if (expr.kind === "get" || expr.kind === "set") {
       return [
         expr.kind,
@@ -2536,7 +2537,7 @@ CodeGenerator.Expression = {
     ];
   },
 
-  ObjectExpression: function(expr, precedence, flags) {
+  ObjectExpression: function(expr) {
     var multiline,
       result,
       fragment,
@@ -2609,7 +2610,7 @@ CodeGenerator.Expression = {
     );
   },
 
-  ObjectPattern: function(expr, precedence, flags) {
+  ObjectPattern: function(expr) {
     var result,
       i,
       iz,
@@ -2665,23 +2666,23 @@ CodeGenerator.Expression = {
     return result;
   },
 
-  ThisExpression: function(expr, precedence, flags) {
+  ThisExpression: function() {
     return "this";
   },
 
-  Super: function(expr, precedence, flags) {
+  Super: function() {
     return "super";
   },
 
-  Identifier: function(expr, precedence, flags) {
+  Identifier: function(expr) {
     return generateIdentifier(expr);
   },
 
-  ImportDefaultSpecifier: function(expr, precedence, flags) {
+  ImportDefaultSpecifier: function(expr) {
     return generateIdentifier(expr.id || expr.local);
   },
 
-  ImportNamespaceSpecifier: function(expr, precedence, flags) {
+  ImportNamespaceSpecifier: function(expr) {
     var result = ["*"];
     var id = expr.id || expr.local;
     if (id) {
@@ -2690,7 +2691,7 @@ CodeGenerator.Expression = {
     return result;
   },
 
-  ImportSpecifier: function(expr, precedence, flags) {
+  ImportSpecifier: function(expr) {
     var imported = expr.imported;
     var result = [imported.name];
     var local = expr.local;
@@ -2702,7 +2703,7 @@ CodeGenerator.Expression = {
     return result;
   },
 
-  ExportSpecifier: function(expr, precedence, flags) {
+  ExportSpecifier: function(expr) {
     var local = expr.local;
     var result = [local.name];
     var exported = expr.exported;
@@ -2714,7 +2715,7 @@ CodeGenerator.Expression = {
     return result;
   },
 
-  Literal: function(expr, precedence, flags) {
+  Literal: function(expr) {
     var raw;
     if (expr.hasOwnProperty("raw") && parse && extra.raw) {
       try {
@@ -2755,7 +2756,7 @@ CodeGenerator.Expression = {
     return this.ComprehensionExpression(expr, precedence, flags);
   },
 
-  ComprehensionExpression: function(expr, precedence, flags) {
+  ComprehensionExpression: function(expr) {
     // GeneratorExpression should be parenthesized with (...), ComprehensionExpression with [...]
     // Due to https://bugzilla.mozilla.org/show_bug.cgi?id=883468 position of expr.body can differ in Spidermonkey and ES6
 
@@ -2816,7 +2817,7 @@ CodeGenerator.Expression = {
     return result;
   },
 
-  ComprehensionBlock: function(expr, precedence, flags) {
+  ComprehensionBlock: function(expr) {
     var fragment;
     if (expr.left.type === Syntax.VariableDeclaration) {
       fragment = [
@@ -2837,7 +2838,7 @@ CodeGenerator.Expression = {
     return ["for" + space + "(", fragment, ")"];
   },
 
-  SpreadElement: function(expr, precedence, flags) {
+  SpreadElement: function(expr) {
     return [
       "...",
       this.generateExpression(expr.argument, Precedence.Assignment, E_TTT)
@@ -2856,13 +2857,13 @@ CodeGenerator.Expression = {
     return parenthesize(result, Precedence.TaggedTemplate, precedence);
   },
 
-  TemplateElement: function(expr, precedence, flags) {
+  TemplateElement: function(expr) {
     // Don't use "cooked". Since tagged template can use raw template
     // representation. So if we do so, it breaks the script semantics.
     return expr.value.raw;
   },
 
-  TemplateLiteral: function(expr, precedence, flags) {
+  TemplateLiteral: function(expr) {
     var result, i, iz;
     result = ["`"];
     for (i = 0, iz = expr.quasis.length; i < iz; ++i) {
@@ -3054,7 +3055,7 @@ FORMAT_DEFAULTS = getDefaultOptions().format;
 export const version = "1.11.1";
 const _generate = generate;
 export { _generate as generate };
-export const attachComments = estraverse.attachComments;
+// export const attachComments = estraverse.attachComments;
 const _Precedence = updateDeeply({}, Precedence);
 export { _Precedence as Precedence };
 export const browser = true;
