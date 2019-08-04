@@ -14,16 +14,16 @@
 
 https://masx200.github.io/IMPORTCJSAMDUMD/dist/index.esm.min.js
 
-或者从cdn获取
+或者从 cdn 获取
 
 https://cdn.jsdelivr.net/gh/masx200/IMPORTCJSAMDUMD@latest/dist/index.esm.min.js
 
-
 ```html
 <script type="module">
-import xxxxxxx from "https://cdn.jsdelivr.net/gh/masx200/IMPORTCJSAMDUMD@latest/dist/index.esm.min.js"
+  import xxxxxxx from "https://cdn.jsdelivr.net/gh/masx200/IMPORTCJSAMDUMD@latest/dist/index.esm.min.js";
 </script>
 ```
+
 <!-- ### cjs 模块
 
 https://masx200.github.io/IMPORTCJSAMDUMD/dist/index.esm.min.js -->
@@ -108,8 +108,7 @@ IMPORTCJSAMDUMD({
 IMPORTCJSAMDUMD("网址1", "名称1");
 ```
 
-函数返回值为promise对象
-
+函数返回值为 promise 对象
 
 ### 新版用法:
 
