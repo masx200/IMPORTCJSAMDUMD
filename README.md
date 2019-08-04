@@ -329,6 +329,8 @@ https://cdnjs.com/
 
 https://unpkg.com/
 
+<!--
+
 # 模块打包输出,并压缩
 
 ## 使用 webpack 打包模块输出
@@ -361,4 +363,15 @@ terser   -c -m -o ./dist/index.cjs.min.js --verbose  ./dist/index.cjs.js  --topl
 
 `terser --compress drop_console=true -m -o ./dist/index.esm.min.js --verbose ./dist/index.esm.js --toplevel`
 
+
+
+
+
 `terser --compress drop_console=true -m -o ./dist/index.cjs.min.js --verbose ./dist/index.cjs.js --toplevel`
+
+
+
+
+
+
+-->
