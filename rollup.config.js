@@ -69,7 +69,7 @@ export default [
   //     ]
   //   },
   {
-    input: "./src/index.js",
+    input: "./dist/index.esm.js",
     output: [
       //   {
       //     file: "./dist/index.cjs.min.js",
@@ -85,12 +85,13 @@ export default [
     ],
     plugins: [
       json(),
-      myterserplugin,
+
       resolve(), // tells Rollup how to find date-fns in node_modules
-      commonjs() // converts date-fns to ES modules
+      commonjs(), // converts date-fns to ES modules
       // production &&
       //   terser() // minify, but only in production
       //   buble({transforms: {dangerousForOf: true}})
+      myterserplugin
     ]
   }
   //   {

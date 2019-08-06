@@ -1406,5 +1406,8 @@ const IMPORTCJSAMDUMD = (() => {
   return IMPORTCJSAMDUMD;
 })();
 
+//import dynamicimportshim from "./dynamicimportshim.js";
+//export{dynamicimportshim}
+
 export default IMPORTCJSAMDUMD;
 //# sourceMappingURL=index.esm.js.map

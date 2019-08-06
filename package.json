@@ -1,10 +1,6 @@
 {
     "scripts": {
-        "build": "rollup -c",
-        "buildexternal": "rollup -c rollup.config.external.js",
-        "buildcli": " yarn buildesm && yarn minifyesm  ",
-        "buildesm": "rollup -f esm -i ./src/index.js -o ./dist/index.esm.js",
-        "minifyesm": "terser  --compress drop_console=true -m -o ./dist/index.esm.min.js --verbose  ./dist/index.esm.js    --toplevel -b ascii_only=true"
+        "build": "rollup -c"
     },
     "name": "importcjsamdumd",
     "version": "2.1.9",

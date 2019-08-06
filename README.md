@@ -2,9 +2,9 @@
 
 ## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES" 模块四合一
 
-非常简洁小巧的工具，压缩后仅有7.47 KB
+非常简洁小巧的工具，压缩后仅有 7.47 KB
 
-还包含了动态加载es模块的`import()`的polyfill
+还包含了动态加载 es 模块的`import()`的 polyfill
 
 <!-- [查看源代码 ](https://github.com/masx200/IMPORTCJSAMDUMD/blob/master/src/index.js) -->
 
@@ -388,3 +388,7 @@ terser   -c -m -o ./dist/index.cjs.min.js --verbose  ./dist/index.cjs.js  --topl
 
 
 -->
+<!-- "buildexternal": "rollup -c rollup.config.external.js",
+        "buildcli": " yarn buildesm && yarn minifyesm  ",
+        "buildesm": "rollup -f esm -i ./src/index.js -o ./dist/index.esm.js",
+        "minifyesm": "terser  --compress drop_console=true -m -o ./dist/index.esm.min.js --verbose  ./dist/index.esm.js    --toplevel -b ascii_only=true" -->
