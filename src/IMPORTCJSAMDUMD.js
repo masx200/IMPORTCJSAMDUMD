@@ -3,6 +3,7 @@ class cantfindError extends Error {
     super(message);
     this.urlorname = urlorname;
   }
+  //   ["urlorname"] = undefined;
 }
 
 const 传入的参数必须是个object = "传入的参数必须是个object";
@@ -284,11 +285,23 @@ const IMPORTCJSAMDUMD = (() => {
   //   define.amd = true;
 
   async function importcjsamdumd(...inarguments /* url */) {
-    const initialtry = oldimportcjsamdumd(...inarguments);
+    return await oldimportcjsamdumd(...inarguments).catch(
+      //   async e => {
+      //   console.warn(e);
+
+      //   if (isurl(e.urlorname)) {
+      //     console.log("补充加载依赖的模块网址", e.urlorname);
+      //     await importcjsamdumd(e.urlorname);
+      //   }
+      //   return await oldimportcjsamdumd(...arguments);
+      // }
+      handleerror
+    );
+    // const initialtry = await oldimportcjsamdumd(...inarguments);
     // async function handleerror(e){
 
     // }
-    const handleerror = async e => {
+    async function handleerror(e) {
       console.warn(e);
       if (
         e instanceof cantfindError
@@ -298,15 +311,18 @@ const IMPORTCJSAMDUMD = (() => {
           console.log(补充加载依赖的模块网址, e.urlorname);
 
           // initialtry.catch(handleerror);
-          await importcjsamdumd(e.urlorname);
+          await oldimportcjsamdumd(e.urlorname);
           // initialtry.catch(handleerror);
+          return await oldimportcjsamdumd(...inarguments);
         } else {
           if (
             isobject(inarguments[0]) &&
             Reflect.has(inarguments[0], e.urlorname)
           ) {
             try {
-              await importcjsamdumd(...inarguments);
+              await oldimportcjsamdumd(...inarguments);
+
+              return await oldimportcjsamdumd(...inarguments);
             } catch (error) {
               console.warn(error);
               throw e;
@@ -320,22 +336,10 @@ const IMPORTCJSAMDUMD = (() => {
       } else {
         throw e;
       }
-      return await importcjsamdumd(...inarguments);
-    };
+      //   return await importcjsamdumd(...inarguments);
+    }
 
     // return await oldimportcjsamdumd(...inarguments)
-    return await initialtry.catch(
-      //   async e => {
-      //   console.warn(e);
-
-      //   if (isurl(e.urlorname)) {
-      //     console.log("补充加载依赖的模块网址", e.urlorname);
-      //     await importcjsamdumd(e.urlorname);
-      //   }
-      //   return await oldimportcjsamdumd(...arguments);
-      // }
-      handleerror
-    );
   }
 
   async function oldimportcjsamdumd(url, packagename) {

@@ -20,7 +20,7 @@ const myterserplugin = terser({
     drop_debugger: true,
     pure_funcs: ["console.log"]
   },
-  mangle: true
+  mangle: { properties: false }
 });
 export default [
   {
