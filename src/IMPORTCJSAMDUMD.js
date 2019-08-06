@@ -1,3 +1,10 @@
+class cantfindError extends Error {
+  constructor(message, urlorname) {
+    super(message);
+    this.urlorname = urlorname;
+  }
+}
+
 const 传入的参数必须是个object = "传入的参数必须是个object";
 const 模块仓库中没有找到 =
   "Cannot find module in packagestore, 模块仓库中没有找到, ";
@@ -116,10 +123,12 @@ export let myrequirefun = function requireinstead(packagename) {
     // console.log("在模块仓库中找到了", packagename, findpackage[urlsymbol]);
     return findpackage.default;
   } else {
-    let errormes = new Error(模块仓库中没有找到 + packagename);
+    throw new cantfindError(模块仓库中没有找到 + packagename, packagename);
+    // let errormes = new Error(模块仓库中没有找到 + packagename);
 
-    errormes.urlorname = packagename;
-    throw errormes;
+    // errormes.urlorname = packagename;
+
+    // throw errormes;
     // throw new Error(
     //   `Cannot find module in packagestore, 模块仓库中没有找到, ` + packagename
     // );
@@ -281,7 +290,10 @@ const IMPORTCJSAMDUMD = (() => {
     // }
     const handleerror = async e => {
       console.warn(e);
-      if (e.urlorname) {
+      if (
+        e instanceof cantfindError
+        // e.urlorname
+      ) {
         if (isurl(e.urlorname)) {
           console.log(补充加载依赖的模块网址, e.urlorname);
 
