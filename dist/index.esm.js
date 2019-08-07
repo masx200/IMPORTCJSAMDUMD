@@ -840,30 +840,27 @@ const IMPORTCJSAMDUMD = (() => {
     // }
     async function handleerror(e) {
       console.warn(e);
-      if (
-        e instanceof cantfindError
-        // e.urlorname
-      ) {
+      if (e instanceof cantfindError && e.urlorname) {
         if (isurl(e.urlorname)) {
           console.log(补充加载依赖的模块网址, e.urlorname);
 
           // initialtry.catch(handleerror);
-          await oldimportcjsamdumd(e.urlorname);
+          await importcjsamdumd(e.urlorname);
           // initialtry.catch(handleerror);
-          return await oldimportcjsamdumd(...inarguments);
+          return await importcjsamdumd(...inarguments);
         } else {
           if (
             isobject(inarguments[0]) &&
             Reflect.has(inarguments[0], e.urlorname)
           ) {
-            try {
-              await oldimportcjsamdumd(...inarguments);
+            // try {
+            await oldimportcjsamdumd(...inarguments);
 
-              return await oldimportcjsamdumd(...inarguments);
-            } catch (error) {
-              console.warn(error);
-              throw e;
-            }
+            return await oldimportcjsamdumd(...inarguments);
+            // } catch (error) {
+            //   console.warn(error);
+            //   throw e;
+            // }
           } else {
             throw e;
           }
