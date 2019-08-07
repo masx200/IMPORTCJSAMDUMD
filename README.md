@@ -99,11 +99,10 @@ yarn add https://github.com/masx200/importcjsamdumd.git
 import importcjsamdumd from "importcjsamdumd";
 ```
 
-
 ```js
 import dynamicimportshim from "importcjsamdumd/src/dynamicimportshim.js";
-
 ```
+
 # 更新:乱序加载有依赖关系的模块包
 
 # 默认在模块加载时开启了严格模式!
