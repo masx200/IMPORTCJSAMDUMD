@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "build": "rollup -c"
+        "build": "rollup -c  rollup.config.js"
     },
     "name": "importcjsamdumd",
     "version": "2.1.12",
