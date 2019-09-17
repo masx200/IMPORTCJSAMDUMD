@@ -1,4 +1,6 @@
-{
+{ 
+"publishConfig": { "registry": "https://npm.pkg.github.com/@masx200" },
+
     "scripts": {
         "build": "rollup -c  rollup.config.js"
     },
