@@ -41,24 +41,24 @@ export default [
     plugins: [
       json(),
       resolve(), // tells Rollup how to find date-fns in node_modules
-      commonjs() // converts date-fns to ES modules
+      commonjs(), // converts date-fns to ES modules
       // production &&
       //   terser() // minify, but only in production
       //   buble({transforms: {dangerousForOf: true}})
-  ,  
-terser({
-        compress: {
+      terser({
+        compress: false,
+
+        /*     {
 
 drop_console: true,
 
-},
-        mangle: false,
+} */ mangle: false,
         output: {
           comments: !1,
           beautify: true
         }
       })
-]
+    ]
   },
   //   {
   //     input: "./externalmodules/src/index.js",
