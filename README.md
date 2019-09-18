@@ -32,13 +32,13 @@ https://masx200.github.io/importcjsamdumd/dist/index.esm.min.js -->
 
 # 更新！可以使用相对路径加载同类型的模块！
 
-还包含了动态加载 es 模块的`import()`的 polyfill
+还包含了动态加载 `es`模块的`import()`的 `polyfill`
 
-可以在 commonjs 模块中使用相对路径加载 commonjs 模块了！
+可以在 `commonjs` 模块中使用相对路径加载 `commonjs` 模块了！
 
-可以在 ES 模块中使用相对路径加载 ES 模块了！
+可以在 `ES` 模块中使用相对路径加载 `ES` 模块了！
 
-甚至可以在 commonjs 模块中加载 ES 模块了!
+甚至可以在 `commonjs` 模块中加载 ES 模块了!
 
 还顺便支持了加载 `json` 模块!
 
@@ -48,7 +48,7 @@ importcjsamdumd("https://masx200.github.io/importcjsamdumd/package.json").then(
 );
 ```
 
-## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES" 模块四合一
+## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES" 模块四合一,和`json`模块支持
 
 包装" cjs "和 "amd "和 "umd" 和"ES" 模块为异步加载" promise" 方法,使用" fetch "方法来获取指定的模块包源代码
 ，
