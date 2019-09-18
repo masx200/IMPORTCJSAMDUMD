@@ -45,7 +45,16 @@ export default [
       // production &&
       //   terser() // minify, but only in production
       //   buble({transforms: {dangerousForOf: true}})
-    ]
+  ,  
+terser({
+        compress: false,
+        mangle: false,
+        output: {
+          comments: !1,
+          beautify: true
+        }
+      })
+]
   },
   //   {
   //     input: "./externalmodules/src/index.js",
