@@ -47,7 +47,11 @@ export default [
       //   buble({transforms: {dangerousForOf: true}})
   ,  
 terser({
-        compress: false,
+        compress: {
+
+drop_console: true,
+
+},
         mangle: false,
         output: {
           comments: !1,
