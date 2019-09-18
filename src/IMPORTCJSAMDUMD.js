@@ -66,7 +66,7 @@ function getmodule(packagename) {
   }
 }
 const GLOBALPACKAGESTORE = "PACKAGESTORE";
-function isobject(o) {
+function isplainobject(o) {
   return (
     typeof o === "object" &&
     Object.prototype.toString.call(o) === "[object Object]" &&
@@ -163,7 +163,7 @@ const IMPORTCJSAMDUMD = (() => {
           return await importcjsamdumd(...inarguments);
         } else {
           if (
-            isobject(inarguments[0]) &&
+            isplainobject(inarguments[0]) &&
             Reflect.has(inarguments[0], e.urlorname)
           ) {
             await oldimportcjsamdumd(...inarguments);
@@ -179,7 +179,7 @@ const IMPORTCJSAMDUMD = (() => {
   }
   async function oldimportcjsamdumd(url, packagename) {
     "use strict";
-    if (isobject(url)) {
+    if (isplainobject(url)) {
       return await (async url => {
         url = newobjjson(url);
         const 输入参数array = Object.keys(url).map(key => {
