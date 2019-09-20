@@ -52,7 +52,9 @@ export default [
 
 drop_console: true,
 
-} */ mangle: false,
+} */
+
+        mangle: false,
         output: {
           comments: !1,
           beautify: true

@@ -3,7 +3,8 @@
         "registry": "https://npm.pkg.github.com/@masx200"
     },
     "scripts": {
-        "build": "rollup -c  rollup.config.js"
+        "build": "rollup -c  rollup.config.js",
+        "test": "live-server"
     },
     "name": "importcjsamdumd",
     "version": "2.1.12",

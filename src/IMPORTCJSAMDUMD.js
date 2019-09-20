@@ -1,25 +1,19 @@
+/* const 输入的类型错误输入的类型必须是字符串或者数组或对象 =
+  "输入的类型错误,输入的类型必须是字符串或者数组或对象";
+const 非法字符串 = "输入的类型错误,输入的字符串不能为空,url不能为undefined";
+const namesymbol = Symbol.for("name");
+const urlsymbol = Symbol.for("url"); */
+import oldimportcjsamdumd from "./oldimport";
 class cantfindError extends Error {
   constructor(message, urlorname) {
     super(message);
     this.urlorname = urlorname;
   }
 }
-const 传入的参数必须是个object = "传入的参数必须是个object";
+
 const 模块仓库中没有找到 =
   "Cannot find module in packagestore, 模块仓库中没有找到, ";
-function newobjjson(obj) {
-  if (typeof obj !== "object") {
-    throw new TypeError(传入的参数必须是个object);
-  }
-  return JSON.parse(JSON.stringify(obj));
-}
-async function 同时发起多个(a) {
-  return await Promise.all(
-    Array.from(a).map(e => {
-      return IMPORTCJSAMDUMD(e[0], e[1]);
-    })
-  );
-}
+
 function isurl(url) {
   var flag = false;
   try {
@@ -36,14 +30,14 @@ function isurl(url) {
   }
   return flag;
 }
-function isArray(a) {
+export function isArray(a) {
   return (
     typeof a === "object" &&
     Array.isArray(a) &&
     Object.prototype.toString.call(a) === "[object Array]"
   );
 }
-function getmodule(packagename) {
+export function getmodule(packagename) {
   "use strict";
   if (packagename === "") {
     throw new TypeError(字符串不能为空);
@@ -65,8 +59,8 @@ function getmodule(packagename) {
     throw new Error(模块仓库中没有找到 + packagename);
   }
 }
-const GLOBALPACKAGESTORE = "PACKAGESTORE";
-function isplainobject(o) {
+export const GLOBALPACKAGESTORE = "PACKAGESTORE";
+export function isplainobject(o) {
   return (
     typeof o === "object" &&
     Object.prototype.toString.call(o) === "[object Object]" &&
@@ -76,7 +70,7 @@ function isplainobject(o) {
 const 参数必须为字符串 = "参数必须为字符串";
 ("use strict");
 const 字符串不能为空 = "字符串不能为空";
-import coreload from "./coreload.js";
+
 export let myrequirefun = function requireinstead(packagename) {
   "use strict";
   if (packagename === "") {
@@ -141,130 +135,38 @@ export function 定义default(target, def) {
     }
   });
 }
-const IMPORTCJSAMDUMD = (() => {
-  "use strict";
-  const 补充加载依赖的模块网址 = "补充加载依赖的模块网址";
-  const 输入的类型错误输入的类型必须是字符串或者数组或对象 =
-    "输入的类型错误,输入的类型必须是字符串或者数组或对象";
-  const 非法字符串 = "输入的类型错误,输入的字符串不能为空,url不能为undefined";
-  const namesymbol = Symbol.for("name");
-  const urlsymbol = Symbol.for("url");
-  const IMPORTCJSAMDUMD = importcjsamdumd;
-  IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] =
-    IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] || {};
-  async function importcjsamdumd(...inarguments) {
-    return await oldimportcjsamdumd(...inarguments).catch(handleerror);
-    async function handleerror(e) {
-      console.warn(e);
-      if (e instanceof cantfindError && e.urlorname) {
-        if (isurl(e.urlorname)) {
-          console.log(补充加载依赖的模块网址, e.urlorname);
-          await importcjsamdumd(e.urlorname);
-          return await importcjsamdumd(...inarguments);
-        } else {
-          if (
-            isplainobject(inarguments[0]) &&
-            Reflect.has(inarguments[0], e.urlorname)
-          ) {
-            await oldimportcjsamdumd(...inarguments);
-            return await oldimportcjsamdumd(...inarguments);
-          } else {
-            throw e;
-          }
-        }
+// const IMPORTCJSAMDUMD = (() => {
+("use strict");
+const 补充加载依赖的模块网址 = "补充加载依赖的模块网址";
+
+// const IMPORTCJSAMDUMD = importcjsamdumd;
+IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] || {};
+async function IMPORTCJSAMDUMD(...inarguments) {
+  const importcjsamdumd = IMPORTCJSAMDUMD;
+  return await oldimportcjsamdumd(...inarguments).catch(handleerror);
+  async function handleerror(e) {
+    console.warn(e);
+    if (e instanceof cantfindError && e.urlorname) {
+      if (isurl(e.urlorname)) {
+        console.log(补充加载依赖的模块网址, e.urlorname);
+        await importcjsamdumd(e.urlorname);
+        return await importcjsamdumd(...inarguments);
+      } else if (
+        isplainobject(inarguments[0]) &&
+        Reflect.has(inarguments[0], e.urlorname)
+      ) {
+        await oldimportcjsamdumd(...inarguments);
+        return await oldimportcjsamdumd(...inarguments);
       } else {
         throw e;
       }
-    }
-  }
-  async function oldimportcjsamdumd(url, packagename) {
-    "use strict";
-    if (isplainobject(url)) {
-      return await (async url => {
-        url = newobjjson(url);
-        const 输入参数array = Object.keys(url).map(key => {
-          const packageurl = url[key];
-          const packagenm = key;
-          return [packageurl, packagenm];
-        });
-        let suoyouimportpromise = [];
-        try {
-          suoyouimportpromise = await 同时发起多个(输入参数array);
-        } catch (error) {
-          console.warn(error);
-          suoyouimportpromise = await 同时发起多个(输入参数array);
-        } finally {
-          suoyouimportpromise = await 同时发起多个(输入参数array);
-        }
-        let objecttoreturn = {};
-        suoyouimportpromise.forEach(m => {
-          objecttoreturn[m[namesymbol]] = m;
-        });
-        return objecttoreturn;
-      })(url);
-    } else if (
-      (isArray(url) && typeof url === "object") ||
-      typeof packagename === "object"
-    ) {
-      return await (async (...args) => {
-        async function 同时发起多个字符串(a) {
-          return await Promise.all(
-            Array.from(a).map(e => {
-              return IMPORTCJSAMDUMD(e);
-            })
-          );
-        }
-        let suoyouimportpromise = [];
-        const 传入参数arr = JSON.parse(JSON.stringify(Array(...args).flat()));
-        try {
-          suoyouimportpromise = await 同时发起多个字符串(传入参数arr);
-        } catch (error) {
-          console.warn(error);
-          suoyouimportpromise = await 同时发起多个字符串(传入参数arr);
-        } finally {
-          suoyouimportpromise = await 同时发起多个字符串(传入参数arr);
-        }
-        return suoyouimportpromise;
-      })(...arguments);
-    } else if (typeof url === "string" || typeof packagename === "string") {
-      assertstring(url);
-      return await (async (url, packagename) => {
-        if (typeof url === "undefined" || url === "" || packagename === "") {
-          throw new TypeError(非法字符串);
-        }
-        if (typeof packagename === "undefined") {
-          packagename = new URL(url).href;
-        }
-        url = new URL(url).href;
-        if (
-          typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename] !==
-            "undefined" &&
-          typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename].default !==
-            "undefined" &&
-          IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename][urlsymbol] === url
-        ) {
-          return getmodule(packagename);
-        } else if (
-          typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url] !== "undefined" &&
-          typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url].default !==
-            "undefined" &&
-          IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url][urlsymbol] === url
-        ) {
-          IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename] =
-            IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url];
-          IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename][
-            namesymbol
-          ] = packagename;
-          return getmodule(url);
-        } else {
-          return await coreload(url, packagename);
-        }
-      })(url, packagename);
     } else {
-      throw new TypeError(输入的类型错误输入的类型必须是字符串或者数组或对象);
+      throw e;
     }
   }
-  IMPORTCJSAMDUMD.REQUIREPACKAGE = getmodule;
-  return IMPORTCJSAMDUMD;
-})();
+}
+
+IMPORTCJSAMDUMD.REQUIREPACKAGE = getmodule;
+//   return IMPORTCJSAMDUMD;
+// })();
 export default IMPORTCJSAMDUMD;
