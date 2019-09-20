@@ -65,8 +65,6 @@ let dynamicimportshimfun = (() => {
     return dynamicimportshim;
 })();
 
-const GLOBALPACKAGESTORE = "PACKAGESTORE";
-
 const 字符串不能为空 = "字符串不能为空";
 
 const 加载的模块没有输出 = "加载的模块没有输出";
@@ -356,11 +354,11 @@ var oldimportcjsamdumd = (IMPORTCJSAMDUMD => {
                     packagename = new URL(url).href;
                 }
                 url = new URL(url).href;
-                if (typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE$1][packagename] !== "undefined" && typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE$1][packagename].default !== "undefined" && IMPORTCJSAMDUMD[GLOBALPACKAGESTORE$1][packagename][urlsymbol$1] === url) {
+                if (typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename] !== "undefined" && typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename].default !== "undefined" && IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename][urlsymbol$1] === url) {
                     return getmodule(packagename);
-                } else if (typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE$1][url] !== "undefined" && typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE$1][url].default !== "undefined" && IMPORTCJSAMDUMD[GLOBALPACKAGESTORE$1][url][urlsymbol$1] === url) {
-                    IMPORTCJSAMDUMD[GLOBALPACKAGESTORE$1][packagename] = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE$1][url];
-                    IMPORTCJSAMDUMD[GLOBALPACKAGESTORE$1][packagename][namesymbol$1] = packagename;
+                } else if (typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url] !== "undefined" && typeof IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url].default !== "undefined" && IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url][urlsymbol$1] === url) {
+                    IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename] = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url];
+                    IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename][namesymbol$1] = packagename;
                     return getmodule(url);
                 } else {
                     return await coreload(url, packagename);
@@ -409,7 +407,7 @@ function getmodule(packagename) {
     if (typeof packagename !== "string") {
         throw new TypeError(参数必须为字符串);
     }
-    const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE$1][packagename];
+    const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
     if (findpackage) {
         return new Proxy(findpackage, {
             set() {
@@ -424,7 +422,7 @@ function getmodule(packagename) {
     }
 }
 
-const GLOBALPACKAGESTORE$1 = "PACKAGESTORE";
+const GLOBALPACKAGESTORE = "PACKAGESTORE";
 
 function isplainobject(o) {
     return typeof o === "object" && Object.prototype.toString.call(o) === "[object Object]" && o.__proto__ === Object.prototype;
@@ -441,7 +439,7 @@ let myrequirefun = function requireinstead(packagename) {
     if (typeof packagename !== "string") {
         throw new TypeError(参数必须为字符串);
     }
-    const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE$1][packagename];
+    const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
     if (findpackage) {
         return findpackage.default;
     } else {
@@ -504,7 +502,7 @@ function 定义default(target, def) {
 
 const 补充加载依赖的模块网址 = "补充加载依赖的模块网址";
 
-IMPORTCJSAMDUMD[GLOBALPACKAGESTORE$1] = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE$1] || {};
+IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] || {};
 
 async function IMPORTCJSAMDUMD(...inarguments) {
     const importcjsamdumd = IMPORTCJSAMDUMD;

@@ -1,6 +1,7 @@
 /* eslint-disable no-empty */
-const GLOBALPACKAGESTORE = "PACKAGESTORE";
+// const GLOBALPACKAGESTORE = "PACKAGESTORE";
 import IMPORTCJSAMDUMD, {
+  GLOBALPACKAGESTORE,
   定义default,
   assertstring,
   define,
