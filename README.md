@@ -13,6 +13,7 @@
 ## 获取已压缩模块
 
 ### ES 模块
+
 <!--
 https://masx200.github.io/importcjsamdumd/dist/index.esm.min.js
 
@@ -98,11 +99,11 @@ yarn add https://github.com/masx200/importcjsamdumd.git
 导入模块
 
 ```javascript
-import importcjsamdumd from "importcjsamdumd";
+import importcjsamdumd from "@masx200/importcjsamdumd";
 ```
 
 ```js
-import dynamicimportshim from "importcjsamdumd/src/dynamicimportshim.js";
+import dynamicimportshim from "@masx200/importcjsamdumd/src/dynamicimportshim.js";
 ```
 
 # 更新:乱序加载有依赖关系的模块包
@@ -194,7 +195,6 @@ importcjsamdumd([
 ## 旧版用法:加载有依赖关系的模块包的方法
 
 ```javascript
-import importcjsamdumd from "../importcjsamdumd";
 (async () => {
   const react = await importcjsamdumd(
     "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js",
