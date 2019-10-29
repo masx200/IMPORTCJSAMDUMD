@@ -41,7 +41,7 @@ export default async (url, packagename) => {
                   const exports = {
                     exports: { [Symbol.toStringTag]: "Module" }
                   };
-                  const module = { exports: {} };
+                  const module = { exports: {[Symbol.toStringTag]: "Module"} };
                   define.exports = {};
                   var modulesrcfun;
                   const moduleexport = { default: undefined };
@@ -61,11 +61,9 @@ export default async (url, packagename) => {
                         `"use strict";\n/* ${url} */;\n${scripttext};\n/* ${url} */;\n`
                       );
                       modulesrcfun = 模块加载函数.toString();
-                      return 模块加载函数.call(
-                        module.exports,
-                        urlorname => {
+        const formatedurlrequire= urlorname => {
                           assertstring(urlorname);
-                          urlorname = String(urlorname);
+                         // urlorname = String(urlorname);
                           if (urlorname === "") {
                             throw new TypeError(字符串不能为空);
                           }
@@ -99,7 +97,11 @@ export default async (url, packagename) => {
                           const baseurl = getbaseurl(url);
                           urlorname = 格式化url(baseurl, urlorname);
                           return myrequirefun(urlorname);
-                        },
+                        }          
+   return 模块加载函数.call(
+                        module.exports,
+formatedurlrequire
+                        ,
                         define,
                         module,
                         exports.exports
