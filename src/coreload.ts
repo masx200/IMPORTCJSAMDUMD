@@ -1,22 +1,44 @@
+const formatedurlrequire = (urlorname: string, url: string) => {
+  assertstring(urlorname);
+  // urlorname = String(urlorname);
+  /*   if (urlorname === "") {
+      throw new TypeError(字符串不能为空);
+    } */
+
+  const baseurl = getbaseurl(url);
+  const formatedurl = 格式化url(baseurl, urlorname);
+  return myrequirefun(formatedurl);
+};
+function 非空对象(o: any) {
+  return !!(
+    typeof o !== "object" ||
+    Object.keys(o).length ||
+    JSON.stringify(o) !== "{}"
+  );
+}
 /* eslint-disable no-empty */
 // const GLOBALPACKAGESTORE = "PACKAGESTORE";
-import IMPORTCJSAMDUMD, {
-  GLOBALPACKAGESTORE,
-  定义default,
-  assertstring,
+import dynamicimportshim from "./dynamicimportshim.js";
+import {
+  //   assertstring,
   define,
-  myrequirefun
-} from "./IMPORTCJSAMDUMD.js";
-const 字符串不能为空 = "字符串不能为空";
+  myrequirefun,
+  PACKAGESTORE,
+  定义default
+} from "./importcjsamdumd.js";
+import { assertstring } from "./assertstring.js";
+// const 字符串不能为空 = "字符串不能为空";
 const 加载的模块没有输出 = "加载的模块没有输出";
-const typesymbol=Symbol.for("type")
+const typesymbol = Symbol.for("type");
 const namesymbol = Symbol.for("name");
 const urlsymbol = Symbol.for("url");
 const sourcesymbol = Symbol.for("source");
-import dynamicimportshim from "./dynamicimportshim.js";
-export default async (url, packagename) => {
+export default async (url: string, packagename?: string) => {
   return await new Promise(主核心加载模块函数);
-  function 主核心加载模块函数(resolve, reject) {
+  function 主核心加载模块函数(
+    resolve: (value?: any) => void,
+    reject: (reason?: any) => void
+  ) {
     return ((resolve, reject) => {
       (async () => {
         try {
@@ -41,13 +63,17 @@ export default async (url, packagename) => {
                   const exports = {
                     exports: { [Symbol.toStringTag]: "Module" }
                   };
-                  const module = { exports: {[Symbol.toStringTag]: "Module"} };
+                  const module = {
+                    exports: { [Symbol.toStringTag]: "Module" }
+                  };
                   define.exports = {};
                   var modulesrcfun;
-                  const moduleexport = { default: undefined };
+                  const moduleexport: { default: any; [k: string]: any } = {
+                    default: undefined
+                  };
                   try {
                     (function(
-                      myrequirefun,
+                      //   myrequirefun,
                       define,
                       module,
                       exports,
@@ -61,58 +87,26 @@ export default async (url, packagename) => {
                         `"use strict";\n/* ${url} */;\n${scripttext};\n/* ${url} */;\n`
                       );
                       modulesrcfun = 模块加载函数.toString();
-        const formatedurlrequire= urlorname => {
-                          assertstring(urlorname);
-                         // urlorname = String(urlorname);
-                          if (urlorname === "") {
-                            throw new TypeError(字符串不能为空);
-                          }
-                          function getbaseurl(url) {
-                            var objurl = new URL(url);
-                            var a = objurl.pathname.split("/");
-                            a[a.length - 1] = "";
-                            var path = objurl.origin + a.join("/");
-                            return path;
-                          }
-                          function 格式化url(baseurl, urlorname) {
-                            if (
-                              String(urlorname).startsWith("./") ||
-                              String(urlorname).startsWith("../")
-                            ) {
-                              if (
-                                !(
-                                  String(urlorname).endsWith(".js") ||
-                                  urlorname.endsWith(".mjs") ||
-                                  urlorname.endsWith(".json") ||
-                                  urlorname.endsWith(".css") ||
-                                  urlorname.endsWith(".html")
-                                )
-                              ) {
-                                urlorname += ".js";
-                              }
-                              urlorname = new URL(baseurl + urlorname).href;
-                            }
-                            return urlorname;
-                          }
-                          const baseurl = getbaseurl(url);
-                          urlorname = 格式化url(baseurl, urlorname);
-                          return myrequirefun(urlorname);
-                        }          
-   return 模块加载函数.call(
+
+                      return 模块加载函数.call(
                         module.exports,
-formatedurlrequire
-                        ,
+                        (name: string) => formatedurlrequire(name, url),
                         define,
                         module,
                         exports.exports
                       );
-                    })(myrequirefun, define, module, exports, scripttext);
+                    })(
+                      /* myrequirefun,  */ define,
+                      module,
+                      exports,
+                      scripttext
+                    );
                     const exportmodule = [
                       exports.exports ? exports.exports : {},
                       module.exports ? module.exports : {},
                       define.exports ? define.exports : {}
                     ];
-                    处理非es模块(moduleexport, exportmodule);
+                    处理非es模块(moduleexport, exportmodule, url, packagename);
                     moduletype = "cjs";
                   } catch (e) {
                     console.warn(e);
@@ -154,7 +148,7 @@ formatedurlrequire
                         }
                         if (typeof moduleexport.default === "undefined") {
                           console.warn(加载的模块没有输出, packagename, url);
-                        /*  reject(
+                          /*  reject(
                             Error(
                               加载的模块没有输出 + " " + packagename + " " + url
                             )
@@ -168,39 +162,7 @@ formatedurlrequire
                       }
                     }
                   }
-                  function 处理非es模块(moduleexport, exportmodule) {
-                    if (typeof exportmodule === "undefined") {
-                      exportmodule = [{}, {}, {}];
-                    }
-                    if (typeof define.exports === "undefined") {
-                      define.exports = {};
-                    }
-                    function 非空对象(o) {
-                      return (
-                        typeof o !== "object" ||
-                        Object.keys(o).length ||
-                        JSON.stringify(o) !== "{}"
-                      );
-                    }
-                    if (非空对象(exportmodule[0])) {
-                      const exportdefault = exportmodule[0];
-                      定义default(moduleexport, exportdefault);
-                    } else if (非空对象(exportmodule[1])) {
-                      const exportdefault = exportmodule[1];
-                      定义default(moduleexport, exportdefault);
-                    } else if (非空对象(exportmodule[2])) {
-                      const exportdefault = exportmodule[2];
-                      定义default(moduleexport, exportdefault);
-                    } else {
-                      console.warn(加载的模块没有输出, url, packagename);
-                   /*   reject(
-                        Error(
-                          加载的模块没有输出 + " " + packagename + " " + url
-                        )
-                      );
-                      return;*/
-                    }
-                  }
+
                   Object.defineProperties(moduleexport, {
                     [namesymbol]: {
                       value: packagename,
@@ -227,13 +189,12 @@ formatedurlrequire
                   }
                   if (typeof moduleexport.default !== "undefined") {
                     if (typeof packagename !== "undefined") {
-                      IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][
-                        packagename
-                      ] = moduleexport;
+                      PACKAGESTORE[packagename] = moduleexport;
                     }
                   }
-                  IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][url] =
-                    IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
+                  if (typeof packagename !== "undefined") {
+                    PACKAGESTORE[url] = PACKAGESTORE[packagename];
+                  }
                   !!moduleexport.default &&
                     Object.keys(moduleexport.default)
                       .filter(t => t !== "default")
@@ -270,3 +231,62 @@ formatedurlrequire
     })(resolve, reject);
   }
 };
+function getbaseurl(url: string) {
+  var objurl = new URL(url);
+  var a = objurl.pathname.split("/");
+  a[a.length - 1] = "";
+  var path = objurl.origin + a.join("/");
+  return path;
+}
+function 处理非es模块(
+  moduleexport: { default: any },
+  exportmodule: any[],
+  url: string,
+  packagename: string | undefined
+) {
+  if (typeof exportmodule === "undefined") {
+    exportmodule = [{}, {}, {}];
+  }
+  if (typeof define.exports === "undefined") {
+    define.exports = {};
+  }
+
+  if (非空对象(exportmodule[0])) {
+    const exportdefault = exportmodule[0];
+    定义default(moduleexport, exportdefault);
+  } else if (非空对象(exportmodule[1])) {
+    const exportdefault = exportmodule[1];
+    定义default(moduleexport, exportdefault);
+  } else if (非空对象(exportmodule[2])) {
+    const exportdefault = exportmodule[2];
+    定义default(moduleexport, exportdefault);
+  } else {
+    console.warn(加载的模块没有输出, url, packagename);
+    /*   reject(
+        Error(
+          加载的模块没有输出 + " " + packagename + " " + url
+        )
+      );
+      return;*/
+  }
+}
+function 格式化url(baseurl: string, urlorname: string) {
+  if (
+    String(urlorname).startsWith("./") ||
+    String(urlorname).startsWith("../")
+  ) {
+    if (
+      !(
+        String(urlorname).endsWith(".js") ||
+        urlorname.endsWith(".mjs") ||
+        urlorname.endsWith(".json") ||
+        urlorname.endsWith(".css") ||
+        urlorname.endsWith(".html")
+      )
+    ) {
+      urlorname += ".js";
+    }
+    urlorname = new URL(baseurl + urlorname).href;
+  }
+  return urlorname;
+}

@@ -3,9 +3,10 @@
 const 非法字符串 = "输入的类型错误,输入的字符串不能为空,url不能为undefined";
 const namesymbol = Symbol.for("name");
 const urlsymbol = Symbol.for("url"); */
-import oldimportcjsamdumd from "./oldimport";
+import oldimportcjsamdumd, { PlainObj } from "./oldimport";
 class cantfindError extends Error {
-  constructor(message, urlorname) {
+  urlorname: string;
+  constructor(message: string, urlorname: string) {
     super(message);
     this.urlorname = urlorname;
   }
@@ -14,7 +15,7 @@ class cantfindError extends Error {
 const 模块仓库中没有找到 =
   "Cannot find module in packagestore, 模块仓库中没有找到, ";
 
-function isurl(url) {
+function isurl(url: string) {
   var flag = false;
   try {
     if (url === "") {
@@ -30,14 +31,13 @@ function isurl(url) {
   }
   return flag;
 }
-export function isArray(a) {
+export function isArray(a: any): a is Array<any> {
   return (
-   // typeof a === "object" &&
-    Array.isArray(a) &&
-    {}.toString.call(a) === "[object Array]"
+    // typeof a === "object" &&
+    Array.isArray(a) && {}.toString.call(a) === "[object Array]"
   );
 }
-export function getmodule(packagename) {
+export function getmodule(packagename: string) {
   "use strict";
   if (packagename === "") {
     throw new TypeError(字符串不能为空);
@@ -45,11 +45,11 @@ export function getmodule(packagename) {
   if (typeof packagename !== "string") {
     throw new TypeError(参数必须为字符串);
   }
-  const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
+  const findpackage = PACKAGESTORE[packagename];
   if (findpackage) {
-Object.freeze(findpackage)
-    return findpackage
-/*new Proxy(findpackage, {
+    Object.freeze(findpackage);
+    return findpackage;
+    /*new Proxy(findpackage, {
       set() {
         return false;
       },
@@ -57,25 +57,23 @@ Object.freeze(findpackage)
         return false;
       }
     });*/
-
   } else {
-    throw new cantfindError(模块仓库中没有找到 + packagename,packagename);
+    throw new cantfindError(模块仓库中没有找到 + packagename, packagename);
   }
 }
-export const GLOBALPACKAGESTORE = "PACKAGESTORE";
-export function isplainobject(o) {
+// export const GLOBALPACKAGESTORE = "PACKAGESTORE";
+export function isplainobject(o: any): o is PlainObj {
   return (
-    typeof o === "object" &&
-    {}.toString.call(o) === "[object Object]" 
-//&&
- //   o.__proto__ === Object.prototype
+    typeof o === "object" && {}.toString.call(o) === "[object Object]"
+    //&&
+    //   o.__proto__ === Object.prototype
   );
 }
-const 参数必须为字符串 = "参数必须为字符串";
+export const 参数必须为字符串 = "参数必须为字符串";
 ("use strict");
-const 字符串不能为空 = "字符串不能为空";
+export const 字符串不能为空 = "字符串不能为空";
 
-export const myrequirefun = function requireinstead(packagename) {
+export const myrequirefun = function requireinstead(packagename: string) {
   "use strict";
   if (packagename === "") {
     throw new TypeError(字符串不能为空);
@@ -83,25 +81,27 @@ export const myrequirefun = function requireinstead(packagename) {
   if (typeof packagename !== "string") {
     throw new TypeError(参数必须为字符串);
   }
-  const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
+  const findpackage = PACKAGESTORE[packagename];
   if (findpackage) {
-    return Object.freeze(findpackage.default?findpackage.default:findpackage);
+    return Object.freeze(
+      findpackage.default ? findpackage.default : findpackage
+    );
   } else {
     throw new cantfindError(模块仓库中没有找到 + packagename, packagename);
   }
 };
 export { define };
 define.exports = {};
-function isFunction(it) {
-  const op ={}// Object.prototype;
+function isFunction(it: any): it is Function {
+  const op = {}; // Object.prototype;
   const ostring = op.toString;
   return "function" === typeof it && ostring.call(it) === "[object Function]";
 }
-function define(name, deps, callback) {
+function define(name: any, deps?: any, callback?: any) {
   "use strict";
   define.exports = {};
   define.amd = true;
-  const defineglobalDefQueue = [];
+  //   const defineglobalDefQueue = [];
   if (typeof name !== "string") {
     callback = deps;
     deps = name;
@@ -114,22 +114,25 @@ function define(name, deps, callback) {
   if (!deps && isFunction(callback)) {
     deps = [];
   }
-  defineglobalDefQueue.push([name, deps, callback]);
-  const canshu = defineglobalDefQueue[0][1].map(e => myrequirefun(e));
-  define.exports = defineglobalDefQueue[0][2](...canshu);
+  const defineglobalDefQueue: [any, string[], Function] = [
+    name,
+    deps,
+    callback
+  ];
+  const canshu = defineglobalDefQueue[1].map((e: string) => myrequirefun(e));
+  define.exports = defineglobalDefQueue[2](...canshu);
 }
 define.amd = true;
-export function assertstring(s) {
-  if (s === "") {
-    throw new TypeError(字符串不能为空);
-  }
-  if (typeof s !== "string") {
-    throw new TypeError(参数必须为字符串);
-  }
-  return true;
-}
-export function 定义default(target, def) {
-  if (def[Symbol.toStringTag] === "Module" && def.default) {
+
+export function 定义default(
+  target: { default: undefined },
+  def: { [x: string]: string; default: any }
+) {
+  if (
+    Reflect.get(def, Symbol.toStringTag) ===
+      /* def[Symbol.toStringTag] */ "Module" &&
+    def.default
+  ) {
     def = def.default;
   }
   Object.defineProperty(target, "default", {
@@ -139,16 +142,17 @@ export function 定义default(target, def) {
     }
   });
 }
-// const IMPORTCJSAMDUMD = (() => {
+// const importcjsamdumd = (() => {
 ("use strict");
 const 补充加载依赖的模块网址 = "补充加载依赖的模块网址";
 
-// const IMPORTCJSAMDUMD = importcjsamdumd;
-IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE] || {};
-async function IMPORTCJSAMDUMD(...inarguments) {
-  const importcjsamdumd = IMPORTCJSAMDUMD;
+// const importcjsamdumd = importcjsamdumd;
+
+async function importcjsamdumd(url: any, packagename?: any): Promise<any> {
+  const inarguments: [any, any] = [url, packagename];
+  //   const importcjsamdumd = importcjsamdumd;
   return await oldimportcjsamdumd(...inarguments).catch(handleerror);
-  async function handleerror(e) {
+  async function handleerror(e: Error): Promise<any> {
     console.warn(e);
     if (e instanceof cantfindError && e.urlorname) {
       if (isurl(e.urlorname)) {
@@ -169,9 +173,22 @@ async function IMPORTCJSAMDUMD(...inarguments) {
     }
   }
 }
-
-IMPORTCJSAMDUMD.REQUIREPACKAGE = getmodule;
-//   return IMPORTCJSAMDUMD;
+/* export interface IMPORTCJSAMDUMD {
+  (url: any, packagename?: any): Promise<any>;
+  PACKAGESTORE: Record<string, PlainObj>;
+  REQUIREPACKAGE: (packagename: string) => any;
+} */
+// /* importcjsamdumd.PACKAGESTORE = {} as Record<
+//   string|symbol,
+//   PlainObj
+// >; /* PACKAGESTORE ||  */
+// importcjsamdumd.REQUIREPACKAGE = getmodule; */
+//   return importcjsamdumd;
 // })();
-export default IMPORTCJSAMDUMD;
-export const {PACKAGESTORE,REQUIREPACKAGE}=IMPORTCJSAMDUMD
+// const IMPORTcjsamdumd: IMPORTCJSAMDUMD = importcjsamdumd;
+
+export default importcjsamdumd;
+const PACKAGESTORE: Record<string, Record<string | symbol, any>> = {};
+const REQUIREPACKAGE = getmodule;
+export { PACKAGESTORE, REQUIREPACKAGE };
+// export const { PACKAGESTORE, REQUIREPACKAGE } = importcjsamdumd;

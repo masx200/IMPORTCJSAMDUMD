@@ -1,8 +1,8 @@
 # importcjsamdumd
 
-## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES" 模块四合一
+## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES"和'json' 模块 5 合一
 
-非常简洁小巧的工具，压缩后仅有 7 KB
+非常简洁小巧的工具，<!-- 压缩后仅有 7 KB -->
 
 <!-- [查看源代码 ](https://github.com/masx200/importcjsamdumd/blob/master/src/index.js) -->
 
@@ -102,9 +102,9 @@ yarn add https://github.com/masx200/importcjsamdumd.git
 import importcjsamdumd from "@masx200/importcjsamdumd";
 ```
 
-```js
+<!-- ```js
 import dynamicimportshim from "@masx200/importcjsamdumd/src/dynamicimportshim.js";
-```
+``` -->
 
 # 更新:乱序加载有依赖关系的模块包
 
@@ -280,17 +280,19 @@ importcjsamdumd(url).then(m => console.log(m.default));
 
 次对象,importcjsamdumd.PACKAGESTORE,是所有加载过的模块的存储仓库对象
 
+<!--
 ```javascript
 importcjsamdumd.PACKAGESTORE[name];
 ```
+ -->
 
 次函数,importcjsamdumd.REQUIREPACKAGE,返回模块仓库中的模块,参数 name 是字符串
 
-```javascript
-importcjsamdumd.REQUIREPACKAGE(name);
-```
+<!-- ```javascript
+// importcjsamdumd.REQUIREPACKAGE(name);
+``` -->
 
-importcjsamdumd.PACKAGESTORE[name].default 和 importcjsamdumd.REQUIREPACKAGE(name)是相等的
+<!-- importcjsamdumd.PACKAGESTORE[name].default 和 importcjsamdumd.REQUIREPACKAGE(name)是相等的 -->
 
 ## 示例
 
