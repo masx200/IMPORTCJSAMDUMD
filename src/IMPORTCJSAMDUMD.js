@@ -84,7 +84,7 @@ export let myrequirefun = function requireinstead(packagename) {
   }
   const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
   if (findpackage) {
-    return findpackage.default?findpackage.default:findpackage;
+    return Object.freeze(findpackage.default?findpackage.default:findpackage);
   } else {
     throw new cantfindError(模块仓库中没有找到 + packagename, packagename);
   }
