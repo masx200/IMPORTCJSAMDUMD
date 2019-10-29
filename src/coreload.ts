@@ -142,7 +142,7 @@ Reflect.defineProperty(moduleexport,"default",{enumerable:false})
                           );
                           moduletype = "esm";
                           Object.keys(exportdefault)
-                            .filter(t => t !== "default")
+                           // .filter(t => t !== "default")
                             .forEach(key => {
                               Object.defineProperty(moduleexport, key, {
                                 enumerable: true,
@@ -151,12 +151,12 @@ Reflect.defineProperty(moduleexport,"default",{enumerable:false})
                                 }
                               });
                             });
-                          定义default(
+                        /*  定义default(
                             moduleexport,
                             exportdefault.default
                               ? exportdefault.default
                               : exportdefault
-                          );
+                          );*/
                         } catch (e) {
                           console.warn(e);
                           reject(e);
@@ -164,7 +164,12 @@ Reflect.defineProperty(moduleexport,"default",{enumerable:false})
                         }
                         if (typeof moduleexport.default === "undefined") {
                           console.warn(加载的模块没有输出, packagename, url);
+try{
 Reflect.defineProperty(moduleexport,"default",{enumerable:false})
+
+
+
+}catch{}
                           /*  reject(
                             Error(
                               加载的模块没有输出 + " " + packagename + " " + url
@@ -216,11 +221,12 @@ Reflect.defineProperty(moduleexport,"default",{enumerable:false})
                     Object.keys(moduleexport.default)
                       .filter(t => t !== "default")
                       .forEach(key => {
+const moduleexportdefault=moduleexport.default
                         try {
                           Object.defineProperty(moduleexport, key, {
                             enumerable: true,
                             get() {
-                              return moduleexport.default[key];
+                              return Reflect.get(moduleexportdefault,key);
                             }
                           });
                         } catch (error) {}
