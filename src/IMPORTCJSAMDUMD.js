@@ -66,7 +66,7 @@ export const GLOBALPACKAGESTORE = "PACKAGESTORE";
 export function isplainobject(o) {
   return (
     typeof o === "object" &&
-    Object.prototype.toString.call(o) === "[object Object]" 
+    {}.toString.call(o) === "[object Object]" 
 //&&
  //   o.__proto__ === Object.prototype
   );
@@ -93,7 +93,7 @@ export const myrequirefun = function requireinstead(packagename) {
 export { define };
 define.exports = {};
 function isFunction(it) {
-  const op = Object.prototype;
+  const op ={}// Object.prototype;
   const ostring = op.toString;
   return "function" === typeof it && ostring.call(it) === "[object Function]";
 }
