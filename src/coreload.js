@@ -14,8 +14,8 @@ const namesymbol = Symbol.for("name");
 const urlsymbol = Symbol.for("url");
 const sourcesymbol = Symbol.for("source");
 import dynamicimportshim from "./dynamicimportshim.js";
-export default (url, packagename) => {
-  return new Promise(主核心加载模块函数);
+export default async(url, packagename) => {
+  return await new Promise(主核心加载模块函数);
   function 主核心加载模块函数(resolve, reject) {
     return ((resolve, reject) => {
       (async () => {
