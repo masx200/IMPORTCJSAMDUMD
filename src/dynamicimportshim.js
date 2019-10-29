@@ -55,7 +55,7 @@ let dynamicimportshimfun = (() => {
           s.async = true;
           s.onload = () => {
             resolve(window[Symbol.for("import-" + url)]);
-            Reflect.deleteProperty(window, Symbol.for("import-" + url));
+            Reflect.set(window, Symbol.for("import-" + url),undefined);
             clearsideeffect();
           };
           s.onerror = () => {
