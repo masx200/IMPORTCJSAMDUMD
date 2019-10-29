@@ -29,6 +29,7 @@ let dynamicimportshimfun = (() => {
             removescript(s);
             removeerrorlisten(errorhandler);
             URL.revokeObjectURL(s.src);
+s.onload=s.onerror=null
           }
           function removeerrorlisten(f) {
             try {
