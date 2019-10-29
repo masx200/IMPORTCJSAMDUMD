@@ -9,6 +9,7 @@ import IMPORTCJSAMDUMD, {
 } from "./IMPORTCJSAMDUMD.js";
 const 字符串不能为空 = "字符串不能为空";
 const 加载的模块没有输出 = "加载的模块没有输出";
+const typesymbol=Symbol.for("type")
 const namesymbol = Symbol.for("name");
 const urlsymbol = Symbol.for("url");
 const sourcesymbol = Symbol.for("source");
@@ -212,7 +213,7 @@ export default (url, packagename) => {
                       value: modulesrcfun,
                       enumerable: false
                     },
-                    [Symbol.for("type")]: {
+                    [typesymbol]: {
                       value: moduletype,
                       enumerable: false
                     }
