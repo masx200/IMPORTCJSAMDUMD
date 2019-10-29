@@ -36,9 +36,10 @@ let dynamicimportshimfun = (() => {
             } catch (error) {}
           }
           function removescript(e) {
-            try {
-              document.head.removeChild(e);
-            } catch (error) {}
+e.remove()
+            //try {
+           //   document.head.removeChild(e);
+          //  } catch (error) {}
           }
           function errorhandler(e) {
             console.warn(e.error);
