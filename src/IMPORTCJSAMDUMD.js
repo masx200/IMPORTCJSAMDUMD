@@ -59,7 +59,7 @@ Object.freeze(findpackage)
     });*/
 
   } else {
-    throw new Error(模块仓库中没有找到 + packagename);
+    throw new cantfindError(模块仓库中没有找到 + packagename,packagename);
   }
 }
 export const GLOBALPACKAGESTORE = "PACKAGESTORE";
@@ -84,7 +84,7 @@ export let myrequirefun = function requireinstead(packagename) {
   }
   const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
   if (findpackage) {
-    return findpackage.default;
+    return findpackage.default?findpackage.default:findpackage;
   } else {
     throw new cantfindError(模块仓库中没有找到 + packagename, packagename);
   }
