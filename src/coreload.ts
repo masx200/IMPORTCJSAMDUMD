@@ -74,10 +74,10 @@ export default async (url: string, packagename?: string) => {
                   try {
                     (function(
                       //   myrequirefun,
-                      define,
-                      module,
-                      exports,
-                      scripttext
+                    //  define,
+                    //  module,
+                   //   exports,
+                  //    scripttext
                     ) {
                       const 模块加载函数 = new Function(
                         "require",
@@ -96,10 +96,10 @@ export default async (url: string, packagename?: string) => {
                         exports.exports
                       );
                     })(
-                      /* myrequirefun,  */ define,
-                      module,
-                      exports,
-                      scripttext
+                   //   /* myrequirefun,  */ define,
+                  //    module,
+                   //   exports,
+                  //    scripttext
                     );
                     const exportmodule = [
                       exports.exports ? exports.exports : {},
