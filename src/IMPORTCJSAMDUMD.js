@@ -32,9 +32,9 @@ function isurl(url) {
 }
 export function isArray(a) {
   return (
-    typeof a === "object" &&
+   // typeof a === "object" &&
     Array.isArray(a) &&
-    Object.prototype.toString.call(a) === "[object Array]"
+    {}.toString.call(a) === "[object Array]"
   );
 }
 export function getmodule(packagename) {
@@ -74,7 +74,7 @@ const 参数必须为字符串 = "参数必须为字符串";
 ("use strict");
 const 字符串不能为空 = "字符串不能为空";
 
-export let myrequirefun = function requireinstead(packagename) {
+export const myrequirefun = function requireinstead(packagename) {
   "use strict";
   if (packagename === "") {
     throw new TypeError(字符串不能为空);
