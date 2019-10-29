@@ -47,14 +47,17 @@ export function getmodule(packagename) {
   }
   const findpackage = IMPORTCJSAMDUMD[GLOBALPACKAGESTORE][packagename];
   if (findpackage) {
-    return new Proxy(findpackage, {
+Object.freeze(findpackage)
+    return findpackage
+/*new Proxy(findpackage, {
       set() {
         return false;
       },
       deleteProperty() {
         return false;
       }
-    });
+    });*/
+
   } else {
     throw new Error(模块仓库中没有找到 + packagename);
   }
