@@ -66,8 +66,9 @@ export const GLOBALPACKAGESTORE = "PACKAGESTORE";
 export function isplainobject(o) {
   return (
     typeof o === "object" &&
-    Object.prototype.toString.call(o) === "[object Object]" &&
-    o.__proto__ === Object.prototype
+    Object.prototype.toString.call(o) === "[object Object]" 
+//&&
+ //   o.__proto__ === Object.prototype
   );
 }
 const 参数必须为字符串 = "参数必须为字符串";
