@@ -148,6 +148,7 @@ export default async (url: string, packagename?: string) => {
                         }
                         if (typeof moduleexport.default === "undefined") {
                           console.warn(加载的模块没有输出, packagename, url);
+Reflect.defineProperty(moduleexport,"default",{enumerable:false})
                           /*  reject(
                             Error(
                               加载的模块没有输出 + " " + packagename + " " + url
@@ -208,6 +209,7 @@ export default async (url: string, packagename?: string) => {
                           });
                         } catch (error) {}
                       });
+Object.freeze(moduleexport)
                   resolve(moduleexport);
                   return;
                 })(fetchpromisetext);
