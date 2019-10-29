@@ -111,10 +111,26 @@ export default async (url: string, packagename?: string) => {
                   } catch (e) {
                     console.warn(e);
                     try {
-                      moduleexport.default = JSON.parse(scripttext);
+                   const   moduleexportdefault = JSON.parse(scripttext);
                       console.log("检测到json模块 " + url);
                       modulesrcfun = scripttext;
-                      moduletype = "json";
+                      moduletype = "json"
+
+
+
+Object.keys(moduleexportdefault)
+                           // .filter(t => t !== "default")
+                            .forEach(key => {
+                              Object.defineProperty(moduleexport, key, {
+                                enumerable: true,
+                                get() {
+                                  return moduleexportdefault[key];
+                                }
+                              });
+                            });
+try{
+Reflect.defineProperty(moduleexport,"default",{enumerable:false})
+                        }catch{}
                     } catch (error) {
                       console.warn(error);
                       if (e instanceof SyntaxError) {
