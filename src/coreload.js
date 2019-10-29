@@ -151,12 +151,12 @@ export default (url, packagename) => {
                         }
                         if (typeof moduleexport.default === "undefined") {
                           console.warn(加载的模块没有输出, packagename, url);
-                          reject(
+                        /*  reject(
                             Error(
                               加载的模块没有输出 + " " + packagename + " " + url
                             )
                           );
-                          return;
+                          return;*/
                         }
                       } else {
                         console.warn(e);
@@ -190,12 +190,12 @@ export default (url, packagename) => {
                       定义default(moduleexport, exportdefault);
                     } else {
                       console.warn(加载的模块没有输出, url, packagename);
-                      reject(
+                   /*   reject(
                         Error(
                           加载的模块没有输出 + " " + packagename + " " + url
                         )
                       );
-                      return;
+                      return;*/
                     }
                   }
                   Object.defineProperties(moduleexport, {
