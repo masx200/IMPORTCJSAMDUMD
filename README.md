@@ -109,6 +109,12 @@ import dynamicimportshim from "@masx200/importcjsamdumd/src/dynamicimportshim.js
 
 # API
 
+主函数,importcjsamdumd,返回一个 promise 对象
+
+PACKAGESTORE,是所有加载过的模块的存储仓库对象
+
+REQUIREPACKAGE,返回模块仓库中的模块,参数 name 是字符串
+
 ```ts
 function importcjsamdumd(url: string[]): Promise<Module[]>;
 function importcjsamdumd(url: string, packagename?: string): Promise<Module>;
@@ -159,15 +165,11 @@ importcjsamdumd(url, name);
 importcjsamdumd(url).then(m => console.log(m.default));
 ```
 
-PACKAGESTORE,是所有加载过的模块的存储仓库对象
-
 <!--
 ```javascript
 importcjsamdumd.PACKAGESTORE[name];
 ```
  -->
-
-REQUIREPACKAGE,返回模块仓库中的模块,参数 name 是字符串
 
 <!-- ```javascript
 // importcjsamdumd.REQUIREPACKAGE(name);
