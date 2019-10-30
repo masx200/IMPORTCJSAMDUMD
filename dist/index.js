@@ -1,3 +1,64 @@
+class cantfindError extends Error {
+    constructor(message, urlorname) {
+        super(message);
+        this.urlorname = urlorname;
+    }
+}
+
+function isplainobject(o) {
+    return typeof o === "object" && {}.toString.call(o) === "[object Object]";
+}
+
+function getmodule(packagename) {
+    if (packagename === "") {
+        throw new TypeError(字符串不能为空);
+    }
+    if (typeof packagename !== "string") {
+        throw new TypeError(参数必须为字符串);
+    }
+    const findpackage = PACKAGESTORE[packagename];
+    if (findpackage) {
+        Object.freeze(findpackage);
+        return findpackage;
+    } else {
+        throw new cantfindError(模块仓库中没有找到 + packagename, packagename);
+    }
+}
+
+function isurl(url) {
+    var flag = false;
+    try {
+        if (url === "") {
+            throw new TypeError(字符串不能为空);
+        }
+        if (typeof url !== "string") {
+            throw new TypeError(参数必须为字符串);
+        }
+        url = new URL(url).href;
+        flag = true;
+    } catch (error) {
+        flag = false;
+    }
+    return flag;
+}
+
+const 模块仓库中没有找到 = "Cannot find module in packagestore, 模块仓库中没有找到, ";
+
+const 参数必须为字符串 = "参数必须为字符串";
+
+const 字符串不能为空 = "字符串不能为空";
+
+const PACKAGESTORE = {};
+
+function assertstring(s) {
+    if (s === "") {
+        throw new TypeError(字符串不能为空);
+    }
+    if (typeof s !== "string") {
+        throw new TypeError(参数必须为字符串);
+    }
+}
+
 function createBlob(source) {
     return URL.createObjectURL(new Blob([ source ], {
         type: "application/javascript"
@@ -26,6 +87,7 @@ const dynamicimportshimfun = (() => {
 })();
 
 function getnewimportpromise(url) {
+    const symbolkey = Symbol.for("import-" + url);
     return new Promise((resolve, reject) => {
         const s = document.createElement("script");
         function clearsideeffect() {
@@ -53,10 +115,9 @@ function getnewimportpromise(url) {
         s.src = topLevelBlobUrl;
         s.async = true;
         s.onload = () => {
-            const symbolkey = Symbol.for("import-" + url);
             if (Reflect.has(window, symbolkey)) {
-                const module = Reflect.get(window, symbolkey);
-                resolve(module);
+                const moduleoutput = Reflect.get(window, symbolkey);
+                resolve(moduleoutput);
                 Reflect.set(window, symbolkey, undefined);
                 clearsideeffect();
             }
@@ -69,18 +130,39 @@ function getnewimportpromise(url) {
     });
 }
 
-const 参数必须为字符串 = "参数必须为字符串";
+function getbaseurl(url) {
+    var objurl = new URL(url);
+    var a = objurl.pathname.split("/");
+    a[a.length - 1] = "";
+    var path = objurl.origin + a.join("/");
+    return path;
+}
 
-const 字符串不能为空 = "字符串不能为空";
+function 格式化url(baseurl, urlorname) {
+    if (String(urlorname).startsWith("./") || String(urlorname).startsWith("../")) {
+        if (!(String(urlorname).endsWith(".js") || urlorname.endsWith(".mjs") || urlorname.endsWith(".json") || urlorname.endsWith(".css") || urlorname.endsWith(".html"))) {
+            urlorname += ".js";
+        }
+        urlorname = new URL(baseurl + urlorname).href;
+    }
+    return urlorname;
+}
 
-function assertstring(s) {
-    if (s === "") {
+const myrequirefun = function requireinstead(packagename) {
+    if (packagename === "") {
         throw new TypeError(字符串不能为空);
     }
-    if (typeof s !== "string") {
+    if (typeof packagename !== "string") {
         throw new TypeError(参数必须为字符串);
     }
-}
+    const findpackage = PACKAGESTORE[packagename];
+    if (findpackage) {
+        Object.freeze(findpackage);
+        return findpackage.default ? findpackage.default : findpackage;
+    } else {
+        throw new cantfindError(模块仓库中没有找到 + packagename, packagename);
+    }
+};
 
 const formatedurlrequire = (urlorname, url) => {
     assertstring(urlorname);
@@ -89,8 +171,75 @@ const formatedurlrequire = (urlorname, url) => {
     return myrequirefun(formatedurl);
 };
 
+function 定义default(target, def) {
+    if (Reflect.get(def, Symbol.toStringTag) === "Module" && def.default) {
+        def = def.default;
+    }
+    Object.defineProperty(target, "default", {
+        enumerable: true,
+        get() {
+            return def;
+        }
+    });
+}
+
 function 非空对象(o) {
     return !!(typeof o !== "object" || Object.keys(o).length || JSON.stringify(o) !== "{}");
+}
+
+function isArray(a) {
+    return Array.isArray(a) && {}.toString.call(a) === "[object Array]";
+}
+
+function isFunction(it) {
+    const op = {};
+    const ostring = op.toString;
+    return "function" === typeof it && ostring.call(it) === "[object Function]";
+}
+
+define.exports = {};
+
+define.amd = true;
+
+function define(name, deps, callback) {
+    define.exports = {};
+    define.amd = true;
+    if (typeof name !== "string") {
+        callback = deps;
+        deps = name;
+        name = null;
+    }
+    if (!isArray(deps)) {
+        callback = deps;
+        deps = null;
+    }
+    if (!deps && isFunction(callback)) {
+        deps = [];
+    }
+    const defineglobalDefQueue = [ name, deps, callback ];
+    const canshu = defineglobalDefQueue[1].map(e => myrequirefun(e));
+    define.exports = defineglobalDefQueue[2](...canshu);
+}
+
+function 处理非es模块(moduleexport, exportmodule, url, packagename) {
+    if (typeof exportmodule === "undefined") {
+        exportmodule = [ {}, {}, {} ];
+    }
+    if (typeof define.exports === "undefined") {
+        define.exports = {};
+    }
+    if (非空对象(exportmodule[0])) {
+        const exportdefault = exportmodule[0];
+        定义default(moduleexport, exportdefault);
+    } else if (非空对象(exportmodule[1])) {
+        const exportdefault = exportmodule[1];
+        定义default(moduleexport, exportdefault);
+    } else if (非空对象(exportmodule[2])) {
+        const exportdefault = exportmodule[2];
+        定义default(moduleexport, exportdefault);
+    } else {
+        console.warn(加载的模块没有输出, url, packagename);
+    }
 }
 
 const 加载的模块没有输出 = "加载的模块没有输出";
@@ -143,21 +292,34 @@ var coreload = async (url, packagename) => {
                                         default: undefined
                                     };
                                     try {
-                                        (function(define, module, exports, scripttext) {
+                                        (function() {
                                             const 模块加载函数 = new Function("require", "define", "module", "exports", `"use strict";\n/* ${url} */;\n${scripttext};\n/* ${url} */;\n`);
                                             modulesrcfun = 模块加载函数.toString();
                                             return 模块加载函数.call(module.exports, name => formatedurlrequire(name, url), define, module, exports.exports);
-                                        })(define, module, exports, scripttext);
+                                        })();
                                         const exportmodule = [ exports.exports ? exports.exports : {}, module.exports ? module.exports : {}, define.exports ? define.exports : {} ];
                                         处理非es模块(moduleexport, exportmodule, url, packagename);
                                         moduletype = "cjs";
                                     } catch (e) {
                                         console.warn(e);
                                         try {
-                                            moduleexport.default = JSON.parse(scripttext);
+                                            const moduleexportdefault = JSON.parse(scripttext);
                                             console.log("检测到json模块 " + url);
                                             modulesrcfun = scripttext;
                                             moduletype = "json";
+                                            Object.keys(moduleexportdefault).forEach(key => {
+                                                Object.defineProperty(moduleexport, key, {
+                                                    enumerable: true,
+                                                    get() {
+                                                        return moduleexportdefault[key];
+                                                    }
+                                                });
+                                            });
+                                            try {
+                                                Reflect.defineProperty(moduleexport, "default", {
+                                                    enumerable: false
+                                                });
+                                            } catch {}
                                         } catch (error) {
                                             console.warn(error);
                                             if (e instanceof SyntaxError) {
@@ -166,7 +328,7 @@ var coreload = async (url, packagename) => {
                                                 try {
                                                     const exportdefault = await dynamicimportshimfun(topLevelBlobUrl);
                                                     moduletype = "esm";
-                                                    Object.keys(exportdefault).filter(t => t !== "default").forEach(key => {
+                                                    Object.keys(exportdefault).forEach(key => {
                                                         Object.defineProperty(moduleexport, key, {
                                                             enumerable: true,
                                                             get() {
@@ -174,7 +336,6 @@ var coreload = async (url, packagename) => {
                                                             }
                                                         });
                                                     });
-                                                    定义default(moduleexport, exportdefault.default ? exportdefault.default : exportdefault);
                                                 } catch (e) {
                                                     console.warn(e);
                                                     reject(e);
@@ -182,6 +343,11 @@ var coreload = async (url, packagename) => {
                                                 }
                                                 if (typeof moduleexport.default === "undefined") {
                                                     console.warn(加载的模块没有输出, packagename, url);
+                                                    try {
+                                                        Reflect.defineProperty(moduleexport, "default", {
+                                                            enumerable: false
+                                                        });
+                                                    } catch {}
                                                 }
                                             } else {
                                                 console.warn(e);
@@ -216,22 +382,24 @@ var coreload = async (url, packagename) => {
                                     }
                                     if (typeof moduleexport.default !== "undefined") {
                                         if (typeof packagename !== "undefined") {
-                                            PACKAGESTORE[packagename] = moduleexport;
+                                            PACKAGESTORE$1[packagename] = moduleexport;
                                         }
                                     }
                                     if (typeof packagename !== "undefined") {
-                                        PACKAGESTORE[url] = PACKAGESTORE[packagename];
+                                        PACKAGESTORE$1[url] = PACKAGESTORE$1[packagename];
                                     }
                                     !!moduleexport.default && Object.keys(moduleexport.default).filter(t => t !== "default").forEach(key => {
+                                        const moduleexportdefault = moduleexport.default;
                                         try {
                                             Object.defineProperty(moduleexport, key, {
                                                 enumerable: true,
                                                 get() {
-                                                    return moduleexport.default[key];
+                                                    return Reflect.get(moduleexportdefault, key);
                                                 }
                                             });
                                         } catch (error) {}
                                     });
+                                    Object.freeze(moduleexport);
                                     resolve(moduleexport);
                                     return;
                                 })(fetchpromisetext);
@@ -256,43 +424,11 @@ var coreload = async (url, packagename) => {
     }
 };
 
-function getbaseurl(url) {
-    var objurl = new URL(url);
-    var a = objurl.pathname.split("/");
-    a[a.length - 1] = "";
-    var path = objurl.origin + a.join("/");
-    return path;
-}
-
-function 处理非es模块(moduleexport, exportmodule, url, packagename) {
-    if (typeof exportmodule === "undefined") {
-        exportmodule = [ {}, {}, {} ];
+function newobjjson(obj) {
+    if (typeof obj !== "object") {
+        throw new TypeError(传入的参数必须是个object);
     }
-    if (typeof define.exports === "undefined") {
-        define.exports = {};
-    }
-    if (非空对象(exportmodule[0])) {
-        const exportdefault = exportmodule[0];
-        定义default(moduleexport, exportdefault);
-    } else if (非空对象(exportmodule[1])) {
-        const exportdefault = exportmodule[1];
-        定义default(moduleexport, exportdefault);
-    } else if (非空对象(exportmodule[2])) {
-        const exportdefault = exportmodule[2];
-        定义default(moduleexport, exportdefault);
-    } else {
-        console.warn(加载的模块没有输出, url, packagename);
-    }
-}
-
-function 格式化url(baseurl, urlorname) {
-    if (String(urlorname).startsWith("./") || String(urlorname).startsWith("../")) {
-        if (!(String(urlorname).endsWith(".js") || urlorname.endsWith(".mjs") || urlorname.endsWith(".json") || urlorname.endsWith(".css") || urlorname.endsWith(".html"))) {
-            urlorname += ".js";
-        }
-        urlorname = new URL(baseurl + urlorname).href;
-    }
-    return urlorname;
+    return JSON.parse(JSON.stringify(obj));
 }
 
 async function 同时发起多个字符串(a, importcjsamdumd) {
@@ -301,49 +437,34 @@ async function 同时发起多个字符串(a, importcjsamdumd) {
     }));
 }
 
-const 输入的类型错误输入的类型必须是字符串或者数组或对象 = "输入的类型错误,输入的类型必须是字符串或者数组或对象";
-
-const namesymbol$1 = Symbol.for("name");
-
-const urlsymbol$1 = Symbol.for("url");
-
-const 传入的参数必须是个object = "传入的参数必须是个object";
-
-function newobjjson(obj) {
-    if (typeof obj !== "object") {
-        throw new TypeError(传入的参数必须是个object);
-    }
-    return JSON.parse(JSON.stringify(obj));
-}
-
-async function 同时发起多个(a, importcjsamdumd) {
+async function 同时发起多个entries(a, importcjsamdumd) {
     return await Promise.all(Array(...a).map(e => {
         return importcjsamdumd(e[0], e[1]);
     }));
 }
+
+const 输入的类型错误输入的类型必须是字符串或者数组或对象 = "输入的类型错误,输入的类型必须是字符串或者数组或对象";
+
+const 传入的参数必须是个object = "传入的参数必须是个object";
 
 var oldimportcjsamdumd = (() => {
     return async function oldimportcjsamdumd(url, packagename) {
         if (isplainobject(url)) {
             return await (async url => {
                 url = newobjjson(url);
-                const 输入参数array = Object.keys(url).map(key => {
-                    const packageurl = url[key];
-                    const packagenm = key;
-                    return [ packageurl, packagenm ];
-                });
+                const 输入参数array = Object.entries(url);
                 let suoyouimportpromise = [];
                 try {
-                    suoyouimportpromise = await 同时发起多个(输入参数array, importcjsamdumd);
+                    suoyouimportpromise = await 同时发起多个entries(输入参数array, importcjsamdumd);
                 } catch (error) {
                     console.warn(error);
-                    suoyouimportpromise = await 同时发起多个(输入参数array, importcjsamdumd);
+                    suoyouimportpromise = await 同时发起多个entries(输入参数array, importcjsamdumd);
                 } finally {
-                    suoyouimportpromise = await 同时发起多个(输入参数array, importcjsamdumd);
+                    suoyouimportpromise = await 同时发起多个entries(输入参数array, importcjsamdumd);
                 }
                 let objecttoreturn = {};
                 suoyouimportpromise.forEach(m => {
-                    objecttoreturn[m[namesymbol$1]] = m;
+                    objecttoreturn[m[namesymbol]] = m;
                 });
                 return objecttoreturn;
             })(url);
@@ -368,11 +489,11 @@ var oldimportcjsamdumd = (() => {
                     packagename = new URL(url).href;
                 }
                 url = new URL(url).href;
-                if (typeof PACKAGESTORE[packagename] !== "undefined" && typeof PACKAGESTORE[packagename].default !== "undefined" && Reflect.get(PACKAGESTORE[packagename], urlsymbol$1) === url) {
+                if (typeof PACKAGESTORE$1[packagename] !== "undefined" && typeof PACKAGESTORE$1[packagename].default !== "undefined" && Reflect.get(PACKAGESTORE$1[packagename], urlsymbol) === url) {
                     return getmodule(packagename);
-                } else if (typeof PACKAGESTORE[url] !== "undefined" && typeof PACKAGESTORE[url].default !== "undefined" && Reflect.get(PACKAGESTORE[url], urlsymbol$1) === url) {
-                    PACKAGESTORE[packagename] = PACKAGESTORE[url];
-                    Reflect.set(PACKAGESTORE[packagename], namesymbol$1, packagename);
+                } else if (typeof PACKAGESTORE$1[url] !== "undefined" && typeof PACKAGESTORE$1[url].default !== "undefined" && Reflect.get(PACKAGESTORE$1[url], urlsymbol) === url) {
+                    PACKAGESTORE$1[packagename] = PACKAGESTORE$1[url];
+                    Reflect.set(PACKAGESTORE$1[packagename], namesymbol, packagename);
                     return getmodule(url);
                 } else {
                     return await coreload(url, packagename);
@@ -383,117 +504,6 @@ var oldimportcjsamdumd = (() => {
         }
     };
 })();
-
-class cantfindError extends Error {
-    constructor(message, urlorname) {
-        super(message);
-        this.urlorname = urlorname;
-    }
-}
-
-const 模块仓库中没有找到 = "Cannot find module in packagestore, 模块仓库中没有找到, ";
-
-function isurl(url) {
-    var flag = false;
-    try {
-        if (url === "") {
-            throw new TypeError(字符串不能为空$1);
-        }
-        if (typeof url !== "string") {
-            throw new TypeError(参数必须为字符串$1);
-        }
-        url = new URL(url).href;
-        flag = true;
-    } catch (error) {
-        flag = false;
-    }
-    return flag;
-}
-
-function isArray(a) {
-    return Array.isArray(a) && {}.toString.call(a) === "[object Array]";
-}
-
-function getmodule(packagename) {
-    if (packagename === "") {
-        throw new TypeError(字符串不能为空$1);
-    }
-    if (typeof packagename !== "string") {
-        throw new TypeError(参数必须为字符串$1);
-    }
-    const findpackage = PACKAGESTORE[packagename];
-    if (findpackage) {
-        Object.freeze(findpackage);
-        return findpackage;
-    } else {
-        throw new cantfindError(模块仓库中没有找到 + packagename, packagename);
-    }
-}
-
-function isplainobject(o) {
-    return typeof o === "object" && {}.toString.call(o) === "[object Object]";
-}
-
-const 参数必须为字符串$1 = "参数必须为字符串";
-
-const 字符串不能为空$1 = "字符串不能为空";
-
-const myrequirefun = function requireinstead(packagename) {
-    if (packagename === "") {
-        throw new TypeError(字符串不能为空$1);
-    }
-    if (typeof packagename !== "string") {
-        throw new TypeError(参数必须为字符串$1);
-    }
-    const findpackage = PACKAGESTORE[packagename];
-    if (findpackage) {
-        return Object.freeze(findpackage.default ? findpackage.default : findpackage);
-    } else {
-        throw new cantfindError(模块仓库中没有找到 + packagename, packagename);
-    }
-};
-
-define.exports = {};
-
-function isFunction(it) {
-    const op = {};
-    const ostring = op.toString;
-    return "function" === typeof it && ostring.call(it) === "[object Function]";
-}
-
-function define(name, deps, callback) {
-    define.exports = {};
-    define.amd = true;
-    if (typeof name !== "string") {
-        callback = deps;
-        deps = name;
-        name = null;
-    }
-    if (!isArray(deps)) {
-        callback = deps;
-        deps = null;
-    }
-    if (!deps && isFunction(callback)) {
-        deps = [];
-    }
-    const defineglobalDefQueue = [ name, deps, callback ];
-    const canshu = defineglobalDefQueue[1].map(e => myrequirefun(e));
-    define.exports = defineglobalDefQueue[2](...canshu);
-}
-
-define.amd = true;
-
-function 定义default(target, def) {
-    if (Reflect.get(def, Symbol.toStringTag) === "Module" && def.default) {
-        def = def.default;
-    }
-    Object.defineProperty(target, "default", {
-        enumerable: true,
-        get() {
-            return def;
-        }
-    });
-}
 
 const 补充加载依赖的模块网址 = "补充加载依赖的模块网址";
 
@@ -519,11 +529,11 @@ async function importcjsamdumd(url, packagename) {
     }
 }
 
-const PACKAGESTORE = {};
+const PACKAGESTORE$1 = {};
 
 const REQUIREPACKAGE = getmodule;
 
 export default importcjsamdumd;
 
-export { PACKAGESTORE, REQUIREPACKAGE };
+export { PACKAGESTORE$1 as PACKAGESTORE, REQUIREPACKAGE };
 //# sourceMappingURL=index.js.map

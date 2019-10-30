@@ -30,6 +30,7 @@ const dynamicimportshimfun = (() => {
 })();
 export default dynamicimportshimfun;
 function getnewimportpromise(url: string) {
+  const symbolkey = Symbol.for("import-" + url);
   return new Promise((resolve, reject) => {
     const s = document.createElement("script");
     function clearsideeffect() {
@@ -62,13 +63,12 @@ function getnewimportpromise(url: string) {
     s.src = topLevelBlobUrl;
     s.async = true;
     s.onload = () => {
-      const symbolkey = Symbol.for("import-" + url);
       if (
         Reflect.has(window, symbolkey)
         /* symbolkey in */
       ) {
-        const module = Reflect.get(window, symbolkey);
-        resolve(module /* [Symbol.for("import-" + url)] */);
+        const moduleoutput = Reflect.get(window, symbolkey);
+        resolve(moduleoutput /* [Symbol.for("import-" + url)] */);
         Reflect.set(window, symbolkey, undefined);
         clearsideeffect();
       }

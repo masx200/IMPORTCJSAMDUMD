@@ -1,4 +1,4 @@
-import { 字符串不能为空, 参数必须为字符串 } from './IMPORTCJSAMDUMD';
+import { 参数必须为字符串, 字符串不能为空 } from './IMPORTCJSAMDUMD';
 
 export function assertstring(s: string) :asserts s is string 
 {

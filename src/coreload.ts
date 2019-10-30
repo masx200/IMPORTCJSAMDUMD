@@ -1,38 +1,21 @@
-const formatedurlrequire = (urlorname: string, url: string) => {
-  assertstring(urlorname);
-  // urlorname = String(urlorname);
-  /*   if (urlorname === "") {
-      throw new TypeError(字符串不能为空);
-    } */
-
-  const baseurl = getbaseurl(url);
-  const formatedurl = 格式化url(baseurl, urlorname);
-  return myrequirefun(formatedurl);
-};
-function 非空对象(o: any) {
-  return !!(
-    typeof o !== "object" ||
-    Object.keys(o).length ||
-    JSON.stringify(o) !== "{}"
-  );
-}
 /* eslint-disable no-empty */
 // const GLOBALPACKAGESTORE = "PACKAGESTORE";
 import dynamicimportshim from "./dynamicimportshim.js";
+import { formatedurlrequire } from "./formatedurlrequire.js";
+import { 处理非es模块 } from "./handlecjsmodule.js";
 import {
   //   assertstring,
-  define,
-  myrequirefun,
-  PACKAGESTORE,
-  定义default
+  //   define,
+  PACKAGESTORE
+  //   定义default
 } from "./importcjsamdumd.js";
-import { assertstring } from "./assertstring.js";
+import { define } from "./define.js";
 // const 字符串不能为空 = "字符串不能为空";
-const 加载的模块没有输出 = "加载的模块没有输出";
-const typesymbol = Symbol.for("type");
-const namesymbol = Symbol.for("name");
-const urlsymbol = Symbol.for("url");
-const sourcesymbol = Symbol.for("source");
+export const 加载的模块没有输出 = "加载的模块没有输出";
+export const typesymbol = Symbol.for("type");
+export const namesymbol = Symbol.for("name");
+export const urlsymbol = Symbol.for("url");
+export const sourcesymbol = Symbol.for("source");
 export default async (url: string, packagename?: string) => {
   return await new Promise(主核心加载模块函数);
   function 主核心加载模块函数(
@@ -252,62 +235,3 @@ export default async (url: string, packagename?: string) => {
     })(resolve, reject);
   }
 };
-function getbaseurl(url: string) {
-  var objurl = new URL(url);
-  var a = objurl.pathname.split("/");
-  a[a.length - 1] = "";
-  var path = objurl.origin + a.join("/");
-  return path;
-}
-function 处理非es模块(
-  moduleexport: { default: any },
-  exportmodule: any[],
-  url: string,
-  packagename: string | undefined
-) {
-  if (typeof exportmodule === "undefined") {
-    exportmodule = [{}, {}, {}];
-  }
-  if (typeof define.exports === "undefined") {
-    define.exports = {};
-  }
-
-  if (非空对象(exportmodule[0])) {
-    const exportdefault = exportmodule[0];
-    定义default(moduleexport, exportdefault);
-  } else if (非空对象(exportmodule[1])) {
-    const exportdefault = exportmodule[1];
-    定义default(moduleexport, exportdefault);
-  } else if (非空对象(exportmodule[2])) {
-    const exportdefault = exportmodule[2];
-    定义default(moduleexport, exportdefault);
-  } else {
-    console.warn(加载的模块没有输出, url, packagename);
-    /*   reject(
-        Error(
-          加载的模块没有输出 + " " + packagename + " " + url
-        )
-      );
-      return;*/
-  }
-}
-function 格式化url(baseurl: string, urlorname: string) {
-  if (
-    String(urlorname).startsWith("./") ||
-    String(urlorname).startsWith("../")
-  ) {
-    if (
-      !(
-        String(urlorname).endsWith(".js") ||
-        urlorname.endsWith(".mjs") ||
-        urlorname.endsWith(".json") ||
-        urlorname.endsWith(".css") ||
-        urlorname.endsWith(".html")
-      )
-    ) {
-      urlorname += ".js";
-    }
-    urlorname = new URL(baseurl + urlorname).href;
-  }
-  return urlorname;
-}

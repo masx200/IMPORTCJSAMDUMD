@@ -1,39 +1,26 @@
-async function 同时发起多个字符串(a: Array<string>, importcjsamdumd: Function) {
-  return await Promise.all(
-    Array(...a).map(e => {
-      return importcjsamdumd(e);
-    })
-  );
-}
-import coreload from "./coreload.js";
+// import { 同时发起多个entries } from "./arrayimportall.js";
+import { assertstring } from "./assertstring.js";
+import coreload, { namesymbol, urlsymbol } from "./coreload.js";
 import importcjsamdumd, {
   //   assertstring,
-  getmodule,
-  isArray,
-  isplainobject,
+  //   getmodule,
+  //   isArray,
+  //   isplainobject,
   PACKAGESTORE
 } from "./importcjsamdumd";
-import { assertstring } from "./assertstring.js";
+import { isplainobject } from "./isplainobject.js";
+import { newobjjson } from "./newobjjson.js";
+import { 同时发起多个entries, 同时发起多个字符串 } from "./arrayimportall.js";
+import { isArray } from "./isarray.js";
+import { getmodule } from "./getmodule.js";
 const 输入的类型错误输入的类型必须是字符串或者数组或对象 =
   "输入的类型错误,输入的类型必须是字符串或者数组或对象";
 // export const 非法字符串 = "输入的类型错误,输入的字符串不能为空,不能为undefined";
-const namesymbol = Symbol.for("name");
-const urlsymbol = Symbol.for("url");
-const 传入的参数必须是个object = "传入的参数必须是个object";
+// export const namesymbol = Symbol.for("name");
+// export const urlsymbol = Symbol.for("url");
+export const 传入的参数必须是个object = "传入的参数必须是个object";
 export type PlainObj = Record<any, any>;
-function newobjjson(obj: PlainObj) {
-  if (typeof obj !== "object") {
-    throw new TypeError(传入的参数必须是个object);
-  }
-  return JSON.parse(JSON.stringify(obj));
-}
-async function 同时发起多个(a: any[][], importcjsamdumd: Function) {
-  return await Promise.all(
-    Array(...a).map(e => {
-      return importcjsamdumd(e[0], e[1]);
-    })
-  );
-}
+
 export default (() => {
   return async function oldimportcjsamdumd(
     url: any,
@@ -43,25 +30,27 @@ export default (() => {
     if (isplainobject(url)) {
       return await (async url => {
         url = newobjjson(url);
-        const 输入参数array = Object.keys(url).map(key => {
+        const 输入参数array = Object.entries(
+          url
+        ); /*  Object.keys(url).map(key => {
           const packageurl = url[key];
           const packagenm = key;
           return [packageurl, packagenm];
-        });
+        }); */
         let suoyouimportpromise = [];
         try {
-          suoyouimportpromise = await 同时发起多个(
+          suoyouimportpromise = await 同时发起多个entries(
             输入参数array,
             importcjsamdumd
           );
         } catch (error) {
           console.warn(error);
-          suoyouimportpromise = await 同时发起多个(
+          suoyouimportpromise = await 同时发起多个entries(
             输入参数array,
             importcjsamdumd
           );
         } finally {
-          suoyouimportpromise = await 同时发起多个(
+          suoyouimportpromise = await 同时发起多个entries(
             输入参数array,
             importcjsamdumd
           );
