@@ -1,3 +1,4 @@
+import cachedfetchtext from "./cachedfetchtext";
 /* eslint-disable no-empty */
 // const GLOBALPACKAGESTORE = "PACKAGESTORE";
 import dynamicimportshim from "./dynamicimportshim.js";
@@ -23,29 +24,28 @@ export default async (url: string, packagename?: string) => {
     reject: (reason?: any) => void
   ) {
     return ((resolve, reject) => {
-      (async () => {
+      return (async () => {
         try {
-          await (async () => {
-            let fetchpromisetext;
+          return await (async () => {
+            let fetchpromisetext: string;
             try {
               try {
-                fetchpromisetext = await fetch(url).then(response => {
+                fetchpromisetext = await cachedfetchtext(url);
+                /* await fetch(url).then(response => {
                   if (!response.ok) {
                     throw new Error("fetch failed " + url);
                   }
                   return response.text();
-                });
+                }); */
               } catch (e) {
                 console.warn(e);
                 reject(e);
                 return;
               }
               try {
-                await (async scripttext => {
-                  let moduletype;
-                  const exports = {
-                    exports: { [Symbol.toStringTag]: "Module" }
-                  };
+                return await (async scripttext => {
+                  let moduletype: "cjs" | "esm" | "json";
+                  const exports_exports = { [Symbol.toStringTag]: "Module" };
                   const module = {
                     exports: { [Symbol.toStringTag]: "Module" }
                   };
@@ -75,7 +75,7 @@ export default async (url: string, packagename?: string) => {
                         (name: string) => formatedurlrequire(name, url),
                         define,
                         module,
-                        exports.exports
+                        exports_exports
                       );
                     })();
                     //   /* myrequirefun,  */ define,
@@ -83,7 +83,7 @@ export default async (url: string, packagename?: string) => {
                     //   exports,
                     //    scripttext
                     const exportmodule = [
-                      exports.exports ? exports.exports : {},
+                      exports_exports ? exports_exports : {},
                       module.exports ? module.exports : {},
                       define.exports ? define.exports : {}
                     ];

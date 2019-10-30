@@ -4,10 +4,10 @@ const 非法字符串 = "输入的类型错误,输入的字符串不能为空,ur
 const namesymbol = Symbol.for("name");
 const urlsymbol = Symbol.for("url"); */
 import { cantfindError } from "./cantfindError";
-import { isplainobject } from "./isplainobject";
-import oldimportcjsamdumd from "./oldimport";
 import { getmodule } from "./getmodule";
+import { isplainobject } from "./isplainobject";
 import { isurl } from "./isurl";
+import oldimportcjsamdumd from "./oldimport";
 
 export const 模块仓库中没有找到 =
   "Cannot find module in packagestore, 模块仓库中没有找到, ";
@@ -23,8 +23,10 @@ export const 字符串不能为空 = "字符串不能为空";
 export const 补充加载依赖的模块网址 = "补充加载依赖的模块网址";
 
 // const importcjsamdumd = importcjsamdumd;
-
-async function importcjsamdumd(url: any, packagename?: any): Promise<any> {
+export default async function importcjsamdumd(
+  url: any,
+  packagename?: any
+): Promise<any> {
   const inarguments: [any, any] = [url, packagename];
   //   const importcjsamdumd = importcjsamdumd;
   return await oldimportcjsamdumd(...inarguments).catch(handleerror);
@@ -33,8 +35,8 @@ async function importcjsamdumd(url: any, packagename?: any): Promise<any> {
     if (e instanceof cantfindError && e.urlorname) {
       if (isurl(e.urlorname)) {
         console.log(补充加载依赖的模块网址, e.urlorname);
-        await importcjsamdumd(e.urlorname);
-        return await importcjsamdumd(...inarguments);
+        await oldimportcjsamdumd(e.urlorname);
+        return await oldimportcjsamdumd(...inarguments);
       } else if (
         isplainobject(inarguments[0]) &&
         Reflect.has(inarguments[0], e.urlorname)
@@ -63,7 +65,6 @@ async function importcjsamdumd(url: any, packagename?: any): Promise<any> {
 // })();
 // const IMPORTcjsamdumd: IMPORTCJSAMDUMD = importcjsamdumd;
 
-export default importcjsamdumd;
 const PACKAGESTORE: Record<string, Record<string | symbol, any>> = {};
 const REQUIREPACKAGE = getmodule;
 // export const { PACKAGESTORE, REQUIREPACKAGE } = importcjsamdumd;
