@@ -9,47 +9,6 @@ function isplainobject(o) {
     return typeof o === "object" && {}.toString.call(o) === "[object Object]";
 }
 
-function getmodule(packagename) {
-    if (packagename === "") {
-        throw new TypeError(字符串不能为空);
-    }
-    if (typeof packagename !== "string") {
-        throw new TypeError(参数必须为字符串);
-    }
-    const findpackage = PACKAGESTORE[packagename];
-    if (findpackage) {
-        Object.freeze(findpackage);
-        return findpackage;
-    } else {
-        throw new cantfindError(模块仓库中没有找到 + packagename, packagename);
-    }
-}
-
-function isurl(url) {
-    var flag = false;
-    try {
-        if (url === "") {
-            throw new TypeError(字符串不能为空);
-        }
-        if (typeof url !== "string") {
-            throw new TypeError(参数必须为字符串);
-        }
-        url = new URL(url).href;
-        flag = true;
-    } catch (error) {
-        flag = false;
-    }
-    return flag;
-}
-
-const 模块仓库中没有找到 = "Cannot find module in packagestore, 模块仓库中没有找到, ";
-
-const 参数必须为字符串 = "参数必须为字符串";
-
-const 字符串不能为空 = "字符串不能为空";
-
-const PACKAGESTORE = {};
-
 function assertstring(s) {
     if (s === "") {
         throw new TypeError(字符串不能为空);
@@ -382,11 +341,11 @@ var coreload = async (url, packagename) => {
                                     }
                                     if (typeof moduleexport.default !== "undefined") {
                                         if (typeof packagename !== "undefined") {
-                                            PACKAGESTORE$1[packagename] = moduleexport;
+                                            PACKAGESTORE[packagename] = moduleexport;
                                         }
                                     }
                                     if (typeof packagename !== "undefined") {
-                                        PACKAGESTORE$1[url] = PACKAGESTORE$1[packagename];
+                                        PACKAGESTORE[url] = PACKAGESTORE[packagename];
                                     }
                                     !!moduleexport.default && Object.keys(moduleexport.default).filter(t => t !== "default").forEach(key => {
                                         const moduleexportdefault = moduleexport.default;
@@ -443,6 +402,22 @@ async function 同时发起多个entries(a, importcjsamdumd) {
     }));
 }
 
+function getmodule(packagename) {
+    if (packagename === "") {
+        throw new TypeError(字符串不能为空);
+    }
+    if (typeof packagename !== "string") {
+        throw new TypeError(参数必须为字符串);
+    }
+    const findpackage = PACKAGESTORE[packagename];
+    if (findpackage) {
+        Object.freeze(findpackage);
+        return findpackage;
+    } else {
+        throw new cantfindError(模块仓库中没有找到 + packagename, packagename);
+    }
+}
+
 const 输入的类型错误输入的类型必须是字符串或者数组或对象 = "输入的类型错误,输入的类型必须是字符串或者数组或对象";
 
 const 传入的参数必须是个object = "传入的参数必须是个object";
@@ -489,11 +464,11 @@ var oldimportcjsamdumd = (() => {
                     packagename = new URL(url).href;
                 }
                 url = new URL(url).href;
-                if (typeof PACKAGESTORE$1[packagename] !== "undefined" && typeof PACKAGESTORE$1[packagename].default !== "undefined" && Reflect.get(PACKAGESTORE$1[packagename], urlsymbol) === url) {
+                if (typeof PACKAGESTORE[packagename] !== "undefined" && typeof PACKAGESTORE[packagename].default !== "undefined" && Reflect.get(PACKAGESTORE[packagename], urlsymbol) === url) {
                     return getmodule(packagename);
-                } else if (typeof PACKAGESTORE$1[url] !== "undefined" && typeof PACKAGESTORE$1[url].default !== "undefined" && Reflect.get(PACKAGESTORE$1[url], urlsymbol) === url) {
-                    PACKAGESTORE$1[packagename] = PACKAGESTORE$1[url];
-                    Reflect.set(PACKAGESTORE$1[packagename], namesymbol, packagename);
+                } else if (typeof PACKAGESTORE[url] !== "undefined" && typeof PACKAGESTORE[url].default !== "undefined" && Reflect.get(PACKAGESTORE[url], urlsymbol) === url) {
+                    PACKAGESTORE[packagename] = PACKAGESTORE[url];
+                    Reflect.set(PACKAGESTORE[packagename], namesymbol, packagename);
                     return getmodule(url);
                 } else {
                     return await coreload(url, packagename);
@@ -504,6 +479,29 @@ var oldimportcjsamdumd = (() => {
         }
     };
 })();
+
+function isurl(url) {
+    var flag = false;
+    try {
+        if (url === "") {
+            throw new TypeError(字符串不能为空);
+        }
+        if (typeof url !== "string") {
+            throw new TypeError(参数必须为字符串);
+        }
+        url = new URL(url).href;
+        flag = true;
+    } catch (error) {
+        flag = false;
+    }
+    return flag;
+}
+
+const 模块仓库中没有找到 = "Cannot find module in packagestore, 模块仓库中没有找到, ";
+
+const 参数必须为字符串 = "参数必须为字符串";
+
+const 字符串不能为空 = "字符串不能为空";
 
 const 补充加载依赖的模块网址 = "补充加载依赖的模块网址";
 
@@ -529,11 +527,11 @@ async function importcjsamdumd(url, packagename) {
     }
 }
 
-const PACKAGESTORE$1 = {};
+const PACKAGESTORE = {};
 
 const REQUIREPACKAGE = getmodule;
 
 export default importcjsamdumd;
 
-export { PACKAGESTORE$1 as PACKAGESTORE, REQUIREPACKAGE };
+export { PACKAGESTORE, REQUIREPACKAGE };
 //# sourceMappingURL=index.js.map

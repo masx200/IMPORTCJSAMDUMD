@@ -18,8 +18,6 @@ export const 参数必须为字符串 = "参数必须为字符串";
 ("use strict");
 export const 字符串不能为空 = "字符串不能为空";
 
-export { PACKAGESTORE, REQUIREPACKAGE };
-
 // const importcjsamdumd = (() => {
 ("use strict");
 export const 补充加载依赖的模块网址 = "补充加载依赖的模块网址";
@@ -69,3 +67,4 @@ export default importcjsamdumd;
 const PACKAGESTORE: Record<string, Record<string | symbol, any>> = {};
 const REQUIREPACKAGE = getmodule;
 // export const { PACKAGESTORE, REQUIREPACKAGE } = importcjsamdumd;
+export { PACKAGESTORE, REQUIREPACKAGE };

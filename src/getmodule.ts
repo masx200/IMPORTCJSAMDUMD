@@ -3,7 +3,7 @@ import {
   字符串不能为空,
   PACKAGESTORE,
   模块仓库中没有找到
-} from "./IMPORTCJSAMDUMD";
+} from "./importcjsamdumd";
 import { cantfindError } from "./cantfindError";
 
 export function getmodule(packagename: string) {
