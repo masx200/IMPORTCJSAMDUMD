@@ -1,3 +1,4 @@
+console.log("importcjsamdumd test");
 import importcjsamdumd, {
   PACKAGESTORE,
   REQUIREPACKAGE
