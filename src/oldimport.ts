@@ -41,18 +41,18 @@ export default (() => {
         try {
           suoyouimportpromise = await 同时发起多个entries(
             输入参数array,
-            importcjsamdumd
+            oldimportcjsamdumd
           );
         } catch (error) {
           console.warn(error);
           suoyouimportpromise = await 同时发起多个entries(
             输入参数array,
-            importcjsamdumd
+            oldimportcjsamdumd
           );
         } finally {
           suoyouimportpromise = await 同时发起多个entries(
             输入参数array,
-            importcjsamdumd
+            oldimportcjsamdumd
           );
         }
         let objecttoreturn: PlainObj = {};
@@ -71,18 +71,18 @@ export default (() => {
         try {
           suoyouimportpromise = await 同时发起多个字符串(
             传入参数arr,
-            importcjsamdumd
+            oldimportcjsamdumd
           );
         } catch (error) {
           console.warn(error);
           suoyouimportpromise = await 同时发起多个字符串(
             传入参数arr,
-            importcjsamdumd
+            oldimportcjsamdumd
           );
         } finally {
           suoyouimportpromise = await 同时发起多个字符串(
             传入参数arr,
-            importcjsamdumd
+            oldimportcjsamdumd
           );
         }
         return suoyouimportpromise;
