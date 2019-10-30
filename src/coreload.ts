@@ -72,13 +72,12 @@ export default async (url: string, packagename?: string) => {
                     default: undefined
                   };
                   try {
-                    (function(
-                      //   myrequirefun,
+                    (function() //   myrequirefun,
                     //  define,
                     //  module,
-                   //   exports,
-                  //    scripttext
-                    ) {
+                    //   exports,
+                    //    scripttext
+                    {
                       const 模块加载函数 = new Function(
                         "require",
                         "define",
@@ -95,12 +94,11 @@ export default async (url: string, packagename?: string) => {
                         module,
                         exports.exports
                       );
-                    })(
-                   //   /* myrequirefun,  */ define,
-                  //    module,
-                   //   exports,
-                  //    scripttext
-                    );
+                    })();
+                    //   /* myrequirefun,  */ define,
+                    //    module,
+                    //   exports,
+                    //    scripttext
                     const exportmodule = [
                       exports.exports ? exports.exports : {},
                       module.exports ? module.exports : {},
@@ -111,26 +109,26 @@ export default async (url: string, packagename?: string) => {
                   } catch (e) {
                     console.warn(e);
                     try {
-                   const   moduleexportdefault = JSON.parse(scripttext);
+                      const moduleexportdefault = JSON.parse(scripttext);
                       console.log("检测到json模块 " + url);
                       modulesrcfun = scripttext;
-                      moduletype = "json"
+                      moduletype = "json";
 
-
-
-Object.keys(moduleexportdefault)
-                           // .filter(t => t !== "default")
-                            .forEach(key => {
-                              Object.defineProperty(moduleexport, key, {
-                                enumerable: true,
-                                get() {
-                                  return moduleexportdefault[key];
-                                }
-                              });
-                            });
-try{
-Reflect.defineProperty(moduleexport,"default",{enumerable:false})
-                        }catch{}
+                      Object.keys(moduleexportdefault)
+                        // .filter(t => t !== "default")
+                        .forEach(key => {
+                          Object.defineProperty(moduleexport, key, {
+                            enumerable: true,
+                            get() {
+                              return moduleexportdefault[key];
+                            }
+                          });
+                        });
+                      try {
+                        Reflect.defineProperty(moduleexport, "default", {
+                          enumerable: false
+                        });
+                      } catch {}
                     } catch (error) {
                       console.warn(error);
                       if (e instanceof SyntaxError) {
@@ -142,7 +140,7 @@ Reflect.defineProperty(moduleexport,"default",{enumerable:false})
                           );
                           moduletype = "esm";
                           Object.keys(exportdefault)
-                           // .filter(t => t !== "default")
+                            // .filter(t => t !== "default")
                             .forEach(key => {
                               Object.defineProperty(moduleexport, key, {
                                 enumerable: true,
@@ -151,7 +149,7 @@ Reflect.defineProperty(moduleexport,"default",{enumerable:false})
                                 }
                               });
                             });
-                        /*  定义default(
+                          /*  定义default(
                             moduleexport,
                             exportdefault.default
                               ? exportdefault.default
@@ -164,12 +162,11 @@ Reflect.defineProperty(moduleexport,"default",{enumerable:false})
                         }
                         if (typeof moduleexport.default === "undefined") {
                           console.warn(加载的模块没有输出, packagename, url);
-try{
-Reflect.defineProperty(moduleexport,"default",{enumerable:false})
-
-
-
-}catch{}
+                          try {
+                            Reflect.defineProperty(moduleexport, "default", {
+                              enumerable: false
+                            });
+                          } catch {}
                           /*  reject(
                             Error(
                               加载的模块没有输出 + " " + packagename + " " + url
@@ -221,17 +218,17 @@ Reflect.defineProperty(moduleexport,"default",{enumerable:false})
                     Object.keys(moduleexport.default)
                       .filter(t => t !== "default")
                       .forEach(key => {
-const moduleexportdefault=moduleexport.default
+                        const moduleexportdefault = moduleexport.default;
                         try {
                           Object.defineProperty(moduleexport, key, {
                             enumerable: true,
                             get() {
-                              return Reflect.get(moduleexportdefault,key);
+                              return Reflect.get(moduleexportdefault, key);
                             }
                           });
                         } catch (error) {}
                       });
-Object.freeze(moduleexport)
+                  Object.freeze(moduleexport);
                   resolve(moduleexport);
                   return;
                 })(fetchpromisetext);

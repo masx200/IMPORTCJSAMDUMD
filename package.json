@@ -17,15 +17,16 @@
     "license": "MIT",
     "module": "./dist/index.esm.min.js",
     "devDependencies": {
+        "rollup-plugin-sourcemaps": "^0.4.2",
         "prettier": "^1.18.2",
         "rollup": "^1.26.0",
         "rollup-plugin-commonjs": "^10.0.2",
         "rollup-plugin-json": "^4.0.0",
         "rollup-plugin-node-resolve": "^5.2.0",
         "rollup-plugin-terser": "^5.1.1",
-        "rollup-plugin-typescript2": "^0.25.1",
+        "rollup-plugin-typescript2": "^0.24.3",
         "terser": "^4.3.9",
-        "typescript": "^3.7.1-rc"
+        "typescript": "^3.6.4"
     },
     "dependencies": {}
 }

@@ -83,9 +83,8 @@ export const myrequirefun = function requireinstead(packagename: string) {
   }
   const findpackage = PACKAGESTORE[packagename];
   if (findpackage) {
-     Object.freeze(findpackage)
-    return  (findpackage.default ? findpackage.default : findpackage
-    );
+    Object.freeze(findpackage);
+    return findpackage.default ? findpackage.default : findpackage;
   } else {
     throw new cantfindError(模块仓库中没有找到 + packagename, packagename);
   }
