@@ -104,6 +104,13 @@ import importcjsamdumd from "@masx200/importcjsamdumd";
 import dynamicimportshim from "@masx200/importcjsamdumd/src/dynamicimportshim.js";
 ``` -->
 
+# importcjsamdumd
+
+
+# API
+
+## 动态异步加载 cjs,amd,umd 模块用法:
+
 # 更新:乱序加载有依赖关系的模块包
 
 # 默认在模块加载时开启了严格模式!
@@ -133,12 +140,6 @@ importcjsamdumd("https://masx200.github.io/importcjsamdumd/package.json").then(
 );
 ```
 
-## importcjsamdumd
-
-
-# API
-
-## 动态异步加载 cjs,amd,umd 模块用法:
 
 主函数,importcjsamdumd,返回一个 promise 对象,参数 url 和 name 都是字符串，把通过 url 加载的依赖包放入模块仓库中，命名为 name，promise 之后的.then 函数的回调函数的参数是 module， 模块的默认输出
 
