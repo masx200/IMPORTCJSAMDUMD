@@ -2,7 +2,9 @@
 
 ## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES"和'json' 模块 5 合一
 
-非常简洁小巧的工具，<!-- 压缩后仅有 7 KB -->
+非常简洁小巧的工具，基于Promise
+
+<!-- 压缩后仅有 7 KB -->
 
 <!-- [查看源代码 ](https://github.com/masx200/importcjsamdumd/blob/master/src/index.js) -->
 
@@ -45,11 +47,7 @@ https://masx200.github.io/importcjsamdumd/dist/index.esm.min.js -->
 
 还顺便支持了加载 `json` 模块!
 
-```js
-importcjsamdumd("https://masx200.github.io/importcjsamdumd/package.json").then(
-  console.log
-);
-```
+
 
 ## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES" 模块四合一,和`json`模块支持
 
@@ -129,6 +127,43 @@ importcjsamdumd("网址1", "名称1");
 
 函数返回值为 promise 对象
 
+```js
+importcjsamdumd("https://masx200.github.io/importcjsamdumd/package.json").then(
+  console.log
+);
+```
+
+## importcjsamdumd
+
+
+# API
+
+## 动态异步加载 cjs,amd,umd 模块用法:
+
+主函数,importcjsamdumd,返回一个 promise 对象,参数 url 和 name 都是字符串，把通过 url 加载的依赖包放入模块仓库中，命名为 name，promise 之后的.then 函数的回调函数的参数是 module， 模块的默认输出
+
+```javascript
+importcjsamdumd(url, name);
+
+importcjsamdumd(url).then(m => console.log(m.default));
+```
+
+PACKAGESTORE,是所有加载过的模块的存储仓库对象
+
+<!--
+```javascript
+importcjsamdumd.PACKAGESTORE[name];
+```
+ -->
+
+REQUIREPACKAGE,返回模块仓库中的模块,参数 name 是字符串
+
+<!-- ```javascript
+// importcjsamdumd.REQUIREPACKAGE(name);
+``` -->
+
+<!-- importcjsamdumd.PACKAGESTORE[name].default 和 importcjsamdumd.REQUIREPACKAGE(name)是相等的 -->
+
 ### 新版用法:
 
 全面升级支持
@@ -173,7 +208,7 @@ importcjsamdumd({
 
 2.可以尝试乱序加载有依赖关系的模块包了,加载之前,先把模块的 url 和 name 信息存入模块配置列表,如果依赖的包还没有加载完成,则多次尝试加载,最终可以加载完成
 
-甚至是这么变态的依赖关系,这么乱序加载,都可以!
+甚至是这么复杂的依赖关系,乱序加载!
 
 ### 加载多个未命名的模块用法:
 
@@ -256,43 +291,6 @@ importcjsamdumd(url).then(console.log);
 importShim("/path/to/module.js").then(x => console.log(x));
 ``` -->
 
-## importcjsamdumd
-
-Dynamically asynchronously load commonjs and umd and amd modules, wrap cjs and amd and umd modules to load the promise method asynchronously, use the fetch method to get the specified module package source code, and put the module into the module repository.
-
-And solve the dependencies between the packages, if the "require" function in the dependent package needs, then introduce the required module package in the module repository
-
-Defines the "define" method of the module package, the "require" method, the "module.exports" object, and the "exports" object
-
-The function of importcjsamdumd is similar to the "system.import" function of "systemjs".
-
-The "define" function defined by importcjsamdumd is based on the "define" function of requirejs.
-
-## 动态异步加载 cjs,amd,umd 模块用法:
-
-主函数,importcjsamdumd,返回一个 promise 对象,参数 url 和 name 都是字符串，把通过 url 加载的依赖包放入模块仓库中，命名为 name，promise 之后的.then 函数的回调函数的参数是 module，module.default 的模块的默认输出
-
-```javascript
-importcjsamdumd(url, name);
-
-importcjsamdumd(url).then(m => console.log(m.default));
-```
-
-次对象,importcjsamdumd.PACKAGESTORE,是所有加载过的模块的存储仓库对象
-
-<!--
-```javascript
-importcjsamdumd.PACKAGESTORE[name];
-```
- -->
-
-次函数,importcjsamdumd.REQUIREPACKAGE,返回模块仓库中的模块,参数 name 是字符串
-
-<!-- ```javascript
-// importcjsamdumd.REQUIREPACKAGE(name);
-``` -->
-
-<!-- importcjsamdumd.PACKAGESTORE[name].default 和 importcjsamdumd.REQUIREPACKAGE(name)是相等的 -->
 
 ## 示例
 
