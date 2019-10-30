@@ -1,1 +1,1 @@
-export default function (url: string): Promise<string>;
+export default function (url: string): Promise<any>;

@@ -43,13 +43,13 @@ function isurl(url) {
 }
 
 async function 同时发起多个字符串(a, importcjsamdumd) {
-    return await Promise.all(Array(...a).map(e => {
+    return await Promise.all(a.map(e => {
         return importcjsamdumd(e);
     }));
 }
 
 async function 同时发起多个entries(a, importcjsamdumd) {
-    return await Promise.all(Array(...a).map(e => {
+    return await Promise.all(a.map(e => {
         return importcjsamdumd(e[0], e[1]);
     }));
 }
@@ -64,7 +64,7 @@ function assertstring(s) {
 }
 
 async function cachedfetchtext(url) {
-    const cachedtext = cachedurltotext.get(url);
+    const cachedtext = Reflect.get(cachedurltotext, url);
     if (cachedtext) {
         return cachedtext;
     } else {
@@ -74,12 +74,12 @@ async function cachedfetchtext(url) {
             }
             return await response.text();
         });
-        cachedurltotext.set(url, textsource);
+        Reflect.set(cachedurltotext, url, textsource);
         return textsource;
     }
 }
 
-const cachedurltotext = new Map;
+const cachedurltotext = {};
 
 function createBlob(source) {
     return URL.createObjectURL(new Blob([ source ], {
@@ -395,10 +395,8 @@ var coreload = async (url, packagename) => {
                                             value: "Module"
                                         });
                                     }
-                                    if (typeof moduleexport.default !== "undefined") {
-                                        if (typeof packagename !== "undefined") {
-                                            PACKAGESTORE[packagename] = moduleexport;
-                                        }
+                                    if (typeof packagename !== "undefined") {
+                                        PACKAGESTORE[packagename] = moduleexport;
                                     }
                                     if (typeof packagename !== "undefined") {
                                         PACKAGESTORE[url] = PACKAGESTORE[packagename];
@@ -454,7 +452,7 @@ async function oldimportcjsamdumd(url, packagename) {
     if (isplainobject(url)) {
         return await (async url => {
             url = newobjjson(url);
-            const 输入参数array = Object.entries(url);
+            const 输入参数array = Object.entries(url).map(([key, value]) => [ value, key ]);
             let suoyouimportpromise = [];
             try {
                 suoyouimportpromise = await 同时发起多个entries(输入参数array, oldimportcjsamdumd);
@@ -470,10 +468,10 @@ async function oldimportcjsamdumd(url, packagename) {
             });
             return objecttoreturn;
         })(url);
-    } else if (isArray(url) && typeof url === "object" || typeof packagename === "object") {
+    } else if (isArray(url)) {
         return await (async (...args) => {
             let suoyouimportpromise = [];
-            const 传入参数arr = Array(...args).flat();
+            const 传入参数arr = args;
             try {
                 suoyouimportpromise = await 同时发起多个字符串(传入参数arr, oldimportcjsamdumd);
             } catch (error) {
@@ -483,7 +481,7 @@ async function oldimportcjsamdumd(url, packagename) {
                 suoyouimportpromise = await 同时发起多个字符串(传入参数arr, oldimportcjsamdumd);
             }
             return suoyouimportpromise;
-        })(...[ url, packagename ].flat());
+        })(...url);
     } else if (typeof url === "string" || typeof packagename === "string") {
         assertstring(url);
         return await (async (url, packagename) => {
@@ -515,18 +513,29 @@ const 字符串不能为空 = "字符串不能为空";
 const 补充加载依赖的模块网址 = "补充加载依赖的模块网址";
 
 async function importcjsamdumd(url, packagename) {
-    const inarguments = [ url, packagename ];
-    return await oldimportcjsamdumd(...inarguments).catch(handleerror);
+    let tryfailedtimes = 0;
+    return await oldimportcjsamdumd(url, packagename).catch(handleerror);
+    async function retryimport(url1, nam1, url2, name2) {
+        try {
+            await oldimportcjsamdumd(url1, nam1).catch(handleerror);
+            return await oldimportcjsamdumd(url2, name2);
+        } catch (error) {
+            console.warn(error);
+            return await oldimportcjsamdumd(url2, name2).catch(handleerror);
+        }
+    }
     async function handleerror(e) {
         console.warn(e);
+        if (tryfailedtimes > 100) {
+            throw new Error("尝试加载,失败次数过多,放弃尝试!" + JSON.stringify(url) + JSON.stringify(packagename));
+        }
+        tryfailedtimes++;
         if (e instanceof cantfindError && e.urlorname) {
             if (isurl(e.urlorname)) {
                 console.log(补充加载依赖的模块网址, e.urlorname);
-                await oldimportcjsamdumd(e.urlorname);
-                return await oldimportcjsamdumd(...inarguments);
-            } else if (isplainobject(inarguments[0]) && Reflect.has(inarguments[0], e.urlorname)) {
-                await oldimportcjsamdumd(...inarguments);
-                return await oldimportcjsamdumd(...inarguments);
+                return await retryimport(e.urlorname, undefined, url, packagename);
+            } else if (isplainobject(url) && Reflect.has(url, e.urlorname)) {
+                return await retryimport(Reflect.get(url, e.urlorname), e.urlorname, url, packagename);
             } else {
                 throw e;
             }

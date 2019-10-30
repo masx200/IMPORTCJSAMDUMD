@@ -30,9 +30,11 @@ export default /* (() => {
   if (isplainobject(url)) {
     return await (async url => {
       url = newobjjson(url);
-      const 输入参数array = Object.entries(
-        url
-      ); /*  Object.keys(url).map(key => {
+      /* 应该是value,key的数组,与  Object.entries相反*/
+      const 输入参数array = Object.entries(url).map(([key, value]) => [
+        value,
+        key
+      ]); /*  Object.keys(url).map(key => {
           const packageurl = url[key];
           const packagenm = key;
           return [packageurl, packagenm];
@@ -62,12 +64,14 @@ export default /* (() => {
       return objecttoreturn;
     })(url);
   } else if (
-    (isArray(url) && typeof url === "object") ||
-    typeof packagename === "object"
+    isArray(
+      url
+    ) /* && typeof url === "object" */ /*  ||
+    typeof packagename === "object" */
   ) {
     return await (async (...args) => {
       let suoyouimportpromise = [];
-      const 传入参数arr = Array(...args).flat(); //JSON.parse(JSON.stringify(Array(...args).flat()));
+      const 传入参数arr = args; //Array(...args).flat(1 / 0); //JSON.parse(JSON.stringify(Array(...args).flat()));
       try {
         suoyouimportpromise = await 同时发起多个字符串(
           传入参数arr,
@@ -86,7 +90,7 @@ export default /* (() => {
         );
       }
       return suoyouimportpromise;
-    })(...[url, packagename].flat());
+    })(...url);
   } else if (typeof url === "string" || typeof packagename === "string") {
     assertstring(url);
     return await (async (url: string, packagename?: string) => {
@@ -119,6 +123,7 @@ export default /* (() => {
       }
     })(url, packagename);
   } else {
+    // debugger;
     throw new TypeError(输入的类型错误输入的类型必须是字符串或者数组或对象);
   }
 }

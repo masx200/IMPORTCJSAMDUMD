@@ -23,26 +23,58 @@ export const 字符串不能为空 = "字符串不能为空";
 export const 补充加载依赖的模块网址 = "补充加载依赖的模块网址";
 
 // const importcjsamdumd = importcjsamdumd;
+type Module = Record<any, any>;
+export default function importcjsamdumd(url: string[]): Promise<Module[]>;
+export default function importcjsamdumd(
+  url: string,
+  packagename?: string
+): Promise<Module>;
+export default function importcjsamdumd(
+  url: Record<string, string>
+): Promise<Record<string, Module>>;
 export default async function importcjsamdumd(
   url: any,
   packagename?: any
 ): Promise<any> {
-  const inarguments: [any, any] = [url, packagename];
+  let tryfailedtimes = 0;
+  //   const inarguments: [any, any] = [url, packagename];
   //   const importcjsamdumd = importcjsamdumd;
-  return await oldimportcjsamdumd(...inarguments).catch(handleerror);
+  return await oldimportcjsamdumd(url, packagename).catch(handleerror);
+  async function retryimport(url1: any, nam1: any, url2: any, name2: any) {
+    try {
+      await oldimportcjsamdumd(url1, nam1).catch(handleerror);
+      return await oldimportcjsamdumd(url2, name2);
+    } catch (error) {
+      console.warn(error);
+      return await oldimportcjsamdumd(url2, name2).catch(handleerror);
+    }
+  }
   async function handleerror(e: Error): Promise<any> {
     console.warn(e);
+    if (tryfailedtimes > 100) {
+      throw new Error(
+        "尝试加载,失败次数过多,放弃尝试!" +
+          JSON.stringify(url) +
+          JSON.stringify(packagename)
+      );
+    }
+    tryfailedtimes++;
+
     if (e instanceof cantfindError && e.urlorname) {
       if (isurl(e.urlorname)) {
         console.log(补充加载依赖的模块网址, e.urlorname);
-        await oldimportcjsamdumd(e.urlorname);
-        return await oldimportcjsamdumd(...inarguments);
-      } else if (
-        isplainobject(inarguments[0]) &&
-        Reflect.has(inarguments[0], e.urlorname)
-      ) {
-        await oldimportcjsamdumd(...inarguments);
-        return await oldimportcjsamdumd(...inarguments);
+        return await retryimport(e.urlorname, undefined, url, packagename);
+        /*  await oldimportcjsamdumd(e.urlorname).catch(handleerror);
+        return await oldimportcjsamdumd(...inarguments); */
+      } else if (isplainobject(url) && Reflect.has(url, e.urlorname)) {
+        return await retryimport(
+          Reflect.get(url, e.urlorname),
+          e.urlorname,
+          url,
+          packagename
+        );
+        // await oldimportcjsamdumd(...inarguments).catch(handleerror);
+        // return await oldimportcjsamdumd(...inarguments);
       } else {
         throw e;
       }

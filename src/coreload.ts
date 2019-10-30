@@ -189,11 +189,12 @@ export default async (url: string, packagename?: string) => {
                       value: "Module"
                     });
                   }
-                  if (typeof moduleexport.default !== "undefined") {
-                    if (typeof packagename !== "undefined") {
-                      PACKAGESTORE[packagename] = moduleexport;
-                    }
+                  //   if (typeof moduleexport.default !== "undefined") {
+                  /* json模块没有default */
+                  if (typeof packagename !== "undefined") {
+                    PACKAGESTORE[packagename] = moduleexport;
                   }
+                  //   }
                   if (typeof packagename !== "undefined") {
                     PACKAGESTORE[url] = PACKAGESTORE[packagename];
                   }

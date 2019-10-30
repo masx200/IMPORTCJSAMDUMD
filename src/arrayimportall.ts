@@ -3,7 +3,7 @@ export async function 同时发起多个字符串(
   importcjsamdumd: Function
 ) {
   return await Promise.all(
-    Array(...a).map(e => {
+    a.map(e => {
       return importcjsamdumd(e);
     })
   );
@@ -13,7 +13,7 @@ export async function 同时发起多个entries(
   importcjsamdumd: Function
 ) {
   return await Promise.all(
-    Array(...a).map(e => {
+    a.map(e => {
       return importcjsamdumd(e[0], e[1]);
     })
   );

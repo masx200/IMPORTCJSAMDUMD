@@ -1,5 +1,6 @@
 export default async function(url: string) {
-  const cachedtext = cachedurltotext.get(url);
+  const cachedtext = Reflect.get(cachedurltotext, url);
+  //   cachedurltotext.get(url);
   if (cachedtext) {
     return cachedtext;
   } else {
@@ -9,8 +10,9 @@ export default async function(url: string) {
       }
       return await response.text();
     });
-    cachedurltotext.set(url, textsource);
+    Reflect.set(cachedurltotext, url, textsource);
+    // cachedurltotext.set(url, textsource);
     return textsource;
   }
 }
-const cachedurltotext = new Map<string, string>();
+const cachedurltotext: Record<string, string> = {}; // new Map<string, string>();
