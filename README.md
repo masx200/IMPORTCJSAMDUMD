@@ -2,7 +2,7 @@
 
 ## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES"和'json' 模块 5 合一
 
-非常简洁小巧的工具，基于Promise
+非常简洁小巧的工具，基于 Promise
 
 <!-- 压缩后仅有 7 KB -->
 
@@ -46,8 +46,6 @@ https://masx200.github.io/importcjsamdumd/dist/index.esm.min.js -->
 甚至可以在 `commonjs` 模块中加载 ES 模块了!
 
 还顺便支持了加载 `json` 模块!
-
-
 
 ## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES" 模块四合一,和`json`模块支持
 
@@ -97,7 +95,10 @@ yarn add https://github.com/masx200/importcjsamdumd.git
 导入模块
 
 ```javascript
-import importcjsamdumd from "@masx200/importcjsamdumd";
+import importcjsamdumd, {
+  PACKAGESTORE,
+  REQUIREPACKAGE
+} from "@masx200/importcjsamdumd";
 ```
 
 <!-- ```js
@@ -106,8 +107,18 @@ import dynamicimportshim from "@masx200/importcjsamdumd/src/dynamicimportshim.js
 
 # importcjsamdumd
 
-
 # API
+
+```ts
+function importcjsamdumd(url: string[]): Promise<Module[]>;
+function importcjsamdumd(url: string, packagename?: string): Promise<Module>;
+function importcjsamdumd(
+  url: Record<string, string>
+): Promise<Record<string, Module>>;
+const PACKAGESTORE: Record<string, Record<string | symbol, any>>;
+function getmodule(packagename: string): Record<string | symbol, any>;
+type Module = Record<any, any>;
+```
 
 ## 动态异步加载 cjs,amd,umd 模块用法:
 
@@ -139,7 +150,6 @@ importcjsamdumd("https://masx200.github.io/importcjsamdumd/package.json").then(
   console.log
 );
 ```
-
 
 主函数,importcjsamdumd,返回一个 promise 对象,参数 url 和 name 都是字符串，把通过 url 加载的依赖包放入模块仓库中，命名为 name，promise 之后的.then 函数的回调函数的参数是 module， 模块的默认输出
 
@@ -291,7 +301,6 @@ importcjsamdumd(url).then(console.log);
 <!-- ```javascript
 importShim("/path/to/module.js").then(x => console.log(x));
 ``` -->
-
 
 ## 示例
 
