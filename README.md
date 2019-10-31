@@ -4,6 +4,10 @@
 
 非常简洁小巧的工具，基于 Promise
 
+## 兼容的浏览器
+
+EDGE,CHROME,FIREFOX,SAFARI
+
 <!-- 压缩后仅有 7 KB -->
 
 <!-- [查看源代码 ](https://github.com/masx200/importcjsamdumd/blob/master/src/index.js) -->
