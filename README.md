@@ -122,7 +122,7 @@ function importcjsamdumd(
   url: Record<string, string>
 ): Promise<Record<string, Module>>;
 const PACKAGESTORE: Record<string, Record<string | symbol, any>>;
-function getmodule(packagename: string): Record<string | symbol, any>;
+function REQUIREPACKAGE(packagename: string): Record<string | symbol, any>;
 type Module = Record<any, any>;
 ```
 
