@@ -345,7 +345,7 @@ var coreload = async (url, packagename) => {
                                                             value: undefined,
                                                             enumerable: false
                                                         });
-                                                    } catch {}
+                                                    } catch (_a) {}
                                                 }
                                             } else {
                                                 console.warn(e);

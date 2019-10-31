@@ -8,7 +8,7 @@
 
 兼容`ECMASCRIPT2017`以上
 
-EDGE,CHROME,FIREFOX,SAFARI 
+EDGE,CHROME,FIREFOX,SAFARI
 
 <!-- 压缩后仅有 7 KB -->
 
@@ -123,12 +123,17 @@ REQUIREPACKAGE,返回模块仓库中的模块,参数 name 是字符串
 
 ```ts
 function importcjsamdumd(url: string[]): Promise<Module[]>;
+
 function importcjsamdumd(url: string, packagename?: string): Promise<Module>;
+
 function importcjsamdumd(
   url: Record<string, string>
 ): Promise<Record<string, Module>>;
+
 const PACKAGESTORE: Record<string, Record<string | symbol, any>>;
+
 function REQUIREPACKAGE(packagename: string): Record<string | symbol, any>;
+
 type Module = Record<any, any>;
 ```
 

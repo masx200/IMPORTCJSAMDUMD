@@ -1,5 +1,5 @@
 {
-    "version": "2.2.2",
+    "version": "2.2.3",
     "types": "dist/src/index.d.ts",
     "publishConfig": {
         "registry": "https://npm.pkg.github.com/@masx200"
@@ -26,7 +26,9 @@
         "rollup-plugin-terser": "^5.1.1",
         "rollup-plugin-typescript2": "^0.24.3",
         "terser": "^4.3.9",
-        "typescript": "^3.7.1-rc"
+        "typescript": "^3.7.1-rc",
+        "@babel/core": "^7.6.4",
+        "rollup-plugin-babel": "^4.3.3"
     },
     "dependencies": {}
 }
