@@ -5,13 +5,17 @@ class cantfindError extends Error {
     }
 }
 
-function getmodule(packagename) {
-    if (packagename === "") {
+function assertstring(s) {
+    if (s === "") {
         throw new TypeError(字符串不能为空);
     }
-    if (typeof packagename !== "string") {
+    if (typeof s !== "string") {
         throw new TypeError(参数必须为字符串);
     }
+}
+
+function getmodule(packagename) {
+    assertstring(packagename);
     const findpackage = PACKAGESTORE[packagename];
     if (findpackage) {
         Object.freeze(findpackage);
@@ -28,12 +32,7 @@ function isplainobject(o) {
 function isurl(url) {
     var flag = false;
     try {
-        if (url === "") {
-            throw new TypeError(字符串不能为空);
-        }
-        if (typeof url !== "string") {
-            throw new TypeError(参数必须为字符串);
-        }
+        assertstring(url);
         url = new URL(url).href;
         flag = true;
     } catch (error) {
@@ -52,15 +51,6 @@ async function 同时发起多个entries(a, importcjsamdumd) {
     return await Promise.all(a.map(e => {
         return importcjsamdumd(e[0], e[1]);
     }));
-}
-
-function assertstring(s) {
-    if (s === "") {
-        throw new TypeError(字符串不能为空);
-    }
-    if (typeof s !== "string") {
-        throw new TypeError(参数必须为字符串);
-    }
 }
 
 async function cachedfetchtext(url) {
@@ -88,19 +78,12 @@ function createBlob(source) {
 }
 
 const dynamicimportshimfun = (() => {
-    const 参数必须为字符串 = "参数必须为字符串";
-    const 字符串不能为空 = "字符串不能为空";
     let dynamicimportshim;
     try {
         dynamicimportshim = Function("u", "return import(u)");
     } catch (error) {
         dynamicimportshim = async function(url) {
-            if (url === "") {
-                throw new TypeError(字符串不能为空);
-            }
-            if (typeof url !== "string") {
-                throw new TypeError(参数必须为字符串);
-            }
+            assertstring(url);
             url = new URL(url).href;
             return await getnewimportpromise(url);
         };
@@ -171,12 +154,7 @@ function 格式化url(baseurl, urlorname) {
 }
 
 const myrequirefun = function requireinstead(packagename) {
-    if (packagename === "") {
-        throw new TypeError(字符串不能为空);
-    }
-    if (typeof packagename !== "string") {
-        throw new TypeError(参数必须为字符串);
-    }
+    assertstring(packagename);
     const findpackage = PACKAGESTORE[packagename];
     if (findpackage) {
         Object.freeze(findpackage);
@@ -363,7 +341,8 @@ var coreload = async (url, packagename) => {
                                                 if (typeof moduleexport.default === "undefined") {
                                                     console.warn(加载的模块没有输出, packagename, url);
                                                     try {
-                                                        Reflect.defineProperty(moduleexport, "default", {
+                                                        defineProperty(moduleexport, "default", {
+                                                            value: undefined,
                                                             enumerable: false
                                                         });
                                                     } catch {}
@@ -377,21 +356,16 @@ var coreload = async (url, packagename) => {
                                     }
                                     Object.defineProperties(moduleexport, {
                                         [namesymbol]: {
-                                            value: packagename,
-                                            writable: true,
-                                            enumerable: false
+                                            value: packagename
                                         },
                                         [urlsymbol]: {
-                                            value: url,
-                                            enumerable: false
+                                            value: url
                                         },
                                         [sourcesymbol]: {
-                                            value: modulesrcfun,
-                                            enumerable: false
+                                            value: modulesrcfun
                                         },
                                         [typesymbol]: {
-                                            value: moduletype,
-                                            enumerable: false
+                                            value: moduletype
                                         }
                                     });
                                     if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
@@ -411,6 +385,7 @@ var coreload = async (url, packagename) => {
                                     if (moduleexport.default === undefined) {
                                         try {
                                             defineProperty(moduleexport, "default", {
+                                                value: undefined,
                                                 enumerable: false
                                             });
                                         } catch (error) {}
@@ -447,9 +422,9 @@ function newobjjson(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
 
-const 输入的类型错误输入的类型必须是字符串或者数组或对象 = "输入的类型错误,输入的类型必须是字符串或者数组或对象";
+const 输入的类型错误输入的类型必须是字符串或者数组或对象 = "The type entered is incorrect, the type entered must be a string or an array or an object";
 
-const 传入的参数必须是个object = "传入的参数必须是个object";
+const 传入的参数必须是个object = "The argument passed in must be an object";
 
 async function oldimportcjsamdumd(url, packagename) {
     if (isplainobject(url)) {
@@ -507,11 +482,11 @@ async function oldimportcjsamdumd(url, packagename) {
     }
 }
 
-const 模块仓库中没有找到 = "Cannot find module in packagestore, 模块仓库中没有找到, ";
+const 模块仓库中没有找到 = "Cannot find module in packagestore, Not found in module repository, ";
 
-const 参数必须为字符串 = "参数必须为字符串";
+const 参数必须为字符串 = "Parameter must be a string";
 
-const 字符串不能为空 = "字符串不能为空";
+const 字符串不能为空 = "String cannot be empty";
 
 const 补充加载依赖的模块网址 = "补充加载依赖的模块网址";
 
@@ -530,15 +505,16 @@ async function importcjsamdumd(url, packagename) {
     async function handleerror(e) {
         console.warn(e);
         if (tryfailedtimes > 100) {
-            throw new Error("尝试加载,失败次数过多,放弃尝试!" + JSON.stringify(url) + JSON.stringify(packagename));
+            throw new Error("Try loading, too many failures, give up trying!" + JSON.stringify(url) + JSON.stringify(packagename));
         }
         tryfailedtimes++;
-        if (e instanceof cantfindError && e.urlorname) {
-            if (isurl(e.urlorname)) {
-                console.log(补充加载依赖的模块网址, e.urlorname);
-                return await retryimport(e.urlorname, undefined, url, packagename);
-            } else if (isplainobject(url) && Reflect.has(url, e.urlorname)) {
-                return await retryimport(get(url, e.urlorname), e.urlorname, url, packagename);
+        if (e instanceof cantfindError) {
+            const eurlorname = e.urlorname;
+            if (isurl(eurlorname)) {
+                console.log(补充加载依赖的模块网址, eurlorname);
+                return await retryimport(eurlorname, undefined, url, packagename);
+            } else if (isplainobject(url) && Reflect.has(url, eurlorname)) {
+                return await retryimport(get(url, eurlorname), eurlorname, url, packagename);
             } else {
                 throw e;
             }

@@ -1,5 +1,6 @@
+"use strict";
 /* const 输入的类型错误输入的类型必须是字符串或者数组或对象 =
-  "输入的类型错误,输入的类型必须是字符串或者数组或对象";
+  "The type entered is incorrect, the type entered must be a string or an array or an object";
 const 非法字符串 = "输入的类型错误,输入的字符串不能为空,url不能为undefined";
 const namesymbol = Symbol.for("name");
 const urlsymbol = Symbol.for("url"); */
@@ -11,16 +12,16 @@ import oldimportcjsamdumd from "./oldimport";
 import { get } from "./coreload";
 
 export const 模块仓库中没有找到 =
-  "Cannot find module in packagestore, 模块仓库中没有找到, ";
+  "Cannot find module in packagestore, Not found in module repository, ";
 
 // export const GLOBALPACKAGESTORE = "PACKAGESTORE";
 
-export const 参数必须为字符串 = "参数必须为字符串";
+export const 参数必须为字符串 = "Parameter must be a string";
 ("use strict");
-export const 字符串不能为空 = "字符串不能为空";
+export const 字符串不能为空 = "String cannot be empty";
 
 // const importcjsamdumd = (() => {
-("use strict");
+// ("use strict");
 export const 补充加载依赖的模块网址 = "补充加载依赖的模块网址";
 
 // const importcjsamdumd = importcjsamdumd;
@@ -54,23 +55,24 @@ export default async function importcjsamdumd(
     console.warn(e);
     if (tryfailedtimes > 100) {
       throw new Error(
-        "尝试加载,失败次数过多,放弃尝试!" +
+        "Try loading, too many failures, give up trying!" +
           JSON.stringify(url) +
           JSON.stringify(packagename)
       );
     }
     tryfailedtimes++;
 
-    if (e instanceof cantfindError && e.urlorname) {
-      if (isurl(e.urlorname)) {
-        console.log(补充加载依赖的模块网址, e.urlorname);
-        return await retryimport(e.urlorname, undefined, url, packagename);
-        /*  await oldimportcjsamdumd(e.urlorname).catch(handleerror);
+    if (e instanceof cantfindError /* && eurlorname */) {
+      const eurlorname = e.urlorname;
+      if (isurl(eurlorname)) {
+        console.log(补充加载依赖的模块网址, eurlorname);
+        return await retryimport(eurlorname, undefined, url, packagename);
+        /*  await oldimportcjsamdumd(eurlorname).catch(handleerror);
         return await oldimportcjsamdumd(...inarguments); */
-      } else if (isplainobject(url) && Reflect.has(url, e.urlorname)) {
+      } else if (isplainobject(url) && Reflect.has(url, eurlorname)) {
         return await retryimport(
-          get(url, e.urlorname),
-          e.urlorname,
+          get(url, eurlorname),
+          eurlorname,
           url,
           packagename
         );

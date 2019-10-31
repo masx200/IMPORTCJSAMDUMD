@@ -3,6 +3,7 @@
 
 import { get, set } from "./coreload";
 import { Module } from "./importcjsamdumd";
+import { assertstring } from "./assertstring";
 
 export { createBlob };
 function createBlob(source: string) {
@@ -10,23 +11,25 @@ function createBlob(source: string) {
     new Blob([source], { type: "application/javascript" })
   );
 }
+// const 参数必须为字符串 = "Parameter must be a string";
+// const 字符串不能为空 = "String cannot be empty";
 type dynamicimport = (url: string) => Promise<Module>;
 const dynamicimportshimfun = (() => {
   "use strict";
-  const 参数必须为字符串 = "参数必须为字符串";
-  const 字符串不能为空 = "字符串不能为空";
+
   let dynamicimportshim: dynamicimport;
   //   import('querystring')
   try {
     dynamicimportshim = Function("u", "return import(u)") as dynamicimport;
   } catch (error) {
     dynamicimportshim = async function(url: string): Promise<Module> {
-      if (url === "") {
-        throw new TypeError(字符串不能为空);
-      }
-      if (typeof url !== "string") {
-        throw new TypeError(参数必须为字符串);
-      }
+      assertstring(url);
+      //   if (url === "") {
+      //     throw new TypeError(字符串不能为空);
+      //   }
+      //   if (typeof url !== "string") {
+      //     throw new TypeError(参数必须为字符串);
+      //   }
       url = new URL(url).href;
 
       return await getnewimportpromise(url);

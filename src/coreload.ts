@@ -14,7 +14,7 @@ import {
 import { define } from "./define.js";
 import { esmdefinegetter } from "./esmdefinegetter";
 import { 定义default } from "./define-default";
-// const 字符串不能为空 = "字符串不能为空";
+// const 字符串不能为空 = "String cannot be empty";
 export const 加载的模块没有输出 = "加载的模块没有输出";
 export const typesymbol = Symbol("type");
 export const namesymbol = Symbol("name");
@@ -127,7 +127,7 @@ export default async (url: string, packagename?: string) => {
                         }); */
                       /* try {
                         Reflect.defineProperty(moduleexport, "default", {
-                          enumerable: false
+                        //   enumerable: false
                         });
                       } catch {} */
                     } catch (error) {
@@ -168,7 +168,8 @@ export default async (url: string, packagename?: string) => {
                         if (typeof moduleexport.default === "undefined") {
                           console.warn(加载的模块没有输出, packagename, url);
                           try {
-                            Reflect.defineProperty(moduleexport, "default", {
+                            defineProperty(moduleexport, "default", {
+                              value: undefined,
                               enumerable: false
                             });
                           } catch {}
@@ -189,21 +190,21 @@ export default async (url: string, packagename?: string) => {
 
                   Object.defineProperties(moduleexport, {
                     [namesymbol]: {
-                      value: packagename,
-                      writable: true,
-                      enumerable: false
+                      value: packagename
+                      //   writable: true,
+                      //   enumerable: false
                     },
                     [urlsymbol]: {
-                      value: url,
-                      enumerable: false
+                      value: url
+                      //   enumerable: false
                     },
                     [sourcesymbol]: {
-                      value: modulesrcfun,
-                      enumerable: false
+                      value: modulesrcfun
+                      //   enumerable: false
                     },
                     [typesymbol]: {
-                      value: moduletype,
-                      enumerable: false
+                      value: moduletype
+                      //   enumerable: false
                     }
                   });
                   if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
@@ -241,6 +242,7 @@ export default async (url: string, packagename?: string) => {
                   if (moduleexport.default === undefined) {
                     try {
                       defineProperty(moduleexport, "default", {
+                        value: undefined,
                         enumerable: false
                       });
                     } catch (error) {}

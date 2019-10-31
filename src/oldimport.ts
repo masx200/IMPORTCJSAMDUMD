@@ -14,11 +14,11 @@ import { isArray } from "./isarray.js";
 import { isplainobject } from "./isplainobject.js";
 import { newobjjson } from "./newobjjson.js";
 const 输入的类型错误输入的类型必须是字符串或者数组或对象 =
-  "输入的类型错误,输入的类型必须是字符串或者数组或对象";
+  "The type entered is incorrect, the type entered must be a string or an array or an object";
 // export const 非法字符串 = "输入的类型错误,输入的字符串不能为空,不能为undefined";
 // export const namesymbol = Symbol.for("name");
 // export const urlsymbol = Symbol.for("url");
-export const 传入的参数必须是个object = "传入的参数必须是个object";
+export const 传入的参数必须是个object = "The argument passed in must be an object";
 export type PlainObj = Record<any, any>;
 
 export default /* (() => {

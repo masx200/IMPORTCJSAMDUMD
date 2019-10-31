@@ -1,5 +1,5 @@
 {
-    "version": "2.2.1",
+    "version": "2.2.2",
     "types": "dist/src/index.d.ts",
     "publishConfig": {
         "registry": "https://npm.pkg.github.com/@masx200"
