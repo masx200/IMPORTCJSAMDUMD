@@ -6,7 +6,9 @@
 
 ## 兼容的浏览器
 
-EDGE,CHROME,FIREFOX,SAFARI
+兼容`ECMASCRIPT2017`以上
+
+EDGE,CHROME,FIREFOX,SAFARI 
 
 <!-- 压缩后仅有 7 KB -->
 
