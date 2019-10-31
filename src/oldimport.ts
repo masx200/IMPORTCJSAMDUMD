@@ -1,7 +1,7 @@
 // import { 同时发起多个entries } from "./arrayimportall.js";
 import { 同时发起多个entries, 同时发起多个字符串 } from "./arrayimportall.js";
 import { assertstring } from "./assertstring.js";
-import coreload, { namesymbol, urlsymbol } from "./coreload.js";
+import coreload, { namesymbol, urlsymbol, get, set } from "./coreload.js";
 import { getmodule } from "./getmodule.js";
 import {
   //   assertstring,
@@ -104,19 +104,19 @@ export default /* (() => {
       if (
         typeof PACKAGESTORE[packagename] !== "undefined" &&
         typeof PACKAGESTORE[packagename].default !== "undefined" &&
-        Reflect.get(PACKAGESTORE[packagename], urlsymbol) === url
+        get(PACKAGESTORE[packagename], urlsymbol) === url
         //  [urlsymbol] === url
       ) {
         return getmodule(packagename);
       } else if (
         typeof PACKAGESTORE[url] !== "undefined" &&
         typeof PACKAGESTORE[url].default !== "undefined" &&
-        Reflect.get(PACKAGESTORE[url], urlsymbol) === url
+        get(PACKAGESTORE[url], urlsymbol) === url
         //   PACKAGESTORE[url][urlsymbol] === url
       ) {
         PACKAGESTORE[packagename] = PACKAGESTORE[url];
         //   PACKAGESTORE[packagename][namesymbol] = packagename;
-        Reflect.set(PACKAGESTORE[packagename], namesymbol, packagename);
+        set(PACKAGESTORE[packagename], namesymbol, packagename);
         return getmodule(url);
       } else {
         return await coreload(url, packagename);

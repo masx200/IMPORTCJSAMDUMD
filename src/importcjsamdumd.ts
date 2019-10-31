@@ -8,6 +8,7 @@ import { getmodule } from "./getmodule";
 import { isplainobject } from "./isplainobject";
 import { isurl } from "./isurl";
 import oldimportcjsamdumd from "./oldimport";
+import { get } from "./coreload";
 
 export const 模块仓库中没有找到 =
   "Cannot find module in packagestore, 模块仓库中没有找到, ";
@@ -23,7 +24,7 @@ export const 字符串不能为空 = "字符串不能为空";
 export const 补充加载依赖的模块网址 = "补充加载依赖的模块网址";
 
 // const importcjsamdumd = importcjsamdumd;
-type Module = Record<any, any>;
+export type Module = Record<any, any>;
 export default function importcjsamdumd(url: string[]): Promise<Module[]>;
 export default function importcjsamdumd(
   url: string,
@@ -68,7 +69,7 @@ export default async function importcjsamdumd(
         return await oldimportcjsamdumd(...inarguments); */
       } else if (isplainobject(url) && Reflect.has(url, e.urlorname)) {
         return await retryimport(
-          Reflect.get(url, e.urlorname),
+          get(url, e.urlorname),
           e.urlorname,
           url,
           packagename

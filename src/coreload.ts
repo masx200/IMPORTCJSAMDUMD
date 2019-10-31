@@ -1,3 +1,4 @@
+export const { get, set, defineProperty } = Reflect;
 import cachedfetchtext from "./cachedfetchtext";
 /* eslint-disable no-empty */
 // const GLOBALPACKAGESTORE = "PACKAGESTORE";
@@ -11,12 +12,14 @@ import {
   //   定义default
 } from "./importcjsamdumd.js";
 import { define } from "./define.js";
+import { esmdefinegetter } from "./esmdefinegetter";
+import { 定义default } from "./define-default";
 // const 字符串不能为空 = "字符串不能为空";
 export const 加载的模块没有输出 = "加载的模块没有输出";
-export const typesymbol = Symbol.for("type");
-export const namesymbol = Symbol.for("name");
-export const urlsymbol = Symbol.for("url");
-export const sourcesymbol = Symbol.for("source");
+export const typesymbol = Symbol("type");
+export const namesymbol = Symbol("name");
+export const urlsymbol = Symbol("url");
+export const sourcesymbol = Symbol("source");
 export default async (url: string, packagename?: string) => {
   return await new Promise(主核心加载模块函数);
   function 主核心加载模块函数(
@@ -50,10 +53,14 @@ export default async (url: string, packagename?: string) => {
                     exports: { [Symbol.toStringTag]: "Module" }
                   };
                   define.exports = {};
-                  var modulesrcfun;
-                  const moduleexport: { default: any; [k: string]: any } = {
+                  let modulesrcfun: string;
+
+                  const moduleexport: {
+                    default: any;
+                    [k: string]: any;
+                  } = Object.assign(Object.create(null), {
                     default: undefined
-                  };
+                  });
                   try {
                     (function() //   myrequirefun,
                     //  define,
@@ -87,8 +94,19 @@ export default async (url: string, packagename?: string) => {
                       module.exports ? module.exports : {},
                       define.exports ? define.exports : {}
                     ];
-                    处理非es模块(moduleexport, exportmodule, url, packagename);
+                    const usefulexport = 处理非es模块(
+                      /* moduleexport,  */ exportmodule,
+                      url,
+                      packagename
+                    );
                     moduletype = "cjs";
+
+                    if (usefulexport) {
+                      定义default(moduleexport, usefulexport);
+                      esmdefinegetter(moduleexport, usefulexport);
+
+                      //
+                    }
                   } catch (e) {
                     console.warn(e);
                     try {
@@ -96,22 +114,22 @@ export default async (url: string, packagename?: string) => {
                       console.log("检测到json模块 " + url);
                       modulesrcfun = scripttext;
                       moduletype = "json";
-
-                      Object.keys(moduleexportdefault)
+                      esmdefinegetter(moduleexport, moduleexportdefault);
+                      /*      Object.keys(moduleexportdefault)
                         // .filter(t => t !== "default")
                         .forEach(key => {
-                          Object.defineProperty(moduleexport, key, {
+                          defineProperty(moduleexport, key, {
                             enumerable: true,
                             get() {
                               return moduleexportdefault[key];
                             }
                           });
-                        });
-                      try {
+                        }); */
+                      /* try {
                         Reflect.defineProperty(moduleexport, "default", {
                           enumerable: false
                         });
-                      } catch {}
+                      } catch {} */
                     } catch (error) {
                       console.warn(error);
                       if (e instanceof SyntaxError) {
@@ -122,16 +140,20 @@ export default async (url: string, packagename?: string) => {
                             topLevelBlobUrl
                           );
                           moduletype = "esm";
-                          Object.keys(exportdefault)
-                            // .filter(t => t !== "default")
-                            .forEach(key => {
-                              Object.defineProperty(moduleexport, key, {
-                                enumerable: true,
-                                get() {
-                                  return exportdefault[key];
-                                }
+                          esmdefinegetter(moduleexport, exportdefault);
+                          /*    ((moduleexport, exportdefault) => {
+                            Object.keys(exportdefault)
+                              // .filter(t => t !== "default")
+                              .forEach(key => {
+                                defineProperty(moduleexport, key, {
+                                  enumerable: true,
+                                  get() {
+                                    return get(exportdefault, key);
+                                  }
+                                });
                               });
-                            });
+                          })(moduleexport, exportdefault); */
+
                           /*  定义default(
                             moduleexport,
                             exportdefault.default
@@ -185,7 +207,7 @@ export default async (url: string, packagename?: string) => {
                     }
                   });
                   if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
-                    Object.defineProperty(moduleexport, Symbol.toStringTag, {
+                    defineProperty(moduleexport, Symbol.toStringTag, {
                       value: "Module"
                     });
                   }
@@ -198,20 +220,31 @@ export default async (url: string, packagename?: string) => {
                   if (typeof packagename !== "undefined") {
                     PACKAGESTORE[url] = PACKAGESTORE[packagename];
                   }
-                  !!moduleexport.default &&
-                    Object.keys(moduleexport.default)
-                      .filter(t => t !== "default")
-                      .forEach(key => {
-                        const moduleexportdefault = moduleexport.default;
-                        try {
-                          Object.defineProperty(moduleexport, key, {
-                            enumerable: true,
-                            get() {
-                              return Reflect.get(moduleexportdefault, key);
-                            }
-                          });
-                        } catch (error) {}
+                  if (moduleexport.default) {
+                    esmdefinegetter(moduleexport, moduleexport.default);
+                  }
+                  //   !!moduleexport.default &&
+                  // Object.keys(moduleexport.default)
+                  //   .filter(t => t !== "default")
+                  //   .forEach(key => {
+                  //     const moduleexportdefault = moduleexport.default;
+
+                  //     try {
+                  //       defineProperty(moduleexport, key, {
+                  //         enumerable: true,
+                  //         get() {
+                  //           return get(moduleexportdefault, key);
+                  //         }
+                  //       });
+                  //     } catch (error) {}
+                  //   });
+                  if (moduleexport.default === undefined) {
+                    try {
+                      defineProperty(moduleexport, "default", {
+                        enumerable: false
                       });
+                    } catch (error) {}
+                  }
                   Object.freeze(moduleexport);
                   resolve(moduleexport);
                   return;

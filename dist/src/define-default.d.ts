@@ -1,6 +1,4 @@
-export declare function 定义default(target: {
-    default: undefined;
-}, def: {
+export declare function 定义default(target: Record<string, any>, def: {
     [x: string]: string;
     default: any;
-}): void;
+} | Function): void;

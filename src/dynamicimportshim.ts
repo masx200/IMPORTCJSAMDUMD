@@ -1,20 +1,26 @@
 /* eslint-disable no-empty */
 "use strict";
+
+import { get, set } from "./coreload";
+import { Module } from "./importcjsamdumd";
+
 export { createBlob };
 function createBlob(source: string) {
   return URL.createObjectURL(
     new Blob([source], { type: "application/javascript" })
   );
 }
+type dynamicimport = (url: string) => Promise<Module>;
 const dynamicimportshimfun = (() => {
   "use strict";
   const 参数必须为字符串 = "参数必须为字符串";
   const 字符串不能为空 = "字符串不能为空";
-  let dynamicimportshim: Function;
+  let dynamicimportshim: dynamicimport;
+  //   import('querystring')
   try {
-    dynamicimportshim = Function("u", "return import(u)");
+    dynamicimportshim = Function("u", "return import(u)") as dynamicimport;
   } catch (error) {
-    dynamicimportshim = async function(url: string) {
+    dynamicimportshim = async function(url: string): Promise<Module> {
       if (url === "") {
         throw new TypeError(字符串不能为空);
       }
@@ -29,7 +35,7 @@ const dynamicimportshimfun = (() => {
   return dynamicimportshim;
 })();
 export default dynamicimportshimfun;
-function getnewimportpromise(url: string) {
+function getnewimportpromise(url: string): Promise<Module> {
   const symbolkey = Symbol.for("import-" + url);
   return new Promise((resolve, reject) => {
     const s = document.createElement("script");
@@ -67,9 +73,9 @@ function getnewimportpromise(url: string) {
         Reflect.has(window, symbolkey)
         /* symbolkey in */
       ) {
-        const moduleoutput = Reflect.get(window, symbolkey);
+        const moduleoutput = get(window, symbolkey);
         resolve(moduleoutput /* [Symbol.for("import-" + url)] */);
-        Reflect.set(window, symbolkey, undefined);
+        set(window, symbolkey, undefined);
         clearsideeffect();
       }
     };

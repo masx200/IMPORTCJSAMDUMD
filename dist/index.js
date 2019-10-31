@@ -22,7 +22,7 @@ function getmodule(packagename) {
 }
 
 function isplainobject(o) {
-    return typeof o === "object" && {}.toString.call(o) === "[object Object]";
+    return typeof o === "object" && {}.toString.call(o) === "[object Object]" && o instanceof Object;
 }
 
 function isurl(url) {
@@ -64,7 +64,7 @@ function assertstring(s) {
 }
 
 async function cachedfetchtext(url) {
-    const cachedtext = Reflect.get(cachedurltotext, url);
+    const cachedtext = get(cachedurltotext, url);
     if (cachedtext) {
         return cachedtext;
     } else {
@@ -74,7 +74,7 @@ async function cachedfetchtext(url) {
             }
             return await response.text();
         });
-        Reflect.set(cachedurltotext, url, textsource);
+        set(cachedurltotext, url, textsource);
         return textsource;
     }
 }
@@ -138,9 +138,9 @@ function getnewimportpromise(url) {
         s.async = true;
         s.onload = () => {
             if (Reflect.has(window, symbolkey)) {
-                const moduleoutput = Reflect.get(window, symbolkey);
+                const moduleoutput = get(window, symbolkey);
                 resolve(moduleoutput);
-                Reflect.set(window, symbolkey, undefined);
+                set(window, symbolkey, undefined);
                 clearsideeffect();
             }
         };
@@ -193,22 +193,6 @@ const formatedurlrequire = (urlorname, url) => {
     return myrequirefun(formatedurl);
 };
 
-function 定义default(target, def) {
-    if (Reflect.get(def, Symbol.toStringTag) === "Module" && def.default) {
-        def = def.default;
-    }
-    Object.defineProperty(target, "default", {
-        enumerable: true,
-        get() {
-            return def;
-        }
-    });
-}
-
-function 非空对象(o) {
-    return !!(typeof o !== "object" || Object.keys(o).length || JSON.stringify(o) !== "{}");
-}
-
 function isArray(a) {
     return Array.isArray(a) && {}.toString.call(a) === "[object Array]";
 }
@@ -216,7 +200,8 @@ function isArray(a) {
 function isFunction(it) {
     const op = {};
     const ostring = op.toString;
-    return "function" === typeof it && ostring.call(it) === "[object Function]";
+    const tag = ostring.call(it);
+    return "function" === typeof it && tag === "[object Function]" || tag === "[object AsyncFunction]";
 }
 
 define.exports = {};
@@ -243,36 +228,70 @@ function define(name, deps, callback) {
     define.exports = defineglobalDefQueue[2](...canshu);
 }
 
-function 处理非es模块(moduleexport, exportmodule, url, packagename) {
-    if (typeof exportmodule === "undefined") {
-        exportmodule = [ {}, {}, {} ];
-    }
+function 非空对象(o) {
+    return !!(typeof o !== "object" || Object.keys(o).length || JSON.stringify(o) !== "{}");
+}
+
+function 处理非es模块(exportmodule, url, packagename) {
     if (typeof define.exports === "undefined") {
         define.exports = {};
     }
     if (非空对象(exportmodule[0])) {
         const exportdefault = exportmodule[0];
-        定义default(moduleexport, exportdefault);
+        return exportdefault;
     } else if (非空对象(exportmodule[1])) {
         const exportdefault = exportmodule[1];
-        定义default(moduleexport, exportdefault);
+        return exportdefault;
     } else if (非空对象(exportmodule[2])) {
         const exportdefault = exportmodule[2];
-        定义default(moduleexport, exportdefault);
+        return exportdefault;
     } else {
         console.warn(加载的模块没有输出, url, packagename);
     }
 }
 
+function esmdefinegetter(moduleexport, exportdefault) {
+    if (exportdefault && (isFunction(exportdefault) || typeof exportdefault === "object")) {
+        Object.keys(exportdefault).forEach(key => {
+            try {
+                defineProperty(moduleexport, key, {
+                    enumerable: true,
+                    get() {
+                        return get(exportdefault, key);
+                    }
+                });
+            } catch (error) {}
+        });
+    }
+}
+
+function ismodule(a) {
+    return {}.toString.call(a) === "[object Module]";
+}
+
+function 定义default(target, def) {
+    def = get(def, "default") ? get(def, "default") : def;
+    if (!ismodule(def) && !isplainobject(def)) {
+        defineProperty(target, "default", {
+            enumerable: true,
+            get() {
+                return def;
+            }
+        });
+    }
+}
+
+const {get: get, set: set, defineProperty: defineProperty} = Reflect;
+
 const 加载的模块没有输出 = "加载的模块没有输出";
 
-const typesymbol = Symbol.for("type");
+const typesymbol = Symbol("type");
 
-const namesymbol = Symbol.for("name");
+const namesymbol = Symbol("name");
 
-const urlsymbol = Symbol.for("url");
+const urlsymbol = Symbol("url");
 
-const sourcesymbol = Symbol.for("source");
+const sourcesymbol = Symbol("source");
 
 var coreload = async (url, packagename) => {
     return await new Promise(主核心加载模块函数);
@@ -302,10 +321,10 @@ var coreload = async (url, packagename) => {
                                         }
                                     };
                                     define.exports = {};
-                                    var modulesrcfun;
-                                    const moduleexport = {
+                                    let modulesrcfun;
+                                    const moduleexport = Object.assign(Object.create(null), {
                                         default: undefined
-                                    };
+                                    });
                                     try {
                                         (function() {
                                             const 模块加载函数 = new Function("require", "define", "module", "exports", `"use strict";\n/* ${url} */;\n${scripttext};\n/* ${url} */;\n`);
@@ -313,8 +332,12 @@ var coreload = async (url, packagename) => {
                                             return 模块加载函数.call(module.exports, name => formatedurlrequire(name, url), define, module, exports_exports);
                                         })();
                                         const exportmodule = [ exports_exports ? exports_exports : {}, module.exports ? module.exports : {}, define.exports ? define.exports : {} ];
-                                        处理非es模块(moduleexport, exportmodule, url, packagename);
+                                        const usefulexport = 处理非es模块(exportmodule, url, packagename);
                                         moduletype = "cjs";
+                                        if (usefulexport) {
+                                            定义default(moduleexport, usefulexport);
+                                            esmdefinegetter(moduleexport, usefulexport);
+                                        }
                                     } catch (e) {
                                         console.warn(e);
                                         try {
@@ -322,19 +345,7 @@ var coreload = async (url, packagename) => {
                                             console.log("检测到json模块 " + url);
                                             modulesrcfun = scripttext;
                                             moduletype = "json";
-                                            Object.keys(moduleexportdefault).forEach(key => {
-                                                Object.defineProperty(moduleexport, key, {
-                                                    enumerable: true,
-                                                    get() {
-                                                        return moduleexportdefault[key];
-                                                    }
-                                                });
-                                            });
-                                            try {
-                                                Reflect.defineProperty(moduleexport, "default", {
-                                                    enumerable: false
-                                                });
-                                            } catch {}
+                                            esmdefinegetter(moduleexport, moduleexportdefault);
                                         } catch (error) {
                                             console.warn(error);
                                             if (e instanceof SyntaxError) {
@@ -343,14 +354,7 @@ var coreload = async (url, packagename) => {
                                                 try {
                                                     const exportdefault = await dynamicimportshimfun(topLevelBlobUrl);
                                                     moduletype = "esm";
-                                                    Object.keys(exportdefault).forEach(key => {
-                                                        Object.defineProperty(moduleexport, key, {
-                                                            enumerable: true,
-                                                            get() {
-                                                                return exportdefault[key];
-                                                            }
-                                                        });
-                                                    });
+                                                    esmdefinegetter(moduleexport, exportdefault);
                                                 } catch (e) {
                                                     console.warn(e);
                                                     reject(e);
@@ -391,7 +395,7 @@ var coreload = async (url, packagename) => {
                                         }
                                     });
                                     if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
-                                        Object.defineProperty(moduleexport, Symbol.toStringTag, {
+                                        defineProperty(moduleexport, Symbol.toStringTag, {
                                             value: "Module"
                                         });
                                     }
@@ -401,17 +405,16 @@ var coreload = async (url, packagename) => {
                                     if (typeof packagename !== "undefined") {
                                         PACKAGESTORE[url] = PACKAGESTORE[packagename];
                                     }
-                                    !!moduleexport.default && Object.keys(moduleexport.default).filter(t => t !== "default").forEach(key => {
-                                        const moduleexportdefault = moduleexport.default;
+                                    if (moduleexport.default) {
+                                        esmdefinegetter(moduleexport, moduleexport.default);
+                                    }
+                                    if (moduleexport.default === undefined) {
                                         try {
-                                            Object.defineProperty(moduleexport, key, {
-                                                enumerable: true,
-                                                get() {
-                                                    return Reflect.get(moduleexportdefault, key);
-                                                }
+                                            defineProperty(moduleexport, "default", {
+                                                enumerable: false
                                             });
                                         } catch (error) {}
-                                    });
+                                    }
                                     Object.freeze(moduleexport);
                                     resolve(moduleexport);
                                     return;
@@ -489,11 +492,11 @@ async function oldimportcjsamdumd(url, packagename) {
                 packagename = new URL(url).href;
             }
             url = new URL(url).href;
-            if (typeof PACKAGESTORE[packagename] !== "undefined" && typeof PACKAGESTORE[packagename].default !== "undefined" && Reflect.get(PACKAGESTORE[packagename], urlsymbol) === url) {
+            if (typeof PACKAGESTORE[packagename] !== "undefined" && typeof PACKAGESTORE[packagename].default !== "undefined" && get(PACKAGESTORE[packagename], urlsymbol) === url) {
                 return getmodule(packagename);
-            } else if (typeof PACKAGESTORE[url] !== "undefined" && typeof PACKAGESTORE[url].default !== "undefined" && Reflect.get(PACKAGESTORE[url], urlsymbol) === url) {
+            } else if (typeof PACKAGESTORE[url] !== "undefined" && typeof PACKAGESTORE[url].default !== "undefined" && get(PACKAGESTORE[url], urlsymbol) === url) {
                 PACKAGESTORE[packagename] = PACKAGESTORE[url];
-                Reflect.set(PACKAGESTORE[packagename], namesymbol, packagename);
+                set(PACKAGESTORE[packagename], namesymbol, packagename);
                 return getmodule(url);
             } else {
                 return await coreload(url, packagename);
@@ -535,7 +538,7 @@ async function importcjsamdumd(url, packagename) {
                 console.log(补充加载依赖的模块网址, e.urlorname);
                 return await retryimport(e.urlorname, undefined, url, packagename);
             } else if (isplainobject(url) && Reflect.has(url, e.urlorname)) {
-                return await retryimport(Reflect.get(url, e.urlorname), e.urlorname, url, packagename);
+                return await retryimport(get(url, e.urlorname), e.urlorname, url, packagename);
             } else {
                 throw e;
             }
