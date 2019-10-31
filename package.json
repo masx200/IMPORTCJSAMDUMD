@@ -29,9 +29,8 @@
         "rollup-plugin-terser": "^5.1.1",
         "rollup-plugin-typescript2": "^0.24.3",
         "terser": "^4.3.9",
-        "typescript": "^3.7.1-rc"
-    },
-    "dependencies": {
+        "typescript": "^3.7.1-rc",
         "@babel/preset-env": "^7.6.3"
-    }
+    },
+    "dependencies": {}
 }
