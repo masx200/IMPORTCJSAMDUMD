@@ -11,7 +11,7 @@
     "declaration": true,
     "noUnusedLocals": true,
     "module": "esnext",
-    "target": "es2017",
+    "target": "esnext",
     "jsx": "preserve",
     "removeComments": true,
     "pretty": true,

@@ -3,4 +3,4 @@ import importcjsamdumd, {
   REQUIREPACKAGE
 } from "./importcjsamdumd.js";
 export default importcjsamdumd;
-export { PACKAGESTORE, REQUIREPACKAGE };
+export { PACKAGESTORE, REQUIREPACKAGE, importcjsamdumd };

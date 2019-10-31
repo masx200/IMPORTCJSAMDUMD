@@ -345,7 +345,7 @@ var coreload = async (url, packagename) => {
                                                             value: undefined,
                                                             enumerable: false
                                                         });
-                                                    } catch (_a) {}
+                                                    } catch {}
                                                 }
                                             } else {
                                                 console.warn(e);
@@ -530,5 +530,5 @@ const REQUIREPACKAGE = getmodule;
 
 export default importcjsamdumd;
 
-export { PACKAGESTORE, REQUIREPACKAGE };
+export { PACKAGESTORE, REQUIREPACKAGE, importcjsamdumd };
 //# sourceMappingURL=index.js.map
