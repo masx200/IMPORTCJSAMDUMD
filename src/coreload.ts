@@ -64,7 +64,7 @@ export default async (url: string, packagename?: string) => {
                 const moduleexportdefault = JSON.parse(scripttext);
                 console.log("检测到json模块 " + url);
 
-                moduletype = MODULETYPE["json"];
+                moduletype = "json"
                 esmdefinegetter(moduleexport, moduleexportdefault);
                 moduleexport[typesymbol] = moduletype;
                 Object.freeze(moduleexport);
@@ -121,7 +121,7 @@ export default async (url: string, packagename?: string) => {
                     );
                     // })();
                     if (isamd) {
-                      moduletype = MODULETYPE.amd;
+                      moduletype = "amd";
                       await importcjsamdumd(moduleexport[depssymbol]);
                       module.exports = amdfactory.call(
                         module.exports,
@@ -130,7 +130,7 @@ export default async (url: string, packagename?: string) => {
                         )
                       );
                     } else {
-                      moduletype = MODULETYPE.cjs;
+                      moduletype = "cjs";
                     }
 
                     const exportmodule = [
@@ -158,7 +158,7 @@ export default async (url: string, packagename?: string) => {
                             topLevelBlobUrl
                           );
                           moduleexport[depssymbol] = [];
-                          moduletype = MODULETYPE["esm"];
+                          moduletype = "esm";
                           esmdefinegetter(moduleexport, exportdefault);
                         } catch (e) {
                           console.warn(e);
