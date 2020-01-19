@@ -27,7 +27,7 @@ export type PlainObj = Record<any, any>;
 
 export default oldimportcjsamdumd
 
-
+import{packagealias}from"./alias"
 
 async function oldimportcjsamdumd(
   url: any,
@@ -67,14 +67,22 @@ if (
     })(...url);
   } else if (typeof url === "string" || typeof packagename === "string") {
     assertstring(url);
+if (packagename) {
+    packagealias[packagename] = url;
+  }
+try{
+url = new URL(url).href;
+
+
+}catch{
+url=packagealias[packagename]??url
+}
     return await (async (url: string, packagename?: string) => {
-      /*   if (typeof url === "undefined" || packagename === "") {
-          throw new TypeError(非法字符串);
-        } */
+      url = new URL(url).href;
       if (typeof packagename === "undefined") {
         packagename = new URL(url).href;
       }
-      url = new URL(url).href;
+      
       if (
         typeof PACKAGESTORE[packagename] !== "undefined" &&
        // typeof PACKAGESTORE[packagename].default !== "undefined" &&
