@@ -28,9 +28,9 @@ export default function importcjsamdumd(
   url: string,
   packagename?: string
 ): Promise<MODULE>;
-export default function importcjsamdumd(
-  url: Record<string, string>
-): Promise<Record<string, MODULE>>;
+//export default function importcjsamdumd(
+  //url: Record<string, string>
+//): Promise<Record<string, MODULE>>;
 export default async function importcjsamdumd(
   url: any,
   packagename?: any
