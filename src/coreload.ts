@@ -141,8 +141,8 @@ define_define.amd=true
                     }
 
                     const exportmodule = [
-                      exports_exports ? exports_exports : {},
-                      module.exports ? module.exports : {}
+                      exports_exports ,
+                      module.exports  ?? {}
                       //   define.exports ? define.exports : {}
                     ];
                     const usefulexport = 处理非es模块(exportmodule);
