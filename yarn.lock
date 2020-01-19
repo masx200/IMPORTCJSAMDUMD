@@ -1653,10 +1653,10 @@ tslib@1.10.0, tslib@^1.10.0:
   resolved "https://registry.npm.taobao.org/tslib/download/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
   integrity sha1-w8GflZc/sKYpc/sJ2Q2WHuQ+XIo=
 
-typescript@^3.7.3:
-  version "3.7.5"
-  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
-  integrity sha1-BpLiH2X9QQi5MwI4qsEd0uF3oa4=
+typescript@^3.8.0-dev.20200119:
+  version "3.8.0-dev.20200119"
+  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.8.0-dev.20200119.tgz#9ab0166277b5ed48ed60d10bae7ab404cbef480b"
+  integrity sha1-mrAWYne17UjtYNELrnq0BMvvSAs=
 
 ua-parser-js@^0.7.20:
   version "0.7.21"

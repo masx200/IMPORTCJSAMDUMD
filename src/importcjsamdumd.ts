@@ -1,15 +1,12 @@
 "use strict";
-/* const 输入的类型错误输入的类型必须是字符串或者数组或对象 =
-  "The type entered is incorrect, the type entered must be a string or an array or an object";
-const 非法字符串 = "输入的类型错误,输入的字符串不能为空,url不能为undefined";
-const namesymbol = Symbol.for("name");
-const urlsymbol = Symbol.for("url"); */
+
 import { cantfindError } from "./cantfindError";
 import { getmodule } from "./getmodule";
 import { isplainobject } from "./isplainobject";
 import { isurl } from "./isurl";
 import oldimportcjsamdumd from "./oldimport";
 import { get } from "./coreload";
+import type { MODULE } from './module';
 
 export const 模块仓库中没有找到 =
   "Cannot find module in packagestore, Not found in module repository, ";
@@ -25,15 +22,15 @@ export const 字符串不能为空 = "String cannot be empty";
 export const 补充加载依赖的模块网址 = "补充加载依赖的模块网址";
 
 // const importcjsamdumd = importcjsamdumd;
-export type Module = Record<any, any>;
-export default function importcjsamdumd(url: string[]): Promise<Module[]>;
+// export type MODULE = Record<any, any>;
+export default function importcjsamdumd(url: string[]): Promise<MODULE[]>;
 export default function importcjsamdumd(
   url: string,
   packagename?: string
-): Promise<Module>;
+): Promise<MODULE>;
 export default function importcjsamdumd(
   url: Record<string, string>
-): Promise<Record<string, Module>>;
+): Promise<Record<string, MODULE>>;
 export default async function importcjsamdumd(
   url: any,
   packagename?: any

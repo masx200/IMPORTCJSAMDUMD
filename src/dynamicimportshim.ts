@@ -2,9 +2,9 @@
 "use strict";
 
 import { get, set } from "./coreload";
-import { Module } from "./importcjsamdumd";
+// import { Module } from "./importcjsamdumd";
 import { assertstring } from "./assertstring";
-
+type Module = Record<any, any>;
 export { createBlob };
 function createBlob(source: string) {
   return URL.createObjectURL(
