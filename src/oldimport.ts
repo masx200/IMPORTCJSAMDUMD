@@ -34,43 +34,10 @@ async function oldimportcjsamdumd(
   packagename?: any
 ): Promise<any> {
   "use strict";
-  if (isplainobject(url)) {
-    return await (async url => {
-      const urlobj = newobjjson(url);
-      /* 应该是value,key的数组,与  Object.entries相反*/
-      const 输入参数array = Object.entries(urlobj).map(([key, value]) => [
-        value,
-        key
-      ]);
-      let suoyouimportpromise: Array<MODULE> = [];
-      try {
-        suoyouimportpromise = await 同时发起多个entries(
-          输入参数array,
-          oldimportcjsamdumd
-        );
-      } catch (error) {
-        console.warn(error);
-        suoyouimportpromise = await 同时发起多个entries(
-          输入参数array,
-          oldimportcjsamdumd
-        );
-      } finally {
-        suoyouimportpromise = await 同时发起多个entries(
-          输入参数array,
-          oldimportcjsamdumd
-        );
-      }
-      let objecttoreturn: PlainObj = {};
-      const objvalues = Object.keys(urlobj);
-      objvalues.forEach((key, index) => {
-        objecttoreturn[key] = suoyouimportpromise[index];
-      });
-      //   suoyouimportpromise.forEach(m => {
-      //     objecttoreturn[m[namesymbol]] = m;
-      //   });
-      return objecttoreturn;
-    })(url);
-  } else if (
+  
+
+
+if (
     isArray(
       url
     ) /* && typeof url === "object" */ /*  ||
