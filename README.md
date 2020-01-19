@@ -131,9 +131,7 @@ function importcjsamdumd(url: string[]): Promise<Module[]>;
 
 function importcjsamdumd(url: string, packagename?: string): Promise<Module>;
 
-function importcjsamdumd(
-  url: Record<string, string>
-): Promise<Record<string, Module>>;
+
 
 const PACKAGESTORE: Record<string, Record<string | symbol, any>>;
 
@@ -150,14 +148,9 @@ type Module = Record<any, any>;
 
 `"use strict"`
 
-# 函数参数第一项可以是字符串网址，或者数组，或者对象
+# 函数参数第一项可以是字符串网址，或者数组
 
-```
-importcjsamdumd({
-  "名称1": "网址1",
-  "名称2": "网址2"
-});
-```
+
 
 如果第一个参数是网址，则第二个参数名称可以省略，默认以网址作为名称
 
@@ -201,37 +194,9 @@ importcjsamdumd.PACKAGESTORE[name];
 
 键名为模块的名称，键值为网址
 
-```javascript
-importcjsamdumd({
-  bootstrap:
-    "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.bundle.js",
-  jquery: "https://cdn.staticfile.org/jquery/3.4.1/jquery.js"
-}).then(console.log);
 
-importcjsamdumd({
-  react:
-    "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.development.js",
-  "react-dom":
-    "https://cdn.staticfile.org/react-dom/16.9.0-alpha.0/umd/react-dom.development.js",
-  vue: "https://cdn.staticfile.org/vue/2.6.10/vue.js"
-}).then(console.log);
-```
 
-```javascript
-(async () => {
-  let {
-    react: { default: React },
-    "react-dom": { default: ReactDOM }
-  } = await importcjsamdumd({
-    react:
-      "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.development.js",
-    "react-dom":
-      "https://cdn.staticfile.org/react-dom/16.9.0-alpha.0/umd/react-dom.development.js"
-  });
 
-  console.log(React, ReactDOM);
-})();
-```
 
 1.可以在一句 importcjsamdumd 语句中,传入多个模块的 url 的 name 了,返回一个数组,相当于 promise.all 的语法糖,
 
@@ -324,10 +289,10 @@ importShim("/path/to/module.js").then(x => console.log(x));
 
 ```javascript
 importcjsamdumd("https://cdn.staticfile.org/jquery/3.4.1/jquery.js").then(m => {
-  console.log(m.default.fn.jquery);
+  console.log(m.default);
 });
 
-var jquery = importcjsamdumd.PACKAGESTORE.jquery.default;
+
 
 Promise.all([
   importcjsamdumd("https://cdn.bootcss.com/jquery/3.4.1/jquery.js"),
@@ -352,9 +317,7 @@ importcjsamdumd("https://cdn.bootcss.com/jquery/3.4.1/jquery.js")
   .then(console.log)
   .catch(console.error);
 
-var jquery = importcjsamdumd.REQUIREPACKAGE("jquery");
 
-var underscore = importcjsamdumd.REQUIREPACKAGE("underscore");
 
 Promise.all([
   importcjsamdumd("https://cdn.bootcss.com/jquery/3.4.1/jquery.js", "jquery"),
