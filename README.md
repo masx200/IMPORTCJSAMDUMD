@@ -7,6 +7,8 @@
 
 非常简洁小巧的工具，基于 Promise
 
+使用http响应headers中的"content-type"属性来判断是json还是JavaScript模块
+
 ## 兼容的浏览器
 
 兼容`ECMASCRIPT2017`以上
