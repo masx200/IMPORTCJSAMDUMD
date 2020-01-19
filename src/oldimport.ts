@@ -75,7 +75,7 @@ url = new URL(url).href;
 
 
 }catch{
-url=packagealias[packagename]??url
+url=packagealias[url]??url
 }
     return await (async (url: string, packagename?: string) => {
       url = new URL(url).href;
