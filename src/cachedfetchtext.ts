@@ -1,7 +1,7 @@
-import { set, get } from './coreload';
+import { set, get } from "./coreload";
 
 export default async function(url: string) {
-  const cachedtext =get(cachedurltotext, url);
+  const cachedtext = get(cachedurltotext, url);
   //   cachedurltotext.get(url);
   if (cachedtext) {
     return cachedtext;
@@ -12,7 +12,7 @@ export default async function(url: string) {
       }
       return await response.text();
     });
-   set(cachedurltotext, url, textsource);
+    set(cachedurltotext, url, textsource);
     // cachedurltotext.set(url, textsource);
     return textsource;
   }

@@ -42,15 +42,11 @@ function isurl(url) {
 }
 
 async function 同时发起多个字符串(a, importcjsamdumd) {
-    return await Promise.all(a.map(e => {
-        return importcjsamdumd(e);
-    }));
+    return await Promise.all(a.map(e => importcjsamdumd(e)));
 }
 
 async function 同时发起多个entries(a, importcjsamdumd) {
-    return await Promise.all(a.map(e => {
-        return importcjsamdumd(e[0], e[1]);
-    }));
+    return await Promise.all(a.map(e => importcjsamdumd(e[0], e[1])));
 }
 
 async function cachedfetchtext(url) {
@@ -274,144 +270,142 @@ const sourcesymbol = Symbol("source");
 var coreload = async (url, packagename) => {
     return await new Promise(主核心加载模块函数);
     function 主核心加载模块函数(resolve, reject) {
-        return ((resolve, reject) => {
-            return (async () => {
-                try {
-                    return await (async () => {
-                        let fetchpromisetext;
+        return ((resolve, reject) => (async () => {
+            try {
+                return await (async () => {
+                    let fetchpromisetext;
+                    try {
                         try {
-                            try {
-                                fetchpromisetext = await cachedfetchtext(url);
-                            } catch (e) {
-                                console.warn(e);
-                                reject(e);
-                                return;
-                            }
-                            try {
-                                return await (async scripttext => {
-                                    let moduletype;
-                                    const exports_exports = {
-                                        [Symbol.toStringTag]: "Module"
-                                    };
-                                    const module = {
-                                        exports: {
-                                            [Symbol.toStringTag]: "Module"
-                                        }
-                                    };
-                                    define.exports = {};
-                                    let modulesrcfun;
-                                    const moduleexport = Object.assign(Object.create(null), {
-                                        default: undefined
-                                    });
-                                    try {
-                                        (function() {
-                                            const 模块加载函数 = new Function("require", "define", "module", "exports", `"use strict";\n/* ${url} */;\n${scripttext};\n/* ${url} */;\n`);
-                                            modulesrcfun = 模块加载函数.toString();
-                                            return 模块加载函数.call(module.exports, name => formatedurlrequire(name, url), define, module, exports_exports);
-                                        })();
-                                        const exportmodule = [ exports_exports ? exports_exports : {}, module.exports ? module.exports : {}, define.exports ? define.exports : {} ];
-                                        const usefulexport = 处理非es模块(exportmodule, url, packagename);
-                                        moduletype = "cjs";
-                                        if (usefulexport) {
-                                            定义default(moduleexport, usefulexport);
-                                            esmdefinegetter(moduleexport, usefulexport);
-                                        }
-                                    } catch (e) {
-                                        console.warn(e);
-                                        try {
-                                            const moduleexportdefault = JSON.parse(scripttext);
-                                            console.log("检测到json模块 " + url);
-                                            modulesrcfun = scripttext;
-                                            moduletype = "json";
-                                            esmdefinegetter(moduleexport, moduleexportdefault);
-                                        } catch (error) {
-                                            console.warn(error);
-                                            if (e instanceof SyntaxError) {
-                                                const topLevelBlobUrl = url;
-                                                modulesrcfun = scripttext;
-                                                try {
-                                                    const exportdefault = await dynamicimportshimfun(topLevelBlobUrl);
-                                                    moduletype = "esm";
-                                                    esmdefinegetter(moduleexport, exportdefault);
-                                                } catch (e) {
-                                                    console.warn(e);
-                                                    reject(e);
-                                                    return;
-                                                }
-                                                if (typeof moduleexport.default === "undefined") {
-                                                    console.warn(加载的模块没有输出, packagename, url);
-                                                    try {
-                                                        defineProperty(moduleexport, "default", {
-                                                            value: undefined,
-                                                            enumerable: false
-                                                        });
-                                                    } catch {}
-                                                }
-                                            } else {
-                                                console.warn(e);
-                                                reject(e);
-                                                return;
-                                            }
-                                        }
-                                    }
-                                    Object.defineProperties(moduleexport, {
-                                        [namesymbol]: {
-                                            value: packagename
-                                        },
-                                        [urlsymbol]: {
-                                            value: url
-                                        },
-                                        [sourcesymbol]: {
-                                            value: modulesrcfun
-                                        },
-                                        [typesymbol]: {
-                                            value: moduletype
-                                        }
-                                    });
-                                    if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
-                                        defineProperty(moduleexport, Symbol.toStringTag, {
-                                            value: "Module"
-                                        });
-                                    }
-                                    if (typeof packagename !== "undefined") {
-                                        PACKAGESTORE[packagename] = moduleexport;
-                                    }
-                                    if (typeof packagename !== "undefined") {
-                                        PACKAGESTORE[url] = PACKAGESTORE[packagename];
-                                    }
-                                    if (moduleexport.default) {
-                                        esmdefinegetter(moduleexport, moduleexport.default);
-                                    }
-                                    if (moduleexport.default === undefined) {
-                                        try {
-                                            defineProperty(moduleexport, "default", {
-                                                value: undefined,
-                                                enumerable: false
-                                            });
-                                        } catch (error) {}
-                                    }
-                                    Object.freeze(moduleexport);
-                                    resolve(moduleexport);
-                                    return;
-                                })(fetchpromisetext);
-                            } catch (e) {
-                                console.warn(e);
-                                reject(e);
-                                return;
-                            }
+                            fetchpromisetext = await cachedfetchtext(url);
                         } catch (e) {
                             console.warn(e);
                             reject(e);
                             return;
                         }
-                    })();
-                } catch (e) {
-                    console.warn(e);
-                    reject(e);
-                    return;
-                }
-            })();
-        })(resolve, reject);
+                        try {
+                            return await (async scripttext => {
+                                let moduletype;
+                                const exports_exports = {
+                                    [Symbol.toStringTag]: "Module"
+                                };
+                                const module = {
+                                    exports: {
+                                        [Symbol.toStringTag]: "Module"
+                                    }
+                                };
+                                define.exports = {};
+                                let modulesrcfun;
+                                const moduleexport = Object.assign(Object.create(null), {
+                                    default: undefined
+                                });
+                                try {
+                                    (function() {
+                                        const 模块加载函数 = new Function("require", "define", "module", "exports", `"use strict";\n/* ${url} */;\n${scripttext};\n/* ${url} */;\n`);
+                                        modulesrcfun = 模块加载函数.toString();
+                                        return 模块加载函数.call(module.exports, name => formatedurlrequire(name, url), define, module, exports_exports);
+                                    })();
+                                    const exportmodule = [ exports_exports ? exports_exports : {}, module.exports ? module.exports : {}, define.exports ? define.exports : {} ];
+                                    const usefulexport = 处理非es模块(exportmodule, url, packagename);
+                                    moduletype = "cjs";
+                                    if (usefulexport) {
+                                        定义default(moduleexport, usefulexport);
+                                        esmdefinegetter(moduleexport, usefulexport);
+                                    }
+                                } catch (e) {
+                                    console.warn(e);
+                                    try {
+                                        const moduleexportdefault = JSON.parse(scripttext);
+                                        console.log("检测到json模块 " + url);
+                                        modulesrcfun = scripttext;
+                                        moduletype = "json";
+                                        esmdefinegetter(moduleexport, moduleexportdefault);
+                                    } catch (error) {
+                                        console.warn(error);
+                                        if (e instanceof SyntaxError) {
+                                            const topLevelBlobUrl = url;
+                                            modulesrcfun = scripttext;
+                                            try {
+                                                const exportdefault = await dynamicimportshimfun(topLevelBlobUrl);
+                                                moduletype = "esm";
+                                                esmdefinegetter(moduleexport, exportdefault);
+                                            } catch (e) {
+                                                console.warn(e);
+                                                reject(e);
+                                                return;
+                                            }
+                                            if (typeof moduleexport.default === "undefined") {
+                                                console.warn(加载的模块没有输出, packagename, url);
+                                                try {
+                                                    defineProperty(moduleexport, "default", {
+                                                        value: undefined,
+                                                        enumerable: false
+                                                    });
+                                                } catch {}
+                                            }
+                                        } else {
+                                            console.warn(e);
+                                            reject(e);
+                                            return;
+                                        }
+                                    }
+                                }
+                                Object.defineProperties(moduleexport, {
+                                    [namesymbol]: {
+                                        value: packagename
+                                    },
+                                    [urlsymbol]: {
+                                        value: url
+                                    },
+                                    [sourcesymbol]: {
+                                        value: modulesrcfun
+                                    },
+                                    [typesymbol]: {
+                                        value: moduletype
+                                    }
+                                });
+                                if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
+                                    defineProperty(moduleexport, Symbol.toStringTag, {
+                                        value: "Module"
+                                    });
+                                }
+                                if (typeof packagename !== "undefined") {
+                                    PACKAGESTORE[packagename] = moduleexport;
+                                }
+                                if (typeof packagename !== "undefined") {
+                                    PACKAGESTORE[url] = PACKAGESTORE[packagename];
+                                }
+                                if (moduleexport.default) {
+                                    esmdefinegetter(moduleexport, moduleexport.default);
+                                }
+                                if (moduleexport.default === undefined) {
+                                    try {
+                                        defineProperty(moduleexport, "default", {
+                                            value: undefined,
+                                            enumerable: false
+                                        });
+                                    } catch (error) {}
+                                }
+                                Object.freeze(moduleexport);
+                                resolve(moduleexport);
+                                return;
+                            })(fetchpromisetext);
+                        } catch (e) {
+                            console.warn(e);
+                            reject(e);
+                            return;
+                        }
+                    } catch (e) {
+                        console.warn(e);
+                        reject(e);
+                        return;
+                    }
+                })();
+            } catch (e) {
+                console.warn(e);
+                reject(e);
+                return;
+            }
+        })())(resolve, reject);
     }
 };
 

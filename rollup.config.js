@@ -1,11 +1,11 @@
-import typescriptlib from "typescript";
+// import typescriptlib from "typescript";
 import babel from "rollup-plugin-babel";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
 import json from "rollup-plugin-json";
-import typescript from "rollup-plugin-typescript2";
+import typescript from "rollup-plugin-ts";
 const beautifyterserplugin = terser({
   compress: false,
   mangle: false,
@@ -57,13 +57,14 @@ export default [
       }
     ],
     plugins: [
+      mybabelplugin,
       sourcemaps(),
       json(),
       resolve(),
       commonjs(),
       typescript({
-        tsconfig: "./tsconfig.json",
-        typescript: typescriptlib
+        // tsconfig: "./tsconfig.json",
+        // typescript: typescriptlib
       }),
       beautifyterserplugin
     ]
