@@ -23,6 +23,10 @@ export const 补充加载依赖的模块网址 = "补充加载依赖的模块网
 
 // const importcjsamdumd = importcjsamdumd;
 // export type MODULE = Record<any, any>;
+
+
+
+
 export default function importcjsamdumd(url: string[]): Promise<MODULE[]>;
 export default function importcjsamdumd(
   url: string,
