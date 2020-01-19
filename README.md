@@ -15,22 +15,12 @@
 
 EDGE,CHROME,FIREFOX,SAFARI
 
-<!-- 压缩后仅有 7 KB -->
-
-<!-- [查看源代码 ](https://github.com/masx200/importcjsamdumd/blob/master/src/index.js) -->
-
-<!-- [ES 模块](https://github.com/masx200/importcjsamdumd/blob/master/dist/index.esm.js)
-
-[cjs 模块](https://github.com/masx200/importcjsamdumd/blob/master/dist/index.cjs.js) -->
 
 ## 获取已压缩模块
 
 ### ES 模块
 
-<!--
-https://masx200.github.io/importcjsamdumd/dist/index.esm.min.js
 
-或者-->
 
 从 cdn 获取
 
@@ -112,9 +102,7 @@ import importcjsamdumd, {
 } from "@masx200/importcjsamdumd";
 ```
 
-<!-- ```js
-import dynamicimportshim from "@masx200/importcjsamdumd/src/dynamicimportshim.js";
-``` -->
+
 
 # importcjsamdumd
 
@@ -174,25 +162,10 @@ importcjsamdumd(url, name);
 importcjsamdumd(url).then(m => console.log(m.default));
 ```
 
-<!--
-```javascript
-importcjsamdumd.PACKAGESTORE[name];
-```
- -->
-
-<!-- ```javascript
-// importcjsamdumd.REQUIREPACKAGE(name);
-``` -->
-
-<!-- importcjsamdumd.PACKAGESTORE[name].default 和 importcjsamdumd.REQUIREPACKAGE(name)是相等的 -->
-
 ### 新版用法:
 
 全面升级支持
 
-传参一个 `object`参数,返回`promise`内含一个 `object`
-
-键名为模块的名称，键值为网址
 
 
 
@@ -248,7 +221,7 @@ function myonloadfunc(reactmodulearray) {
   const React = reactmodulearray[0].default;
   const ReactDOM = reactmodulearray[1].default;
   const ReactRouterDOM = reactmodulearray[2].default;
-  //............................
+  
 }
 ```
 
@@ -279,11 +252,7 @@ importcjsamdumd(url).then(console.log);
 
 先当成 `umd` 模块运行,监测到报错之后,当成 `es` 模块运行
 
-<!-- 如果要兼容旧的浏览器，可以使用["es-module-shims"](https://github.com/guybedford/es-module-shims)的"importShim"函数替换"import"函数 -->
 
-<!-- ```javascript
-importShim("/path/to/module.js").then(x => console.log(x));
-``` -->
 
 ## 示例
 
@@ -346,54 +315,3 @@ https://www.bootcdn.cn/
 https://cdnjs.com/
 
 https://unpkg.com/
-
-<!--
-
-# 模块打包输出,并压缩
-
-## 使用 webpack 打包模块输出
-
-```shell
-webpack --output-library-target=commonjs2 -p  -o ./dist/index.cjs.js  --verbose ./src/index.js
-```
-
-## 使用 rollup 打包模块输出
-
-```shell
-rollup -f esm -i ./src/index.js -o ./dist/index.esm.js
-```
-
-```bash
-rollup -f cjs -i ./src/index.js -o ./dist/index.cjs.js
-```
-
-## 使用 terser 压缩模块
-
-```bash
-terser   -c -m -o ./dist/index.esm.min.js --verbose  ./dist/index.esm.js  --toplevel
-```
-
-```bash
-terser   -c -m -o ./dist/index.cjs.min.js --verbose  ./dist/index.cjs.js  --toplevel
-```
-
-### 使用 terser 删除所有 console 的函数调用
-
-`terser --compress drop_console=true -m -o ./dist/index.esm.min.js --verbose ./dist/index.esm.js --toplevel`
-
-
-
-
-
-`terser --compress drop_console=true -m -o ./dist/index.cjs.min.js --verbose ./dist/index.cjs.js --toplevel`
-
-
-
-
-
-
--->
-<!-- "buildexternal": "rollup -c rollup.config.external.js",
-        "buildcli": " yarn buildesm && yarn minifyesm  ",
-        "buildesm": "rollup -f esm -i ./src/index.js -o ./dist/index.esm.js",
-        "minifyesm": "terser  --compress drop_console=true -m -o ./dist/index.esm.min.js --verbose  ./dist/index.esm.js    --toplevel -b ascii_only=true" -->
