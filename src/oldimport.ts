@@ -25,8 +25,11 @@ export const 传入的参数必须是个object =
   "The argument passed in must be an object";
 export type PlainObj = Record<any, any>;
 
-export default /* (() => {
-  return */ async function oldimportcjsamdumd(
+export default oldimportcjsamdumd
+
+
+
+async function oldimportcjsamdumd(
   url: any,
   packagename?: any
 ): Promise<any> {
@@ -131,4 +134,4 @@ export default /* (() => {
     throw new TypeError(输入的类型错误输入的类型必须是字符串或者数组或对象);
   }
 }
-// })();
+
