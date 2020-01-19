@@ -50,7 +50,7 @@ export default async function importcjsamdumd(
   }
   async function handleerror(e: Error): Promise<any> {
     console.warn(e);
-    if (tryfailedtimes > 100) {
+    if (tryfailedtimes > 5) {
       throw new Error(
         "Try loading, too many failures, give up trying!" +
           JSON.stringify(url) +
