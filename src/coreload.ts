@@ -84,9 +84,9 @@ export default async (url: string, packagename?: string) => {
                     let isamd = false;
                     const 模块加载函数 = new Function(
                       "require",
-                      "define",
+                      
                       "module",
-                      "exports",
+                      "exports","define",
                       `
                         "use strict";\n/* ${url} */;\n${scripttext};\n/* ${url} */;\n
                         `
@@ -103,10 +103,11 @@ export default async (url: string, packagename?: string) => {
                     });
                     await importcjsamdumd(moduleexport[depssymbol]);
                     let amdfactory: Function = () => {};
-                    模块加载函数.call(
-                      module.exports,
-                      (name: string) => formatedurlrequire(name, url),
-                      (name: any, deps?: any, callback?: any) => {
+                    
+const require_require=(name: string) => formatedurlrequire(name, url)
+
+
+const define_define=(name: any, deps?: any, callback?: any) => {
                         const defineglobalDefQueue = define(name, deps, callback);
                         isamd = true;
                         amdfactory = defineglobalDefQueue[2];
@@ -115,9 +116,15 @@ export default async (url: string, packagename?: string) => {
                             return getnormalizedurl(urlorname, url);
                           }
                         );
-                      },
+                      }
+define_define.cmd=true
+define_define.amd=true
+模块加载函数.call(
+                      module.exports,require_require
+                      
+                      ,
                       module,
-                      exports_exports
+                      exports_exports,define_define
                     );
                     // })();
                     if (isamd) {
