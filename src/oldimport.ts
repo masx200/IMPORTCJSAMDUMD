@@ -110,14 +110,14 @@ async function oldimportcjsamdumd(
       url = new URL(url).href;
       if (
         typeof PACKAGESTORE[packagename] !== "undefined" &&
-        typeof PACKAGESTORE[packagename].default !== "undefined" &&
+       // typeof PACKAGESTORE[packagename].default !== "undefined" &&
         get(PACKAGESTORE[packagename], urlsymbol) === url
         //  [urlsymbol] === url
       ) {
         return getmodule(packagename);
       } else if (
         typeof PACKAGESTORE[url] !== "undefined" &&
-        typeof PACKAGESTORE[url].default !== "undefined" &&
+     //   typeof PACKAGESTORE[url].default !== "undefined" &&
         get(PACKAGESTORE[url], urlsymbol) === url
         //   PACKAGESTORE[url][urlsymbol] === url
       ) {
