@@ -1,8 +1,8 @@
 import { isArray } from "./isarray";
 import { isFunction } from "./isfunction";
 
-define.cmd = true;
-define.amd = true;
+//define.cmd = true;
+//define.amd = true;
 function define(name: any, deps?: any, callback?: any): [string|undefined, string[], Function|Record<any,any>|undefined] {
   "use strict";
 
