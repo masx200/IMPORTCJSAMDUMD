@@ -143,12 +143,20 @@ export default async (url: string, packagename?: string) => {
                     await importcjsamdumd(moduleexport[depssymbol]);
                     /*允许factory函数返回promise*/
 /*factory也可以是个对象*/
+
+/*如果cmd/amd模块没有依赖，则函数调用参数为[require,exports,module]*/
+let amdcallargs:any[]
+if(moduleexport[depssymbol].length){
+amdcallargs=moduleexport[depssymbol].map((e: string) =>
+                          myrequirefun(e)
+                        )
+}else{
+amdcallargs=[require_require,exports_exports,module]
+}
 const define_exports =await isobject(amdfactory)?amdfactory:isFunction(amdfactory)&&
                       amdfactory.call(
                         module.exports,
-                        ...moduleexport[depssymbol].map((e: string) =>
-                          myrequirefun(e)
-                        )
+                        ...
                       ) ;
 !!define_exports&&
 module.exports=define_exports
