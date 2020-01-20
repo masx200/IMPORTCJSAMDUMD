@@ -18,7 +18,7 @@ function define(name: any, deps?: any, callback?: any) {
   if (!deps && isFunction(callback)) {
     deps = [];
   }
-  const defineglobalDefQueue: [string, string[], Function] = [
+  const defineglobalDefQueue: [string, string[], Function|Record<any,any>|undefined] = [
     name,
     deps,
     callback
