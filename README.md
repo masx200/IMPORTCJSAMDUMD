@@ -297,17 +297,27 @@ https://github.com/seajs/seajs/blob/master/src/util-deps.js
 
 ## commonjs
 
+http://wiki.commonjs.org/wiki/Modules/1.1
+
 ```js
 var a = require("./a.js");
 console.log(a);
 module.exports = { a: 1, b: function() {} };
+```
 
+```js
 exports.c = function() {
   return "commonjs";
+};
+var add = require("math").add;
+exports.increment = function(val) {
+  return add(val, 1);
 };
 ```
 
 ## amd Asynchronous Module Definition
+
+https://requirejs.org/docs/api.html
 
 ```js
 define("foo/title", ["my/cart", "my/inventory"], function(cart, inventory) {
@@ -357,6 +367,8 @@ define({
 
 ## cmd Common Module Definition
 
+https://github.com/seajs/seajs/issues/242
+
 ```js
 define(function(require, exports, module) {
   var a = require("./a");
@@ -399,6 +411,23 @@ function dosomething() {}
 let bar = "es";
 export { dosomething, bar };
 export default function() {}
+```
+
+```js
+export { fn1, fn2 };
+
+function fn1() {
+  console.log("fn1");
+}
+function fn2() {
+  console.log("fn2");
+}
+```
+
+```js
+import { fn1, fn2 } from "./myModule.js";
+fn1();
+fn2();
 ```
 
 # 推荐几个优秀的前端开源项目库 CDN 加速服务加速网站
