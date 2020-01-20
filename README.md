@@ -293,6 +293,61 @@ commonjs 模块依赖收集,基于 seajs
 
 https://github.com/seajs/seajs/blob/master/src/util-deps.js
 
+
+# 模块规范
+
+commonjs
+
+```js
+
+
+var a=require("./a.js")
+console.log(a)
+module.exports={a:1,b:function(){}}
+
+
+exports.c="commonjs"
+```
+
+amd
+
+```js
+
+
+define("foo/title",
+        ["my/cart", "my/inventory"],
+        function(cart, inventory) {
+console.log(cart,inventory)
+            return {a:"amd",foo: 'bar',
+    doSomething: function() {}}
+       }
+    );
+
+
+```
+
+
+
+
+cmd
+
+```js
+define(function(require, exports, module) {
+
+    var a = require('./a');
+
+ 
+  a.doSomething();
+exports.foo = 'bar';
+
+  
+  exports.doSomething = function() {};
+return {c:"cmd",foo1: 'bar',
+    doSomething: function() {}}
+});
+
+```
+
 # 推荐几个优秀的前端开源项目库 CDN 加速服务加速网站
 
 https://www.jsdelivr.com/
