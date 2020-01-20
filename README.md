@@ -108,6 +108,10 @@ PACKAGESTORE,是所有加载过的模块的存储仓库对象
 
 REQUIREPACKAGE,返回模块仓库中的模块,参数 name 是字符串
 
+
+
+packagealias是保存模块别名的对象
+
 ```ts
 function importcjsamdumd(url: string[]): Promise<Module[]>;
 
@@ -125,6 +129,15 @@ const packagealias: Record<string, string>
 
 ## 动态异步加载 cjs,amd,umd 模块用法:
 
+使用前设置模块别名
+
+```js
+Object.assign(packagealias,{
+  jquery: "https://cdn.staticfile.org/jquery/3.4.1/jquery.js",
+  bootstrap:
+    "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.bundle.js"
+})
+```
 # 更新:乱序加载有依赖关系的模块包
 
 # 默认在模块加载时开启了严格模式!
