@@ -23,7 +23,7 @@ function define(name: any, deps?: any, callback?: any) {
     deps,
     callback
   ];
-  console.log(defineglobalDefQueue);
+  //   console.log(defineglobalDefQueue);
   return defineglobalDefQueue;
 }
 export { define };

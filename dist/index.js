@@ -123,7 +123,6 @@ function define(name, deps, callback) {
         deps = [];
     }
     const defineglobalDefQueue = [ name, deps, callback ];
-    console.log(defineglobalDefQueue);
     return defineglobalDefQueue;
 }
 
@@ -332,7 +331,6 @@ var coreload = async (url, packagename) => {
                     moduleexport[sourcesymbol] = modulesrcfun;
                     if ("json" === codetype) {
                         const moduleexportdefault = JSON.parse(scripttext);
-                        console.log("检测到json模块 " + url);
                         moduletype = "json";
                         esmdefinegetter(moduleexport, moduleexportdefault);
                         moduleexport[typesymbol] = moduletype;
@@ -371,7 +369,6 @@ var coreload = async (url, packagename) => {
                                 模块加载函数.call(module.exports, require_require, module, exports_exports, define_define);
                                 if (isamd) {
                                     moduletype = "amd";
-                                    console.log(moduleexport[depssymbol]);
                                     await importcjsamdumd(moduleexport[depssymbol]);
                                     module.exports = (_b = amdfactory.call(module.exports, ...moduleexport[depssymbol].map(e => myrequirefun(e)))) !== null && _b !== void 0 ? _b : module.exports;
                                 } else {

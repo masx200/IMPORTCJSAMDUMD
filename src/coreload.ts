@@ -64,7 +64,7 @@ export default async (url: string, packagename?: string) => {
 
             if ("json" === codetype) {
               const moduleexportdefault = JSON.parse(scripttext);
-              console.log("检测到json模块 " + url);
+              //   console.log("检测到json模块 " + url);
 
               moduletype = "json";
               esmdefinegetter(moduleexport, moduleexportdefault);
@@ -135,7 +135,7 @@ export default async (url: string, packagename?: string) => {
 
                   if (isamd) {
                     moduletype = "amd";
-                    console.log(moduleexport[depssymbol]);
+                    // console.log(moduleexport[depssymbol]);
                     await importcjsamdumd(moduleexport[depssymbol]);
                     module.exports =
                       amdfactory.call(
