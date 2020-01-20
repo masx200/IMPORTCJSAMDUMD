@@ -377,6 +377,15 @@ define(function(require, exports, module) {
   exports.foo = "bar";
 
   exports.Something = function() {};
+});
+```
+
+```js
+define(function(require, exports, module) {
+  var a = require("./a");
+
+  a.doSomething();
+
   return { c: "cmd", foo1: "bar", doSomething: function() {} };
 });
 ```
