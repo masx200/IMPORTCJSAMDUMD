@@ -294,7 +294,7 @@ commonjs 模块依赖收集,基于 seajs
 https://github.com/seajs/seajs/blob/master/src/util-deps.js
 
 
-# 模块规范
+# 模块规范示例
 
 commonjs
 
@@ -358,6 +358,7 @@ console.log(foo,a,b)
 function dosomething(){}
 let bar="es"
 export {dosomething,bar}
+export default function(){}
 ```
 
 
