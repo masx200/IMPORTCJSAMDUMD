@@ -293,75 +293,51 @@ commonjs 模块依赖收集,基于 seajs
 
 https://github.com/seajs/seajs/blob/master/src/util-deps.js
 
-
 # 模块规范示例
 
 commonjs
 
 ```js
+var a = require("./a.js");
+console.log(a);
+module.exports = { a: 1, b: function() {} };
 
-
-var a=require("./a.js")
-console.log(a)
-module.exports={a:1,b:function(){}}
-
-
-exports.c="commonjs"
+exports.c = "commonjs";
 ```
 
 amd
 
 ```js
-
-
-define("foo/title",
-        ["my/cart", "my/inventory"],
-        function(cart, inventory) {
-console.log(cart,inventory)
-            return {a:"amd",foo: 'bar',
-    doSomething: function() {}}
-       }
-    );
-
-
+define("foo/title", ["my/cart", "my/inventory"], function(cart, inventory) {
+  console.log(cart, inventory);
+  return { a: "amd", foo: "bar", doSomething: function() {} };
+});
 ```
-
-
-
 
 cmd
 
 ```js
 define(function(require, exports, module) {
+  var a = require("./a");
 
-    var a = require('./a');
-
- 
   a.doSomething();
-exports.foo = 'bar';
+  exports.foo = "bar";
 
-  
   exports.Something = function() {};
-return {c:"cmd",foo1: 'bar',
-    doSomething: function() {}}
+  return { c: "cmd", foo1: "bar", doSomething: function() {} };
 });
-
 ```
-
 
 es module
 
 ```js
-
-import foo,{a,b}from "./foo.js"
-console.log(foo,a,b)
-function dosomething(){}
-let bar="es"
-export {dosomething,bar}
-export default function(){}
+import foo, { a, b } from "./foo.js";
+console.log(foo, a, b);
+function dosomething() {}
+let bar = "es";
+export { dosomething, bar };
+export default function() {}
 ```
-
-
 
 # 推荐几个优秀的前端开源项目库 CDN 加速服务加速网站
 
