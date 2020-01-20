@@ -43,15 +43,18 @@ async function oldimportcjsamdumd(url: any, packagename?: any): Promise<any> {
     })(...url);
   } else if (typeof url === "string" || typeof packagename === "string") {
     assertstring(url);
-    if (packagename) {
-      packagealias[packagename] = url;
-    }
+
     try {
       url = new URL(url).href;
     } catch {
       url = packagealias[url] ?? url;
     }
     return await (async (url: string, packagename?: string) => {
+      /* 转换相对路径 */
+      if (String(url).startsWith("./") || String(url).startsWith("../")) {
+        var urlobj = new URL(url, location.href);
+        url = urlobj.origin + urlobj.pathname;
+      }
       try {
         url = new URL(url).href;
       } catch {
@@ -60,7 +63,9 @@ async function oldimportcjsamdumd(url: any, packagename?: any): Promise<any> {
       if (typeof packagename === "undefined") {
         packagename = new URL(url).href;
       }
-
+      if (packagename) {
+        packagealias[packagename] = url;
+      }
       if (
         typeof PACKAGESTORE[packagename] !== "undefined" &&
         get(PACKAGESTORE[packagename], urlsymbol) === url

@@ -73,7 +73,7 @@ export default [
     input: "./dist/index.js",
     output: [
       {
-        file: "./dist/index.esm.min.js",
+        file: "./dist/index.min.js",
         format: "esm",
         sourcemap: true
       }

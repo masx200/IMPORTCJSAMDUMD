@@ -11,6 +11,7 @@ Object.assign(packagealias, {
     "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.bundle.js"
 });
 console.log([importcjsamdumd, PACKAGESTORE, REQUIREPACKAGE, packagealias]);
+importcjsamdumd(["./es1.js", "./es2.js"]).then(console.log);
 importcjsamdumd(
   "https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.js"
 ).then(console.log);

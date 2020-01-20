@@ -1,7 +1,7 @@
 {
-    "version": "2.2.5",
-    "module": "./dist/index.esm.min.js",
-    "main": "./dist/index.esm.min.js",
+    "version": "2.2.6",
+    "module": "./dist/index.min.js",
+    "main": "./dist/index.min.js",
     "types": "./dist/src/index.d.ts",
     "publishConfig": {
         "registry": "https://npm.pkg.github.com/@masx200"
@@ -17,22 +17,25 @@
     "author": "masx200 <34191203+masx200@users.noreply.github.com>",
     "license": "MIT",
     "devDependencies": {
-        "@babel/core": "^7.6.4",
+        "@babel/core": "^7.8.3",
         "@babel/plugin-proposal-optional-catch-binding": "^7.2.0",
-        "@babel/preset-env": "^7.6.3",
+        "@babel/preset-env": "^7.8.3",
         "prettier": "^1.18.2",
-        "rollup": "^1.27.9",
+        "rollup": "^1.29.0",
         "rollup-plugin-babel": "^4.3.3",
-        "rollup-plugin-commonjs": "^10.0.2",
+        "rollup-plugin-commonjs": "^10.1.0",
         "rollup-plugin-json": "^4.0.0",
         "rollup-plugin-node-resolve": "^5.2.0",
-        "rollup-plugin-sourcemaps": "^0.4.2",
-        "rollup-plugin-terser": "^5.1.1",
+        "rollup-plugin-sourcemaps": "^0.5.0",
+        "rollup-plugin-terser": "^5.2.0",
         "rollup-plugin-ts": "^1.2.12",
         "rollup-plugin-typescript2": "^0.24.3",
         "serialize-javascript": "^2.1.2",
-        "terser": "^4.4.2",
-        "typescript": "^3.8.0-dev.20200119"
+        "terser": "^4.6.3",
+        "typescript": "^3.8.0-dev.20200119",
+        "@types/node": "^13.1.8"
     },
-    "dependencies": {}
+    "dependencies": {
+
+    }
 }

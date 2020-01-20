@@ -1,4 +1,4 @@
-export function 格式化url(baseurl: string, urlorname: string) {
+export function 格式化url(baseurl: string, urlorname: string): string {
   if (
     String(urlorname).startsWith("./") ||
     String(urlorname).startsWith("../")
