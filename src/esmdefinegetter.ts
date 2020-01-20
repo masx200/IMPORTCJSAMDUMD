@@ -9,17 +9,15 @@ export function esmdefinegetter(
     exportdefault &&
     (isFunction(exportdefault) || typeof exportdefault === "object")
   ) {
-    Object.keys(exportdefault)
-      
-      .forEach(key => {
-        try {
-          defineProperty(moduleexport, key, {
-            enumerable: true,
-            get() {
-              return get(exportdefault, key);
-            }
-          });
-        } catch (error) {}
-      });
+    Object.keys(exportdefault).forEach(key => {
+      try {
+        defineProperty(moduleexport, key, {
+          enumerable: true,
+          get() {
+            return get(exportdefault, key);
+          }
+        });
+      } catch (error) {}
+    });
   }
 }

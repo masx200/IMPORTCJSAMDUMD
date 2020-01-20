@@ -10,15 +10,11 @@ export const formatedurlrequire = (urlorname: string, url: string) => {
     String(urlorname).startsWith("./") ||
     String(urlorname).startsWith("../")
   ) {
-    const formatedurl = getnormalizedurl(urlorname, url); 
+    const formatedurl = getnormalizedurl(urlorname, url);
     return myrequirefun(formatedurl);
   } else {
     return myrequirefun(urlorname);
   }
-  
-
-
-  
 };
 export function getnormalizedurl(relativeurl: string, url: string) {
   if (

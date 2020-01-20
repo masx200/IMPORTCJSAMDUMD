@@ -7,21 +7,13 @@ export function 定义default(
   def: { [x: string]: string; default: any } | Function
 ) {
   def = get(def, "default") ?? def;
-  
-  
-  
-  
-  
-  
-  if (!ismodule(def) && !isplainobject(def)) {
 
-    
+  if (!ismodule(def) && !isplainobject(def)) {
     defineProperty(target, "default", {
       enumerable: true,
       get() {
         return def;
       }
     });
-    
   }
 }

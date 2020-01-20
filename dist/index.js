@@ -47,10 +47,6 @@ async function 同时发起多个字符串(a, importcjsamdumd) {
     return await Promise.all(a.map(e => importcjsamdumd(e)));
 }
 
-async function 同时发起多个entries(a, importcjsamdumd) {
-    return await Promise.all(a.map(e => importcjsamdumd(e[0], e[1])));
-}
-
 async function cachedfetchtext(url) {
     let codetype;
     const cachedtext = get(cachedurltotext, url);
@@ -86,7 +82,8 @@ function ismodule(a) {
 }
 
 function 定义default(target, def) {
-    def = get(def, "default") ? get(def, "default") : def;
+    var _a;
+    def = (_a = get(def, "default")) !== null && _a !== void 0 ? _a : def;
     if (!ismodule(def) && !isplainobject(def)) {
         defineProperty(target, "default", {
             enumerable: true,
@@ -280,15 +277,6 @@ const urlsymbol = Symbol("url");
 
 const sourcesymbol = Symbol("source");
 
-var MODULETYPE;
-
-(function(MODULETYPE) {
-    MODULETYPE["amd"] = "amd";
-    MODULETYPE["cjs"] = "cjs";
-    MODULETYPE["esm"] = "esm";
-    MODULETYPE["json"] = "json";
-})(MODULETYPE || (MODULETYPE = {}));
-
 var REQUIRE_RE = /"(?:\\"|[^"])*"|'(?:\\'|[^'])*'|\/\*[\S\s]*?\*\/|\/(?:\\\/|[^\/\r\n])+\/(?=[^\/])|\/\/.*|\.\s*require|(?:^|[^$])\brequire\s*\(\s*(["'])(.+?)\1\s*\)/g;
 
 var SLASH_RE = /\\\\/g;
@@ -315,6 +303,7 @@ var coreload = async (url, packagename) => {
         return ((resolve, reject) => (async () => {
             try {
                 return await (async () => {
+                    var _a;
                     let fetchpromisetext;
                     let codetype;
                     try {
@@ -341,7 +330,7 @@ var coreload = async (url, packagename) => {
                         if ("json" === codetype) {
                             const moduleexportdefault = JSON.parse(scripttext);
                             console.log("检测到json模块 " + url);
-                            moduletype = MODULETYPE["json"];
+                            moduletype = "json";
                             esmdefinegetter(moduleexport, moduleexportdefault);
                             moduleexport[typesymbol] = moduletype;
                             Object.freeze(moduleexport);
@@ -360,24 +349,30 @@ var coreload = async (url, packagename) => {
                                 };
                                 try {
                                     let isamd = false;
-                                    const 模块加载函数 = new Function("require", "define", "module", "exports", `\n                        "use strict";\n/* ${url} */;\n${scripttext};\n/* ${url} */;\n\n                        `);
+                                    const 模块加载函数 = new Function("require", "module", "exports", "define", `\n                        "use strict";\n/* ${url} */;\n${scripttext};\n/* ${url} */;\n\n                        `);
                                     moduleexport[depssymbol] = parseDependencies(scripttext).map(urlorname => getnormalizedurl(urlorname, url));
                                     await importcjsamdumd(moduleexport[depssymbol]);
                                     let amdfactory = () => {};
-                                    模块加载函数.call(module.exports, name => formatedurlrequire(name, url), (name, deps, callback) => {
+                                    const require_require = name => formatedurlrequire(name, url);
+                                    const define_define = (name, deps, callback) => {
                                         const defineglobalDefQueue = define(name, deps, callback);
                                         isamd = true;
                                         amdfactory = defineglobalDefQueue[2];
                                         moduleexport[depssymbol] = defineglobalDefQueue[1].map(urlorname => getnormalizedurl(urlorname, url));
-                                    }, module, exports_exports);
+                                    };
+                                    Object.assign(define_define, {
+                                        amd: true,
+                                        cmd: true
+                                    });
+                                    模块加载函数.call(module.exports, require_require, module, exports_exports, define_define);
                                     if (isamd) {
-                                        moduletype = MODULETYPE.amd;
+                                        moduletype = "amd";
                                         await importcjsamdumd(moduleexport[depssymbol]);
                                         module.exports = amdfactory.call(module.exports, ...moduleexport[depssymbol].map(e => myrequirefun(e)));
                                     } else {
-                                        moduletype = MODULETYPE.cjs;
+                                        moduletype = "cjs";
                                     }
-                                    const exportmodule = [ exports_exports ? exports_exports : {}, module.exports ? module.exports : {} ];
+                                    const exportmodule = [ exports_exports, (_a = module.exports) !== null && _a !== void 0 ? _a : {} ];
                                     const usefulexport = 处理非es模块(exportmodule);
                                     if (usefulexport) {
                                         定义default(moduleexport, usefulexport);
@@ -391,7 +386,7 @@ var coreload = async (url, packagename) => {
                                             try {
                                                 const exportdefault = await dynamicimportshimfun(topLevelBlobUrl);
                                                 moduleexport[depssymbol] = [];
-                                                moduletype = MODULETYPE["esm"];
+                                                moduletype = "esm";
                                                 esmdefinegetter(moduleexport, exportdefault);
                                             } catch (e) {
                                                 console.warn(e);
@@ -434,39 +429,11 @@ var coreload = async (url, packagename) => {
     }
 };
 
-function newobjjson(obj) {
-    if (typeof obj !== "object") {
-        throw new TypeError(传入的参数必须是个object);
-    }
-    return JSON.parse(JSON.stringify(obj));
-}
-
 const 输入的类型错误输入的类型必须是字符串或者数组或对象 = "The type entered is incorrect, the type entered must be a string or an array or an object";
 
-const 传入的参数必须是个object = "The argument passed in must be an object";
-
 async function oldimportcjsamdumd(url, packagename) {
-    if (isplainobject(url)) {
-        return await (async url => {
-            const urlobj = newobjjson(url);
-            const 输入参数array = Object.entries(urlobj).map(([key, value]) => [ value, key ]);
-            let suoyouimportpromise = [];
-            try {
-                suoyouimportpromise = await 同时发起多个entries(输入参数array, oldimportcjsamdumd);
-            } catch (error) {
-                console.warn(error);
-                suoyouimportpromise = await 同时发起多个entries(输入参数array, oldimportcjsamdumd);
-            } finally {
-                suoyouimportpromise = await 同时发起多个entries(输入参数array, oldimportcjsamdumd);
-            }
-            let objecttoreturn = {};
-            const objvalues = Object.keys(urlobj);
-            objvalues.forEach((key, index) => {
-                objecttoreturn[key] = suoyouimportpromise[index];
-            });
-            return objecttoreturn;
-        })(url);
-    } else if (isArray(url)) {
+    var _a;
+    if (isArray(url)) {
         return await (async (...args) => {
             let suoyouimportpromise = [];
             const 传入参数arr = args;
@@ -482,14 +449,26 @@ async function oldimportcjsamdumd(url, packagename) {
         })(...url);
     } else if (typeof url === "string" || typeof packagename === "string") {
         assertstring(url);
+        if (packagename) {
+            packagealias[packagename] = url;
+        }
+        try {
+            url = new URL(url).href;
+        } catch {
+            url = (_a = packagealias[url]) !== null && _a !== void 0 ? _a : url;
+        }
         return await (async (url, packagename) => {
+            try {
+                url = new URL(url).href;
+            } catch {
+                throw Error("invalid url " + url);
+            }
             if (typeof packagename === "undefined") {
                 packagename = new URL(url).href;
             }
-            url = new URL(url).href;
-            if (typeof PACKAGESTORE[packagename] !== "undefined" && typeof PACKAGESTORE[packagename].default !== "undefined" && get(PACKAGESTORE[packagename], urlsymbol) === url) {
+            if (typeof PACKAGESTORE[packagename] !== "undefined" && get(PACKAGESTORE[packagename], urlsymbol) === url) {
                 return getmodule(packagename);
-            } else if (typeof PACKAGESTORE[url] !== "undefined" && typeof PACKAGESTORE[url].default !== "undefined" && get(PACKAGESTORE[url], urlsymbol) === url) {
+            } else if (typeof PACKAGESTORE[url] !== "undefined" && get(PACKAGESTORE[url], urlsymbol) === url) {
                 return getmodule(url);
             } else {
                 return await coreload(url, packagename);
@@ -522,7 +501,7 @@ async function importcjsamdumd(url, packagename) {
     }
     async function handleerror(e) {
         console.warn(e);
-        if (tryfailedtimes > 100) {
+        if (tryfailedtimes > 5) {
             throw new Error("Try loading, too many failures, give up trying!" + JSON.stringify(url) + JSON.stringify(packagename));
         }
         tryfailedtimes++;
@@ -545,8 +524,6 @@ async function importcjsamdumd(url, packagename) {
 const PACKAGESTORE = {};
 
 const REQUIREPACKAGE = getmodule;
-
-export default importcjsamdumd;
 
 export { PACKAGESTORE, REQUIREPACKAGE, importcjsamdumd, packagealias };
 //# sourceMappingURL=index.js.map

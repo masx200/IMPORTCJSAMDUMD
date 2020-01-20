@@ -1,13 +1,12 @@
 # importcjsamdumd
 
-
 此代码库仅供学习使用，不建议在生产环境中使用
 
 ## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES"和'json' 模块 5 合一
 
 非常简洁小巧的工具，基于 Promise
 
-使用http响应headers中的"content-type"属性来判断是json还是JavaScript模块
+使用 http 响应 headers 中的"content-type"属性来判断是 json 还是 JavaScript 模块
 
 ## 兼容的浏览器
 
@@ -15,20 +14,13 @@
 
 EDGE,CHROME,FIREFOX,SAFARI
 
-
 ## 获取已压缩模块
 
 ### ES 模块
 
-
-
 从 cdn 获取
 
 https://cdn.jsdelivr.net/gh/masx200/importcjsamdumd@latest/dist/index.esm.min.js
-
-
-
-
 
 # 更新！可以使用相对路径加载同类型的模块！
 
@@ -90,13 +82,13 @@ yarn add https://github.com/masx200/importcjsamdumd.git
 导入模块
 
 ```javascript
-import  {importcjsamdumd,packagealias,
+import {
+  importcjsamdumd,
+  packagealias,
   PACKAGESTORE,
   REQUIREPACKAGE
 } from "@masx200/importcjsamdumd";
 ```
-
-
 
 # importcjsamdumd
 
@@ -108,23 +100,21 @@ PACKAGESTORE,是所有加载过的模块的存储仓库对象
 
 REQUIREPACKAGE,返回模块仓库中的模块,参数 name 是字符串
 
-
-
-packagealias是保存模块别名的对象
+packagealias 是保存模块别名的对象
 
 ```ts
-function importcjsamdumd(url: string[]): Promise<Module[]>;
+declare function importcjsamdumd(url: string[]): Promise<MODULE[]>;
+declare function importcjsamdumd(
+  url: string,
+  packagename?: string
+): Promise<MODULE>;
+declare const PACKAGESTORE: Record<string, Record<string | symbol, any>>;
 
-function importcjsamdumd(url: string, packagename?: string): Promise<Module>;
-
-
-
-const PACKAGESTORE: Record<string, Record<string | symbol, any>>;
-
-function REQUIREPACKAGE(packagename: string): Record<string | symbol, any>;
-
+declare function REQUIREPACKAGE(
+  packagename: string
+): Record<string | symbol, any>;
+declare const packagealias: Record<string, string>;
 type Module = Record<any, any>;
-const packagealias: Record<string, string> 
 ```
 
 ## 动态异步加载 cjs,amd,umd 模块用法:
@@ -132,12 +122,13 @@ const packagealias: Record<string, string>
 使用前设置模块别名
 
 ```js
-Object.assign(packagealias,{
+Object.assign(packagealias, {
   jquery: "https://cdn.staticfile.org/jquery/3.4.1/jquery.js",
   bootstrap:
     "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.bundle.js"
-})
+});
 ```
+
 # 更新:乱序加载有依赖关系的模块包
 
 # 默认在模块加载时开启了严格模式!
@@ -145,8 +136,6 @@ Object.assign(packagealias,{
 `"use strict"`
 
 # 函数参数第一项可以是字符串网址，或者数组
-
-
 
 如果第一个参数是网址，则第二个参数名称可以省略，默认以网址作为名称
 
@@ -173,11 +162,6 @@ importcjsamdumd(url).then(m => console.log(m));
 ### 新版用法:
 
 全面升级支持
-
-
-
-
-
 
 1.可以在一句 importcjsamdumd 语句中,传入多个模块的 url 的 name 了,返回一个数组,相当于 promise.all 的语法糖,
 
@@ -229,7 +213,6 @@ function myonloadfunc(reactmodulearray) {
   const React = reactmodulearray[0].default;
   const ReactDOM = reactmodulearray[1].default;
   const ReactRouterDOM = reactmodulearray[2].default;
-  
 }
 ```
 
@@ -260,16 +243,12 @@ importcjsamdumd(url).then(console.log);
 
 先当成 `umd` 模块运行,监测到报错之后,当成 `es` 模块运行
 
-
-
 ## 示例
 
 ```javascript
 importcjsamdumd("https://cdn.staticfile.org/jquery/3.4.1/jquery.js").then(m => {
   console.log(m.default);
 });
-
-
 
 Promise.all([
   importcjsamdumd("https://cdn.bootcss.com/jquery/3.4.1/jquery.js"),
@@ -293,8 +272,6 @@ importcjsamdumd(
 importcjsamdumd("https://cdn.bootcss.com/jquery/3.4.1/jquery.js")
   .then(console.log)
   .catch(console.error);
-
-
 
 Promise.all([
   importcjsamdumd("https://cdn.bootcss.com/jquery/3.4.1/jquery.js", "jquery"),

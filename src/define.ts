@@ -1,15 +1,11 @@
 import { isArray } from "./isarray";
 import { isFunction } from "./isfunction";
 
-
-
 define.cmd = true;
 define.amd = true;
 function define(name: any, deps?: any, callback?: any) {
   "use strict";
-  
-  
-  
+
   if (typeof name !== "string") {
     callback = deps;
     deps = name;
@@ -29,7 +25,5 @@ function define(name: any, deps?: any, callback?: any) {
   ];
   console.log(defineglobalDefQueue);
   return defineglobalDefQueue;
-  
-  
 }
 export { define };

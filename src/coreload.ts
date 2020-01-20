@@ -64,7 +64,7 @@ export default async (url: string, packagename?: string) => {
                 const moduleexportdefault = JSON.parse(scripttext);
                 console.log("检测到json模块 " + url);
 
-                moduletype = "json"
+                moduletype = "json";
                 esmdefinegetter(moduleexport, moduleexportdefault);
                 moduleexport[typesymbol] = moduletype;
                 Object.freeze(moduleexport);
@@ -77,56 +77,57 @@ export default async (url: string, packagename?: string) => {
                   const module = {
                     exports: { [Symbol.toStringTag]: "Module" }
                   };
-                  
 
                   try {
-                    
                     let isamd = false;
                     const 模块加载函数 = new Function(
                       "require",
-                      
+
                       "module",
-                      "exports","define",
+                      "exports",
+                      "define",
                       `
                         "use strict";\n/* ${url} */;\n${scripttext};\n/* ${url} */;\n
                         `
                     );
 
-                    
-                    
-
                     moduleexport[depssymbol] = parseDependencies(
                       scripttext
                     ).map(urlorname => {
                       return getnormalizedurl(urlorname, url);
-                      
                     });
                     await importcjsamdumd(moduleexport[depssymbol]);
                     let amdfactory: Function = () => {};
-                    
-const require_require=(name: string) => formatedurlrequire(name, url)
 
+                    const require_require = (name: string) =>
+                      formatedurlrequire(name, url);
 
-const define_define=(name: any, deps?: any, callback?: any) => {
-                        const defineglobalDefQueue = define(name, deps, callback);
-                        isamd = true;
-                        amdfactory = defineglobalDefQueue[2];
-                        moduleexport[depssymbol] = defineglobalDefQueue[1].map(
-                          urlorname => {
-                            return getnormalizedurl(urlorname, url);
-                          }
-                        );
-                      }
-define_define.cmd=true
-define_define.amd=true
-模块加载函数.call(
-                      module.exports,require_require
-                      
-                      ,
+                    const define_define = (
+                      name: any,
+                      deps?: any,
+                      callback?: any
+                    ) => {
+                      const defineglobalDefQueue = define(name, deps, callback);
+                      isamd = true;
+                      amdfactory = defineglobalDefQueue[2];
+                      moduleexport[depssymbol] = defineglobalDefQueue[1].map(
+                        urlorname => {
+                          return getnormalizedurl(urlorname, url);
+                        }
+                      );
+                    };
+                    Object.assign(define_define, { amd: true, cmd: true });
+                    // define_define.cmd = true;
+                    // define_define.amd = true;
+                    模块加载函数.call(
+                      module.exports,
+                      require_require,
+
                       module,
-                      exports_exports,define_define
+                      exports_exports,
+                      define_define
                     );
-                    
+
                     if (isamd) {
                       moduletype = "amd";
                       await importcjsamdumd(moduleexport[depssymbol]);
@@ -141,25 +142,21 @@ define_define.amd=true
                     }
 
                     const exportmodule = [
-                      exports_exports ,
-                      module.exports  ?? {}
-                      
+                      exports_exports,
+                      module.exports ?? {}
                     ];
                     const usefulexport = 处理非es模块(exportmodule);
 
                     if (usefulexport) {
                       定义default(moduleexport, usefulexport);
                       esmdefinegetter(moduleexport, usefulexport);
-
-                      
                     }
                   } catch (e) {
-                    console.warn(e); 
-                     {
-                      
+                    console.warn(e);
+                    {
                       if (e instanceof SyntaxError) {
                         const topLevelBlobUrl = url;
-                        
+
                         try {
                           const exportdefault = await dynamicimportshim(
                             topLevelBlobUrl

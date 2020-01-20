@@ -1,4 +1,3 @@
-
 "use strict";
 
 import { get, set } from "./coreload";
@@ -12,24 +11,18 @@ function createBlob(source: string) {
   );
 }
 
-
 type dynamicimport = (url: string) => Promise<Module>;
 const dynamicimportshimfun = (() => {
   "use strict";
 
   let dynamicimportshim: dynamicimport;
-  
+
   try {
     dynamicimportshim = Function("u", "return import(u)") as dynamicimport;
   } catch (error) {
     dynamicimportshim = async function(url: string): Promise<Module> {
       assertstring(url);
-      
-      
-      
-      
-      
-      
+
       url = new URL(url).href;
 
       return await getnewimportpromise(url);
@@ -55,9 +48,6 @@ function getnewimportpromise(url: string): Promise<Module> {
     }
     function removescript(e: HTMLScriptElement) {
       e.remove();
-      
-      
-      
     }
     function errorhandler(e: ErrorEvent) {
       console.warn(e.error);
@@ -72,12 +62,9 @@ function getnewimportpromise(url: string): Promise<Module> {
     s.src = topLevelBlobUrl;
     s.async = true;
     s.onload = () => {
-      if (
-        Reflect.has(window, symbolkey)
-        
-      ) {
+      if (Reflect.has(window, symbolkey)) {
         const moduleoutput = get(window, symbolkey);
-        resolve(moduleoutput );
+        resolve(moduleoutput);
         set(window, symbolkey, undefined);
         clearsideeffect();
       }
