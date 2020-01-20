@@ -3,7 +3,7 @@ import { isFunction } from "./isfunction";
 
 define.cmd = true;
 define.amd = true;
-function define(name: any, deps?: any, callback?: any) {
+function define(name: any, deps?: any, callback?: any): [string|undefined, string[], Function|Record<any,any>|undefined] {
   "use strict";
 
   if (typeof name !== "string") {
@@ -18,7 +18,7 @@ function define(name: any, deps?: any, callback?: any) {
   if (!deps && isFunction(callback)) {
     deps = [];
   }
-  const defineglobalDefQueue: [string, string[], Function|Record<any,any>|undefined] = [
+  const defineglobalDefQueue: [string|undefined, string[], Function|Record<any,any>|undefined] = [
     name,
     deps,
     callback
