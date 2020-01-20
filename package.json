@@ -1,5 +1,5 @@
 {
-    "version": "2.2.6",
+    "version": "2.3.0",
     "module": "./dist/index.min.js",
     "main": "./dist/index.min.js",
     "types": "./dist/src/index.d.ts",
