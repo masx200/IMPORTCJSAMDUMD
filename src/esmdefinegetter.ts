@@ -10,7 +10,7 @@ export function esmdefinegetter(
     (isFunction(exportdefault) || typeof exportdefault === "object")
   ) {
     Object.keys(exportdefault)
-      // .filter(t => t !== "default")
+      
       .forEach(key => {
         try {
           defineProperty(moduleexport, key, {

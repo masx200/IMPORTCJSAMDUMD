@@ -2,7 +2,7 @@ import { packagealias } from "./alias";
 import cachedfetchtext, { CODETYPE } from "./cachedfetchtext";
 import { 定义default } from "./define-default";
 import { define } from "./define.js";
-/* eslint-disable no-empty */
+
 import dynamicimportshim from "./dynamicimportshim.js";
 import { esmdefinegetter } from "./esmdefinegetter";
 import { formatedurlrequire, getnormalizedurl } from "./formatedurlrequire.js";
@@ -77,10 +77,10 @@ export default async (url: string, packagename?: string) => {
                   const module = {
                     exports: { [Symbol.toStringTag]: "Module" }
                   };
-                  //   define.exports = {};
+                  
 
                   try {
-                    // (function() {
+                    
                     let isamd = false;
                     const 模块加载函数 = new Function(
                       "require",
@@ -92,14 +92,14 @@ export default async (url: string, packagename?: string) => {
                         `
                     );
 
-                    //   modulesrcfun = scripttext;
-                    /* return */
+                    
+                    
 
                     moduleexport[depssymbol] = parseDependencies(
                       scripttext
                     ).map(urlorname => {
                       return getnormalizedurl(urlorname, url);
-                      //   return formatedurl;
+                      
                     });
                     await importcjsamdumd(moduleexport[depssymbol]);
                     let amdfactory: Function = () => {};
@@ -126,7 +126,7 @@ define_define.amd=true
                       module,
                       exports_exports,define_define
                     );
-                    // })();
+                    
                     if (isamd) {
                       moduletype = "amd";
                       await importcjsamdumd(moduleexport[depssymbol]);
@@ -143,7 +143,7 @@ define_define.amd=true
                     const exportmodule = [
                       exports_exports ,
                       module.exports  ?? {}
-                      //   define.exports ? define.exports : {}
+                      
                     ];
                     const usefulexport = 处理非es模块(exportmodule);
 
@@ -151,15 +151,15 @@ define_define.amd=true
                       定义default(moduleexport, usefulexport);
                       esmdefinegetter(moduleexport, usefulexport);
 
-                      //
+                      
                     }
                   } catch (e) {
-                    console.warn(e); // {
-                    /* try */ /* } catch (error)  */ {
-                      //   console.warn(error);
+                    console.warn(e); 
+                     {
+                      
                       if (e instanceof SyntaxError) {
                         const topLevelBlobUrl = url;
-                        // modulesrcfun = scripttext;
+                        
                         try {
                           const exportdefault = await dynamicimportshim(
                             topLevelBlobUrl

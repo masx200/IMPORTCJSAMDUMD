@@ -1,8 +1,8 @@
-/* eslint-disable no-empty */
+
 "use strict";
 
 import { get, set } from "./coreload";
-// import { Module } from "./importcjsamdumd";
+
 import { assertstring } from "./assertstring";
 type Module = Record<any, any>;
 export { createBlob };
@@ -11,25 +11,25 @@ function createBlob(source: string) {
     new Blob([source], { type: "application/javascript" })
   );
 }
-// const 参数必须为字符串 = "Parameter must be a string";
-// const 字符串不能为空 = "String cannot be empty";
+
+
 type dynamicimport = (url: string) => Promise<Module>;
 const dynamicimportshimfun = (() => {
   "use strict";
 
   let dynamicimportshim: dynamicimport;
-  //   import('querystring')
+  
   try {
     dynamicimportshim = Function("u", "return import(u)") as dynamicimport;
   } catch (error) {
     dynamicimportshim = async function(url: string): Promise<Module> {
       assertstring(url);
-      //   if (url === "") {
-      //     throw new TypeError(字符串不能为空);
-      //   }
-      //   if (typeof url !== "string") {
-      //     throw new TypeError(参数必须为字符串);
-      //   }
+      
+      
+      
+      
+      
+      
       url = new URL(url).href;
 
       return await getnewimportpromise(url);
@@ -55,9 +55,9 @@ function getnewimportpromise(url: string): Promise<Module> {
     }
     function removescript(e: HTMLScriptElement) {
       e.remove();
-      //try {
-      //   document.head.removeChild(e);
-      //  } catch (error) {}
+      
+      
+      
     }
     function errorhandler(e: ErrorEvent) {
       console.warn(e.error);
@@ -74,10 +74,10 @@ function getnewimportpromise(url: string): Promise<Module> {
     s.onload = () => {
       if (
         Reflect.has(window, symbolkey)
-        /* symbolkey in */
+        
       ) {
         const moduleoutput = get(window, symbolkey);
-        resolve(moduleoutput /* [Symbol.for("import-" + url)] */);
+        resolve(moduleoutput );
         set(window, symbolkey, undefined);
         clearsideeffect();
       }

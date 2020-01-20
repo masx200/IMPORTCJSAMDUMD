@@ -7,5 +7,5 @@ export function assertstring(s: string): asserts s is string {
   if (typeof s !== "string") {
     throw new TypeError(参数必须为字符串);
   }
-  //   return true;
+  
 }

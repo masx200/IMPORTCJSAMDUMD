@@ -3,7 +3,7 @@ export type CODETYPE = "json" | "js";
 export default async function(url: string): Promise<[string, CODETYPE]> {
   let codetype: CODETYPE | undefined;
   const cachedtext = get(cachedurltotext, url);
-  //   cachedurltotext.get(url);
+  
   if (cachedtext) {
     return cachedtext;
   } else {
@@ -22,11 +22,11 @@ export default async function(url: string): Promise<[string, CODETYPE]> {
       return await response.text();
     });
     set(cachedurltotext, url, textsource);
-    // cachedurltotext.set(url, textsource);
+    
     if (!codetype) {
       throw new Error();
     }
     return [textsource, codetype];
   }
 }
-const cachedurltotext: Record<string, string> = {}; // new Map<string, string>();
+const cachedurltotext: Record<string, string> = {}; 

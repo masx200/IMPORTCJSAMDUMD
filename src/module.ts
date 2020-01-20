@@ -1,6 +1,6 @@
 export const depssymbol = Symbol("deps");
 export const typesymbol = Symbol("type");
-// export const namesymbol = Symbol("name");
+
 export const urlsymbol = Symbol("url");
 export const sourcesymbol = Symbol("source");
 export type MODULETYPE =

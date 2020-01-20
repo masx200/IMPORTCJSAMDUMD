@@ -5,7 +5,7 @@ export function isplainobject(o: any): o is PlainObj {
     typeof o === "object" &&
     {}.toString.call(o) === "[object Object]" &&
     o instanceof Object
-    //&&
-    //   o.__proto__ === Object.prototype
+    
+    
   );
 }
