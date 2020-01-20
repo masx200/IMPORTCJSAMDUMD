@@ -4,7 +4,7 @@ import {
   packagealias,
   PACKAGESTORE,
   REQUIREPACKAGE
-} from "../dist/index.js";
+} from "../dist/index.min.js";
 Object.assign(packagealias, {
   jquery: "https://cdn.staticfile.org/jquery/3.4.1/jquery.js",
   bootstrap:
