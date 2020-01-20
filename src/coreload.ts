@@ -1,3 +1,6 @@
+import{isFunction}from"./isfunction"
+
+
 import {isobject}from"./isobject"
 import { packagealias } from "./alias";
 import cachedfetchtext, { CODETYPE } from "./cachedfetchtext";
