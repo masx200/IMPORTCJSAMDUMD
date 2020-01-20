@@ -317,10 +317,18 @@ define("foo/title", ["my/cart", "my/inventory"], function(cart, inventory) {
 ```
 
 ```js
-define(["my/cart", "my/inventory"], function(cart, inventory) {
-  console.log(cart, inventory);
-  return { a: "amd", foo: "bar", doSomething: function() {} };
-});
+define(["./cart", "./inventory"], function(cart, inventory) {
+        
+        return {
+            color: "blue",
+            size: "large",
+            addToCart: function() {
+                inventory.decrement(this);
+                cart.add(this);
+            }
+        }
+    }
+);
 ```
 
 ```js
