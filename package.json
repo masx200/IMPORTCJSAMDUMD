@@ -2,7 +2,7 @@
     "version": "2.3.0",
     "module": "./dist/index.min.js",
     "main": "./dist/index.min.js",
-    "types": "./dist/src/index.d.ts",
+    "types": "./dist/index.d.ts",
     "publishConfig": {
         "registry": "https://npm.pkg.github.com/@masx200"
     },
