@@ -77,7 +77,8 @@ url = new URL(url).href;
 url=packagealias[url]??url
 }
     return await (async (url: string, packagename?: string) => {
-      url = new URL(url).href;
+   
+try{   url = new URL(url).href;}catch{throw Error("invalid url "+url)}
       if (typeof packagename === "undefined") {
         packagename = new URL(url).href;
       }
