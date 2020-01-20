@@ -156,7 +156,7 @@ amdcallargs=[require_require,exports_exports,module]
 const define_exports =await isobject(amdfactory)?amdfactory:isFunction(amdfactory)&&
                       amdfactory.call(
                         module.exports,
-                        ...
+                        ...amdcallargs
                       ) ;
 !!define_exports&&
 module.exports=define_exports
