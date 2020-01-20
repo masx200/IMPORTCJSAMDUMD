@@ -1,3 +1,4 @@
+import {isobject}from"./isobject"
 import { packagealias } from "./alias";
 import cachedfetchtext, { CODETYPE } from "./cachedfetchtext";
 import { 定义default } from "./define-default";
@@ -102,7 +103,7 @@ export default async (url: string, packagename?: string) => {
                   );
                   //   console.log(moduleexport[depssymbol]);
                   await importcjsamdumd(moduleexport[depssymbol]);
-                  let amdfactory: Function = () => {};
+                  let amdfactory: Function|Record<any,any> = () => {};
 
                   const require_require = (name: string) =>
                     formatedurlrequire(name, url);
@@ -137,19 +138,25 @@ export default async (url: string, packagename?: string) => {
                     moduletype = "amd";
                     // console.log(moduleexport[depssymbol]);
                     await importcjsamdumd(moduleexport[depssymbol]);
-                    module.exports =
+                    /*允许factory函数返回promise*/
+/*factory也可以是个对象*/
+const define_exports =await isobject(amdfactory)?amdfactory:isFunction(amdfactory)&&
                       amdfactory.call(
                         module.exports,
                         ...moduleexport[depssymbol].map((e: string) =>
                           myrequirefun(e)
                         )
-                      ) ?? module.exports;
+                      ) ;
+!!define_exports&&
+module.exports=define_exports
                   } else {
                     moduletype = "cjs";
                   }
 
-                  const exportmodule = [exports_exports, module.exports ?? {}];
-                  const usefulexport = 处理非es模块(exportmodule);
+!module.exports &&module.exports= {}
+
+                  const exportmodule = [exports_exports, module.exports ];
+                  const usefulexport =await 处理非es模块(exportmodule);
 
                   if (usefulexport) {
                     定义default(moduleexport, usefulexport);
