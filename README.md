@@ -2,7 +2,7 @@
 
 此代码库仅供学习使用
 
-## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES"和'json' 模块 5 合一
+## 动态异步加载" commonjs "和 "umd "和 "amd","cmd"和"ES"和'json' 模块 6 合一
 
 非常简洁小巧的工具，基于 Promise
 
