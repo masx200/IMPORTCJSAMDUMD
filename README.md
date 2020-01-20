@@ -289,6 +289,10 @@ importcjsamdumd(
 ).then(console.log);
 ```
 
+commonjs 模块依赖收集,基于 seajs
+
+https://github.com/seajs/seajs/blob/master/src/util-deps.js
+
 # 推荐几个优秀的前端开源项目库 CDN 加速服务加速网站
 
 https://www.jsdelivr.com/
