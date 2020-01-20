@@ -26,15 +26,9 @@ EDGE,CHROME,FIREFOX,SAFARI
 
 https://cdn.jsdelivr.net/gh/masx200/importcjsamdumd@latest/dist/index.esm.min.js
 
-```html
-<script type="module">
-  import importcjsamdumd from "https://cdn.jsdelivr.net/gh/masx200/importcjsamdumd@latest/dist/index.esm.min.js";
-</script>
-```
 
-<!-- ### cjs 模块
 
-https://masx200.github.io/importcjsamdumd/dist/index.esm.min.js -->
+
 
 # 更新！可以使用相对路径加载同类型的模块！
 
@@ -96,7 +90,7 @@ yarn add https://github.com/masx200/importcjsamdumd.git
 导入模块
 
 ```javascript
-import importcjsamdumd, {
+import  {importcjsamdumd,packagealias,
   PACKAGESTORE,
   REQUIREPACKAGE
 } from "@masx200/importcjsamdumd";
@@ -126,6 +120,7 @@ const PACKAGESTORE: Record<string, Record<string | symbol, any>>;
 function REQUIREPACKAGE(packagename: string): Record<string | symbol, any>;
 
 type Module = Record<any, any>;
+const packagealias: Record<string, string> 
 ```
 
 ## 动态异步加载 cjs,amd,umd 模块用法:
@@ -159,7 +154,7 @@ importcjsamdumd("https://masx200.github.io/importcjsamdumd/package.json").then(
 ```javascript
 importcjsamdumd(url, name);
 
-importcjsamdumd(url).then(m => console.log(m.default));
+importcjsamdumd(url).then(m => console.log(m));
 ```
 
 ### 新版用法:
