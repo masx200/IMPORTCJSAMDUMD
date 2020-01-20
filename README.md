@@ -295,17 +295,19 @@ https://github.com/seajs/seajs/blob/master/src/util-deps.js
 
 # 模块规范示例
 
-commonjs
+## commonjs
 
 ```js
 var a = require("./a.js");
 console.log(a);
 module.exports = { a: 1, b: function() {} };
 
-exports.c = "commonjs";
+exports.c = function() {
+  return "commonjs";
+};
 ```
 
-amd
+## amd Asynchronous Module Definition
 
 ```js
 define("foo/title", ["my/cart", "my/inventory"], function(cart, inventory) {
@@ -314,7 +316,40 @@ define("foo/title", ["my/cart", "my/inventory"], function(cart, inventory) {
 });
 ```
 
-cmd
+```js
+define(["my/cart", "my/inventory"], function(cart, inventory) {
+  console.log(cart, inventory);
+  return { a: "amd", foo: "bar", doSomething: function() {} };
+});
+```
+
+```js
+define(function(require, exports, module) {
+  var a = require("a"),
+    b = require("b");
+
+  return function() {};
+});
+```
+
+```js
+define(function(require, exports, module) {
+  var a = require("a");
+
+  exports.foo = function() {
+    return a.bar();
+  };
+});
+```
+
+```js
+define({
+  color: "black",
+  size: "unisize"
+});
+```
+
+## cmd Common Module Definition
 
 ```js
 define(function(require, exports, module) {
@@ -328,12 +363,33 @@ define(function(require, exports, module) {
 });
 ```
 
-es module
+```js
+define("hello", ["jquery"], function(require, exports, module) {
+  var jquery = require("jquery");
+
+  module.exports = {
+    foo: "bar",
+    doSomething: function() {}
+  };
+});
+```
+
+```js
+define({
+  foo: "bar",
+  doSomething: function() {}
+});
+```
+
+## es module
 
 ```js
 import foo, { a, b } from "./foo.js";
+
 console.log(foo, a, b);
+
 function dosomething() {}
+
 let bar = "es";
 export { dosomething, bar };
 export default function() {}
