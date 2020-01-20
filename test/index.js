@@ -1,9 +1,14 @@
 console.log("importcjsamdumd test");
-import importcjsamdumd, {
+import  {importcjsamdumd,packagealias,
   PACKAGESTORE,
   REQUIREPACKAGE
-} from "../dist/index.esm.min.js";
-console.log([importcjsamdumd, PACKAGESTORE, REQUIREPACKAGE]);
+} from "../dist/index.js";
+Object.assign(packagealias,{
+  jquery: "https://cdn.staticfile.org/jquery/3.4.1/jquery.js",
+  bootstrap:
+    "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.bundle.js"
+})
+console.log([importcjsamdumd, PACKAGESTORE, REQUIREPACKAGE,packagealias]);
 importcjsamdumd(
   "https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.js"
 ).then(console.log);
@@ -17,11 +22,7 @@ importcjsamdumd(
 importcjsamdumd("https://cdn.jsdelivr.net/npm/jquery@3.2.1/package.json").then(
   console.log
 );
-importcjsamdumd({
-  jquery: "https://cdn.staticfile.org/jquery/3.4.1/jquery.js",
-  bootstrap:
-    "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.bundle.js"
-}).then(console.log);
+importcjsamdumd(["jquery","bootstrap"]).then(console.log);
 importcjsamdumd(
   "https://cdn.jsdelivr.net/npm/highlight.js@9.15.10/lib/highlight.js"
 ).then(console.log);
