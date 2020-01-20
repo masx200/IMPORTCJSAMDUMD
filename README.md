@@ -341,12 +341,26 @@ define(function(require, exports, module) {
 exports.foo = 'bar';
 
   
-  exports.doSomething = function() {};
+  exports.Something = function() {};
 return {c:"cmd",foo1: 'bar',
     doSomething: function() {}}
 });
 
 ```
+
+
+es module
+
+```js
+
+import foo,{a,b}from "./foo.js"
+console.log(foo,a,b)
+function dosomething(){}
+let bar="es"
+export {dosomething,bar}
+```
+
+
 
 # 推荐几个优秀的前端开源项目库 CDN 加速服务加速网站
 
