@@ -289,6 +289,8 @@ importcjsamdumd(
 ).then(console.log);
 ```
 
+# commonjs提前加载依赖
+
 commonjs 模块依赖收集,基于 seajs
 
 https://github.com/seajs/seajs/blob/master/src/util-deps.js
