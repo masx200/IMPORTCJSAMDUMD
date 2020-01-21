@@ -186,11 +186,11 @@ throw e
                     } else {
                       amdcallargs = [require_require, exports_exports, module];
                     }
-                    const define_exports = ( isobject(amdfactory))
+                    let define_exports = ( isobject(amdfactory))
                       ? amdfactory
                       : isFunction(amdfactory) &&
                         amdfactory.call(module.exports, ...amdcallargs);
-          await  define_exports      
+        define_exports=  await  define_exports      
   !!define_exports && (module.exports = define_exports);
                   } else {
                     moduletype = "cjs";
