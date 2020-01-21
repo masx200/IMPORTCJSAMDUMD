@@ -1,6 +1,6 @@
 # importcjsamdumd
 
-此代码库仅供学习使用
+此代码库仅供学习交流使用
 
 ## 动态异步加载" commonjs "和 "umd "和 "amd","cmd"和"ES"和'json' 模块 6 合一
 
@@ -100,8 +100,8 @@ yarn add https://github.com/masx200/importcjsamdumd.git
 import {
   importcjsamdumd,
   packagealias,
-  PACKAGESTORE,
-  REQUIREPACKAGE,cacheurltocjsfun,cachedurltotext
+  packagestore,
+  requirepackage,cacheurltocjsfun,cachedurltotext
 } from "@masx200/importcjsamdumd";
 ```
 
@@ -118,11 +118,11 @@ import {
 
 
 
-`REQUIREPACKAGE`,返回模块仓库中的模块,参数 name 是字符串为模块的URL地址或者模块的别名
+`requirepackage`,返回模块仓库中的模块,参数 name 是字符串为模块的URL地址或者模块的别名
 
 对象：
 
-`PACKAGESTORE`,是所有加载过的模块的存储仓库对象,存放URL和模块的对应关系
+`packagestore`,是所有加载过的模块的存储仓库对象,存放URL和模块的对应关系
 
 `packagealias` 是保存模块别名映射的对象，存放 别名和 URL对应关系
 
@@ -136,9 +136,9 @@ declare function importcjsamdumd(
   url: string,
   packagename?: string
 ): Promise<MODULE>;
-declare const PACKAGESTORE: Record<string, Record<any,any>>;
+declare const packagestore: Record<string, Record<any,any>>;
 
-declare function REQUIREPACKAGE(
+declare function requirepackage(
   packagename: string
 ): Module;
 declare const packagealias: Record<string, string>;
