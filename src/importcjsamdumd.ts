@@ -7,6 +7,10 @@ import { isurl } from "./isurl";
 import oldimportcjsamdumd from "./oldimport";
 import { get } from "./coreload";
 import { MODULE } from "./module";
+const PACKAGESTORE: Record<string, Record<any,any>> = {};
+const REQUIREPACKAGE = getmodule;
+
+export { PACKAGESTORE, REQUIREPACKAGE };
 
 export const 模块仓库中没有找到 =
   "Cannot find module in packagestore, Not found in module repository, ";
@@ -71,7 +75,3 @@ export default async function importcjsamdumd(
   }
 }
 
-const PACKAGESTORE: Record<string, Record<any,any>> = {};
-const REQUIREPACKAGE = getmodule;
-
-export { PACKAGESTORE, REQUIREPACKAGE };
