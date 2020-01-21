@@ -1,4 +1,4 @@
-define(["jquery"],jquery=>{
+define(["jquery"],async jquery=>{
 
 
 return {dosome(){
