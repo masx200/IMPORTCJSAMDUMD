@@ -6,6 +6,7 @@ import {
   REQUIREPACKAGE
 } from "../dist/index.min.js";
 Object.assign(packagealias, {
+vue:"https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.js",
   jquery: "https://cdn.staticfile.org/jquery/3.4.1/jquery.js",
   bootstrap:
     "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.bundle.js"
