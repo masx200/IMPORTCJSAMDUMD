@@ -24,9 +24,9 @@ EDGE,CHROME,FIREFOX,SAFARI
 
 https://cdn.jsdelivr.net/gh/masx200/importcjsamdumd@latest/dist/index.esm.min.js
 
-# 更新 支持 amd ，cmd 模块中新增支持 define传入 async函数了
+# 更新 支持 amd ，cmd 模块中新增支持 define传入 async函数了 ，支持返回promise
 
-# 更新 commonjs模块中支持 顶层 await了
+# 更新 commonjs模块中支持 顶层 await了，自动把commonjs模块包装成async函数
 
 # 更新！可以使用相对路径加载同类型的模块！
 
