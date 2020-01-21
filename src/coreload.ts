@@ -34,7 +34,8 @@ export const 加载的模块没有输出 = "加载的模块没有输出";
 
 export default async (url: string/*, packagename?: string*/) => {
 
-
+/*在模块加载未完成的过程中，防止多次重复加载同一个模块
+*/
 
 if(concurrentimport[url]){
 
