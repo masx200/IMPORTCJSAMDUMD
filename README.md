@@ -127,7 +127,7 @@ declare const PACKAGESTORE: Record<string, Record<string | symbol, any>>;
 
 declare function REQUIREPACKAGE(
   packagename: string
-): Record<string | symbol, any>;
+): Module;
 declare const packagealias: Record<string, string>;
 type Module = Record<any, any>;
 ```
