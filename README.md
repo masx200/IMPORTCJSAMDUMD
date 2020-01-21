@@ -12,6 +12,11 @@
 
 实现commonjs,amd,umd,cmd模块全部异步加载了
 
+## commonjs 提前加载依赖
+
+commonjs 模块依赖收集,基于 seajs
+
+https://github.com/seajs/seajs/blob/master/src/util-deps.js
 
 
 ## 兼容的浏览器
@@ -299,11 +304,6 @@ importcjsamdumd(
 ).then(console.log);
 ```
 
-# commonjs 提前加载依赖
-
-commonjs 模块依赖收集,基于 seajs
-
-https://github.com/seajs/seajs/blob/master/src/util-deps.js
 
 # 模块规范示例
 
