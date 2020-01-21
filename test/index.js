@@ -21,6 +21,12 @@ importcjsamdumd(["./amd1.js", "./cjs1.js",
 ]).then(console.log);
 
 
+importcjsamdumd(["./amd2.js", "./cjs2.js",
+
+]).then(console.log);
+
+
+
 importcjsamdumd(
   "https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.js"
 ).then(console.log);
