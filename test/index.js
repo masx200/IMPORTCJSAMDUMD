@@ -53,3 +53,15 @@ importcjsamdumd([
   
   "https://cdn.staticfile.org/lodash.js/4.17.15/lodash.js"
 ]).then(console.log);
+importcjsamdumd(
+[
+"https://cdn.jsdelivr.net/gh/masx200/masx200.github.io@4.4.1/src/assetsjs/hieroglyphy.js",
+"https://cdn.jsdelivr.net/gh/masx200/masx200.github.io@4.4.1/src/assetsjs/jsfuck.js",
+
+
+
+"https://cdn.jsdelivr.net/gh/masx200/masx200.github.io@4.4.1/src/assetsjs/fast-xml-parser.js"]
+
+
+
+).then(console.log);
