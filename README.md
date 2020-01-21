@@ -443,6 +443,28 @@ fn1();
 fn2();
 ```
 
+## umd Universal Module Definition
+
+
+
+```js
+((root, factory) => { 
+if (typeof define === 'function' && define.amd) { 
+ 
+define(['jquery'], factory); } 
+else if (typeof exports === 'object') { 
+
+ var $ = requie('jquery'); module.exports = factory($); }
+
+ else { root.testModule = factory(root.jQuery); } 
+
+})(this, ($) => { 
+console.log($)
+return {dosomething(){}}
+
+
+ });
+```
 # 推荐几个优秀的前端开源项目库 CDN 加速服务加速网站
 
 https://www.jsdelivr.com/
