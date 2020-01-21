@@ -32,5 +32,5 @@ export default async function(url: string): Promise<[string, CODETYPE]> {
     return [textsource, codetype];
   }
 }
-const cachedurltotext: Record<string, string> = {};
+export const cachedurltotext: Record<string, string> = {};
 const cachedurltotype: Record<string, string> = {};
