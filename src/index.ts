@@ -1,9 +1,9 @@
 import importcjsamdumd, {
-  PACKAGESTORE,
-  REQUIREPACKAGE
+  packagestore,
+  requirepackage
 } from "./importcjsamdumd.js";
 //export default importcjsamdumd;
-export { PACKAGESTORE, REQUIREPACKAGE, importcjsamdumd };
+export { packagestore, requirepackage, importcjsamdumd };
 import { packagealias } from "./alias";
 export { packagealias };
 import{cacheurltocjsfun}from"./cacheurltocjsfun.js"
