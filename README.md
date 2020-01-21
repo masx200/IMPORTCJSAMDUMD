@@ -101,7 +101,7 @@ import {
   importcjsamdumd,
   packagealias,
   PACKAGESTORE,
-  REQUIREPACKAGE
+  REQUIREPACKAGE,cacheurltocjsfun,cachedurltotext
 } from "@masx200/importcjsamdumd";
 ```
 
@@ -123,13 +123,16 @@ declare function importcjsamdumd(
   url: string,
   packagename?: string
 ): Promise<MODULE>;
-declare const PACKAGESTORE: Record<string, Record<string | symbol, any>>;
+declare const PACKAGESTORE: Record<string, Record<any,any>>;
 
 declare function REQUIREPACKAGE(
   packagename: string
 ): Module;
 declare const packagealias: Record<string, string>;
 type Module = Record<any, any>;
+ declare const cacheurltocjsfun: Record<string, Function> 
+
+declare const cachedurltotext: Record<string, string> 
 ```
 
 ## 动态异步加载 cjs,amd,umd 模块用法:
