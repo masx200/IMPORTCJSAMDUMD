@@ -64,7 +64,7 @@ export default async (url: string, packagename?: string) => {
             }
             modulesrcfun = scripttext;
             moduleexport[depssymbol] = [];
-            moduleexport[sourcesymbol] = modulesrcfun;
+           // moduleexport[sourcesymbol] = modulesrcfun;
 
             if ("json" === codetype) {
               const moduleexportdefault = JSON.parse(scripttext);
