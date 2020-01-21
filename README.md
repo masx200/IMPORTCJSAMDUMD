@@ -468,8 +468,12 @@ fn2();
     root.testModule = factory(root.jQuery);
   }
 })(this, $ => {
-  console.log($);
-  return { dosomething() {} };
+  
+  return { dosomething() {
+console.log($);
+
+
+} };
 });
 ```
 
