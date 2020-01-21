@@ -1,3 +1,7 @@
+import{concurrentimport}from "./concurrentimport"
+
+import {promisedefer}from"./promisedefer"
+
 import { isFunction } from "./isfunction";
 
 import { AsyncFunctionconstructor } from "./AsyncFunctionconstructor";
@@ -29,11 +33,33 @@ export const { get, set, defineProperty } = Reflect;
 export const 加载的模块没有输出 = "加载的模块没有输出";
 
 export default async (url: string/*, packagename?: string*/) => {
+
+
+
+if(concurrentimport[url]){
+
+return await concurrentimport[url]
+
+}else{
+const defered=promisedefer()
+concurrentimport[url]=defered
+try{
+
+
+const module= await new Promise(主核心加载模块函数);
+  defered.resolve(module)
+return module
+}catch(e){
+
+defered.reject(e)
+throw e
+}
+
+}
   /*if (packagename) {
     packagealias[packagename] = url;
   }
 */
-  return await new Promise(主核心加载模块函数);
   function 主核心加载模块函数(
     resolve: (value?: any) => void,
     reject: (reason?: any) => void
