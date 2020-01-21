@@ -10,6 +10,10 @@
 
 使用 http 响应 headers 中的"content-type"属性来判断是 json 还是 JavaScript 模块
 
+实现commonjs,amd,umd,cmd模块全部异步加载了
+
+
+
 ## 兼容的浏览器
 
 兼容`ECMASCRIPT2017`以上
