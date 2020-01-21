@@ -56,13 +56,13 @@ export default async (url: string, packagename?: string) => {
             moduleexport[urlsymbol] = url;
             let moduletype: MODULETYPE;
             const scripttext = fetchpromisetext;
-            let modulesrcfun: string;
+           // let modulesrcfun: string;
             if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
               defineProperty(moduleexport, Symbol.toStringTag, {
                 value: "Module"
               });
             }
-            modulesrcfun = scripttext;
+            //modulesrcfun = scripttext;
             moduleexport[depssymbol] = [];
            // moduleexport[sourcesymbol] = modulesrcfun;
 
