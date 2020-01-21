@@ -6,7 +6,7 @@
 
 非常简洁小巧的工具，基于 Promise
 
-基于fetch，加载的模块如果不同域，则必须支持跨域请求
+基于 fetch，加载的模块如果不同域，则必须支持跨域请求
 
 使用 http 响应 headers 中的"content-type"属性来判断是 json 还是 JavaScript 模块
 
@@ -24,9 +24,9 @@ EDGE,CHROME,FIREFOX,SAFARI
 
 https://cdn.jsdelivr.net/gh/masx200/importcjsamdumd@latest/dist/index.esm.min.js
 
-# 更新 支持 amd ，cmd 模块中新增支持 define传入 async函数了 ，支持返回promise
+# 更新 支持 amd ，cmd 模块中新增支持 define 传入 async 函数了 ，支持返回 promise
 
-# 更新 commonjs模块中支持 顶层 await了，自动把commonjs模块包装成async函数
+# 更新 commonjs 模块中支持 顶层 await 了，自动把 commonjs 模块包装成 async 函数
 
 # 更新！可以使用相对路径加载同类型的模块！
 
@@ -102,11 +102,11 @@ import {
 
 主函数,importcjsamdumd,返回一个 promise 对象
 
-PACKAGESTORE,是所有加载过的模块的存储仓库对象,模块的id为URL地址
+PACKAGESTORE,是所有加载过的模块的存储仓库对象,模块的 id 为 URL 地址
 
 REQUIREPACKAGE,返回模块仓库中的模块,参数 name 是字符串
 
-packagealias 是保存模块别名的对象，存放key是别名，value是URL
+packagealias 是保存模块别名的对象，存放 key 是别名，value 是 URL
 
 ```ts
 declare function importcjsamdumd(url: string[]): Promise<MODULE[]>;
@@ -295,7 +295,7 @@ importcjsamdumd(
 ).then(console.log);
 ```
 
-# commonjs提前加载依赖
+# commonjs 提前加载依赖
 
 commonjs 模块依赖收集,基于 seajs
 
@@ -449,30 +449,23 @@ fn2();
 
 ## umd Universal Module Definition
 
-
-
 ```js
-((root, factory) => { 
-if (typeof define === 'function' && define.amd) { 
- 
-define(['jquery'], factory); } 
-else if (typeof exports === 'object'&&typeof module === 'object') { 
+((root, factory) => {
+  if (typeof define === "function" && define.amd) {
+    define(["jquery"], factory);
+  } else if (typeof exports === "object" && typeof module === "object") {
+    var $ = requie("jquery");
 
- var $ = requie('jquery'); 
-
-module.exports = factory($);
- }
-
- else {
- root.testModule = factory(root.jQuery); } 
-
-})(this, ($) => { 
-console.log($)
-return {dosomething(){}}
-
-
- });
+    module.exports = factory($);
+  } else {
+    root.testModule = factory(root.jQuery);
+  }
+})(this, $ => {
+  console.log($);
+  return { dosomething() {} };
+});
 ```
+
 # 推荐几个优秀的前端开源项目库 CDN 加速服务加速网站
 
 https://www.jsdelivr.com/

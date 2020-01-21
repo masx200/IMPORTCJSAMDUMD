@@ -1,7 +1,7 @@
-import{isFunction}from"./isfunction"
+import { isFunction } from "./isfunction";
 
-import{AsyncFunctionconstructor}from"./AsyncFunctionconstructor"
-import {isobject}from"./isobject"
+import { AsyncFunctionconstructor } from "./AsyncFunctionconstructor";
+import { isobject } from "./isobject";
 import { packagealias } from "./alias";
 import cachedfetchtext, { CODETYPE } from "./cachedfetchtext";
 import { 定义default } from "./define-default";
@@ -90,10 +90,11 @@ export default async (url: string, packagename?: string) => {
                   const 模块加载函数 =
                     get(cacheurltocjsfun, url) ??
                     new AsyncFunctionconstructor(
-                      "require",  "exports",
+                      "require",
+                      "exports",
 
                       "module",
-                    
+
                       "define",
                       `                        "use strict";\n/* ${url} */;\n;${scripttext};\n;/* ${url} */;\n                        `
                     );
@@ -106,7 +107,10 @@ export default async (url: string, packagename?: string) => {
                   );
                   //   console.log(moduleexport[depssymbol]);
                   await importcjsamdumd(moduleexport[depssymbol]);
-                  let amdfactory: Function|Record<any,any> = () => {};
+                  let amdfactory:
+                    | Function
+                    | Record<any, any>
+                    | undefined = () => {};
 
                   const require_require = (name: string) =>
                     formatedurlrequire(name, url);
@@ -128,13 +132,14 @@ export default async (url: string, packagename?: string) => {
                   Object.assign(define_define, { amd: true, cmd: true });
                   // define_define.cmd = true;
                   // define_define.amd = true;
-/* 支持顶层await和async函数了*/
-                await  模块加载函数.call(
+                  /* 支持顶层await和async函数了*/
+                  await 模块加载函数.call(
                     module.exports,
-                    require_require,exports_exports,
+                    require_require,
+                    exports_exports,
 
                     module,
-                    
+
                     define_define
                   );
 
@@ -143,32 +148,31 @@ export default async (url: string, packagename?: string) => {
                     // console.log(moduleexport[depssymbol]);
                     await importcjsamdumd(moduleexport[depssymbol]);
                     /*允许factory函数返回promise*/
-/*factory也可以是个对象*/
+                    /*factory也可以是个对象*/
 
-/*如果cmd/amd模块没有依赖，则函数调用参数为[require,exports,module]*/
-let amdcallargs:any[]
-if(moduleexport[depssymbol].length){
-amdcallargs=moduleexport[depssymbol].map((e: string) =>
-                          myrequirefun(e)
-                        )
-}else{
-amdcallargs=[require_require,exports_exports,module]
-}
-const define_exports =await isobject(amdfactory)?amdfactory:isFunction(amdfactory)&&
-                      amdfactory.call(
-                        module.exports,
-                        ...amdcallargs
-                      ) ;
-!!define_exports&&
-module.exports=define_exports
+                    /*如果cmd/amd模块没有依赖，则函数调用参数为[require,exports,module]*/
+                    let amdcallargs: any[];
+                    if (moduleexport[depssymbol].length) {
+                      amdcallargs = moduleexport[depssymbol].map((e: string) =>
+                        myrequirefun(e)
+                      );
+                    } else {
+                      amdcallargs = [require_require, exports_exports, module];
+                    }
+                    const define_exports = (await isobject(amdfactory))
+                      ? amdfactory
+                      : isFunction(amdfactory) &&
+                        amdfactory.call(module.exports, ...amdcallargs);
+                    !!define_exports && (module.exports = define_exports);
                   } else {
                     moduletype = "cjs";
                   }
 
-!module.exports &&module.exports= {}
+                  !module.exports &&
+                    (module.exports = { [Symbol.toStringTag]: "Module" });
 
-                  const exportmodule = [exports_exports, module.exports ];
-                  const usefulexport =await 处理非es模块(exportmodule);
+                  const exportmodule = [exports_exports, module.exports];
+                  const usefulexport = await 处理非es模块(exportmodule);
 
                   if (usefulexport) {
                     定义default(moduleexport, usefulexport);

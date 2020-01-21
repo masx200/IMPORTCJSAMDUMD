@@ -47,6 +47,19 @@ async function 同时发起多个字符串(a, importcjsamdumd) {
     return await Promise.all(a.map(e => importcjsamdumd(e)));
 }
 
+function isFunction(it) {
+    const op = {};
+    const ostring = op.toString;
+    const tag = ostring.call(it);
+    return "function" === typeof it && tag === "[object Function]" || tag === "[object AsyncFunction]";
+}
+
+const AsyncFunctionconstructor = Object.getPrototypeOf((async function() {})).constructor;
+
+function isobject(a) {
+    return !!(a && typeof a === "object");
+}
+
 async function cachedfetchtext(url) {
     let codetype;
     const cachedtext = get(cachedurltotext, url);
@@ -97,17 +110,6 @@ function 定义default(target, def) {
 function isArray(a) {
     return Array.isArray(a) && {}.toString.call(a) === "[object Array]";
 }
-
-function isFunction(it) {
-    const op = {};
-    const ostring = op.toString;
-    const tag = ostring.call(it);
-    return "function" === typeof it && tag === "[object Function]" || tag === "[object AsyncFunction]";
-}
-
-define.cmd = true;
-
-define.amd = true;
 
 function define(name, deps, callback) {
     if (typeof name !== "string") {
@@ -304,7 +306,7 @@ var coreload = async (url, packagename) => {
     return await new Promise(主核心加载模块函数);
     function 主核心加载模块函数(resolve, reject) {
         return ((resolve, reject) => (async () => {
-            var _a, _b, _c;
+            var _a;
             try {
                 let fetchpromisetext;
                 let codetype;
@@ -350,7 +352,7 @@ var coreload = async (url, packagename) => {
                             };
                             try {
                                 let isamd = false;
-                                const 模块加载函数 = (_a = get(cacheurltocjsfun, url)) !== null && _a !== void 0 ? _a : new Function("require", "module", "exports", "define", `                        "use strict";\n/* ${url} */;\n;${scripttext};\n;/* ${url} */;\n                        `);
+                                const 模块加载函数 = (_a = get(cacheurltocjsfun, url)) !== null && _a !== void 0 ? _a : new AsyncFunctionconstructor("require", "exports", "module", "define", `                        "use strict";\n/* ${url} */;\n;${scripttext};\n;/* ${url} */;\n                        `);
                                 set(cacheurltocjsfun, url, 模块加载函数);
                                 moduleexport[depssymbol] = removerepetition(parseDependencies(scripttext).map(urlorname => getnormalizedurl(urlorname, url)));
                                 await importcjsamdumd(moduleexport[depssymbol]);
@@ -366,16 +368,26 @@ var coreload = async (url, packagename) => {
                                     amd: true,
                                     cmd: true
                                 });
-                                模块加载函数.call(module.exports, require_require, module, exports_exports, define_define);
+                                await 模块加载函数.call(module.exports, require_require, exports_exports, module, define_define);
                                 if (isamd) {
                                     moduletype = "amd";
                                     await importcjsamdumd(moduleexport[depssymbol]);
-                                    module.exports = (_b = amdfactory.call(module.exports, ...moduleexport[depssymbol].map(e => myrequirefun(e)))) !== null && _b !== void 0 ? _b : module.exports;
+                                    let amdcallargs;
+                                    if (moduleexport[depssymbol].length) {
+                                        amdcallargs = moduleexport[depssymbol].map(e => myrequirefun(e));
+                                    } else {
+                                        amdcallargs = [ require_require, exports_exports, module ];
+                                    }
+                                    const define_exports = await isobject(amdfactory) ? amdfactory : isFunction(amdfactory) && amdfactory.call(module.exports, ...amdcallargs);
+                                    !!define_exports && (module.exports = define_exports);
                                 } else {
                                     moduletype = "cjs";
                                 }
-                                const exportmodule = [ exports_exports, (_c = module.exports) !== null && _c !== void 0 ? _c : {} ];
-                                const usefulexport = 处理非es模块(exportmodule);
+                                !module.exports && (module.exports = {
+                                    [Symbol.toStringTag]: "Module"
+                                });
+                                const exportmodule = [ exports_exports, module.exports ];
+                                const usefulexport = await 处理非es模块(exportmodule);
                                 if (usefulexport) {
                                     定义default(moduleexport, usefulexport);
                                     esmdefinegetter(moduleexport, usefulexport);
@@ -432,7 +444,7 @@ var coreload = async (url, packagename) => {
     }
 };
 
-const 输入的类型错误输入的类型必须是字符串或者数组或对象 = "The type entered is incorrect, the type entered must be a string or an array or an object";
+const 输入的类型错误输入的类型必须是字符串或者数组或对象 = "The type entered is incorrect, the type entered must be a string or an array ";
 
 async function oldimportcjsamdumd(url, packagename) {
     var _a;
