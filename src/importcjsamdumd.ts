@@ -21,13 +21,15 @@ export const 字符串不能为空 = "String cannot be empty";
 
 export const 补充加载依赖的模块网址 = "补充加载依赖的模块网址";
 
-export default function importcjsamdumd(url: string[]): Promise<MODULE[]>;
-export default function importcjsamdumd(
+ 
+export default importcjsamdumd
+function importcjsamdumd(url: string[]): Promise<MODULE[]>;
+ function importcjsamdumd(
   url: string,
   packagename?: string
 ): Promise<MODULE>;
 
-export default async function importcjsamdumd(
+async function importcjsamdumd(
   url: any,
   packagename?: any
 ): Promise<any> {
