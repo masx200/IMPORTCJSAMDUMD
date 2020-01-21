@@ -6,7 +6,7 @@
 
 非常简洁小巧的工具，基于 Promise
 
-基于fetch，加载的模块必须支持跨域请求
+基于fetch，加载的模块如果不同域，则必须支持跨域请求
 
 使用 http 响应 headers 中的"content-type"属性来判断是 json 还是 JavaScript 模块
 
@@ -412,7 +412,7 @@ define({
 });
 ```
 
-## es module
+## es module ES2015 Module
 
 ```js
 import foo, { a, b } from "./foo.js";
