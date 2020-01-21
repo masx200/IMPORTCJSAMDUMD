@@ -111,11 +111,16 @@ import {
 
 主函数,importcjsamdumd,返回一个 promise 对象
 
-PACKAGESTORE,是所有加载过的模块的存储仓库对象,模块的 id 为 URL 地址
+模块的 id 为 URL 地址
 
-REQUIREPACKAGE,返回模块仓库中的模块,参数 name 是字符串
+PACKAGESTORE,是所有加载过的模块的存储仓库对象,存放URL和模块的对应关系
 
-packagealias 是保存模块别名的对象，存放 key 是别名，value 是 URL
+REQUIREPACKAGE,返回模块仓库中的模块,参数 name 是字符串为模块的URL地址或者模块的别名
+
+packagealias 是保存模块别名映射的对象，存放 别名和 URL对应关系
+
+cacheurltocjsfun是保存 cmd，amd，cjs，umd 模块的URL和包装的函数的对应关系的对象
+
 
 ```ts
 declare function importcjsamdumd(url: string[]): Promise<MODULE[]>;
