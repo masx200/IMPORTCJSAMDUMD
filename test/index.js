@@ -32,7 +32,7 @@ importcjsamdumd(
   "https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.js"
 ).then(console.log);
 importcjsamdumd(
-  "https://cdn.staticfile.org/react/16.10.2/umd/react.production.min.js"
+  "https://cdn.staticfile.org/react/16.10.2/umd/react.production.min.js","react"
 ).then(console.log);
 
 importcjsamdumd(
@@ -43,10 +43,10 @@ importcjsamdumd("https://cdn.jsdelivr.net/npm/jquery@3.2.1/package.json").then(
 );
 importcjsamdumd(["jquery", "bootstrap"]).then(console.log);
 importcjsamdumd(
-  "https://cdn.jsdelivr.net/npm/highlight.js@9.15.10/lib/highlight.js"
+  "https://cdn.jsdelivr.net/npm/highlight.js@9.15.10/lib/highlight.js","hljs"
 ).then(console.log);
 importcjsamdumd(
-  "https://cdn.jsdelivr.net/gh/masx200/masx200.github.io/src/assetsjs/md5.js"
+  "https://cdn.jsdelivr.net/gh/masx200/masx200.github.io/src/assetsjs/md5.js","md5"
 ).then(console.log);
 importcjsamdumd([
   "https://cdn.staticfile.org/decimal.js/10.2.0/decimal.js",
