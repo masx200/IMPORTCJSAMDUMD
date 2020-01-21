@@ -1,6 +1,6 @@
 export function promisedefer(){
-let resolve
-let reject
+let resolve=()=>{}
+let reject=()=>{}
 let promise=new Promise((res,rej)=>{
 
 resolve=res
