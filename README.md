@@ -49,7 +49,7 @@ https://cdn.jsdelivr.net/gh/masx200/importcjsamdumd@latest/dist/index.esm.min.js
 
 还顺便支持了加载 `json` 模块!
 
-## 动态异步加载" commonjs "和 "umd "和 "amd"和"ES" 模块四合一,和`json`模块支持
+
 
 包装" cjs "和 "amd "和 "umd" 和"ES" 模块为异步加载" promise" 方法,使用" fetch "方法来获取指定的模块包源代码
 ，
