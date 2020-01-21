@@ -19,7 +19,7 @@ function define(
     callback = deps;
     deps = null;
   }
-  if (!deps && isFunction(callback)) {
+  if (!deps /*&& isFunction(callback)*/) {
     deps = [];
   }
   const defineglobalDefQueue: [
