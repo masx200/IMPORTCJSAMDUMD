@@ -12,11 +12,7 @@
 
 实现commonjs,amd,umd,cmd模块全部异步加载了
 
-## commonjs 提前加载依赖
 
-commonjs 模块依赖收集,基于 seajs
-
-https://github.com/seajs/seajs/blob/master/src/util-deps.js
 
 
 ## 兼容的浏览器
@@ -33,9 +29,39 @@ EDGE,CHROME,FIREFOX,SAFARI
 
 https://cdn.jsdelivr.net/gh/masx200/importcjsamdumd@latest/dist/index.esm.min.js
 
+
+
+##  cjs，amd，umd，cmd模块完全的异步加载
+
+模块禁止循环依赖,否则会出现调用栈溢出
+
+把以URL作为模块的id，所以在amd，cmd模块中，忽略define传入的模块id
+
+在模块加载未完成的过程中，防止多次重复加载同一个模块
+
+把模块源代码包装成异步函数执行
+
+```js
+(async function(require,exports,module,define){
+"use strict"
+
+//.........
+})
+
+```
+
 # 更新 支持 amd ，cmd 模块中新增支持 define 传入 async 函数了 ，支持返回 promise
 
 # 更新 commonjs 模块中支持 顶层 await 了，自动把 commonjs 模块包装成 async 函数
+
+## commonjs 提前加载依赖
+
+commonjs 模块依赖收集,基于 seajs
+
+https://github.com/seajs/seajs/blob/master/src/util-deps.js
+
+
+
 
 # 更新！可以使用相对路径加载同类型的模块！
 
