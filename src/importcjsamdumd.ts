@@ -71,7 +71,7 @@ export default async function importcjsamdumd(
   }
 }
 
-const PACKAGESTORE: Record<string, Record<string | symbol, any>> = {};
+const PACKAGESTORE: Record<string, Record<any,any> = {};
 const REQUIREPACKAGE = getmodule;
 
 export { PACKAGESTORE, REQUIREPACKAGE };
