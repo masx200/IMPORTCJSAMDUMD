@@ -6,3 +6,8 @@ import importcjsamdumd, {
 export { PACKAGESTORE, REQUIREPACKAGE, importcjsamdumd };
 import { packagealias } from "./alias";
 export { packagealias };
+import{cacheurltocjsfun}from"./cacheurltocjsfun.js"
+import{cachedurltotext}from"./cachedfetchtext.js"
+
+
+export{cacheurltocjsfun,cachedurltotext}
