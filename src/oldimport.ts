@@ -77,7 +77,7 @@ async function oldimportcjsamdumd(url: any, packagename?: any): Promise<any> {
       ) {
         return getmodule(url);
       } else {
-        return await coreload(url, packagename);
+        return await coreload(url/*, packagename*/);
       }
     })(url, packagename);
   } else {
