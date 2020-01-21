@@ -1,6 +1,6 @@
 import{isFunction}from"./isfunction"
 
-
+import{AsyncFunctionconstructor}from"./AsyncFunctionconstructor"
 import {isobject}from"./isobject"
 import { packagealias } from "./alias";
 import cachedfetchtext, { CODETYPE } from "./cachedfetchtext";
@@ -89,11 +89,11 @@ export default async (url: string, packagename?: string) => {
 
                   const 模块加载函数 =
                     get(cacheurltocjsfun, url) ??
-                    new Function(
-                      "require",
+                    new AsyncFunctionconstructor(
+                      "require",  "exports",
 
                       "module",
-                      "exports",
+                    
                       "define",
                       `                        "use strict";\n/* ${url} */;\n;${scripttext};\n;/* ${url} */;\n                        `
                     );
@@ -131,10 +131,10 @@ export default async (url: string, packagename?: string) => {
 /* 支持顶层await和async函数了*/
                 await  模块加载函数.call(
                     module.exports,
-                    require_require,
+                    require_require,exports_exports,
 
                     module,
-                    exports_exports,
+                    
                     define_define
                   );
 
