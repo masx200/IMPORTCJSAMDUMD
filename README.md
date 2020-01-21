@@ -452,11 +452,15 @@ fn2();
 if (typeof define === 'function' && define.amd) { 
  
 define(['jquery'], factory); } 
-else if (typeof exports === 'object') { 
+else if (typeof exports === 'object'&&typeof module === 'object') { 
 
- var $ = requie('jquery'); module.exports = factory($); }
+ var $ = requie('jquery'); 
 
- else { root.testModule = factory(root.jQuery); } 
+module.exports = factory($);
+ }
+
+ else {
+ root.testModule = factory(root.jQuery); } 
 
 })(this, ($) => { 
 console.log($)
