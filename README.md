@@ -98,11 +98,11 @@ import {
 
 主函数,importcjsamdumd,返回一个 promise 对象
 
-PACKAGESTORE,是所有加载过的模块的存储仓库对象
+PACKAGESTORE,是所有加载过的模块的存储仓库对象,模块的id为URL地址
 
 REQUIREPACKAGE,返回模块仓库中的模块,参数 name 是字符串
 
-packagealias 是保存模块别名的对象
+packagealias 是保存模块别名的对象，存放key是别名，value是URL
 
 ```ts
 declare function importcjsamdumd(url: string[]): Promise<MODULE[]>;
