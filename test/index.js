@@ -3,8 +3,8 @@ import {
 cacheurltocjsfun,cachedurltotext,
   importcjsamdumd,
   packagealias,
-  PACKAGESTORE,
-  REQUIREPACKAGE
+  packagestore,
+  requirepackage
 } from "../dist/index.min.js";
 Object.assign(packagealias, {
 vue:"https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.js",
@@ -71,4 +71,4 @@ importcjsamdumd(
 
 
 
-console.log([importcjsamdumd, PACKAGESTORE, REQUIREPACKAGE, packagealias,cacheurltocjsfun,cachedurltotext]);
+console.log([importcjsamdumd, packagestore, requirepackage, packagealias,cacheurltocjsfun,cachedurltotext]);
