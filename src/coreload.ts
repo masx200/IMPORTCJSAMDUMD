@@ -128,7 +128,8 @@ export default async (url: string, packagename?: string) => {
                   Object.assign(define_define, { amd: true, cmd: true });
                   // define_define.cmd = true;
                   // define_define.amd = true;
-                  模块加载函数.call(
+/* 支持顶层await和async函数了*/
+                await  模块加载函数.call(
                     module.exports,
                     require_require,
 
