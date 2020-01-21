@@ -50,7 +50,6 @@ importcjsamdumd(
 importcjsamdumd([
   "https://cdn.staticfile.org/decimal.js/10.2.0/decimal.js",
   "https://cdn.staticfile.org/big-integer/1.6.47/BigInteger.js",
-  "https://cdn.staticfile.org/lodash.js/4.17.15/lodash.fp.js",
-  "https://cdn.staticfile.org/lodash.js/4.17.15/lodash.core.js",
+  
   "https://cdn.staticfile.org/lodash.js/4.17.15/lodash.js"
 ]).then(console.log);
