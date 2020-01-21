@@ -59,14 +59,19 @@ export default async function importcjsamdumd(
       if (isurl(eurlorname)) {
         console.log(补充加载依赖的模块网址, eurlorname);
         return await retryimport(eurlorname, undefined, url, packagename);
-      } else if (isplainobject(url) && Reflect.has(url, eurlorname)) {
+      } 
+/*
+else if (isplainobject(url) && Reflect.has(url, eurlorname)) {
         return await retryimport(
           get(url, eurlorname),
           eurlorname,
           url,
           packagename
         );
-      } else {
+      }
+*/
+
+ else {
         throw e;
       }
     } else {
