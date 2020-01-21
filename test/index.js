@@ -13,6 +13,14 @@ vue:"https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.js",
 });
 console.log([importcjsamdumd, PACKAGESTORE, REQUIREPACKAGE, packagealias]);
 importcjsamdumd(["./es1.js", "./es2.js"]).then(console.log);
+
+
+
+importcjsamdumd(["./amd1.js", "./cjs1.js",
+"./cmd1.js","./cmd2.js"
+]).then(console.log);
+
+
 importcjsamdumd(
   "https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.js"
 ).then(console.log);
