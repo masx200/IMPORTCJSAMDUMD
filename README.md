@@ -310,7 +310,7 @@ importcjsamdumd(
 
 # 模块规范示例
 
-## commonjs
+## cjs common js
 
 http://wiki.commonjs.org/wiki/Modules/1.1
 
