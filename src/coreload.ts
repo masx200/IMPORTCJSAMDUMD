@@ -28,11 +28,11 @@ export const { get, set, defineProperty } = Reflect;
 
 export const 加载的模块没有输出 = "加载的模块没有输出";
 
-export default async (url: string, packagename?: string) => {
-  if (packagename) {
+export default async (url: string/*, packagename?: string*/) => {
+  /*if (packagename) {
     packagealias[packagename] = url;
   }
-
+*/
   return await new Promise(主核心加载模块函数);
   function 主核心加载模块函数(
     resolve: (value?: any) => void,
