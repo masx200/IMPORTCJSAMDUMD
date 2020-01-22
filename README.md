@@ -14,28 +14,6 @@
 
 支持 模块中的top-level-await
 
-# 更新 支持 amd ，cmd 模块中新增支持 define 传入 async 函数了 ，支持返回 promise
-```js
-define(async (require,exports,module)=>{
-
-
-
-})
-```
-# 更新 commonjs 模块中支持 顶层 await 了，自动把 commonjs 模块包装成 async 函数
-
-```js
-exports.default=await new Promise(r=>{
-setTimeout(r,500)
-
-})
-```
-## 兼容的浏览器
-
-兼容`ECMASCRIPT2017`以上
-
-`EDGE,CHROME,FIREFOX,SAFARI`
-
 ## 获取已压缩模块
 
 ### ES 模块
@@ -68,7 +46,36 @@ import {
 } from "@masx200/importcjsamdumd";
 ```
 
-##  cjs，amd，umd，cmd模块完全的异步加载
+# 更新 支持 amd ，cmd 模块中新增支持 define 传入 async 函数了 ，支持返回 promise
+
+```js
+define(async (require,exports,module)=>{
+
+return await new Promise(r=>{
+setTimeout(r,500)
+
+})
+
+})
+```
+# 更新 commonjs 模块中支持 顶层 await 了，自动把 commonjs 模块包装成 async 函数
+
+```js
+exports.default=await new Promise(r=>{
+setTimeout(r,500)
+
+})
+```
+
+## 兼容的浏览器
+
+兼容`ECMASCRIPT2017`以上
+
+`EDGE,CHROME,FIREFOX,SAFARI`
+
+
+
+##  `cjs，amd，umd，cmd`模块完全的异步加载
 
 模块禁止循环依赖,否则会出现调用栈溢出
 
@@ -76,7 +83,7 @@ import {
 
 在模块加载未完成的过程中，防止多次重复加载同一个模块
 
-把模块源代码包装成异步函数执行
+把commonjs模块源代码包装成异步函数执行
 
 ```js
 (async function(require,exports,module,define){
