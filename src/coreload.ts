@@ -42,7 +42,7 @@ export default async (url: string/*, packagename?: string*/) => {
 
 if(concurrentimport[url]){
 
-return await concurrentimport[url]
+return await concurrentimport[url].promise
 
 }else{
 const defered=promisedefer()
