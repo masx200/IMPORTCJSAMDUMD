@@ -1,3 +1,6 @@
+import{mapaliastourl}from"./mapaliastourl"
+
+
 import{concurrentimport}from "./concurrentimport"
 
 import {promisedefer}from"./promisedefer"
@@ -128,9 +131,19 @@ throw e
                   set(cacheurltocjsfun, url, 模块加载函数);
                   //   console.log(模块加载函数);
                   moduleexport[depssymbol] = removerepetition(
+
+
+
+
+mapaliastourl(
+
                     parseDependencies(scripttext).map(urlorname => {
                       return getnormalizedurl(urlorname, url);
                     })
+
+
+)
+
                   );
                   //   console.log(moduleexport[depssymbol]);
                   await importcjsamdumd(moduleexport[depssymbol]);
@@ -151,9 +164,15 @@ throw e
                     isamd = true;
                     amdfactory = defineglobalDefQueue[2];
                     moduleexport[depssymbol] = removerepetition(
+
+mapaliastourl(
+
                       defineglobalDefQueue[1].map(urlorname => {
                         return getnormalizedurl(urlorname, url);
                       })
+
+)
+
                     );
                   };
                   Object.assign(define_define, { amd: true, cmd: true });
