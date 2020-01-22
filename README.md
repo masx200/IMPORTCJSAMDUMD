@@ -13,6 +13,9 @@
 实现commonjs,amd,umd,cmd模块全部异步加载了
 
 
+# 更新 支持 amd ，cmd 模块中新增支持 define 传入 async 函数了 ，支持返回 promise
+
+# 更新 commonjs 模块中支持 顶层 await 了，自动把 commonjs 模块包装成 async 函数
 
 
 ## 兼容的浏览器
@@ -50,9 +53,6 @@ https://cdn.jsdelivr.net/gh/masx200/importcjsamdumd@latest/dist/index.esm.min.js
 
 ```
 
-# 更新 支持 amd ，cmd 模块中新增支持 define 传入 async 函数了 ，支持返回 promise
-
-# 更新 commonjs 模块中支持 顶层 await 了，自动把 commonjs 模块包装成 async 函数
 
 ## commonjs 提前加载依赖
 
