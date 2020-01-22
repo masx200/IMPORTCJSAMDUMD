@@ -12,12 +12,24 @@
 
 实现commonjs,amd,umd,cmd模块全部异步加载了
 
+支持 模块中的top-level-await
 
 # 更新 支持 amd ，cmd 模块中新增支持 define 传入 async 函数了 ，支持返回 promise
+```js
+define(async (require,exports,module)=>{
 
+
+
+})
+```
 # 更新 commonjs 模块中支持 顶层 await 了，自动把 commonjs 模块包装成 async 函数
 
+```js
+exports.default=await new Promise(r=>{
+setTimeout(r,500)
 
+})
+```
 ## 兼容的浏览器
 
 兼容`ECMASCRIPT2017`以上
@@ -32,7 +44,29 @@
 
 https://cdn.jsdelivr.net/gh/masx200/importcjsamdumd@latest/dist/index.esm.min.js
 
+# 安装模块
 
+```powershell
+npm install --save https://github.com/masx200/importcjsamdumd.git
+```
+
+或者
+
+```shell
+yarn add https://github.com/masx200/importcjsamdumd.git
+
+```
+
+导入模块
+
+```javascript
+import {
+  importcjsamdumd,
+  packagealias,
+  packagestore,
+  requirepackage,cacheurltocjsfun,cachedurltotext
+} from "@masx200/importcjsamdumd";
+```
 
 ##  cjs，amd，umd，cmd模块完全的异步加载
 
@@ -48,7 +82,7 @@ https://cdn.jsdelivr.net/gh/masx200/importcjsamdumd@latest/dist/index.esm.min.js
 (async function(require,exports,module,define){
 "use strict"
 
-//.........
+
 })
 
 ```
@@ -107,29 +141,7 @@ importcjsamdumd 支持在模块内部使用 require 函数和 define 函数定�
 
 3.requriejs 不支持 cjs 和 umd 模块的定义方式,使用比较麻烦,
 
-# 安装模块
 
-```bash
-npm install --save https://github.com/masx200/importcjsamdumd.git
-```
-
-或者
-
-```shell
-yarn add https://github.com/masx200/importcjsamdumd.git
-
-```
-
-导入模块
-
-```javascript
-import {
-  importcjsamdumd,
-  packagealias,
-  packagestore,
-  requirepackage,cacheurltocjsfun,cachedurltotext
-} from "@masx200/importcjsamdumd";
-```
 
 # importcjsamdumd
 
