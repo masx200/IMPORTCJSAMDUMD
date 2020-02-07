@@ -14,11 +14,15 @@ const beautifyterserplugin = terser({
   }
 });
 const mybabelplugin = babel({
-sourcemap: true,
-  extensions: [".jsx", ".ts", ".js", ".tsx"],
+  sourcemap: true,
 
-  plugins: ["@babel/plugin-proposal-optional-catch-binding"],
+  //extensions: [".jsx", ".ts", ".js", ".tsx"],
+
+  plugins: [
+    //"@babel/plugin-proposal-optional-catch-binding"
+  ],
   presets: [
+    //"@babel/preset-typescript",
     [
       "@babel/preset-env",
       {
@@ -59,16 +63,37 @@ export default [
       }
     ],
     plugins: [
-
+      //mybabelplugin,
       sourcemaps(),
       json(),
       resolve(),
       commonjs(),
       typescript({}),
-mybabelplugin,
+
       beautifyterserplugin
     ]
   },
+  {
+    input: "./dist/index.js",
+    output: [
+      {
+        file: "./dist/index.js",
+        format: "esm",
+        sourcemap: true
+      }
+    ],
+    plugins: [
+      mybabelplugin,
+      sourcemaps(),
+      json(),
+      resolve(),
+      commonjs(),
+      //    typescript({}),
+
+      beautifyterserplugin
+    ]
+  },
+
   {
     input: "./dist/index.js",
     output: [
