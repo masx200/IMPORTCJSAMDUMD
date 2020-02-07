@@ -56,12 +56,12 @@ export default async (url: string /*, packagename?: string*/) => {
     packagealias[packagename] = url;
   }
 */
-  function 主核心加载模块函数(
+ async function 主核心加载模块函数(
     resolve: (value?: any) => void,
     reject: (reason?: any) => void
   ) {
-    return ((resolve, reject) => {
-      return (async () => {
+   // return ((resolve, reject) => {
+    //  return (async () => {
         try {
           //   return await (async () => {
           let fetchpromisetext: string;
@@ -259,7 +259,7 @@ export default async (url: string /*, packagename?: string*/) => {
           reject(e);
           return;
         }
-      })();
-    })(resolve, reject);
+    //  })();
+  //  })(resolve, reject);
   }
 };
