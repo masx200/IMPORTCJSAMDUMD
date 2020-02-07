@@ -185,10 +185,21 @@ export default async (url: string /*, packagename?: string*/) => {
                     } else {
                       amdcallargs = [require_require, exports_exports, module];
                     }
-                    let define_exports = isobject(amdfactory)
-                      ? amdfactory
-                      : isFunction(amdfactory) &&
-                        amdfactory.call(module.exports, ...amdcallargs);
+                    /*
+
+function包含在object当中了
+*/
+                    let define_exports :any
+                    if(isFunction(amdfactory)){
+                    	define_exports=
+amdfactory.call(module.exports, ...amdcallargs);
+}else if(isobject(amdfactory)){
+define_exports=amdfactory
+}
+
+               //       ? amdfactory
+                  //    : isFunction(amdfactory) &&
+                        
                     define_exports = await define_exports;
                     !!define_exports && (module.exports = define_exports);
                   } else {
