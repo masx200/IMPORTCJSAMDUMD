@@ -1,6 +1,6 @@
 import { assertstring } from "./assertstring";
 import { cantfindError } from "./cantfindError";
-import { PACKAGESTORE, 模块仓库中没有找到 } from "./importcjsamdumd";
+import { packagestore, 模块仓库中没有找到 } from "./importcjsamdumd";
 import { packagealias } from "./alias";
 
 export function getmodule(packagename: string): Record<any, any> {
