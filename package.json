@@ -19,7 +19,7 @@
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.8.4",
-    "@babel/plugin-proposal-optional-catch-binding": "^7.8.4",
+    "@babel/plugin-proposal-optional-catch-binding": "^7.8.3",
     "@babel/preset-env": "^7.8.4",
     "@rollup/plugin-commonjs": "^11.0.2",
     "@rollup/plugin-json": "^4.0.2",
