@@ -1,3 +1,8 @@
+export const cachedurltotext: Record<string, string> = Object.create(null);
+;
+const cachedurltotype: Record<string, string> = Object.create(null);
+;
+
 import { set, get } from "./coreload";
 export type CODETYPE = "json" | "js";
 export default async function(url: string): Promise<[string, CODETYPE]> {
@@ -32,5 +37,3 @@ export default async function(url: string): Promise<[string, CODETYPE]> {
     return [textsource, codetype];
   }
 }
-export const cachedurltotext: Record<string, string> = {};
-const cachedurltotype: Record<string, string> = {};
