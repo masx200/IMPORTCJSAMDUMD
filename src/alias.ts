@@ -1,1 +1,1 @@
-export const packagealias: Record<string, string> = {};
+export const packagealias: Record<string, string> = Object.create(null);
