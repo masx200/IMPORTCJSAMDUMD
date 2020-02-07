@@ -141,7 +141,6 @@ importcjsamdumd 支持在模块内部使用 require 函数和 define 函数定�
 
 # API
 
-
 https://github.com/masx200/importcjsamdumd/blob/master/dist/index.d.ts
 
 模块 把 URL 地址作为 id
