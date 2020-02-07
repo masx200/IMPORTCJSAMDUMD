@@ -1,5 +1,5 @@
 import { isArray } from "./isarray";
-import { isFunction } from "./isfunction";
+//import { isFunction } from "./isfunction";
 
 //define.cmd = true;
 //define.amd = true;
