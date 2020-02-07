@@ -503,7 +503,7 @@ async function oldimportcjsamdumd(url, packagename) {
         assertstring(url);
         try {
             url = new URL(url).href;
-        } catch {
+        } catch (_unused) {
             url = (_a = packagealias[url]) !== null && _a !== void 0 ? _a : url;
         }
         return await (async (url, packagename) => {
@@ -513,7 +513,7 @@ async function oldimportcjsamdumd(url, packagename) {
             }
             try {
                 url = new URL(url).href;
-            } catch {
+            } catch (_unused2) {
                 throw Error("invalid url " + url);
             }
             if (typeof packagename === "undefined") {
