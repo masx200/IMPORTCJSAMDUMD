@@ -2,7 +2,7 @@
 
 import { cantfindError } from "./cantfindError";
 import { getmodule } from "./getmodule";
-import { isplainobject } from "./isplainobject";
+//import { isplainobject } from "./isplainobject";
 import { isurl } from "./isurl";
 import oldimportcjsamdumd from "./oldimport";
 import { get } from "./coreload";
