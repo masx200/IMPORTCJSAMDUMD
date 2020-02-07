@@ -22,7 +22,7 @@ import {
   depssymbol,
   MODULE,
   MODULETYPE,
-  sourcesymbol,
+ // sourcesymbol,
   typesymbol,
   urlsymbol
 } from "./module";
