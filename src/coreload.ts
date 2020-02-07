@@ -17,7 +17,7 @@ import dynamicimportshim from "./dynamicimportshim.js";
 import { esmdefinegetter } from "./esmdefinegetter";
 import { formatedurlrequire, getnormalizedurl } from "./formatedurlrequire.js";
 import { 处理非es模块 } from "./handlecjsmodule.js";
-import importcjsamdumd, { PACKAGESTORE } from "./importcjsamdumd.js";
+import importcjsamdumd, {  packagestore  } from "./importcjsamdumd.js";
 import {
   depssymbol,
   MODULE,
@@ -96,7 +96,7 @@ export default async (url: string /*, packagename?: string*/) => {
               esmdefinegetter(moduleexport, moduleexportdefault);
               moduleexport[typesymbol] = moduletype;
               Object.freeze(moduleexport);
-              PACKAGESTORE[url] = moduleexport;
+               packagestore [url] = moduleexport;
               resolve(moduleexport);
               return;
             } else if ("js" === codetype) {
@@ -231,7 +231,7 @@ export default async (url: string /*, packagename?: string*/) => {
                   }
                 }
                 moduleexport[typesymbol] = moduletype;
-                PACKAGESTORE[url] = moduleexport;
+                 packagestore [url] = moduleexport;
 
                 if (moduleexport.default) {
                   esmdefinegetter(moduleexport, moduleexport.default);
