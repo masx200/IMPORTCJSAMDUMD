@@ -19,7 +19,7 @@ const mybabelplugin = babel({
   //extensions: [".jsx", ".ts", ".js", ".tsx"],
 
   plugins: [
-    //"@babel/plugin-proposal-optional-catch-binding"
+    "@babel/plugin-proposal-optional-catch-binding"
   ],
   presets: [
     //"@babel/preset-typescript",
