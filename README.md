@@ -10,9 +10,9 @@
 
 使用 http 响应 headers 中的"content-type"属性来判断是 json 还是 JavaScript 模块
 
-实现commonjs,amd,umd,cmd模块全部异步加载了
+实现 commonjs,amd,umd,cmd 模块全部异步加载了
 
-支持 模块中的top-level-await
+支持 模块中的 top-level-await
 
 ## 获取已压缩模块
 
@@ -42,29 +42,28 @@ import {
   importcjsamdumd,
   packagealias,
   packagestore,
-  requirepackage,cacheurltocjsfun,cachedurltotext
+  requirepackage,
+  cacheurltocjsfun,
+  cachedurltotext
 } from "@masx200/importcjsamdumd";
 ```
 
 # 更新 支持 amd ，cmd 模块中新增支持 define 传入 async 函数了 ，支持返回 promise
 
 ```js
-define(async (require,exports,module)=>{
-
-return await new Promise(r=>{
-setTimeout(r,500)
-
-})
-
-})
+define(async (require, exports, module) => {
+  return await new Promise(r => {
+    setTimeout(r, 500);
+  });
+});
 ```
+
 # 更新 commonjs 模块中支持 顶层 await 了，自动把 commonjs 模块包装成 async 函数
 
 ```js
-exports.default=await new Promise(r=>{
-setTimeout(r,500)
-
-})
+exports.default = await new Promise(r => {
+  setTimeout(r, 500);
+});
 ```
 
 ## 兼容的浏览器
@@ -73,36 +72,28 @@ setTimeout(r,500)
 
 `EDGE,CHROME,FIREFOX,SAFARI`
 
-
-
-##  `cjs，amd，umd，cmd`模块完全的异步加载
+## `cjs，amd，umd，cmd`模块完全的异步加载
 
 模块禁止循环依赖,否则会出现调用栈溢出
 
-把以URL作为模块的id，所以在amd，cmd模块中，忽略define传入的模块id
+把以 URL 作为模块的 id，所以在 amd，cmd 模块中，忽略 define 传入的模块 id
 
 在模块加载未完成的过程中，防止多次重复加载同一个模块
 
-把commonjs模块源代码包装成异步函数执行
+把 commonjs 模块源代码包装成异步函数执行
 
 ```js
-(async function(require,exports,module,define){
-"use strict"
+(async function(require, exports, module, define) {
+  "use strict";
 
-
-})
-
+});
 ```
-
 
 ## commonjs 提前加载依赖
 
 commonjs 模块依赖收集,基于 seajs
 
 https://github.com/seajs/seajs/blob/master/src/util-deps.js
-
-
-
 
 # 更新！可以使用相对路径加载同类型的模块！
 
@@ -115,8 +106,6 @@ https://github.com/seajs/seajs/blob/master/src/util-deps.js
 甚至可以在 `commonjs` 模块中加载 ES 模块了!
 
 还顺便支持了加载 `json` 模块!
-
-
 
 包装" cjs "和 "amd "和 "umd" 和"ES" 模块为异步加载" promise" 方法,使用" fetch "方法来获取指定的模块包源代码
 ，
@@ -148,32 +137,27 @@ importcjsamdumd 支持在模块内部使用 require 函数和 define 函数定�
 
 3.requriejs 不支持 cjs 和 umd 模块的定义方式,使用比较麻烦,
 
-
-
 # importcjsamdumd
 
 # API
 
-模块 把 URL 地址作为id
+模块 把 URL 地址作为 id
 
 函数：
 
 主函数,`importcjsamdumd`,返回一个 promise 对象
 
-
-
-
-`requirepackage`,返回模块仓库中的模块,参数 name 是字符串为模块的URL地址或者模块的别名
+`requirepackage`,返回模块仓库中的模块,参数 name 是字符串为模块的 URL 地址或者模块的别名
 
 对象：
 
-`packagestore`,是所有加载过的模块的存储仓库对象,存放URL和模块的对应关系
+`packagestore`,是所有加载过的模块的存储仓库对象,存放 URL 和模块的对应关系
 
-`packagealias` 是保存模块别名映射的对象，存放 别名和 URL对应关系
+`packagealias` 是保存模块别名映射的对象，存放 别名和 URL 对应关系
 
-`cacheurltocjsfun`是保存 cmd，amd，cjs，umd 模块的URL和包装的函数的对应关系的对象
+`cacheurltocjsfun`是保存 cmd，amd，cjs，umd 模块的 URL 和包装的函数的对应关系的对象
 
-`cachedurltotext`是保存模块的URL和源代码的对应关系的对象
+`cachedurltotext`是保存模块的 URL 和源代码的对应关系的对象
 
 ```ts
 declare function importcjsamdumd(url: string[]): Promise<MODULE[]>;
@@ -181,16 +165,14 @@ declare function importcjsamdumd(
   url: string,
   packagename?: string
 ): Promise<MODULE>;
-declare const packagestore: Record<string, Record<any,any>>;
+declare const packagestore: Record<string, Record<any, any>>;
 
-declare function requirepackage(
-  packagename: string
-): Module;
+declare function requirepackage(packagename: string): Module;
 declare const packagealias: Record<string, string>;
 type Module = Record<any, any>;
- declare const cacheurltocjsfun: Record<string, Function> 
+declare const cacheurltocjsfun: Record<string, Function>;
 
-declare const cachedurltotext: Record<string, string> 
+declare const cachedurltotext: Record<string, string>;
 ```
 
 ## 动态异步加载 cjs,amd,umd 模块用法:
@@ -365,7 +347,6 @@ importcjsamdumd(
 ).then(console.log);
 ```
 
-
 # 模块规范示例
 
 ## cjs common js
@@ -526,12 +507,11 @@ fn2();
     root.testModule = factory(root.jQuery);
   }
 })(this, $ => {
-  
-  return { dosomething() {
-console.log($);
-
-
-} };
+  return {
+    dosomething() {
+      console.log($);
+    }
+  };
 });
 ```
 
