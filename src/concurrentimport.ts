@@ -2,4 +2,4 @@
 
 import { Defered } from "./promisedefer";
 
-export const concurrentimport: Record<string, Defered> = {};
+export const concurrentimport: Record<string, Defered> = Object.create(null);
