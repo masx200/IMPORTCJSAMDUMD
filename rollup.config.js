@@ -74,12 +74,13 @@ export default [
       }
     ],
     plugins: [
+sourcemaps(),
       mybabelplugin,
       resolve(),
       commonjs(),
-      myterserplugin,
+      
       json(),
-      sourcemaps()
+      myterserplugin
     ]
   }
 ];
