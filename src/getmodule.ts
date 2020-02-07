@@ -7,7 +7,7 @@ export function getmodule(packagename: string): Record<any, any> {
   assertstring(packagename);
 
   const findpackage =
-    PACKAGESTORE[packagename] || PACKAGESTORE[packagealias[packagename]];
+    packagestore[packagename] || packagestore[packagealias[packagename]];
   if (findpackage) {
     Object.freeze(findpackage);
     return findpackage;
