@@ -14,6 +14,9 @@ const beautifyterserplugin = terser({
   }
 });
 const mybabelplugin = babel({
+sourcemap: true,
+  extensions: [".jsx", ".ts", ".js", ".tsx"],
+
   plugins: ["@babel/plugin-proposal-optional-catch-binding"],
   presets: [
     [
@@ -56,11 +59,13 @@ export default [
       }
     ],
     plugins: [
+
       sourcemaps(),
       json(),
       resolve(),
       commonjs(),
       typescript({}),
+mybabelplugin,
       beautifyterserplugin
     ]
   },
