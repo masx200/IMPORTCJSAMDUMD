@@ -3,7 +3,7 @@ import { 同时发起多个字符串 } from "./arrayimportall.js";
 import { assertstring } from "./assertstring.js";
 import coreload, { get } from "./coreload.js";
 import { getmodule } from "./getmodule.js";
-import { PACKAGESTORE } from "./importcjsamdumd";
+import {  packagestore } from "./importcjsamdumd";
 import { isArray } from "./isarray.js";
 import { urlsymbol } from "./module.js";
 const 输入的类型错误输入的类型必须是字符串或者数组或对象 =
@@ -67,13 +67,13 @@ async function oldimportcjsamdumd(url: any, packagename?: any): Promise<any> {
         packagealias[packagename] = url;
       }
       if (
-        typeof PACKAGESTORE[packagename] !== "undefined" &&
-        get(PACKAGESTORE[packagename], urlsymbol) === url
+        typeof  packagestore[packagename] !== "undefined" &&
+        get( packagestore[packagename], urlsymbol) === url
       ) {
         return getmodule(packagename);
       } else if (
-        typeof PACKAGESTORE[url] !== "undefined" &&
-        get(PACKAGESTORE[url], urlsymbol) === url
+        typeof  packagestore[url] !== "undefined" &&
+        get( packagestore[url], urlsymbol) === url
       ) {
         return getmodule(url);
       } else {
