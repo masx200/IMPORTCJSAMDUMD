@@ -8,7 +8,7 @@ import { isFunction } from "./isfunction";
 
 import { AsyncFunctionconstructor } from "./AsyncFunctionconstructor";
 import { isobject } from "./isobject";
-import { packagealias } from "./alias";
+//import { packagealias } from "./alias";
 import cachedfetchtext, { CODETYPE } from "./cachedfetchtext";
 import { 定义default } from "./define-default";
 import { define } from "./define.js";
