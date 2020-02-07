@@ -3,7 +3,7 @@ import { cantfindError } from "./cantfindError";
 import { PACKAGESTORE, 模块仓库中没有找到 } from "./importcjsamdumd";
 import { packagealias } from "./alias";
 
-export function getmodule(packagename: string) :Record<any,any>{
+export function getmodule(packagename: string): Record<any, any> {
   assertstring(packagename);
 
   const findpackage =

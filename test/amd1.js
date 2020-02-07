@@ -1,8 +1,7 @@
-define(["jquery"],async jquery=>{
-
-
-return {dosome(){
-console.log(jquery)
-}}
-
-})
+define(["jquery"], async jquery => {
+  return {
+    dosome() {
+      console.log(jquery);
+    }
+  };
+});

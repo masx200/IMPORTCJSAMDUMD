@@ -1,9 +1,8 @@
-import{mapaliastourl}from"./mapaliastourl"
+import { mapaliastourl } from "./mapaliastourl";
 
+import { concurrentimport } from "./concurrentimport";
 
-import{concurrentimport}from "./concurrentimport"
-
-import {promisedefer}from"./promisedefer"
+import { promisedefer } from "./promisedefer";
 
 import { isFunction } from "./isfunction";
 
@@ -35,31 +34,24 @@ export const { get, set, defineProperty } = Reflect;
 
 export const 加载的模块没有输出 = "加载的模块没有输出";
 
-export default async (url: string/*, packagename?: string*/) => {
+export default async (url: string /*, packagename?: string*/) => {
+  /*在模块加载未完成的过程中，防止多次重复加载同一个模块
+   */
 
-/*在模块加载未完成的过程中，防止多次重复加载同一个模块
-*/
-
-if(concurrentimport[url]){
-
-return await concurrentimport[url].promise
-
-}else{
-const defered=promisedefer()
-concurrentimport[url]=defered
-try{
-
-
-const module= await new Promise(主核心加载模块函数);
-  defered.resolve(module)
-return module
-}catch(e){
-
-defered.reject(e)
-throw e
-}
-
-}
+  if (concurrentimport[url]) {
+    return await concurrentimport[url].promise;
+  } else {
+    const defered = promisedefer();
+    concurrentimport[url] = defered;
+    try {
+      const module = await new Promise(主核心加载模块函数);
+      defered.resolve(module);
+      return module;
+    } catch (e) {
+      defered.reject(e);
+      throw e;
+    }
+  }
   /*if (packagename) {
     packagealias[packagename] = url;
   }
@@ -86,7 +78,7 @@ throw e
             moduleexport[urlsymbol] = url;
             let moduletype: MODULETYPE;
             const scripttext = fetchpromisetext;
-           // let modulesrcfun: string;
+            // let modulesrcfun: string;
             if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
               defineProperty(moduleexport, Symbol.toStringTag, {
                 value: "Module"
@@ -94,7 +86,7 @@ throw e
             }
             //modulesrcfun = scripttext;
             moduleexport[depssymbol] = [];
-           // moduleexport[sourcesymbol] = modulesrcfun;
+            // moduleexport[sourcesymbol] = modulesrcfun;
 
             if ("json" === codetype) {
               const moduleexportdefault = JSON.parse(scripttext);
@@ -131,19 +123,11 @@ throw e
                   set(cacheurltocjsfun, url, 模块加载函数);
                   //   console.log(模块加载函数);
                   moduleexport[depssymbol] = removerepetition(
-
-
-
-
-mapaliastourl(
-
-                    parseDependencies(scripttext).map(urlorname => {
-                      return getnormalizedurl(urlorname, url);
-                    })
-
-
-)
-
+                    mapaliastourl(
+                      parseDependencies(scripttext).map(urlorname => {
+                        return getnormalizedurl(urlorname, url);
+                      })
+                    )
                   );
                   //   console.log(moduleexport[depssymbol]);
                   await importcjsamdumd(moduleexport[depssymbol]);
@@ -164,15 +148,11 @@ mapaliastourl(
                     isamd = true;
                     amdfactory = defineglobalDefQueue[2];
                     moduleexport[depssymbol] = removerepetition(
-
-mapaliastourl(
-
-                      defineglobalDefQueue[1].map(urlorname => {
-                        return getnormalizedurl(urlorname, url);
-                      })
-
-)
-
+                      mapaliastourl(
+                        defineglobalDefQueue[1].map(urlorname => {
+                          return getnormalizedurl(urlorname, url);
+                        })
+                      )
                     );
                   };
                   Object.assign(define_define, { amd: true, cmd: true });
@@ -205,12 +185,12 @@ mapaliastourl(
                     } else {
                       amdcallargs = [require_require, exports_exports, module];
                     }
-                    let define_exports = ( isobject(amdfactory))
+                    let define_exports = isobject(amdfactory)
                       ? amdfactory
                       : isFunction(amdfactory) &&
                         amdfactory.call(module.exports, ...amdcallargs);
-        define_exports=  await  define_exports      
-  !!define_exports && (module.exports = define_exports);
+                    define_exports = await define_exports;
+                    !!define_exports && (module.exports = define_exports);
                   } else {
                     moduletype = "cjs";
                   }

@@ -1,3 +1,5 @@
-module.exports={cjs:()=>{
-console.log("cjs")
-}}
+module.exports = {
+  cjs: () => {
+    console.log("cjs");
+  }
+};

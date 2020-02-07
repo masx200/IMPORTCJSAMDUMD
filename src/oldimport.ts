@@ -10,7 +10,7 @@ const 输入的类型错误输入的类型必须是字符串或者数组或对�
   "The type entered is incorrect, the type entered must be a string or an array ";
 
 //export const 传入的参数必须是个object =
- // "The argument passed in must be an object";
+// "The argument passed in must be an object";
 export type PlainObj = Record<any, any>;
 
 export default oldimportcjsamdumd;
@@ -77,7 +77,7 @@ async function oldimportcjsamdumd(url: any, packagename?: any): Promise<any> {
       ) {
         return getmodule(url);
       } else {
-        return await coreload(url/*, packagename*/);
+        return await coreload(url /*, packagename*/);
       }
     })(url, packagename);
   } else {

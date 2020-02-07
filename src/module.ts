@@ -10,5 +10,5 @@ export interface MODULE extends Record<string, any> {
   [depssymbol]: string[];
   [typesymbol]: MODULETYPE;
   [urlsymbol]: string;
- // [sourcesymbol]: string;
+  // [sourcesymbol]: string;
 }

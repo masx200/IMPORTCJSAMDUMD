@@ -7,7 +7,7 @@ import { isurl } from "./isurl";
 import oldimportcjsamdumd from "./oldimport";
 import { get } from "./coreload";
 import { MODULE } from "./module";
-const packagestore: Record<string, Record<any,any>> = {};
+const packagestore: Record<string, Record<any, any>> = {};
 const requirepackage = getmodule;
 
 export { packagestore, requirepackage };
@@ -21,18 +21,11 @@ export const 字符串不能为空 = "String cannot be empty";
 
 export const 补充加载依赖的模块网址 = "补充加载依赖的模块网址";
 
- 
-export default importcjsamdumd
+export default importcjsamdumd;
 function importcjsamdumd(url: string[]): Promise<MODULE[]>;
- function importcjsamdumd(
-  url: string,
-  packagename?: string
-): Promise<MODULE>;
+function importcjsamdumd(url: string, packagename?: string): Promise<MODULE>;
 
-async function importcjsamdumd(
-  url: any,
-  packagename?: any
-): Promise<any> {
+async function importcjsamdumd(url: any, packagename?: any): Promise<any> {
   let tryfailedtimes = 0;
 
   return await oldimportcjsamdumd(url, packagename).catch(handleerror);
@@ -61,8 +54,8 @@ async function importcjsamdumd(
       if (isurl(eurlorname)) {
         console.log(补充加载依赖的模块网址, eurlorname);
         return await retryimport(eurlorname, undefined, url, packagename);
-      } 
-/*
+      } else {
+      /*
 else if (isplainobject(url) && Reflect.has(url, eurlorname)) {
         return await retryimport(
           get(url, eurlorname),
@@ -72,8 +65,6 @@ else if (isplainobject(url) && Reflect.has(url, eurlorname)) {
         );
       }
 */
-
- else {
         throw e;
       }
     } else {
@@ -81,4 +72,3 @@ else if (isplainobject(url) && Reflect.has(url, eurlorname)) {
     }
   }
 }
-
