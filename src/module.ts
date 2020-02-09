@@ -6,9 +6,9 @@ export const sourcesymbol = Symbol("source");
 export type MODULETYPE = "amd" | "cjs" | "esm" | "json";
 
 export interface MODULE extends Record<string, any> {
-  [Symbol.toStringTag]: "Module";
-  [depssymbol]: string[];
-  [typesymbol]: MODULETYPE;
-  [urlsymbol]: string;
-  // [sourcesymbol]: string;
+    [Symbol.toStringTag]: "Module";
+    [depssymbol]: string[];
+    [typesymbol]: MODULETYPE;
+    [urlsymbol]: string;
+    // [sourcesymbol]: string;
 }

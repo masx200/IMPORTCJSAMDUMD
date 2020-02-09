@@ -7,15 +7,20 @@ var REQUIRE_RE = /"(?:\\"|[^"])*"|'(?:\\'|[^'])*'|\/\*[\S\s]*?\*\/|\/(?:\\\/|[^\
 var SLASH_RE = /\\\\/g;
 
 function parseDependencies(code: string): string[] {
-  var ret: string[] = [];
+    var ret: string[] = [];
 
-  code.replace(SLASH_RE, "").replace(REQUIRE_RE, function(m, m1, m2, ...args) {
-    if (m2) {
-      ret.push(m2);
-    }
-    return "";
-  });
+    code.replace(SLASH_RE, "").replace(REQUIRE_RE, function(
+        m,
+        m1,
+        m2,
+        ...args
+    ) {
+        if (m2) {
+            ret.push(m2);
+        }
+        return "";
+    });
 
-  return ret;
+    return ret;
 }
 export { parseDependencies };

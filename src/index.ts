@@ -1,6 +1,6 @@
 import importcjsamdumd, {
-  packagestore,
-  requirepackage
+    packagestore,
+    requirepackage
 } from "./importcjsamdumd.js";
 //export default importcjsamdumd;
 export { packagestore, requirepackage, importcjsamdumd };

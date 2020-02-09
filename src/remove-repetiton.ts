@@ -1,3 +1,3 @@
 export function removerepetition(arr: any[]) {
-  return [...new Set(arr)];
+    return [...new Set(arr)];
 }

@@ -1,5 +1,5 @@
 module.exports = {
-  cjs: () => {
-    console.log("cjs");
-  }
+    cjs: () => {
+        console.log("cjs");
+    }
 };

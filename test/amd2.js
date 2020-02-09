@@ -1,4 +1,4 @@
 define({
-  foo: "bar",
-  doSomething: function() {}
+    foo: "bar",
+    doSomething: function() {}
 });

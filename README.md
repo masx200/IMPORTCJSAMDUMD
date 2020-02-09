@@ -39,12 +39,12 @@ yarn add https://github.com/masx200/importcjsamdumd.git
 
 ```javascript
 import {
-  importcjsamdumd,
-  packagealias,
-  packagestore,
-  requirepackage,
-  cacheurltocjsfun,
-  cachedurltotext
+    importcjsamdumd,
+    packagealias,
+    packagestore,
+    requirepackage,
+    cacheurltocjsfun,
+    cachedurltotext
 } from "@masx200/importcjsamdumd";
 ```
 
@@ -52,9 +52,9 @@ import {
 
 ```js
 define(async (require, exports, module) => {
-  return await new Promise(r => {
-    setTimeout(r, 500);
-  });
+    return await new Promise(r => {
+        setTimeout(r, 500);
+    });
 });
 ```
 
@@ -62,7 +62,7 @@ define(async (require, exports, module) => {
 
 ```js
 exports.default = await new Promise(r => {
-  setTimeout(r, 500);
+    setTimeout(r, 500);
 });
 ```
 
@@ -84,7 +84,7 @@ exports.default = await new Promise(r => {
 
 ```js
 (async function(require, exports, module, define) {
-  "use strict";
+    "use strict";
 
 });
 ```
@@ -164,8 +164,8 @@ https://github.com/masx200/importcjsamdumd/blob/master/dist/index.d.ts
 ```ts
 declare function importcjsamdumd(url: string[]): Promise<MODULE[]>;
 declare function importcjsamdumd(
-  url: string,
-  packagename?: string
+    url: string,
+    packagename?: string
 ): Promise<MODULE>;
 declare const packagestore: Record<string, Record<any, any>>;
 
@@ -183,9 +183,9 @@ declare const cachedurltotext: Record<string, string>;
 
 ```js
 Object.assign(packagealias, {
-  jquery: "https://cdn.staticfile.org/jquery/3.4.1/jquery.js",
-  bootstrap:
-    "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.bundle.js"
+    jquery: "https://cdn.staticfile.org/jquery/3.4.1/jquery.js",
+    bootstrap:
+        "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.bundle.js"
 });
 ```
 
@@ -207,7 +207,7 @@ importcjsamdumd("网址1", "名称1");
 
 ```js
 importcjsamdumd("https://masx200.github.io/importcjsamdumd/package.json").then(
-  console.log
+    console.log
 );
 ```
 
@@ -235,61 +235,64 @@ importcjsamdumd(url).then(m => console.log(m));
 
 ```javascript
 importcjsamdumd([
-  "https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js",
-  "https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js",
+    "https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js",
+    "https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js",
 
-  "https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js",
-  "https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js",
-  "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js"
+    "https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js",
+    "https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js",
+    "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js"
 ])
-  .then(console.log)
-  .catch(console.warn);
+    .then(console.log)
+    .catch(console.warn);
 ```
 
 ## 旧版用法:加载有依赖关系的模块包的方法
 
 ```javascript
 (async () => {
-  const react = await importcjsamdumd(
-    "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js",
-    "react"
-  );
-  const [reactdom, reactrouterdom] = await Promise.all([
-    importcjsamdumd(
-      "https://cdn.staticfile.org/react-dom/16.8.6/umd/react-dom.production.min.js",
-      "react-dom"
-    ),
-    importcjsamdumd(
-      "https://cdn.staticfile.org/react-router-dom/5.0.0/react-router-dom.min.js",
-      "react-router-dom"
-    )
-  ]);
+    const react = await importcjsamdumd(
+        "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js",
+        "react"
+    );
+    const [reactdom, reactrouterdom] = await Promise.all([
+        importcjsamdumd(
+            "https://cdn.staticfile.org/react-dom/16.8.6/umd/react-dom.production.min.js",
+            "react-dom"
+        ),
+        importcjsamdumd(
+            "https://cdn.staticfile.org/react-router-dom/5.0.0/react-router-dom.min.js",
+            "react-router-dom"
+        )
+    ]);
 
-  var reactmodulearray = [react, reactdom, reactrouterdom];
-  myonloadfunc(reactmodulearray);
+    var reactmodulearray = [react, reactdom, reactrouterdom];
+    myonloadfunc(reactmodulearray);
 })();
 function myonloadfunc(reactmodulearray) {
-  console.log(reactmodulearray);
-  const React = reactmodulearray[0].default;
-  const ReactDOM = reactmodulearray[1].default;
-  const ReactRouterDOM = reactmodulearray[2].default;
+    console.log(reactmodulearray);
+    const React = reactmodulearray[0].default;
+    const ReactDOM = reactmodulearray[1].default;
+    const ReactRouterDOM = reactmodulearray[2].default;
 }
 ```
 
 ```javascript
 (async () => {
-  const [jquery, popper] = await Promise.all([
-    importcjsamdumd("https://cdn.bootcss.com/jquery/3.4.1/jquery.js", "jquery"),
-    importcjsamdumd(
-      "https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js",
-      "popper.js"
-    )
-  ]);
-  const bootstrap = await importcjsamdumd(
-    "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.js",
-    "bootstrap"
-  );
-  console.log(jquery, popper, bootstrap);
+    const [jquery, popper] = await Promise.all([
+        importcjsamdumd(
+            "https://cdn.bootcss.com/jquery/3.4.1/jquery.js",
+            "jquery"
+        ),
+        importcjsamdumd(
+            "https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js",
+            "popper.js"
+        )
+    ]);
+    const bootstrap = await importcjsamdumd(
+        "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.js",
+        "bootstrap"
+    );
+    console.log(jquery, popper, bootstrap);
 })();
 ```
 
@@ -307,45 +310,45 @@ importcjsamdumd(url).then(console.log);
 
 ```javascript
 importcjsamdumd("https://cdn.staticfile.org/jquery/3.4.1/jquery.js").then(m => {
-  console.log(m.default);
+    console.log(m.default);
 });
 
 Promise.all([
-  importcjsamdumd("https://cdn.bootcss.com/jquery/3.4.1/jquery.js"),
-  importcjsamdumd(
-    "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js"
-  ),
-  importcjsamdumd("https://cdn.staticfile.org/vue/2.6.10/vue.min.js")
+    importcjsamdumd("https://cdn.bootcss.com/jquery/3.4.1/jquery.js"),
+    importcjsamdumd(
+        "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js"
+    ),
+    importcjsamdumd("https://cdn.staticfile.org/vue/2.6.10/vue.min.js")
 ]).then(console.log);
 
 importcjsamdumd(
-  "https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.js"
+    "https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.js"
 ).then(console.log);
 
 importcjsamdumd(
-  "https://cdn.bootcss.com/underscore.js/1.9.1/underscore-min.js",
-  "underscore"
+    "https://cdn.bootcss.com/underscore.js/1.9.1/underscore-min.js",
+    "underscore"
 )
-  .then(console.log)
-  .catch(console.error);
+    .then(console.log)
+    .catch(console.error);
 
 importcjsamdumd("https://cdn.bootcss.com/jquery/3.4.1/jquery.js")
-  .then(console.log)
-  .catch(console.error);
+    .then(console.log)
+    .catch(console.error);
 
 Promise.all([
-  importcjsamdumd("https://cdn.bootcss.com/jquery/3.4.1/jquery.js", "jquery"),
-  importcjsamdumd(
-    "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js",
-    "react"
-  ),
-  importcjsamdumd("https://cdn.staticfile.org/vue/2.6.10/vue.min.js", "vue")
+    importcjsamdumd("https://cdn.bootcss.com/jquery/3.4.1/jquery.js", "jquery"),
+    importcjsamdumd(
+        "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js",
+        "react"
+    ),
+    importcjsamdumd("https://cdn.staticfile.org/vue/2.6.10/vue.min.js", "vue")
 ]).then(console.log);
 
 //加载es6模块的方法
 
 importcjsamdumd(
-  "https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js"
+    "https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js"
 ).then(console.log);
 ```
 
@@ -363,11 +366,11 @@ module.exports = { a: 1, b: function() {} };
 
 ```js
 exports.c = function() {
-  return "commonjs";
+    return "commonjs";
 };
 var add = require("math").add;
 exports.increment = function(val) {
-  return add(val, 1);
+    return add(val, 1);
 };
 ```
 
@@ -377,47 +380,47 @@ https://requirejs.org/docs/api.html
 
 ```js
 define("foo/title", ["my/cart", "my/inventory"], function(cart, inventory) {
-  console.log(cart, inventory);
-  return { a: "amd", foo: "bar", doSomething: function() {} };
+    console.log(cart, inventory);
+    return { a: "amd", foo: "bar", doSomething: function() {} };
 });
 ```
 
 ```js
 define(["./cart", "./inventory"], function(cart, inventory) {
-  return {
-    color: "blue",
-    size: "large",
-    addToCart: function() {
-      inventory.decrement(this);
-      cart.add(this);
-    }
-  };
+    return {
+        color: "blue",
+        size: "large",
+        addToCart: function() {
+            inventory.decrement(this);
+            cart.add(this);
+        }
+    };
 });
 ```
 
 ```js
 define(function(require, exports, module) {
-  var a = require("a"),
-    b = require("b");
+    var a = require("a"),
+        b = require("b");
 
-  return function() {};
+    return function() {};
 });
 ```
 
 ```js
 define(function(require, exports, module) {
-  var a = require("a");
+    var a = require("a");
 
-  exports.foo = function() {
-    return a.bar();
-  };
+    exports.foo = function() {
+        return a.bar();
+    };
 });
 ```
 
 ```js
 define({
-  color: "black",
-  size: "unisize"
+    color: "black",
+    size: "unisize"
 });
 ```
 
@@ -427,40 +430,40 @@ https://github.com/seajs/seajs/issues/242
 
 ```js
 define(function(require, exports, module) {
-  var a = require("./a");
+    var a = require("./a");
 
-  a.doSomething();
-  exports.foo = "bar";
+    a.doSomething();
+    exports.foo = "bar";
 
-  exports.Something = function() {};
+    exports.Something = function() {};
 });
 ```
 
 ```js
 define(function(require, exports, module) {
-  var a = require("./a");
+    var a = require("./a");
 
-  a.doSomething();
+    a.doSomething();
 
-  return { c: "cmd", foo1: "bar", doSomething: function() {} };
+    return { c: "cmd", foo1: "bar", doSomething: function() {} };
 });
 ```
 
 ```js
 define("hello", ["jquery"], function(require, exports, module) {
-  var jquery = require("jquery");
+    var jquery = require("jquery");
 
-  module.exports = {
-    foo: "bar",
-    doSomething: function() {}
-  };
+    module.exports = {
+        foo: "bar",
+        doSomething: function() {}
+    };
 });
 ```
 
 ```js
 define({
-  foo: "bar",
-  doSomething: function() {}
+    foo: "bar",
+    doSomething: function() {}
 });
 ```
 
@@ -482,10 +485,10 @@ export default function() {}
 export { fn1, fn2 };
 
 function fn1() {
-  console.log("fn1");
+    console.log("fn1");
 }
 function fn2() {
-  console.log("fn2");
+    console.log("fn2");
 }
 ```
 
@@ -499,21 +502,21 @@ fn2();
 
 ```js
 ((root, factory) => {
-  if (typeof define === "function" && define.amd) {
-    define(["jquery"], factory);
-  } else if (typeof exports === "object" && typeof module === "object") {
-    var $ = requie("jquery");
+    if (typeof define === "function" && define.amd) {
+        define(["jquery"], factory);
+    } else if (typeof exports === "object" && typeof module === "object") {
+        var $ = requie("jquery");
 
-    module.exports = factory($);
-  } else {
-    root.testModule = factory(root.jQuery);
-  }
-})(this, $ => {
-  return {
-    dosomething() {
-      console.log($);
+        module.exports = factory($);
+    } else {
+        root.testModule = factory(root.jQuery);
     }
-  };
+})(this, $ => {
+    return {
+        dosomething() {
+            console.log($);
+        }
+    };
 });
 ```
 
