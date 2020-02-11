@@ -1,10 +1,11 @@
 {
-    "version": "2.4.1",
+    "type": "module",
+    "version": "2.4.2",
     "module": "./dist/index.min.js",
     "main": "./dist/index.min.js",
     "types": "./dist/index.d.ts",
     "publishConfig": {
-        "registry": "https://npm.pkg.github.com/@masx200"
+        "registry": "https://registry.npmjs.org/"
     },
     "scripts": {
         "watch": "rollup -c  rollup.config.js --watch",
@@ -40,7 +41,5 @@
         "typescript": "^3.8.0-dev.20200119",
         "live-server": "^1.2.1"
     },
-    "dependencies": {
-
-    }
+    "dependencies": {}
 }
