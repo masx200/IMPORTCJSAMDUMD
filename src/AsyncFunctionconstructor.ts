@@ -13,8 +13,8 @@ AsyncFunction 构造函数用来创建新的 异步函数 对象，JavaScript �
 
 注意，AsyncFunction 并不是一个全局对象，需要通过下面的方法来获取：
 */
-
+const asyncfun=new Function("return async function(){}")()
 export const AsyncFunctionconstructor: {
     new (...args: string[]): Function;
     (...args: string[]): Function;
-} = Object.getPrototypeOf(async function() {}).constructor;
+} = Object.getPrototypeOf(asyncfun).constructor;
