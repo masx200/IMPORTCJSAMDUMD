@@ -10,5 +10,3 @@ export function mapaliastourl(arr: string[]): string[] {
 
 import { packagealias } from "./alias";
 import { isurl } from "./isurl";
-
-

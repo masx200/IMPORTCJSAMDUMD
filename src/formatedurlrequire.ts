@@ -1,7 +1,7 @@
 import { assertstring } from "./assertstring";
 
 import { myrequirefun } from "./myrequirefun";
-import { getnormalizedurl } from './getnormalizedurl';
+import { getnormalizedurl } from "./getnormalizedurl";
 
 export const formatedurlrequire = (urlorname: string, url: string) => {
     assertstring(urlorname);
@@ -15,4 +15,3 @@ export const formatedurlrequire = (urlorname: string, url: string) => {
         return myrequirefun(urlorname);
     }
 };
-

@@ -1,5 +1,5 @@
 import { get, set } from "./coreload";
-import { Module, createBlob } from './dynamicimportshim';
+import { Module, createBlob } from "./dynamicimportshim";
 export function getnewimportpromise(url: string): Promise<Module> {
     const symbolkey = Symbol.for("import-" + url);
     return new Promise((resolve, reject) => {
@@ -13,8 +13,7 @@ export function getnewimportpromise(url: string): Promise<Module> {
         function removeerrorlisten(f: (evt: ErrorEvent) => void) {
             try {
                 window.removeEventListener("error", f);
-            }
-            catch (error) { }
+            } catch (error) {}
         }
         function removescript(e: HTMLScriptElement) {
             e.remove();
@@ -25,8 +24,10 @@ export function getnewimportpromise(url: string): Promise<Module> {
             clearsideeffect();
         }
         window.addEventListener("error", errorhandler);
-        const topLevelBlobUrl = createBlob(`import*as m from'${url}';\nwindow[Symbol.for('${"import-" +
-            url}')]=m`);
+        const topLevelBlobUrl = createBlob(
+            `import*as m from'${url}';\nwindow[Symbol.for('${"import-" +
+                url}')]=m`
+        );
         s.type = "module";
         s.src = topLevelBlobUrl;
         s.async = true;

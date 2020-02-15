@@ -1,8 +1,7 @@
 "use strict";
 
-
 import { assertstring } from "./assertstring";
-import { getnewimportpromise } from './getnewimportpromise';
+import { getnewimportpromise } from "./getnewimportpromise";
 export type Module = Record<any, any>;
 export { createBlob };
 function createBlob(source: string) {
@@ -31,4 +30,3 @@ const dynamicimportshimfun = (() => {
     return dynamicimportshim;
 })();
 export default dynamicimportshimfun;
-
