@@ -77,7 +77,9 @@ function isFunction(it) {
     return "function" === typeof it && tag === "[object Function]" || tag === "[object AsyncFunction]";
 }
 
-const AsyncFunctionconstructor = Object.getPrototypeOf((async function() {})).constructor;
+const asyncfun = new Function("return async function(){}")();
+
+const AsyncFunctionconstructor = Object.getPrototypeOf(asyncfun).constructor;
 
 function isobject(a) {
     return !!(a && typeof a === "object");
@@ -155,26 +157,6 @@ function define(name, deps, callback) {
     return defineglobalDefQueue;
 }
 
-function createBlob(source) {
-    return URL.createObjectURL(new Blob([ source ], {
-        type: "application/javascript"
-    }));
-}
-
-const dynamicimportshimfun = (() => {
-    let dynamicimportshim;
-    try {
-        dynamicimportshim = Function("u", "return import(u)");
-    } catch (error) {
-        dynamicimportshim = async function(url) {
-            assertstring(url);
-            url = new URL(url).href;
-            return await getnewimportpromise(url);
-        };
-    }
-    return dynamicimportshim;
-})();
-
 function getnewimportpromise(url) {
     const symbolkey = Symbol.for("import-" + url);
     return new Promise((resolve, reject) => {
@@ -219,6 +201,26 @@ function getnewimportpromise(url) {
     });
 }
 
+function createBlob(source) {
+    return URL.createObjectURL(new Blob([ source ], {
+        type: "application/javascript"
+    }));
+}
+
+const dynamicimportshimfun = (() => {
+    let dynamicimportshim;
+    try {
+        dynamicimportshim = Function("u", "return import(u)");
+    } catch (error) {
+        dynamicimportshim = async function(url) {
+            assertstring(url);
+            url = new URL(url).href;
+            return await getnewimportpromise(url);
+        };
+    }
+    return dynamicimportshim;
+})();
+
 function esmdefinegetter(moduleexport, exportdefault) {
     if (exportdefault && (isFunction(exportdefault) || typeof exportdefault === "object")) {
         Object.keys(exportdefault).forEach(key => {
@@ -233,6 +235,18 @@ function esmdefinegetter(moduleexport, exportdefault) {
         });
     }
 }
+
+const myrequirefun = function requireinstead(packagename) {
+    var _a;
+    assertstring(packagename);
+    const findpackage = packagestore[packagename] || packagestore[packagealias[packagename]];
+    if (findpackage) {
+        Object.freeze(findpackage);
+        return (_a = findpackage.default) !== null && _a !== void 0 ? _a : findpackage;
+    } else {
+        throw new cantfindError(模块仓库中没有找到 + packagename, packagename);
+    }
+};
 
 function getbaseurl(url) {
     var objurl = new URL(url);
@@ -250,17 +264,15 @@ function 格式化url(baseurl, urlorname) {
     return urlorname;
 }
 
-const myrequirefun = function requireinstead(packagename) {
-    var _a;
-    assertstring(packagename);
-    const findpackage = packagestore[packagename] || packagestore[packagealias[packagename]];
-    if (findpackage) {
-        Object.freeze(findpackage);
-        return (_a = findpackage.default) !== null && _a !== void 0 ? _a : findpackage;
+function getnormalizedurl(relativeurl, url) {
+    if (String(relativeurl).startsWith("./") || String(relativeurl).startsWith("../")) {
+        const baseurl = getbaseurl(url);
+        const formatedurl = 格式化url(baseurl, relativeurl);
+        return formatedurl;
     } else {
-        throw new cantfindError(模块仓库中没有找到 + packagename, packagename);
+        return relativeurl;
     }
-};
+}
 
 const formatedurlrequire = (urlorname, url) => {
     assertstring(urlorname);
@@ -271,16 +283,6 @@ const formatedurlrequire = (urlorname, url) => {
         return myrequirefun(urlorname);
     }
 };
-
-function getnormalizedurl(relativeurl, url) {
-    if (String(relativeurl).startsWith("./") || String(relativeurl).startsWith("../")) {
-        const baseurl = getbaseurl(url);
-        const formatedurl = 格式化url(baseurl, relativeurl);
-        return formatedurl;
-    } else {
-        return relativeurl;
-    }
-}
 
 function 非空对象(o) {
     return !!(typeof o !== "object" || Object.keys(o).length || JSON.stringify(o) !== "{}");
@@ -346,132 +348,126 @@ var coreload = async url => {
             let fetchpromisetext;
             let codetype;
             try {
+                [fetchpromisetext, codetype] = await cachedfetchtext(url);
+            } catch (e) {
+                console.warn(e);
+                reject(e);
+                return;
+            }
+            const moduleexport = Object.create(null);
+            moduleexport[urlsymbol] = url;
+            let moduletype;
+            const scripttext = fetchpromisetext;
+            if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
+                defineProperty(moduleexport, Symbol.toStringTag, {
+                    value: "Module"
+                });
+            }
+            moduleexport[depssymbol] = [];
+            if ("json" === codetype) {
+                const moduleexportdefault = JSON.parse(scripttext);
+                moduletype = "json";
+                esmdefinegetter(moduleexport, moduleexportdefault);
+                moduleexport[typesymbol] = moduletype;
+                Object.freeze(moduleexport);
+                packagestore[url] = moduleexport;
+                resolve(moduleexport);
+                return;
+            } else if ("js" === codetype) {
                 try {
-                    [fetchpromisetext, codetype] = await cachedfetchtext(url);
+                    const exports_exports = {
+                        [Symbol.toStringTag]: "Module"
+                    };
+                    const module = {
+                        exports: {
+                            [Symbol.toStringTag]: "Module"
+                        }
+                    };
+                    try {
+                        let isamd = false;
+                        const 模块加载函数 = (_a = get(cacheurltocjsfun, url)) !== null && _a !== void 0 ? _a : new AsyncFunctionconstructor("require", "exports", "module", "define", `                        "use strict";\n/* ${url} */;\n;${scripttext};\n;/* ${url} */;\n                        `);
+                        set(cacheurltocjsfun, url, 模块加载函数);
+                        moduleexport[depssymbol] = removerepetition(mapaliastourl(parseDependencies(scripttext).map(urlorname => getnormalizedurl(urlorname, url))));
+                        await importcjsamdumd(moduleexport[depssymbol]);
+                        let amdfactory = () => {};
+                        const require_require = name => formatedurlrequire(name, url);
+                        const define_define = (name, deps, callback) => {
+                            const defineglobalDefQueue = define(name, deps, callback);
+                            isamd = true;
+                            amdfactory = defineglobalDefQueue[2];
+                            moduleexport[depssymbol] = removerepetition(mapaliastourl(defineglobalDefQueue[1].map(urlorname => getnormalizedurl(urlorname, url))));
+                        };
+                        Object.assign(define_define, {
+                            amd: true,
+                            cmd: true
+                        });
+                        await 模块加载函数.call(module.exports, require_require, exports_exports, module, define_define);
+                        if (isamd) {
+                            moduletype = "amd";
+                            await importcjsamdumd(moduleexport[depssymbol]);
+                            let amdcallargs;
+                            if (moduleexport[depssymbol].length) {
+                                amdcallargs = moduleexport[depssymbol].map(e => myrequirefun(e));
+                            } else {
+                                amdcallargs = [ require_require, exports_exports, module ];
+                            }
+                            let define_exports;
+                            if (isFunction(amdfactory)) {
+                                define_exports = amdfactory.call(module.exports, ...amdcallargs);
+                            } else if (isobject(amdfactory)) {
+                                define_exports = amdfactory;
+                            }
+                            define_exports = await define_exports;
+                            !!define_exports && (module.exports = define_exports);
+                        } else {
+                            moduletype = "cjs";
+                        }
+                        !module.exports && (module.exports = {
+                            [Symbol.toStringTag]: "Module"
+                        });
+                        const exportmodule = [ exports_exports, module.exports ];
+                        const usefulexport = await 处理非es模块(exportmodule);
+                        if (usefulexport) {
+                            定义default(moduleexport, usefulexport);
+                            esmdefinegetter(moduleexport, usefulexport);
+                        }
+                    } catch (e) {
+                        console.warn(e);
+                        {
+                            if (e instanceof SyntaxError) {
+                                const topLevelBlobUrl = url;
+                                try {
+                                    const exportdefault = await dynamicimportshimfun(topLevelBlobUrl);
+                                    moduleexport[depssymbol] = [];
+                                    moduletype = "esm";
+                                    esmdefinegetter(moduleexport, exportdefault);
+                                } catch (e) {
+                                    console.warn(e);
+                                    reject(e);
+                                    return;
+                                }
+                            } else {
+                                console.warn(e);
+                                reject(e);
+                                return;
+                            }
+                        }
+                    }
+                    moduleexport[typesymbol] = moduletype;
+                    packagestore[url] = moduleexport;
+                    if (moduleexport.default) {
+                        esmdefinegetter(moduleexport, moduleexport.default);
+                    }
+                    Object.freeze(moduleexport);
+                    resolve(moduleexport);
+                    return;
                 } catch (e) {
                     console.warn(e);
                     reject(e);
                     return;
                 }
-                const moduleexport = Object.create(null);
-                moduleexport[urlsymbol] = url;
-                let moduletype;
-                const scripttext = fetchpromisetext;
-                if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
-                    defineProperty(moduleexport, Symbol.toStringTag, {
-                        value: "Module"
-                    });
-                }
-                moduleexport[depssymbol] = [];
-                if ("json" === codetype) {
-                    const moduleexportdefault = JSON.parse(scripttext);
-                    moduletype = "json";
-                    esmdefinegetter(moduleexport, moduleexportdefault);
-                    moduleexport[typesymbol] = moduletype;
-                    Object.freeze(moduleexport);
-                    packagestore[url] = moduleexport;
-                    resolve(moduleexport);
-                    return;
-                } else if ("js" === codetype) {
-                    try {
-                        const exports_exports = {
-                            [Symbol.toStringTag]: "Module"
-                        };
-                        const module = {
-                            exports: {
-                                [Symbol.toStringTag]: "Module"
-                            }
-                        };
-                        try {
-                            let isamd = false;
-                            const 模块加载函数 = (_a = get(cacheurltocjsfun, url)) !== null && _a !== void 0 ? _a : new AsyncFunctionconstructor("require", "exports", "module", "define", `                        "use strict";\n/* ${url} */;\n;${scripttext};\n;/* ${url} */;\n                        `);
-                            set(cacheurltocjsfun, url, 模块加载函数);
-                            moduleexport[depssymbol] = removerepetition(mapaliastourl(parseDependencies(scripttext).map(urlorname => getnormalizedurl(urlorname, url))));
-                            await importcjsamdumd(moduleexport[depssymbol]);
-                            let amdfactory = () => {};
-                            const require_require = name => formatedurlrequire(name, url);
-                            const define_define = (name, deps, callback) => {
-                                const defineglobalDefQueue = define(name, deps, callback);
-                                isamd = true;
-                                amdfactory = defineglobalDefQueue[2];
-                                moduleexport[depssymbol] = removerepetition(mapaliastourl(defineglobalDefQueue[1].map(urlorname => getnormalizedurl(urlorname, url))));
-                            };
-                            Object.assign(define_define, {
-                                amd: true,
-                                cmd: true
-                            });
-                            await 模块加载函数.call(module.exports, require_require, exports_exports, module, define_define);
-                            if (isamd) {
-                                moduletype = "amd";
-                                await importcjsamdumd(moduleexport[depssymbol]);
-                                let amdcallargs;
-                                if (moduleexport[depssymbol].length) {
-                                    amdcallargs = moduleexport[depssymbol].map(e => myrequirefun(e));
-                                } else {
-                                    amdcallargs = [ require_require, exports_exports, module ];
-                                }
-                                let define_exports;
-                                if (isFunction(amdfactory)) {
-                                    define_exports = amdfactory.call(module.exports, ...amdcallargs);
-                                } else if (isobject(amdfactory)) {
-                                    define_exports = amdfactory;
-                                }
-                                define_exports = await define_exports;
-                                !!define_exports && (module.exports = define_exports);
-                            } else {
-                                moduletype = "cjs";
-                            }
-                            !module.exports && (module.exports = {
-                                [Symbol.toStringTag]: "Module"
-                            });
-                            const exportmodule = [ exports_exports, module.exports ];
-                            const usefulexport = await 处理非es模块(exportmodule);
-                            if (usefulexport) {
-                                定义default(moduleexport, usefulexport);
-                                esmdefinegetter(moduleexport, usefulexport);
-                            }
-                        } catch (e) {
-                            console.warn(e);
-                            {
-                                if (e instanceof SyntaxError) {
-                                    const topLevelBlobUrl = url;
-                                    try {
-                                        const exportdefault = await dynamicimportshimfun(topLevelBlobUrl);
-                                        moduleexport[depssymbol] = [];
-                                        moduletype = "esm";
-                                        esmdefinegetter(moduleexport, exportdefault);
-                                    } catch (e) {
-                                        console.warn(e);
-                                        reject(e);
-                                        return;
-                                    }
-                                } else {
-                                    console.warn(e);
-                                    reject(e);
-                                    return;
-                                }
-                            }
-                        }
-                        moduleexport[typesymbol] = moduletype;
-                        packagestore[url] = moduleexport;
-                        if (moduleexport.default) {
-                            esmdefinegetter(moduleexport, moduleexport.default);
-                        }
-                        Object.freeze(moduleexport);
-                        resolve(moduleexport);
-                        return;
-                    } catch (e) {
-                        console.warn(e);
-                        reject(e);
-                        return;
-                    }
-                } else {
-                    throw new Error("invalid codetype " + codetype);
-                }
-            } catch (e) {
-                console.warn(e);
-                reject(e);
-                return;
+            } else {
+                throw new Error("invalid codetype " + codetype);
             }
         } catch (e) {
             console.warn(e);

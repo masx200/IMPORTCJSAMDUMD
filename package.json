@@ -1,6 +1,6 @@
 {
     "type": "module",
-    "version": "2.4.2",
+    "version": "2.4.3",
     "module": "./dist/index.min.js",
     "main": "./dist/index.min.js",
     "types": "./dist/index.d.ts",
@@ -9,7 +9,7 @@
     },
     "scripts": {
         "watch": "rollup -c  rollup.config.js --watch",
-        "prettier": "prettier *.js --write&&prettier *.json --write && prettier *.md --write &&prettier --parser=typescript --write ./src/**/*.ts&&prettier --parser=babel --write ./test/**/*.js",
+        "prettier": "prettier *.js  *.json *.md --write &&prettier --parser=typescript --write ./src/**/*.ts&&prettier --parser=babel --write ./test/**/*.js",
         "build": "rollup -c  rollup.config.js",
         "serve": "live-server "
     },
