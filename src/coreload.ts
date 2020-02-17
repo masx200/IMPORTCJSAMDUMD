@@ -1,6 +1,6 @@
 import { mapaliastourl } from "./mapaliastourl";
 
-import { concurrentimport } from "./concurrentimport";
+import { concurrentimport } from "./cacheconcurrentimport";
 
 import { promisedefer } from "./promisedefer";
 
@@ -9,9 +9,9 @@ import { isFunction } from "./isfunction";
 import { AsyncFunctionconstructor } from "./AsyncFunctionconstructor";
 import { isobject } from "./isobject";
 //import { packagealias } from "./alias";
-import cachedfetchtext, { CODETYPE } from "./cachedfetchtext";
+import { CODETYPE, fetchtext as cachedfetchtext } from "./cachedfetchtext";
 import { 定义default } from "./define-default";
-import { define } from "./define.js";
+import { define } from "./definequeue.js";
 
 import dynamicimportshim from "./dynamicimportshim.js";
 import { esmdefinegetter } from "./esmdefinegetter";
@@ -20,17 +20,20 @@ import { getnormalizedurl } from "./getnormalizedurl";
 import { 处理非es模块 } from "./handlecjsmodule.js";
 import importcjsamdumd, { packagestore } from "./importcjsamdumd.js";
 import {
-    depssymbol,
+    // depssymbol,
     MODULE,
     MODULETYPE,
     // sourcesymbol,
-    typesymbol,
+    // typesymbol,
     urlsymbol
 } from "./module";
 import { myrequirefun } from "./myrequirefun";
 import { parseDependencies } from "./util-deps";
 import { cacheurltocjsfun } from "./cacheurltocjsfun";
 import { removerepetition } from "./remove-repetiton";
+import { cachemoduletype } from "./cachemoduletype";
+import createnullobj from "./createnullobj";
+import { cachemoduledeps } from "./cachemoduledeps";
 export const { get, set, defineProperty } = Reflect;
 
 export const 加载的模块没有输出 = "加载的模块没有输出";
@@ -40,7 +43,7 @@ export default async (url: string /*, packagename?: string*/) => {
      */
 
     if (concurrentimport[url]) {
-        return await concurrentimport[url].promise;
+        return Promise.resolve(concurrentimport[url].promise);
     } else {
         const defered = promisedefer();
         concurrentimport[url] = defered;
@@ -50,13 +53,16 @@ export default async (url: string /*, packagename?: string*/) => {
             return module;
         } catch (e) {
             defered.reject(e);
+            /* 如果加载失败允许重新加载 */
+            setTimeout(() => {
+                Reflect.set(concurrentimport, url, undefined);
+            }, 0);
+
+            // [url]
             throw e;
         }
     }
-    /*if (packagename) {
-    packagealias[packagename] = url;
-  }
-*/
+
     async function 主核心加载模块函数(
         resolve: (value?: any) => void,
         reject: (reason?: any) => void
@@ -75,7 +81,7 @@ export default async (url: string /*, packagename?: string*/) => {
                 reject(e);
                 return;
             }
-            const moduleexport: MODULE = Object.create(null);
+            const moduleexport: MODULE = createnullobj() as MODULE;
             moduleexport[urlsymbol] = url;
             let moduletype: MODULETYPE;
             const scripttext = fetchpromisetext;
@@ -86,7 +92,8 @@ export default async (url: string /*, packagename?: string*/) => {
                 });
             }
             //modulesrcfun = scripttext;
-            moduleexport[depssymbol] = [];
+            set(cachemoduledeps, url, []);
+            // moduleexport[depssymbol] = [];
             // moduleexport[sourcesymbol] = modulesrcfun;
 
             if ("json" === codetype) {
@@ -95,7 +102,8 @@ export default async (url: string /*, packagename?: string*/) => {
 
                 moduletype = "json";
                 esmdefinegetter(moduleexport, moduleexportdefault);
-                moduleexport[typesymbol] = moduletype;
+                set(cachemoduletype, url, moduletype);
+                // moduleexport[typesymbol] = moduletype;
                 Object.freeze(moduleexport);
                 packagestore[url] = moduleexport;
                 resolve(moduleexport);
@@ -125,15 +133,17 @@ export default async (url: string /*, packagename?: string*/) => {
                             );
                         set(cacheurltocjsfun, url, 模块加载函数);
                         //   console.log(模块加载函数);
-                        moduleexport[depssymbol] = removerepetition(
+
+                        const moduleexportdeps = removerepetition(
                             mapaliastourl(
                                 parseDependencies(scripttext).map(urlorname => {
                                     return getnormalizedurl(urlorname, url);
                                 })
                             )
                         );
+                        set(cachemoduledeps, url, moduleexportdeps);
                         //   console.log(moduleexport[depssymbol]);
-                        await importcjsamdumd(moduleexport[depssymbol]);
+                        await importcjsamdumd(moduleexportdeps);
                         let amdfactory:
                             | Function
                             | Record<any, any>
@@ -150,14 +160,24 @@ export default async (url: string /*, packagename?: string*/) => {
                             const defineglobalDefQueue = define(name, deps, callback);
                             isamd = true;
                             amdfactory = defineglobalDefQueue[2];
-                            moduleexport[depssymbol] = removerepetition(
-                                mapaliastourl(
-                                    defineglobalDefQueue[1].map(urlorname => {
-                                        return getnormalizedurl(urlorname, url);
-                                    })
-                                )
-                            );
+
+                            const moduleexportdeps =
+                                // moduleexport[depssymbol]
+                                removerepetition(
+                                    mapaliastourl(
+                                        defineglobalDefQueue[1].map(
+                                            urlorname => {
+                                                return getnormalizedurl(
+                                                    urlorname,
+                                                    url
+                                                );
+                                            }
+                                        )
+                                    )
+                                );
+                            set(cachemoduledeps, url, moduleexportdeps);
                         };
+
                         Object.assign(define_define, {
                             amd: true,
                             cmd: true
@@ -176,18 +196,22 @@ export default async (url: string /*, packagename?: string*/) => {
                         );
 
                         if (isamd) {
+                            const moduleexportdeps = get(cachemoduledeps, url);
                             moduletype = "amd";
                             // console.log(moduleexport[depssymbol]);
-                            await importcjsamdumd(moduleexport[depssymbol]);
+                            await importcjsamdumd(
+                                moduleexportdeps
+                                // moduleexport[depssymbol]
+                            );
                             /*允许factory函数返回promise*/
                             /*factory也可以是个对象*/
 
                             /*如果cmd/amd模块没有依赖，则函数调用参数为[require,exports,module]*/
                             let amdcallargs: any[];
-                            if (moduleexport[depssymbol].length) {
-                                amdcallargs = moduleexport[
-                                    depssymbol
-                                ].map((e: string) => myrequirefun(e));
+                            if (moduleexportdeps.length) {
+                                amdcallargs = moduleexportdeps.map(
+                                    (e: string) => myrequirefun(e)
+                                );
                             } else {
                                 amdcallargs = [
                                     require_require,
@@ -241,7 +265,8 @@ function包含在object当中了
                                     const exportdefault = await dynamicimportshim(
                                         topLevelBlobUrl
                                     );
-                                    moduleexport[depssymbol] = [];
+                                    // moduleexport[depssymbol] = [];
+                                    set(cachemoduledeps, url, []);
                                     moduletype = "esm";
                                     esmdefinegetter(
                                         moduleexport,
@@ -259,7 +284,8 @@ function包含在object当中了
                             }
                         }
                     }
-                    moduleexport[typesymbol] = moduletype;
+                    // moduleexport[typesymbol] = moduletype;
+                    set(cachemoduletype, url, moduletype);
                     packagestore[url] = moduleexport;
 
                     if (moduleexport.default) {

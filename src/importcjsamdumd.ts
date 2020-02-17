@@ -1,5 +1,5 @@
 "use strict";
-
+import packagestore from "./cachestore";
 import { cantfindError } from "./cantfindError";
 import { getmodule } from "./getmodule";
 //import { isplainobject } from "./isplainobject";
@@ -7,7 +7,7 @@ import { isurl } from "./isurl";
 import oldimportcjsamdumd from "./oldimport";
 //import { get } from "./coreload";
 import { MODULE } from "./module";
-const packagestore: Record<string, Record<any, any>> = Object.create(null);
+
 const requirepackage = getmodule;
 
 export { packagestore, requirepackage };

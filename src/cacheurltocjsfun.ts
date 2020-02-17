@@ -1,1 +1,3 @@
-export const cacheurltocjsfun: Record<string, Function> = Object.create(null);
+import createnullobj from "./createnullobj";
+
+export const cacheurltocjsfun: Record<string, Function> = createnullobj();

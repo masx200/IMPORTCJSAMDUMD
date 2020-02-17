@@ -1,4 +1,4 @@
-import { packagealias } from "./alias";
+import { packagealias } from "./cachepackagealias";
 import { 同时发起多个字符串 } from "./arrayimportall.js";
 import { assertstring } from "./assertstring.js";
 import coreload, { get } from "./coreload.js";

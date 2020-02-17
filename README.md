@@ -143,23 +143,23 @@ importcjsamdumd 支持在模块内部使用 require 函数和 define 函数定�
 
 https://github.com/masx200/importcjsamdumd/blob/master/dist/index.d.ts
 
-模块 把 URL 地址作为 id
+模块 把 `URL` 地址作为 `id`
 
 函数：
 
-主函数,`importcjsamdumd`,返回一个 promise 对象
+主函数,`importcjsamdumd`,返回一个 `promise` 对象
 
-`requirepackage`,返回模块仓库中的模块,参数 name 是字符串为模块的 URL 地址或者模块的别名
+`requirepackage`,返回模块仓库中的模块,参数 `name` 是字符串为模块的 URL 地址或者模块的别名
 
 对象：
 
-`packagestore`,是所有加载过的模块的存储仓库对象,存放 URL 和模块的对应关系
+<!-- `packagestore`,是所有加载过的模块的存储仓库对象,存放 URL 和模块的对应关系 -->
 
 `packagealias` 是保存模块别名映射的对象，存放 别名和 URL 对应关系
 
-`cacheurltocjsfun`是保存 cmd，amd，cjs，umd 模块的 URL 和包装的函数的对应关系的对象
+<!-- `cacheurltocjsfun`是保存 cmd，amd，cjs，umd 模块的 URL 和包装的函数的对应关系的对象
 
-`cachedurltotext`是保存模块的 URL 和源代码的对应关系的对象
+`cachedurltotext`是保存模块的 URL 和源代码的对应关系的对象 -->
 
 ```ts
 declare function importcjsamdumd(url: string[]): Promise<MODULE[]>;
@@ -167,14 +167,10 @@ declare function importcjsamdumd(
     url: string,
     packagename?: string
 ): Promise<MODULE>;
-declare const packagestore: Record<string, Record<any, any>>;
 
 declare function requirepackage(packagename: string): Module;
 declare const packagealias: Record<string, string>;
 type Module = Record<any, any>;
-declare const cacheurltocjsfun: Record<string, Function>;
-
-declare const cachedurltotext: Record<string, string>;
 ```
 
 ## 动态异步加载 cjs,amd,umd 模块用法:

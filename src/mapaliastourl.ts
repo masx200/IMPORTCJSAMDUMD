@@ -8,5 +8,5 @@ export function mapaliastourl(arr: string[]): string[] {
     });
 }
 
-import { packagealias } from "./alias";
+import { packagealias } from "./cachepackagealias";
 import { isurl } from "./isurl";

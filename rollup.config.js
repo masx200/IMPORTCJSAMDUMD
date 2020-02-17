@@ -30,7 +30,7 @@ const mybabelplugin = babel({
         ]
     ]
 });
-const myterserplugin = terser({
+const compressionplugin = terser({
     sourcemap: true,
     toplevel: true,
     output: {
@@ -98,7 +98,7 @@ export default [
             resolve(),
             commonjs(),
             json(),
-            myterserplugin
+            compressionplugin
         ]
     }
 ];

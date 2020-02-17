@@ -1,7 +1,7 @@
 import { assertstring } from "./assertstring";
 import { cantfindError } from "./cantfindError";
 import { packagestore, 模块仓库中没有找到 } from "./importcjsamdumd";
-import { packagealias } from "./alias";
+import { packagealias } from "./cachepackagealias";
 
 export const myrequirefun = function requireinstead(packagename: string) {
     assertstring(packagename);
