@@ -19,6 +19,9 @@ Object.assign(packagealias, {
     md5:
         "https://cdn.jsdelivr.net/gh/masx200/masx200.github.io/src/assetsjs/md5.js"
 });
+importcjsamdumd("./array.json").then(
+    console.log
+);
 importcjsamdumd(["./es1.js", "./es2.js"]).then(console.log);
 
 importcjsamdumd(["./amd1.js", "./cjs1.js", "./cmd1.js", "./cmd2.js"]).then(
