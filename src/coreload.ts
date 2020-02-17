@@ -101,7 +101,13 @@ export default async (url: string /*, packagename?: string*/) => {
                 //   console.log("检测到json模块 " + url);
 
                 moduletype = "json";
-                esmdefinegetter(moduleexport, moduleexportdefault);
+if(isobject(moduleexportdefault)){
+esmdefinegetter(moduleexport, moduleexportdefault);
+}else{
+
+定义default(moduleexport, moduleexportdefault);
+}
+                
                 set(cachemoduletype, url, moduletype);
                 // moduleexport[typesymbol] = moduletype;
                 Object.freeze(moduleexport);
