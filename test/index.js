@@ -85,14 +85,14 @@ importcjsamdumd([
     "https://cdn.jsdelivr.net/gh/masx200/masx200.github.io@4.4.1/src/assetsjs/fast-xml-parser.js"
 ]).then(console.log);
 
-console.log({
+/*console.log({
     importcjsamdumd,
     // packagestore,
     requirepackage,
     packagealias
     // cacheurltocjsfun,
     // cachedurltotext
-});
+});*/
 importcjsamdumd("https://unpkg.com//core-js@3.6.4/modules/es.map.js").then(
     console.log
 );
