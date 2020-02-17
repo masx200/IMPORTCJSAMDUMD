@@ -208,7 +208,7 @@ esmdefinegetter(moduleexport, moduleexportdefault);
                         );
 
                         if (isamd) {
-                            const moduleexportdeps = get(cachemoduledeps, url);
+                            const moduleexportdeps = get(cachemoduledeps, url)||[];
                             moduletype = "amd";
                             // console.log(moduleexport[depssymbol]);
                             await importcjsamdumd(
@@ -303,7 +303,8 @@ function包含在object当中了
                     if (moduleexport.default) {
                         esmdefinegetter(moduleexport, moduleexport.default);
                     }
-
+//如果模块没有任何导出，或者导出只有一个空对象，则设定default
+set(moduleexport,"default",{})
                     Object.freeze(moduleexport);
                     resolve(moduleexport);
                     return;
