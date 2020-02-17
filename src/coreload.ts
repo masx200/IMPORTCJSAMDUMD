@@ -303,7 +303,10 @@ function包含在object当中了
                         esmdefinegetter(moduleexport, moduleexport.default);
                     }
                     //如果模块没有任何导出，或者导出只有一个空对象，则设定default
-                    set(moduleexport, "default", {});
+                  
+if(Object.keys(moduleexport).length===0){
+
+  set(moduleexport, "default", {});}
                     Object.freeze(moduleexport);
                     resolve(moduleexport);
                     return;
