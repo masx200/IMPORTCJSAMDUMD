@@ -482,7 +482,13 @@ var coreload = async url => {
             if ("json" === codetype) {
                 const moduleexportdefault = JSON.parse(scripttext);
                 moduletype = "json";
-                esmdefinegetter(moduleexport, moduleexportdefault);
+                if (moduleexportdefault) {
+                    if (isobject(moduleexportdefault)) {
+                        esmdefinegetter(moduleexport, moduleexportdefault);
+                    } else {
+                        定义default(moduleexport, moduleexportdefault);
+                    }
+                }
                 set(cachemoduletype, url, moduletype);
                 Object.freeze(moduleexport);
                 packagestore[url] = moduleexport;
@@ -500,7 +506,9 @@ var coreload = async url => {
                     };
                     try {
                         let isamd = false;
-                        const 模块加载函数 = (_a = get(cacheurltocjsfun, url), _a !== null && _a !== void 0 ? _a : new AsyncFunctionconstructor("require", "exports", "module", "define", `                        "use strict";\n/* ${url} */;\n;${scripttext};\n;/* ${url} */;\n                        `));
+                        const funparams = [ "require", "exports", "module", "define" ];
+                        const funbody = `"use strict";\n/* ${url} */;\n;${scripttext};\n;/* ${url} */;\n`;
+                        const 模块加载函数 = (_a = get(cacheurltocjsfun, url), _a !== null && _a !== void 0 ? _a : new AsyncFunctionconstructor(...funparams, funbody));
                         set(cacheurltocjsfun, url, 模块加载函数);
                         const moduleexportdeps = removerepetition(mapaliastourl(parseDependencies(scripttext).map(urlorname => getnormalizedurl(urlorname, url))));
                         set(cachemoduledeps, url, moduleexportdeps);
@@ -520,7 +528,7 @@ var coreload = async url => {
                         });
                         await 模块加载函数.call(module.exports, require_require, exports_exports, module, define_define);
                         if (isamd) {
-                            const moduleexportdeps = get(cachemoduledeps, url);
+                            const moduleexportdeps = get(cachemoduledeps, url) || [];
                             moduletype = "amd";
                             await importcjsamdumd(moduleexportdeps);
                             let amdcallargs;
@@ -576,6 +584,7 @@ var coreload = async url => {
                     if (moduleexport.default) {
                         esmdefinegetter(moduleexport, moduleexport.default);
                     }
+                    set(moduleexport, "default", {});
                     Object.freeze(moduleexport);
                     resolve(moduleexport);
                     return;

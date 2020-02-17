@@ -101,18 +101,15 @@ export default async (url: string /*, packagename?: string*/) => {
                 //   console.log("检测到json模块 " + url);
 
                 moduletype = "json";
-//json可能我是对象或者数组，或者空，其他
-if(moduleexportdefault){
+                //json可能我是对象或者数组，或者空，其他
+                if (moduleexportdefault) {
+                    if (isobject(moduleexportdefault)) {
+                        esmdefinegetter(moduleexport, moduleexportdefault);
+                    } else {
+                        定义default(moduleexport, moduleexportdefault);
+                    }
+                }
 
-
-if(isobject(moduleexportdefault)){
-esmdefinegetter(moduleexport, moduleexportdefault);
-}else{
-
-定义default(moduleexport, moduleexportdefault);
-}
-}
-                
                 set(cachemoduletype, url, moduletype);
                 // moduleexport[typesymbol] = moduletype;
                 Object.freeze(moduleexport);
@@ -131,19 +128,19 @@ esmdefinegetter(moduleexport, moduleexportdefault);
 
                     try {
                         let isamd = false;
-const funparams=[  "require",
-                                "exports",
+                        const funparams = [
+                            "require",
+                            "exports",
 
-                                "module",
+                            "module",
 
-                                "define",]
-const funbody=`"use strict";\n/* ${url} */;\n;${scripttext};\n;/* ${url} */;\n`
-                    
+                            "define"
+                        ];
+                        const funbody = `"use strict";\n/* ${url} */;\n;${scripttext};\n;/* ${url} */;\n`;
+
                         const 模块加载函数 =
                             get(cacheurltocjsfun, url) ??
-                            new AsyncFunctionconstructor(
-                              ...funparams,funbody
-                                        );
+                            new AsyncFunctionconstructor(...funparams, funbody);
                         set(cacheurltocjsfun, url, 模块加载函数);
                         //   console.log(模块加载函数);
 
@@ -209,7 +206,8 @@ const funbody=`"use strict";\n/* ${url} */;\n;${scripttext};\n;/* ${url} */;\n`
                         );
 
                         if (isamd) {
-                            const moduleexportdeps = get(cachemoduledeps, url)||[];
+                            const moduleexportdeps =
+                                get(cachemoduledeps, url) || [];
                             moduletype = "amd";
                             // console.log(moduleexport[depssymbol]);
                             await importcjsamdumd(
@@ -304,8 +302,8 @@ function包含在object当中了
                     if (moduleexport.default) {
                         esmdefinegetter(moduleexport, moduleexport.default);
                     }
-//如果模块没有任何导出，或者导出只有一个空对象，则设定default
-set(moduleexport,"default",{})
+                    //如果模块没有任何导出，或者导出只有一个空对象，则设定default
+                    set(moduleexport, "default", {});
                     Object.freeze(moduleexport);
                     resolve(moduleexport);
                     return;
