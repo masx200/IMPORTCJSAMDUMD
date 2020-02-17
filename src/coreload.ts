@@ -48,7 +48,10 @@ export default async (url: string /*, packagename?: string*/) => {
         const defered = promisedefer();
         concurrentimport[url] = defered;
         try {
-            const module = await new Promise(主核心加载模块函数);
+            const module = await new Promise(
+(resolve,reject)=>
+主核心加载模块函数(url,resolve,reject)
+);
             defered.resolve(module);
             return module;
         } catch (e) {
@@ -63,7 +66,7 @@ export default async (url: string /*, packagename?: string*/) => {
         }
     }
 
-    async function 主核心加载模块函数(
+    async function 主核心加载模块函数(url:string,
         resolve: (value?: any) => void,
         reject: (reason?: any) => void
     ) {
