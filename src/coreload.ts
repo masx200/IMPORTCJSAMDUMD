@@ -131,18 +131,19 @@ esmdefinegetter(moduleexport, moduleexportdefault);
 
                     try {
                         let isamd = false;
-
-                        const 模块加载函数 =
-                            get(cacheurltocjsfun, url) ??
-                            new AsyncFunctionconstructor(
-                                "require",
+const funparams=[  "require",
                                 "exports",
 
                                 "module",
 
-                                "define",
-                                `                        "use strict";\n/* ${url} */;\n;${scripttext};\n;/* ${url} */;\n                        `
-                            );
+                                "define",]
+const funbody=`"use strict";\n/* ${url} */;\n;${scripttext};\n;/* ${url} */;\n`
+                    
+                        const 模块加载函数 =
+                            get(cacheurltocjsfun, url) ??
+                            new AsyncFunctionconstructor(
+                              ...funparams,funbody
+                                        );
                         set(cacheurltocjsfun, url, 模块加载函数);
                         //   console.log(模块加载函数);
 
