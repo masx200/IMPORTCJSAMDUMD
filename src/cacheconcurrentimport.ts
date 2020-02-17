@@ -3,4 +3,4 @@
 import { Defered } from "./promisedefer";
 import createnullobj from "./createnullobj";
 
-export const concurrentimport: Record<string, Defered> = createnullobj();
+export const concurrentimport: Record<string, Defered|undefined> = createnullobj();

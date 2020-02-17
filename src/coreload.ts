@@ -41,9 +41,9 @@ export const 加载的模块没有输出 = "加载的模块没有输出";
 export default async (url: string /*, packagename?: string*/) => {
     /*在模块加载未完成的过程中，防止多次重复加载同一个模块
      */
-
-    if (concurrentimport[url]) {
-        return Promise.resolve(concurrentimport[url].promise);
+    const loadpro = concurrentimport?.[url]?.promise;
+    if (loadpro) {
+        return Promise.resolve(loadpro);
     } else {
         const defered = promisedefer();
         concurrentimport[url] = defered;
@@ -106,6 +106,7 @@ export default async (url: string /*, packagename?: string*/) => {
                 // moduleexport[typesymbol] = moduletype;
                 Object.freeze(moduleexport);
                 packagestore[url] = moduleexport;
+                // Object.freeze()
                 resolve(moduleexport);
                 return;
             } else if ("js" === codetype) {

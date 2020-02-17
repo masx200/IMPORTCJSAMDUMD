@@ -145,32 +145,42 @@ https://github.com/masx200/importcjsamdumd/blob/master/dist/index.d.ts
 
 模块 把 `URL` 地址作为 `id`
 
-函数：
-
 主函数,`importcjsamdumd`,返回一个 `promise` 对象
 
-`requirepackage`,返回模块仓库中的模块,参数 `name` 是字符串为模块的 URL 地址或者模块的别名
+函数`requirepackage`,返回模块仓库中的模块,参数 `name` 是字符串为模块的 URL 地址或者模块的别名
 
-对象：
+对象`packagealias` 是保存模块别名映射的对象，存放 `别名`和 `URL`的 对应关系
 
-<!-- `packagestore`,是所有加载过的模块的存储仓库对象,存放 URL 和模块的对应关系 -->
+函数`getallmodules`返回所有模块,以`url`+`模块`的数组形式,
 
-`packagealias` 是保存模块别名映射的对象，存放 别名和 URL 对应关系
+函数`getmodulewrapper`返回指定模块的包装函数,只有`cjs,amd,umd,cmd`模块才有包装函数
 
-<!-- `cacheurltocjsfun`是保存 cmd，amd，cjs，umd 模块的 URL 和包装的函数的对应关系的对象
+函数`getmoduledeps`返回指定模块的依赖项数组
 
-`cachedurltotext`是保存模块的 URL 和源代码的对应关系的对象 -->
+函数`getmodulesource`返回指定模块的源代码
+
+函数`getmoduletype`返回指定模块的类型`"amd" | "cjs" | "esm" | "json"`
 
 ```ts
+declare const packagealias: Record<string, string>;
+declare function getallmodules(): [string, Record<any, any>][];
+declare function getmodulewrapper(url: string): Function | undefined;
+declare function getmoduledeps(url: string): string[] | undefined;
+declare function getmodulesource(url: string): string | undefined;
+declare const urlsymbol: unique symbol;
+type MODULETYPE = "amd" | "cjs" | "esm" | "json";
+interface MODULE extends Record<string, any> {
+    [Symbol.toStringTag]: "Module";
+    [urlsymbol]: string;
+}
+declare function getmoduletype(url: string): MODULETYPE | undefined;
+declare function getmodule(packagename: string): Record<any, any>;
+declare const requirepackage: typeof getmodule;
 declare function importcjsamdumd(url: string[]): Promise<MODULE[]>;
 declare function importcjsamdumd(
     url: string,
     packagename?: string
 ): Promise<MODULE>;
-
-declare function requirepackage(packagename: string): Module;
-declare const packagealias: Record<string, string>;
-type Module = Record<any, any>;
 ```
 
 ## 动态异步加载 cjs,amd,umd 模块用法:

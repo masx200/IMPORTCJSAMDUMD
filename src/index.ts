@@ -1,14 +1,14 @@
 import { packagealias } from "./cachepackagealias";
 import { getallmodules } from "./getallmodules.js";
-import importcjsamdumd, {
-    // packagestore,
-    requirepackage
-} from "./importcjsamdumd.js";
-//export default importcjsamdumd;
-export { /* packagestore, */ requirepackage, importcjsamdumd };
+import { getmodulewrapper } from "./getcjswrapper";
+import { getmoduledeps } from "./getmoduledeps";
+import { getmodulesource } from "./getmodulesource";
+import { getmoduletype } from "./getmoduletype";
+import importcjsamdumd, { requirepackage } from "./importcjsamdumd.js";
+export { requirepackage, importcjsamdumd };
 export { packagealias };
-// import { cacheurltocjsfun } from "./cacheurltocjsfun.js";
-// import { cachedurltotext } from "./cachedfetchtext.js";
-// export { cacheurltocjsfun, cachedurltotext };
 export { getallmodules };
+export { getmoduletype, getmoduledeps };
+export { getmodulesource };
+export { getmodulewrapper };
 
