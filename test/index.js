@@ -65,3 +65,6 @@ console.log({
     cacheurltocjsfun,
     cachedurltotext
 });
+importcjsamdumd("https://unpkg.com//core-js@3.6.4/modules/es.map.js").then(
+    console.log
+);
