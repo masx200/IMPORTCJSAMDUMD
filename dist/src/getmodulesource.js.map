@@ -1,0 +1,1 @@
+{"version":3,"file":"getmodulesource.js","sourceRoot":"","sources":["../../src/getmodulesource.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,GAAG,EAAE,MAAM,YAAY,CAAC;AACjC,OAAO,EAAE,YAAY,EAAE,MAAM,gBAAgB,CAAC;AAC9C,OAAO,EAAE,eAAe,EAAE,MAAM,mBAAmB,CAAC;AAEpD,MAAM,UAAU,eAAe,CAAC,GAAW;IACvC,YAAY,CAAC,GAAG,CAAC,CAAC;IAClB,OAAO,GAAG,CAAC,eAAe,EAAE,GAAG,CAAC,CAAC;AACrC,CAAC"}

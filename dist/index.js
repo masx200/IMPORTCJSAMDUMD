@@ -12,6 +12,106 @@ function getallmodules() {
 
 const cacheurltocjsfun = createnullobj();
 
+const concurrentimport = createnullobj();
+
+function promisedefer() {
+    let resolve = () => {};
+    let reject = () => {};
+    let promise = new Promise((res, rej) => {
+        resolve = res;
+        reject = rej;
+    });
+    return {
+        resolve: resolve,
+        reject: reject,
+        promise: promise
+    };
+}
+
+const asyncfun = new Function("return async function(){}")();
+
+const AsyncFunctionconstructor = Object.getPrototypeOf(asyncfun).constructor;
+
+async function fetchtext(url) {
+    var _a, _b;
+    let codetype;
+    const cachedtext = get(cachedurltotext, url);
+    const cachedtype = get(cachedurltotype, url);
+    if (cachedtext && cachedtype) {
+        return [ cachedtext, cachedtype ];
+    } else {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error("fetch failed " + url);
+        }
+        const contenttype = response.headers.get("content-type");
+        if ((_a = contenttype) === null || _a === void 0 ? void 0 : _a.includes("javascript")) {
+            codetype = "js";
+        } else if ((_b = contenttype) === null || _b === void 0 ? void 0 : _b.includes("json")) {
+            codetype = "json";
+        } else {
+            throw new Error("Invalid content-type: " + contenttype);
+        }
+        const textsource = await response.text();
+        set(cachedurltotext, url, textsource);
+        set(cachedurltotype, url, codetype);
+        return [ textsource, codetype ];
+    }
+}
+
+const cachedurltotext = createnullobj();
+
+const cachedurltotype = createnullobj();
+
+const cachemoduledeps = createnullobj();
+
+const cachemoduletype = createnullobj();
+
+function ismodule(a) {
+    return {}.toString.call(a) === "[object Module]";
+}
+
+function isplainobject(o) {
+    return typeof o === "object" && {}.toString.call(o) === "[object Object]" && o instanceof Object && Reflect.getPrototypeOf(o) === Object.prototype;
+}
+
+function 定义default(target, def) {
+    var _a, _b;
+    def = (_b = (_a = def) === null || _a === void 0 ? void 0 : _a.default, _b !== null && _b !== void 0 ? _b : def);
+    if (!def) {
+        return;
+    }
+    if (!ismodule(def) && !isplainobject(def)) {
+        defineProperty(target, "default", {
+            enumerable: true,
+            get() {
+                return def;
+            }
+        });
+    }
+}
+
+function isArray(a) {
+    return Array.isArray(a) && {}.toString.call(a) === "[object Array]";
+}
+
+function define(name, deps, callback) {
+    if (typeof name !== "string") {
+        callback = deps;
+        deps = name;
+        name = null;
+    }
+    if (!isArray(deps)) {
+        callback = deps;
+        deps = null;
+    }
+    if (!deps) {
+        deps = [];
+    }
+    const defineglobalDefQueue = [ name, deps, callback ];
+    return defineglobalDefQueue;
+}
+
 class cantfindError extends Error {
     constructor(message, urlorname) {
         super(message);
@@ -30,12 +130,20 @@ function getmodule(packagename) {
     }
 }
 
-async function 同时发起多个字符串(a, importcjsamdumd) {
-    return await Promise.all(a.map(e => importcjsamdumd(e)));
+function isurl(url) {
+    var flag = false;
+    try {
+        assertstring(url);
+        url = new URL(url).href;
+        flag = true;
+    } catch (error) {
+        flag = false;
+    }
+    return flag;
 }
 
-function isArray(a) {
-    return Array.isArray(a) && {}.toString.call(a) === "[object Array]";
+async function 同时发起多个字符串(a, importcjsamdumd) {
+    return await Promise.all(a.map(e => importcjsamdumd(e)));
 }
 
 const urlsymbol = Symbol("url");
@@ -145,132 +253,6 @@ function assertstring(s) {
     }
 }
 
-function isurl(url) {
-    var flag = false;
-    try {
-        assertstring(url);
-        url = new URL(url).href;
-        flag = true;
-    } catch (error) {
-        flag = false;
-    }
-    return flag;
-}
-
-function mapaliastourl(arr) {
-    return arr.map(name => {
-        var _a;
-        if (isurl(name)) {
-            return name;
-        } else {
-            return _a = packagealias[name], _a !== null && _a !== void 0 ? _a : name;
-        }
-    });
-}
-
-const concurrentimport = createnullobj();
-
-function promisedefer() {
-    let resolve = () => {};
-    let reject = () => {};
-    let promise = new Promise((res, rej) => {
-        resolve = res;
-        reject = rej;
-    });
-    return {
-        resolve: resolve,
-        reject: reject,
-        promise: promise
-    };
-}
-
-function isFunction(it) {
-    const op = {};
-    const ostring = op.toString;
-    const tag = ostring.call(it);
-    return "function" === typeof it && tag === "[object Function]" || tag === "[object AsyncFunction]";
-}
-
-const asyncfun = new Function("return async function(){}")();
-
-const AsyncFunctionconstructor = Object.getPrototypeOf(asyncfun).constructor;
-
-function isobject(a) {
-    return !!(a && typeof a === "object");
-}
-
-async function fetchtext(url) {
-    var _a, _b;
-    let codetype;
-    const cachedtext = get(cachedurltotext, url);
-    const cachedtype = get(cachedurltotype, url);
-    if (cachedtext && cachedtype) {
-        return [ cachedtext, cachedtype ];
-    } else {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error("fetch failed " + url);
-        }
-        const contenttype = response.headers.get("content-type");
-        if ((_a = contenttype) === null || _a === void 0 ? void 0 : _a.includes("javascript")) {
-            codetype = "js";
-        } else if ((_b = contenttype) === null || _b === void 0 ? void 0 : _b.includes("json")) {
-            codetype = "json";
-        } else {
-            throw new Error("Invalid content-type: " + contenttype);
-        }
-        const textsource = await response.text();
-        set(cachedurltotext, url, textsource);
-        set(cachedurltotype, url, codetype);
-        return [ textsource, codetype ];
-    }
-}
-
-const cachedurltotext = createnullobj();
-
-const cachedurltotype = createnullobj();
-
-function ismodule(a) {
-    return {}.toString.call(a) === "[object Module]";
-}
-
-function isplainobject(o) {
-    return typeof o === "object" && {}.toString.call(o) === "[object Object]" && o instanceof Object && Reflect.getPrototypeOf(o) === Object.prototype;
-}
-
-function 定义default(target, def) {
-    var _a, _b;
-    def = (_b = (_a = def) === null || _a === void 0 ? void 0 : _a.default, _b !== null && _b !== void 0 ? _b : def);
-    if (!def) {
-        return;
-    }
-    if (!ismodule(def) && !isplainobject(def)) {
-        defineProperty(target, "default", {
-            enumerable: true,
-            get() {
-                return def;
-            }
-        });
-    }
-}
-
-function define(name, deps, callback) {
-    if (typeof name !== "string") {
-        callback = deps;
-        deps = name;
-        name = null;
-    }
-    if (!isArray(deps)) {
-        callback = deps;
-        deps = null;
-    }
-    if (!deps) {
-        deps = [];
-    }
-    const defineglobalDefQueue = [ name, deps, callback ];
-    return defineglobalDefQueue;
-}
-
 function getnewimportpromise(url) {
     const symbolkey = Symbol.for("import-" + url);
     return new Promise((resolve, reject) => {
@@ -334,6 +316,13 @@ const dynamicimportshimfun = (() => {
     }
     return dynamicimportshim;
 })();
+
+function isFunction(it) {
+    const op = {};
+    const ostring = op.toString;
+    const tag = ostring.call(it);
+    return "function" === typeof it && tag === "[object Function]" || tag === "[object AsyncFunction]";
+}
 
 function esmdefinegetter(moduleexport, exportdefault) {
     if (exportdefault && (isFunction(exportdefault) || typeof exportdefault === "object")) {
@@ -412,6 +401,25 @@ function 处理非es模块(exportmodule) {
     }
 }
 
+function isobject(a) {
+    return !!(a && typeof a === "object");
+}
+
+function mapaliastourl(arr) {
+    return arr.map(name => {
+        var _a;
+        if (isurl(name)) {
+            return name;
+        } else {
+            return _a = packagealias[name], _a !== null && _a !== void 0 ? _a : name;
+        }
+    });
+}
+
+function removerepetition(arr) {
+    return [ ...new Set(arr) ];
+}
+
 var REQUIRE_RE = /"(?:\\"|[^"])*"|'(?:\\'|[^'])*'|\/\*[\S\s]*?\*\/|\/(?:\\\/|[^\/\r\n])+\/(?=[^\/])|\/\/.*|\.\s*require|(?:^|[^$])\brequire\s*\(\s*(["'])(.+?)\1\s*\)/g;
 
 var SLASH_RE = /\\\\/g;
@@ -426,38 +434,6 @@ function parseDependencies(code) {
     }));
     return ret;
 }
-
-function removerepetition(arr) {
-    return [ ...new Set(arr) ];
-}
-
-const cachemoduletype = createnullobj();
-
-const cachemoduledeps = createnullobj();
-
-const {get: get, set: set, defineProperty: defineProperty} = Reflect;
-
-var coreload = async url => {
-    var _a, _b;
-    const loadpro = (_b = (_a = concurrentimport) === null || _a === void 0 ? void 0 : _a[url]) === null || _b === void 0 ? void 0 : _b.promise;
-    if (loadpro) {
-        return Promise.resolve(loadpro);
-    } else {
-        const defered = promisedefer();
-        concurrentimport[url] = defered;
-        try {
-            const module = await new Promise((resolve, reject) => 主核心加载模块函数(url, resolve, reject));
-            defered.resolve(module);
-            return module;
-        } catch (e) {
-            defered.reject(e);
-            setTimeout(() => {
-                Reflect.set(concurrentimport, url, undefined);
-            }, 0);
-            throw e;
-        }
-    }
-};
 
 async function 主核心加载模块函数(url, resolve, reject) {
     var _a;
@@ -602,6 +578,30 @@ async function 主核心加载模块函数(url, resolve, reject) {
         console.warn(e);
         reject(e);
         return;
+    }
+}
+
+const {get: get, set: set, defineProperty: defineProperty} = Reflect;
+
+async function coreload(url) {
+    var _a, _b;
+    const loadpro = (_b = (_a = concurrentimport) === null || _a === void 0 ? void 0 : _a[url]) === null || _b === void 0 ? void 0 : _b.promise;
+    if (loadpro) {
+        return Promise.resolve(loadpro);
+    } else {
+        const defered = promisedefer();
+        concurrentimport[url] = defered;
+        try {
+            const module = await new Promise((resolve, reject) => 主核心加载模块函数(url, resolve, reject));
+            defered.resolve(module);
+            return module;
+        } catch (e) {
+            defered.reject(e);
+            setTimeout(() => {
+                Reflect.set(concurrentimport, url, undefined);
+            }, 0);
+            throw e;
+        }
     }
 }
 

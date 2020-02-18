@@ -1,35 +1,29 @@
 import { concurrentimport } from "./cacheconcurrentimport";
 import { promisedefer } from "./promisedefer";
-import { 主核心加载模块函数 } from "./resolverejecturl";
-
+import { 主核心加载模块函数 } from "./主核心加载模块函数";
 export const { get, set, defineProperty } = Reflect;
-
 export const 加载的模块没有输出 = "加载的模块没有输出";
-
-export default async function(url: string /*, packagename?: string*/) {
-    /*在模块加载未完成的过程中，防止多次重复加载同一个模块
-     */
-    const loadpro = concurrentimport?.[url]?.promise;
+export default async function (url) {
+    var _a, _b;
+    const loadpro = (_b = (_a = concurrentimport) === null || _a === void 0 ? void 0 : _a[url]) === null || _b === void 0 ? void 0 : _b.promise;
     if (loadpro) {
         return Promise.resolve(loadpro);
-    } else {
+    }
+    else {
         const defered = promisedefer();
         concurrentimport[url] = defered;
         try {
-            const module = await new Promise((resolve, reject) =>
-                主核心加载模块函数(url, resolve, reject)
-            );
+            const module = await new Promise((resolve, reject) => 主核心加载模块函数(url, resolve, reject));
             defered.resolve(module);
             return module;
-        } catch (e) {
+        }
+        catch (e) {
             defered.reject(e);
-            /* 如果加载失败允许重新加载 */
             setTimeout(() => {
                 Reflect.set(concurrentimport, url, undefined);
             }, 0);
-
-            // [url]
             throw e;
         }
     }
 }
+//# sourceMappingURL=coreload.js.map

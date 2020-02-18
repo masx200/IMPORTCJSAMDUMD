@@ -2,6 +2,7 @@ import logger from "./logger.js";
 (console.log = logger), console.log("importcjsamdumd test");
 import * as cjsamdumd from "../dist/index.min.js";
 import {
+    getmoduletype,
     getmoduledeps,
     getmodulesource,
     getmodulewrapper,
@@ -104,8 +105,20 @@ allpro.then(() => {
             return [id, getmodulewrapper(id)];
         })
     );
-
-    console.info(getallmodules());
+    const allmodule = getallmodules();
+    console.info(allmodule);
+    allmodule.forEach(v => {
+        try {
+            console.log(v);
+        } catch (error) {
+            console.error(error);
+        }
+    });
+    console.log(
+        allids.map(id => {
+            return [id, getmoduletype(id)];
+        })
+    );
 });
 window.addEventListener("unhandledrejection", e => {
     throw e;
