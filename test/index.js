@@ -6,9 +6,9 @@ console.log = function(...args) {
     let p = document.createElement("p");
     p.innerText = JSON.stringify(
         args,
-        a => {
+       ( k,a) => {
             if (typeof a === "function") return String(a);
-            else return JSON.stringify(a,null,4);
+            else return a;
         },
         4
     );
