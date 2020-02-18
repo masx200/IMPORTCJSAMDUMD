@@ -7,7 +7,7 @@ console.log = function(...args) {
     p.innerText = JSON.stringify(
         args,
        ( k,a) => {
-            if (typeof a === "function") return String(a);
+            if (typeof a === "function") return `function ${a.name||k}(){}`;
             else return a;
         },
         4
