@@ -1,15 +1,19 @@
-const log=console.log
+const log = console.log;
 
-console.log=function(...args){
-log(...args)
+console.log = function(...args) {
+    log(...args);
 
-
-let p=document.createElement("p")
-p.innerText=Object.entries(args)
-document.body.appendChild(p)
-
-}
-
+    let p = document.createElement("p");
+    p.innerText = JSON.stringify(
+        args,
+        a => {
+            if (typeof a === "function") return String(a);
+            else return a;
+        },
+        4
+    );
+    document.body.appendChild(p);
+};
 
 console.log("importcjsamdumd test");
 import * as cjsamdumd from "../dist/index.min.js";
