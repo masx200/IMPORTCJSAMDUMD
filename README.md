@@ -38,14 +38,7 @@ yarn add https://github.com/masx200/importcjsamdumd.git
 # 导入模块
 
 ```javascript
-import {
-    importcjsamdumd,
-    packagealias,
-    packagestore,
-    requirepackage,
-    cacheurltocjsfun,
-    cachedurltotext
-} from "@masx200/importcjsamdumd";
+import { importcjsamdumd, packagealias } from "@masx200/importcjsamdumd";
 ```
 
 # 更新 支持 amd ，cmd 模块中新增支持 define 传入 async 函数了 ，支持返回 promise
