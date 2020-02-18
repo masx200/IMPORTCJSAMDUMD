@@ -1,29 +1,35 @@
 const log = console.log;
-// let count = 0;
 function anticircle() {
     const objset = new WeakSet();
-    /**
-     * @param {string} k
-     * @param {any} a
-     */
     const replacer = (k, a) => {
-        // count++;
-        // console.info(count);
+        const tag = Object.prototype.toString.call(a);
+        const type = tag.replace("[object ", "").replace("]", "");
+        const tostringkey = Symbol.toStringTag.toString();
+        const objtype = { [tostringkey]: type };
         if ((a && typeof a === "object") || typeof a === "function") {
             if (objset.has(a)) {
-                const tag=Object.prototype.toString.call(a)
-                return "[object circular]"+" "+tag;
+                return "[object circular]" + " " + tag;
             } else {
                 objset.add(a);
             }
-        }
-
-        if (typeof a === "function") {
-            let keys = Object.keys(a);
-            if (keys.length) {
-                return Object.assign({}, a);
-            } else {
-                return `function ${a.name || k}(){} `;
+            const objsym = Object.fromEntries(
+                Object.getOwnPropertySymbols(a).map(key => [
+                    String(key),
+                    a[key]
+                ])
+            );
+            if (Array.isArray(a)) {
+                return a;
+            }
+            if (typeof a === "function") {
+                let keys = Object.keys(a);
+                if (keys.length) {
+                    return Object.assign(objsym, objtype, a);
+                } else {
+                    return `function ${a.name || k}(){}`;
+                }
+            } else if (a && typeof a === "object") {
+                return Object.assign(objsym, objtype, a);
             }
         } else {
             return a;
@@ -31,16 +37,7 @@ function anticircle() {
     };
     return replacer;
 }
-
-/**
- * @param {any[]} args
- */
 export default async function(...args) {
     log(...args);
     log(JSON.stringify(args, anticircle(), 4));
-    // let p = document.createElement("p");
-    // p.innerText = JSON.stringify(args, anticircle(), 4);
-    // document.body.appendChild(p);
-    // let hr = document.createElement("hr");
-    // document.body.appendChild(hr);
 }
