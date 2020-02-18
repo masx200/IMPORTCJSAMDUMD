@@ -19,7 +19,8 @@ import { isplainobject } from "./isplainobject";
 import { mapaliastourl } from "./mapaliastourl";
 import {
     // depssymbol,
-    MODULE, MODULETYPE,
+    MODULE,
+    MODULETYPE,
     // sourcesymbol,
     // typesymbol,
     urlsymbol
