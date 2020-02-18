@@ -13,7 +13,8 @@ console.log = function(...args) {
         4
     );
     document.body.appendChild(p);
-let hr=document.createElement("hr");document.body.appendChild(hr);
+    let hr = document.createElement("hr");
+    document.body.appendChild(hr);
 };
 
 console.log("importcjsamdumd test");
