@@ -6,8 +6,8 @@ console.log = function(...args) {
     let p = document.createElement("p");
     p.innerText = JSON.stringify(
         args,
-       ( k,a) => {
-            if (typeof a === "function") return `function ${a.name||k}(){}`;
+        (k, a) => {
+            if (typeof a === "function") return `function ${a.name || k}(){}`;
             else return a;
         },
         4
