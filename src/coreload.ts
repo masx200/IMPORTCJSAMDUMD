@@ -65,7 +65,7 @@ export default async (url: string /*, packagename?: string*/) => {
             throw e;
         }
     }
-
+}
     async function 主核心加载模块函数(url:string,
         resolve: (value?: any) => void,
         reject: (reason?: any) => void
@@ -335,4 +335,4 @@ if(Object.keys(moduleexport).length===0){
         //  })();
         //  })(resolve, reject);
     }
-};
+
