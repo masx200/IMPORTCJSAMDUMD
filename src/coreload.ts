@@ -265,29 +265,29 @@ function包含在object当中了
                     }
                 } catch (e) {
                     console.warn(e);
-                  //  {
-                        if (e instanceof SyntaxError) {
-                            const topLevelBlobUrl = url;
+                    //  {
+                    if (e instanceof SyntaxError) {
+                        const topLevelBlobUrl = url;
 
-                            try {
-                                const exportdefault = await dynamicimportshim(
-                                    topLevelBlobUrl
-                                );
-                                // moduleexport[depssymbol] = [];
-                                set(cachemoduledeps, url, []);
-                                moduletype = "esm";
-                                esmdefinegetter(moduleexport, exportdefault);
-                            } catch (e) {
-                                console.warn(e);
-                                reject(e);
-                                return;
-                            }
-                        } else {
+                        try {
+                            const exportdefault = await dynamicimportshim(
+                                topLevelBlobUrl
+                            );
+                            // moduleexport[depssymbol] = [];
+                            set(cachemoduledeps, url, []);
+                            moduletype = "esm";
+                            esmdefinegetter(moduleexport, exportdefault);
+                        } catch (e) {
                             console.warn(e);
                             reject(e);
                             return;
                         }
-               //     }
+                    } else {
+                        console.warn(e);
+                        reject(e);
+                        return;
+                    }
+                    //     }
                 }
                 // moduleexport[typesymbol] = moduletype;
                 set(cachemoduletype, url, moduletype);

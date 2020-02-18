@@ -561,24 +561,22 @@ async function 主核心加载模块函数(url, resolve, reject) {
                     }
                 } catch (e) {
                     console.warn(e);
-                    {
-                        if (e instanceof SyntaxError) {
-                            const topLevelBlobUrl = url;
-                            try {
-                                const exportdefault = await dynamicimportshimfun(topLevelBlobUrl);
-                                set(cachemoduledeps, url, []);
-                                moduletype = "esm";
-                                esmdefinegetter(moduleexport, exportdefault);
-                            } catch (e) {
-                                console.warn(e);
-                                reject(e);
-                                return;
-                            }
-                        } else {
+                    if (e instanceof SyntaxError) {
+                        const topLevelBlobUrl = url;
+                        try {
+                            const exportdefault = await dynamicimportshimfun(topLevelBlobUrl);
+                            set(cachemoduledeps, url, []);
+                            moduletype = "esm";
+                            esmdefinegetter(moduleexport, exportdefault);
+                        } catch (e) {
                             console.warn(e);
                             reject(e);
                             return;
                         }
+                    } else {
+                        console.warn(e);
+                        reject(e);
+                        return;
                     }
                 }
                 set(cachemoduletype, url, moduletype);
