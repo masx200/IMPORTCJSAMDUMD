@@ -8,7 +8,7 @@ console.log = function(...args) {
         args,
         a => {
             if (typeof a === "function") return String(a);
-            else return a;
+            else return JSON.stringify(a);
         },
         4
     );
