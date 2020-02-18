@@ -265,7 +265,7 @@ function包含在object当中了
                     }
                 } catch (e) {
                     console.warn(e);
-                    {
+                  //  {
                         if (e instanceof SyntaxError) {
                             const topLevelBlobUrl = url;
 
@@ -287,7 +287,7 @@ function包含在object当中了
                             reject(e);
                             return;
                         }
-                    }
+               //     }
                 }
                 // moduleexport[typesymbol] = moduletype;
                 set(cachemoduletype, url, moduletype);
