@@ -106,7 +106,7 @@ async function 主核心加载模块函数(
             moduletype = "json";
             //json可能我是对象或者数组，或者空，其他
             if (moduleexportdefault) {
-                if (isobject(moduleexportdefault)) {
+                if (isplainobject(moduleexportdefault)) {
                     esmdefinegetter(moduleexport, moduleexportdefault);
                 } else {
                     定义default(moduleexport, moduleexportdefault);
