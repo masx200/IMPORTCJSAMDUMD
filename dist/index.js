@@ -485,7 +485,7 @@ async function 主核心加载模块函数(url, resolve, reject) {
             const moduleexportdefault = JSON.parse(scripttext);
             moduletype = "json";
             if (moduleexportdefault) {
-                if (isobject(moduleexportdefault)) {
+                if (isplainobject(moduleexportdefault)) {
                     esmdefinegetter(moduleexport, moduleexportdefault);
                 } else {
                     定义default(moduleexport, moduleexportdefault);
@@ -617,6 +617,10 @@ function getmoduledeps(url) {
     return deps;
 }
 
+function getmoduleids() {
+    return Object.keys(packagestore);
+}
+
 function getmodulesource(url) {
     assertstring(url);
     return get(cachedurltotext, url);
@@ -627,5 +631,5 @@ function getmoduletype(url) {
     return get(cachemoduletype, url);
 }
 
-export { getallmodules, getmoduledeps, getmodulesource, getmoduletype, getmodulewrapper, importcjsamdumd, packagealias, requirepackage };
+export { getallmodules, getmoduledeps, getmoduleids, getmodulesource, getmoduletype, getmodulewrapper, importcjsamdumd, packagealias, requirepackage };
 //# sourceMappingURL=index.js.map

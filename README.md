@@ -161,11 +161,14 @@ https://github.com/masx200/importcjsamdumd/blob/master/dist/index.d.ts
 
 函数`getmoduletype`返回指定模块的类型`"amd" | "cjs" | "esm" | "json"`
 
+函数`getmoduleids`返回所有模块的`URL`数组
+
 ```ts
 declare const packagealias: Record<string, string>;
 declare function getallmodules(): [string, Record<any, any>][];
 declare function getmodulewrapper(url: string): Function | undefined;
 declare function getmoduledeps(url: string): string[] | undefined;
+declare function getmoduleids(): string[];
 declare function getmodulesource(url: string): string | undefined;
 declare const urlsymbol: unique symbol;
 type MODULETYPE = "amd" | "cjs" | "esm" | "json";

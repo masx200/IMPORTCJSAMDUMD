@@ -34,6 +34,7 @@ import { removerepetition } from "./remove-repetiton";
 import { cachemoduletype } from "./cachemoduletype";
 import createnullobj from "./createnullobj";
 import { cachemoduledeps } from "./cachemoduledeps";
+import { isplainobject } from "./isplainobject";
 export const { get, set, defineProperty } = Reflect;
 
 export const 加载的模块没有输出 = "加载的模块没有输出";
