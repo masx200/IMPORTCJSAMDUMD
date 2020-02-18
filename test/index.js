@@ -25,6 +25,11 @@ Object.assign(packagealias, {
         "https://cdn.jsdelivr.net/gh/masx200/masx200.github.io/src/assetsjs/md5.min.js"
 });
 const allpro = Promise.all([
+    importcjsamdumd(
+        "./cjs3.js",
+        "https://cdn.jsdelivr.net/npm/@masx200/event-emitter-target@1.1.5/dist/index.min.js"
+    ).then(logger),
+
     importcjsamdumd("./array.json").then(logger),
     importcjsamdumd(["./es1.js", "./es2.js"]).then(logger),
     importcjsamdumd(["./amd1.js", "./cjs1.js", "./cmd1.js", "./cmd2.js"]).then(
