@@ -8,7 +8,7 @@ function anticircle() {
         const objtype = { [tostringkey]: type };
         if ((a && typeof a === "object") || typeof a === "function") {
             if (objset.has(a)) {
-                return "[object circular]" + " " + tag;
+                return `[object circular ${type}]`;
             } else {
                 objset.add(a);
             }
