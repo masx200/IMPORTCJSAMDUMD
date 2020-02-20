@@ -100,11 +100,6 @@ allpro.then(() => {
 
     logger(
         allids.map(id => {
-            return [id, getmoduledeps(id)];
-        })
-    );
-    logger(
-        allids.map(id => {
             return [id, getmodulesource(id)];
         })
     );
@@ -115,19 +110,24 @@ allpro.then(() => {
     );
     const allmodule = getallmodules();
 
-    allmodule.forEach(v => {
-        try {
-            logger(v);
-        } catch (error) {
-            console.error(error);
-        }
-    });
+    // allmodule.forEach(v => {
+    //     try {
+    //         logger(v);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // });
     logger(
         allids.map(id => {
             return [id, getmoduletype(id)];
         })
     );
     logger(allmodule);
+    logger(
+        allids.map(id => {
+            return [id, getmoduledeps(id)];
+        })
+    );
 });
 window.addEventListener("unhandledrejection", e => {
     console.error(e);

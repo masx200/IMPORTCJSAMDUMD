@@ -7,6 +7,10 @@ import { assertstring } from "./assertstring";
 export function getmoduledeps(url: string): string[] | undefined {
     assertstring(url);
     const deps = get(cachemoduledeps, url);
-    deps && Object.freeze(deps);
-    return deps;
+    // deps && Object.freeze(deps);
+    // return deps;
+    if (deps) {
+        return [...deps];
+    }
+    return;
 }

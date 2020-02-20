@@ -437,6 +437,8 @@ function parseDependencies(code) {
 
 async function 主核心加载模块函数(url, resolve, reject) {
     var _a;
+    const dependents = new Set;
+    set(cachemoduledeps, url, dependents);
     try {
         let fetchpromisetext;
         let codetype;
@@ -456,7 +458,6 @@ async function 主核心加载模块函数(url, resolve, reject) {
                 value: "Module"
             });
         }
-        set(cachemoduledeps, url, []);
         if ("json" === codetype) {
             const moduleexportdefault = JSON.parse(scripttext);
             moduletype = "json";
@@ -488,17 +489,21 @@ async function 主核心加载模块函数(url, resolve, reject) {
                     const funbody = `"use strict";\n/* ${url} */;\n;${scripttext};\n;/* ${url} */;\n`;
                     const 模块加载函数 = (_a = get(cacheurltocjsfun, url), _a !== null && _a !== void 0 ? _a : new AsyncFunctionconstructor(...funparams, funbody));
                     set(cacheurltocjsfun, url, 模块加载函数);
-                    const moduleexportdeps = removerepetition(mapaliastourl(parseDependencies(scripttext).map(urlorname => getnormalizedurl(urlorname, url))));
-                    set(cachemoduledeps, url, moduleexportdeps);
-                    await importcjsamdumd(moduleexportdeps);
+                    const cjsmoduleexportdeps = removerepetition(mapaliastourl(parseDependencies(scripttext).map(urlorname => getnormalizedurl(urlorname, url))));
+                    cjsmoduleexportdeps.forEach(d => {
+                        dependents.add(d);
+                    });
+                    await importcjsamdumd(cjsmoduleexportdeps);
                     let amdfactory = () => {};
                     const require_require = name => formatedurlrequire(name, url);
+                    const amddeps = [];
                     const define_define = (name, deps, callback) => {
                         const defineglobalDefQueue = define(name, deps, callback);
                         isamd = true;
                         amdfactory = defineglobalDefQueue[2];
                         const moduleexportdeps = removerepetition(mapaliastourl(defineglobalDefQueue[1].map(urlorname => getnormalizedurl(urlorname, url))));
-                        set(cachemoduledeps, url, moduleexportdeps);
+                        amddeps.push(...moduleexportdeps);
+                        moduleexportdeps.forEach(d => dependents.add(d));
                     };
                     Object.assign(define_define, {
                         amd: true,
@@ -506,8 +511,8 @@ async function 主核心加载模块函数(url, resolve, reject) {
                     });
                     await 模块加载函数.call(module.exports, require_require, exports_exports, module, define_define);
                     if (isamd) {
-                        const moduleexportdeps = get(cachemoduledeps, url) || [];
                         moduletype = "amd";
+                        const moduleexportdeps = [ ...amddeps ];
                         await importcjsamdumd(moduleexportdeps);
                         let amdcallargs;
                         if (moduleexportdeps.length) {
@@ -541,7 +546,6 @@ async function 主核心加载模块函数(url, resolve, reject) {
                         const topLevelBlobUrl = url;
                         try {
                             const exportdefault = await dynamicimportshimfun(topLevelBlobUrl);
-                            set(cachemoduledeps, url, []);
                             moduletype = "esm";
                             esmdefinegetter(moduleexport, exportdefault);
                         } catch (e) {
@@ -613,8 +617,10 @@ function getmodulewrapper(url) {
 function getmoduledeps(url) {
     assertstring(url);
     const deps = get(cachemoduledeps, url);
-    deps && Object.freeze(deps);
-    return deps;
+    if (deps) {
+        return [ ...deps ];
+    }
+    return;
 }
 
 function getmoduleids() {

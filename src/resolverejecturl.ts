@@ -33,6 +33,8 @@ export async function 主核心加载模块函数(
     resolve: (value?: any) => void,
     reject: (reason?: any) => void
 ) {
+    const dependents = new Set<string>();
+    set(cachemoduledeps, url, dependents);
     // return ((resolve, reject) => {
     //  return (async () => {
     try {
@@ -58,7 +60,7 @@ export async function 主核心加载模块函数(
             });
         }
         //modulesrcfun = scripttext;
-        set(cachemoduledeps, url, []);
+        // set(cachemoduledeps, url, []);
         // moduleexport[depssymbol] = [];
         // moduleexport[sourcesymbol] = modulesrcfun;
         if ("json" === codetype) {
@@ -102,22 +104,27 @@ export async function 主核心加载模块函数(
                         new AsyncFunctionconstructor(...funparams, funbody);
                     set(cacheurltocjsfun, url, 模块加载函数);
                     //   console.log(模块加载函数);
-                    const moduleexportdeps = removerepetition(
+                    const cjsmoduleexportdeps = removerepetition(
                         mapaliastourl(
                             parseDependencies(scripttext).map(urlorname => {
                                 return getnormalizedurl(urlorname, url);
                             })
                         )
                     );
-                    set(cachemoduledeps, url, moduleexportdeps);
+                    cjsmoduleexportdeps.forEach(d => {
+                        dependents.add(d);
+                    });
+
+                    // set(cachemoduledeps, url, moduleexportdeps);
                     //   console.log(moduleexport[depssymbol]);
-                    await importcjsamdumd(moduleexportdeps);
+                    await importcjsamdumd(cjsmoduleexportdeps);
                     let amdfactory:
                         | Function
                         | Record<any, any>
                         | undefined = () => {};
                     const require_require = (name: string) =>
                         formatedurlrequire(name, url);
+                    const amddeps: string[] = [];
                     const define_define = (
                         name: any,
                         deps?: any,
@@ -135,7 +142,10 @@ export async function 主核心加载模块函数(
                                     })
                                 )
                             );
-                        set(cachemoduledeps, url, moduleexportdeps);
+                        amddeps.push(...moduleexportdeps);
+                        moduleexportdeps.forEach(d => dependents.add(d));
+
+                        // set(cachemoduledeps, url, moduleexportdeps);
                     };
                     Object.assign(define_define, {
                         amd: true,
@@ -152,10 +162,12 @@ export async function 主核心加载模块函数(
                         define_define
                     );
                     if (isamd) {
-                        const moduleexportdeps =
-                            get(cachemoduledeps, url) || [];
+                        // const moduleexportdeps =
+                        //     get(cachemoduledeps, url) || [];
                         moduletype = "amd";
                         // console.log(moduleexport[depssymbol]);
+                        // const amdmoduleexportdeps =
+                        const moduleexportdeps = [...amddeps];
                         await importcjsamdumd(
                             moduleexportdeps
                             // moduleexport[depssymbol]
@@ -177,7 +189,7 @@ export async function 主核心加载模块函数(
                         }
                         /*
 
-function包含在object当中了
+先判断function
 */
                         let define_exports: any;
                         if (isFunction(amdfactory)) {
@@ -215,7 +227,7 @@ function包含在object当中了
                                 topLevelBlobUrl
                             );
                             // moduleexport[depssymbol] = [];
-                            set(cachemoduledeps, url, []);
+                            // set(cachemoduledeps, url, []);
                             moduletype = "esm";
                             esmdefinegetter(moduleexport, exportdefault);
                         } catch (e) {
