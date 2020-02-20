@@ -448,7 +448,9 @@ async function 主核心加载模块函数(url, resolve, reject) {
             return;
         }
         const moduleexport = createnullobj();
-        moduleexport[urlsymbol] = url;
+        defineProperty(moduleexport, urlsymbol, {
+            value: url
+        });
         let moduletype;
         const scripttext = fetchpromisetext;
         if (typeof Symbol !== "undefined" && Symbol.toStringTag) {

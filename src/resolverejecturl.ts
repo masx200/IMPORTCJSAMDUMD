@@ -50,7 +50,8 @@ export async function 主核心加载模块函数(
             return;
         }
         const moduleexport: MODULE = createnullobj() as MODULE;
-        moduleexport[urlsymbol] = url;
+        // moduleexport[urlsymbol] = url;
+        defineProperty(moduleexport, urlsymbol, { value: url });
         let moduletype: MODULETYPE;
         const scripttext = fetchpromisetext;
         // let modulesrcfun: string;
