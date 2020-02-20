@@ -4,7 +4,7 @@ import { assertstring } from "./assertstring";
 export function getmoduledeps(url) {
     assertstring(url);
     const deps = get(cachemoduledeps, url);
-    deps && Object.freeze(deps);
+    deps && Object.seal(deps);
     return deps;
 }
 //# sourceMappingURL=getmoduledeps.js.map

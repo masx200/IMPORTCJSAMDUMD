@@ -30,15 +30,19 @@ const allpro = Promise.all([
         "https://cdn.jsdelivr.net/npm/@masx200/event-emitter-target@1.1.5/dist/index.min.js"
     ).then(logger),
 
-    importcjsamdumd("./array.json").then(logger),
+    importcjsamdumd([
+        "./array.json",
+        "https://cdn.staticfile.org/vuex/3.1.2/vuex.js"
+    ]).then(logger),
     importcjsamdumd(["./es1.js", "./es2.js"]).then(logger),
     importcjsamdumd(["./amd1.js", "./cjs1.js", "./cmd1.js", "./cmd2.js"]).then(
         logger
     ),
     importcjsamdumd(["./amd2.js", "./cjs2.js"]).then(logger),
-    importcjsamdumd(
-        "https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js"
-    )
+    importcjsamdumd([
+        "https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js",
+        "https://cdn.staticfile.org/element-ui/2.13.0/index.js"
+    ])
         .then(logger)
         .then(() => {
             logger("vue", requirepackage("vue"));
@@ -54,9 +58,10 @@ const allpro = Promise.all([
     importcjsamdumd(
         "https://cdn.jsdelivr.net/npm/fast-xml-parser@3.14.0/src/parser.min.js"
     ).then(logger),
-    importcjsamdumd(
+    importcjsamdumd([
+        "https://cdn.staticfile.org/vuex/3.1.2/vuex.esm.browser.js",
         "https://cdn.jsdelivr.net/npm/jquery@3.2.1/package.json"
-    ).then(logger),
+    ]).then(logger),
     importcjsamdumd(["bootstrap", "jquery"])
         .then(logger)
         .then(() => {

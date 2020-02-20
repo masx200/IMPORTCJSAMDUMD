@@ -123,7 +123,6 @@ function getmodule(packagename) {
     assertstring(packagename);
     const findpackage = packagestore[packagename] || packagestore[packagealias[packagename]];
     if (findpackage) {
-        Object.freeze(findpackage);
         return findpackage;
     } else {
         throw new cantfindError(模块仓库中没有找到 + packagename, packagename);
@@ -344,7 +343,6 @@ const myrequirefun = function requireinstead(packagename) {
     assertstring(packagename);
     const findpackage = packagestore[packagename] || packagestore[packagealias[packagename]];
     if (findpackage) {
-        Object.freeze(findpackage);
         return _a = findpackage.default, _a !== null && _a !== void 0 ? _a : findpackage;
     } else {
         throw new cantfindError(模块仓库中没有找到 + packagename, packagename);
@@ -469,7 +467,6 @@ async function 主核心加载模块函数(url, resolve, reject) {
                 }
             }
             set(cachemoduletype, url, moduletype);
-            Object.freeze(moduleexport);
             packagestore[url] = moduleexport;
             resolve(moduleexport);
             return;
@@ -567,7 +564,6 @@ async function 主核心加载模块函数(url, resolve, reject) {
                 if (Object.keys(moduleexport).length === 0) {
                     set(moduleexport, "default", {});
                 }
-                Object.freeze(moduleexport);
                 resolve(moduleexport);
                 return;
             } catch (e) {

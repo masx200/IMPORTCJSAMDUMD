@@ -77,9 +77,9 @@ export async function 主核心加载模块函数(
             }
             set(cachemoduletype, url, moduletype);
             // moduleexport[typesymbol] = moduletype;
-            Object.freeze(moduleexport);
+            // Object.seal(moduleexport);
             packagestore[url] = moduleexport;
-            // Object.freeze()
+            // Object.seal()
             resolve(moduleexport);
             return;
         } else if ("js" === codetype) {
@@ -252,7 +252,7 @@ export async function 主核心加载模块函数(
                 if (Object.keys(moduleexport).length === 0) {
                     set(moduleexport, "default", {});
                 }
-                Object.freeze(moduleexport);
+                // Object.seal(moduleexport);
                 resolve(moduleexport);
                 return;
             } catch (e) {

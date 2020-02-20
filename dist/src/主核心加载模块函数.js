@@ -28,8 +28,7 @@ export async function 主核心加载模块函数(url, resolve, reject) {
         let codetype;
         try {
             [fetchpromisetext, codetype] = await cachedfetchtext(url);
-        }
-        catch (e) {
+        } catch (e) {
             console.warn(e);
             reject(e);
             return;
@@ -50,18 +49,16 @@ export async function 主核心加载模块函数(url, resolve, reject) {
             if (moduleexportdefault) {
                 if (isplainobject(moduleexportdefault)) {
                     esmdefinegetter(moduleexport, moduleexportdefault);
-                }
-                else {
+                } else {
                     定义default(moduleexport, moduleexportdefault);
                 }
             }
             set(cachemoduletype, url, moduletype);
-            Object.freeze(moduleexport);
+            Object.seal(moduleexport);
             packagestore[url] = moduleexport;
             resolve(moduleexport);
             return;
-        }
-        else if ("js" === codetype) {
+        } else if ("js" === codetype) {
             try {
                 const exports_exports = {
                     [Symbol.toStringTag]: "Module"
@@ -78,38 +75,62 @@ export async function 主核心加载模块函数(url, resolve, reject) {
                         "define"
                     ];
                     const funbody = `"use strict";\n/* ${url} */;\n;${scripttext};\n;/* ${url} */;\n`;
-                    const 模块加载函数 = (_a = get(cacheurltocjsfun, url), (_a !== null && _a !== void 0 ? _a : new AsyncFunctionconstructor(...funparams, funbody)));
+                    const 模块加载函数 =
+                        ((_a = get(cacheurltocjsfun, url)),
+                        _a !== null && _a !== void 0
+                            ? _a
+                            : new AsyncFunctionconstructor(
+                                  ...funparams,
+                                  funbody
+                              ));
                     set(cacheurltocjsfun, url, 模块加载函数);
-                    const moduleexportdeps = removerepetition(mapaliastourl(parseDependencies(scripttext).map(urlorname => {
-                        return getnormalizedurl(urlorname, url);
-                    })));
+                    const moduleexportdeps = removerepetition(
+                        mapaliastourl(
+                            parseDependencies(scripttext).map(urlorname => {
+                                return getnormalizedurl(urlorname, url);
+                            })
+                        )
+                    );
                     set(cachemoduledeps, url, moduleexportdeps);
                     await importcjsamdumd(moduleexportdeps);
-                    let amdfactory = () => { };
-                    const require_require = (name) => formatedurlrequire(name, url);
+                    let amdfactory = () => {};
+                    const require_require = name =>
+                        formatedurlrequire(name, url);
                     const define_define = (name, deps, callback) => {
                         const defineglobalDefQueue = define(name, deps, callback);
                         isamd = true;
                         amdfactory = defineglobalDefQueue[2];
-                        const moduleexportdeps = removerepetition(mapaliastourl(defineglobalDefQueue[1].map(urlorname => {
-                            return getnormalizedurl(urlorname, url);
-                        })));
+                        const moduleexportdeps = removerepetition(
+                            mapaliastourl(
+                                defineglobalDefQueue[1].map(urlorname => {
+                                    return getnormalizedurl(urlorname, url);
+                                })
+                            )
+                        );
                         set(cachemoduledeps, url, moduleexportdeps);
                     };
                     Object.assign(define_define, {
                         amd: true,
                         cmd: true
                     });
-                    await 模块加载函数.call(module.exports, require_require, exports_exports, module, define_define);
+                    await 模块加载函数.call(
+                        module.exports,
+                        require_require,
+                        exports_exports,
+                        module,
+                        define_define
+                    );
                     if (isamd) {
-                        const moduleexportdeps = get(cachemoduledeps, url) || [];
+                        const moduleexportdeps =
+                            get(cachemoduledeps, url) || [];
                         moduletype = "amd";
                         await importcjsamdumd(moduleexportdeps);
                         let amdcallargs;
                         if (moduleexportdeps.length) {
-                            amdcallargs = moduleexportdeps.map((e) => myrequirefun(e));
-                        }
-                        else {
+                            amdcallargs = moduleexportdeps.map(e =>
+                                myrequirefun(e)
+                            );
+                        } else {
                             amdcallargs = [
                                 require_require,
                                 exports_exports,
@@ -118,15 +139,16 @@ export async function 主核心加载模块函数(url, resolve, reject) {
                         }
                         let define_exports;
                         if (isFunction(amdfactory)) {
-                            define_exports = amdfactory.call(module.exports, ...amdcallargs);
-                        }
-                        else if (isobject(amdfactory)) {
+                            define_exports = amdfactory.call(
+                                module.exports,
+                                ...amdcallargs
+                            );
+                        } else if (isobject(amdfactory)) {
                             define_exports = amdfactory;
                         }
                         define_exports = await define_exports;
                         !!define_exports && (module.exports = define_exports);
-                    }
-                    else {
+                    } else {
                         moduletype = "cjs";
                     }
                     !module.exports &&
@@ -139,24 +161,23 @@ export async function 主核心加载模块函数(url, resolve, reject) {
                         定义default(moduleexport, usefulexport);
                         esmdefinegetter(moduleexport, usefulexport);
                     }
-                }
-                catch (e) {
+                } catch (e) {
                     console.warn(e);
                     if (e instanceof SyntaxError) {
                         const topLevelBlobUrl = url;
                         try {
-                            const exportdefault = await dynamicimportshim(topLevelBlobUrl);
+                            const exportdefault = await dynamicimportshim(
+                                topLevelBlobUrl
+                            );
                             set(cachemoduledeps, url, []);
                             moduletype = "esm";
                             esmdefinegetter(moduleexport, exportdefault);
-                        }
-                        catch (e) {
+                        } catch (e) {
                             console.warn(e);
                             reject(e);
                             return;
                         }
-                    }
-                    else {
+                    } else {
                         console.warn(e);
                         reject(e);
                         return;
@@ -170,21 +191,18 @@ export async function 主核心加载模块函数(url, resolve, reject) {
                 if (Object.keys(moduleexport).length === 0) {
                     set(moduleexport, "default", {});
                 }
-                Object.freeze(moduleexport);
+                Object.seal(moduleexport);
                 resolve(moduleexport);
                 return;
-            }
-            catch (e) {
+            } catch (e) {
                 console.warn(e);
                 reject(e);
                 return;
             }
-        }
-        else {
+        } else {
             throw new Error("invalid codetype " + codetype);
         }
-    }
-    catch (e) {
+    } catch (e) {
         console.warn(e);
         reject(e);
         return;

@@ -9,7 +9,7 @@ export function getmodule(packagename: string): Record<any, any> {
     const findpackage =
         packagestore[packagename] || packagestore[packagealias[packagename]];
     if (findpackage) {
-        Object.freeze(findpackage);
+        // Object.seal(findpackage);
         return findpackage;
     } else {
         throw new cantfindError(模块仓库中没有找到 + packagename, packagename);
