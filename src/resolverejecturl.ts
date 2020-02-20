@@ -251,7 +251,11 @@ export async function 主核心加载模块函数(
                 }
                 //如果模块没有任何导出，或者导出只有一个空对象，则设定default
                 if (Object.keys(moduleexport).length === 0) {
-                    set(moduleexport, "default", {});
+                    // set(moduleexport, "default", {});
+                    defineProperty(moduleexport, "default", {
+                        value: {},
+                        enumerable: true
+                    });
                 }
                 // Object.seal(moduleexport);
                 resolve(moduleexport);
