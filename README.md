@@ -14,6 +14,23 @@
 
 支持 模块中的 `top-level-await`
 
+## `cjs，amd，umd，cmd`模块完全的异步加载
+
+模块禁止循环依赖,否则会出现调用栈溢出
+
+把以 URL 作为模块的 id，所以在 amd，cmd 模块中，忽略 define 传入的模块 id
+
+在模块加载未完成的过程中，防止多次重复加载同一个模块
+
+把 `commonjs` 模块源代码包装成异步函数执行
+
+```js
+(async function(require, exports, module, define) {
+    "use strict";
+
+});
+```
+
 ## 获取已压缩模块
 
 ### ES 模块
@@ -65,22 +82,7 @@ exports.default = await new Promise(r => {
 
 `EDGE,CHROME,FIREFOX,SAFARI`
 
-## `cjs，amd，umd，cmd`模块完全的异步加载
 
-模块禁止循环依赖,否则会出现调用栈溢出
-
-把以 URL 作为模块的 id，所以在 amd，cmd 模块中，忽略 define 传入的模块 id
-
-在模块加载未完成的过程中，防止多次重复加载同一个模块
-
-把 commonjs 模块源代码包装成异步函数执行
-
-```js
-(async function(require, exports, module, define) {
-    "use strict";
-
-});
-```
 
 ## commonjs 提前加载依赖
 
