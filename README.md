@@ -82,8 +82,6 @@ exports.default = await new Promise(r => {
 
 `EDGE,CHROME,FIREFOX,SAFARI`
 
-
-
 ## commonjs 提前加载依赖
 
 commonjs 模块依赖收集,基于 seajs
