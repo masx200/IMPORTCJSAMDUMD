@@ -564,7 +564,10 @@ async function 主核心加载模块函数(url, resolve, reject) {
                     esmdefinegetter(moduleexport, moduleexport.default);
                 }
                 if (Object.keys(moduleexport).length === 0) {
-                    set(moduleexport, "default", {});
+                    defineProperty(moduleexport, "default", {
+                        value: {},
+                        enumerable: true
+                    });
                 }
                 resolve(moduleexport);
                 return;
