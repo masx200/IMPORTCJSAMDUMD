@@ -6,10 +6,21 @@ export const { get, set, defineProperty } = Reflect;
 
 export const 加载的模块没有输出 = "加载的模块没有输出";
 
-export default async function(url: string /*, packagename?: string*/) {
+const timeout=10*1000
+export default async function(url: string ) :Record<string,any>{
     /*在模块加载未完成的过程中，防止多次重复加载同一个模块
      */
-    const loadpro = concurrentimport?.[url]?.promise;
+return new Promise(async(resolve,reject)=>{
+
+
+setTimeout(()=>{
+
+reject(new Error("import module timeout:"+url))
+
+},timeout)
+const mod=await(async()=>{
+
+const loadpro = concurrentimport?.[url]?.promise;
     if (loadpro) {
         return Promise.resolve(loadpro);
     } else {
@@ -28,8 +39,15 @@ export default async function(url: string /*, packagename?: string*/) {
                 Reflect.set(concurrentimport, url, undefined);
             }, 0);
 
-            // [url]
+            
             throw e;
         }
     }
+})()
+resolve(mod)
+
+
+})
+
+    
 }
