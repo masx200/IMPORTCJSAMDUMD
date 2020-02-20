@@ -55,7 +55,7 @@ yarn add https://github.com/masx200/importcjsamdumd.git
 # 导入模块
 
 ```javascript
-import importcjsamdumd,{ dynamicimport, packagealias } from "@masx200/importcjsamdumd";
+import importcjsamdumd,{ dynamicimport, packagealias,requirepackage } from "@masx200/importcjsamdumd";
 ```
 
 # 更新 支持 amd ，cmd 模块中新增支持 define 传入 async 函数了 ，支持返回 promise
@@ -130,7 +130,7 @@ importcjsamdumd 支持在模块内部使用 require 函数和 define 函数定�
 
 3.requriejs 不支持 cjs 和 umd 模块的定义方式,使用比较麻烦,
 
-# importcjsamdumd
+# `importcjsamdumd`
 
 # API
 
@@ -138,7 +138,7 @@ https://github.com/masx200/importcjsamdumd/blob/master/dist/index.d.ts
 
 模块 把 `URL` 地址作为 `id`
 
-主函数,`dynamicimport`,返回一个 `promise` 对象
+主函数,`importcjsamdumd`,`dynamicimport`,返回一个 `promise` 对象
 
 函数`requirepackage`,返回模块仓库中的模块,参数 `name` 是字符串为模块的 URL 地址或者模块的别名
 
