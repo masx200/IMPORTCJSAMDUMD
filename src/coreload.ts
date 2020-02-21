@@ -7,7 +7,7 @@ export const { get, set, defineProperty } = Reflect;
 export const 加载的模块没有输出 = "加载的模块没有输出";
 
 const timeout = 10 * 1000;
-export default async function(url: string): Record<string, any> {
+export default async function(url: string):Promise< Record<string, any>> {
     /*在模块加载未完成的过程中，防止多次重复加载同一个模块
      */
     return new Promise(async (resolve, reject) => {
