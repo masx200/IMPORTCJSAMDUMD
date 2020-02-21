@@ -6,8 +6,8 @@ import getmoduleids from "./getmoduleids";
 import { getmodulesource } from "./getmodulesource";
 import { getmoduletype } from "./getmoduletype";
 import importcjsamdumd, { requirepackage } from "./importcjsamdumd.js";
-const dynamicimport=importcjsamdumd
-export default importcjsamdumd
+const dynamicimport = importcjsamdumd;
+export default importcjsamdumd;
 export { requirepackage, dynamicimport };
 export { packagealias };
 export { getallmodules };

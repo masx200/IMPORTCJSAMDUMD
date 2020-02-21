@@ -18,12 +18,11 @@
 
 模块禁止循环依赖,否则会出现调用栈溢出
 
-模块异步加载默认开启了超时，10秒钟，加载超时则会加载自动失败
+模块异步加载默认开启了超时，10 秒钟，加载超时则会加载自动失败
 
 把以 URL 作为模块的 id，所以在 amd，cmd 模块中，忽略 define 传入的模块 id
 
 在模块加载未完成的过程中，防止多次重复加载同一个模块
-
 
 ## 获取已压缩模块
 
@@ -35,8 +34,6 @@ https://cdn.jsdelivr.net/gh/masx200/importcjsamdumd@latest/dist/index.esm.min.js
 
 # 安装模块
 
-
-
 ```shell
 yarn add https://github.com/masx200/importcjsamdumd.git
 
@@ -45,7 +42,11 @@ yarn add https://github.com/masx200/importcjsamdumd.git
 # 导入模块
 
 ```javascript
-import importcjsamdumd,{ dynamicimport, packagealias,requirepackage } from "@masx200/importcjsamdumd";
+import importcjsamdumd, {
+    dynamicimport,
+    packagealias,
+    requirepackage
+} from "@masx200/importcjsamdumd";
 ```
 
 # 更新 支持 amd ，cmd 模块中新增支持 define 传入 async 函数了 ，支持返回 promise
@@ -65,7 +66,8 @@ exports.default = await new Promise(r => {
     setTimeout(r, 500);
 });
 ```
-把 ``CommonJS`` 模块源代码包装成异步函数执行
+
+把 `CommonJS` 模块源代码包装成异步函数执行
 
 ```js
 (async function(require, exports, module, define) {
@@ -90,11 +92,11 @@ https://github.com/seajs/seajs/blob/master/src/util-deps.js
 
 还包含了动态加载 `es`模块的`import()`的 `polyfill`
 
-可以在 ``CommonJS`` 模块中使用相对路径加载 ``CommonJS`` 模块了！
+可以在 `CommonJS` 模块中使用相对路径加载 `CommonJS` 模块了！
 
 可以在 `ES` 模块中使用相对路径加载 `ES` 模块了！
 
-甚至可以在 ``CommonJS`` 模块中加载 ES 模块了!
+甚至可以在 `CommonJS` 模块中加载 ES 模块了!
 
 还顺便支持了加载 `json` 模块!
 
@@ -207,9 +209,9 @@ Object.assign(packagealias, {
 函数返回值为 promise 对象
 
 ```js
-`importcjsamdumd`("https://masx200.github.io/`importcjsamdumd`/package.json").then(
-    console.log
-);
+`importcjsamdumd`(
+    "https://masx200.github.io/`importcjsamdumd`/package.json"
+).then(console.log);
 ```
 
 主函数,`importcjsamdumd`,返回一个 promise 对象,参数 url 和 name 都是字符串，把通过 url 加载的依赖包放入模块仓库中，命名为 name，promise 之后的.then 函数的回调函数的参数是 module， 模块的默认输出
@@ -310,9 +312,11 @@ function myonloadfunc(reactmodulearray) {
 ## 示例
 
 ```javascript
-`importcjsamdumd`("https://cdn.staticfile.org/jquery/3.4.1/jquery.js").then(m => {
-    console.log(m.default);
-});
+`importcjsamdumd`("https://cdn.staticfile.org/jquery/3.4.1/jquery.js").then(
+    m => {
+        console.log(m.default);
+    }
+);
 
 Promise.all([
     `importcjsamdumd`("https://cdn.bootcss.com/jquery/3.4.1/jquery.js"),
@@ -338,7 +342,10 @@ Promise.all([
     .catch(console.error);
 
 Promise.all([
-    `importcjsamdumd`("https://cdn.bootcss.com/jquery/3.4.1/jquery.js", "jquery"),
+    `importcjsamdumd`(
+        "https://cdn.bootcss.com/jquery/3.4.1/jquery.js",
+        "jquery"
+    ),
     `importcjsamdumd`(
         "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js",
         "react"
