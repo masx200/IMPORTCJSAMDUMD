@@ -588,26 +588,36 @@ async function 主核心加载模块函数(url, resolve, reject) {
 
 const {get: get, set: set, defineProperty: defineProperty} = Reflect;
 
+const timeout = 10 * 1e3;
+
 async function coreload(url) {
-    var _a, _b;
-    const loadpro = (_b = (_a = concurrentimport) === null || _a === void 0 ? void 0 : _a[url]) === null || _b === void 0 ? void 0 : _b.promise;
-    if (loadpro) {
-        return Promise.resolve(loadpro);
-    } else {
-        const defered = promisedefer();
-        concurrentimport[url] = defered;
-        try {
-            const module = await new Promise((resolve, reject) => 主核心加载模块函数(url, resolve, reject));
-            defered.resolve(module);
-            return module;
-        } catch (e) {
-            defered.reject(e);
-            setTimeout(() => {
-                Reflect.set(concurrentimport, url, undefined);
-            }, 0);
-            throw e;
-        }
-    }
+    return new Promise(async (resolve, reject) => {
+        setTimeout(() => {
+            reject(new Error("import module timeout:" + url));
+        }, timeout);
+        const mod = await (async () => {
+            var _a, _b;
+            const loadpro = (_b = (_a = concurrentimport) === null || _a === void 0 ? void 0 : _a[url]) === null || _b === void 0 ? void 0 : _b.promise;
+            if (loadpro) {
+                return Promise.resolve(loadpro);
+            } else {
+                const defered = promisedefer();
+                concurrentimport[url] = defered;
+                try {
+                    const module = await new Promise((resolve, reject) => 主核心加载模块函数(url, resolve, reject));
+                    defered.resolve(module);
+                    return module;
+                } catch (e) {
+                    defered.reject(e);
+                    setTimeout(() => {
+                        Reflect.set(concurrentimport, url, undefined);
+                    }, 0);
+                    throw e;
+                }
+            }
+        })();
+        resolve(mod);
+    });
 }
 
 function getmodulewrapper(url) {
@@ -638,5 +648,9 @@ function getmoduletype(url) {
     return get(cachemoduletype, url);
 }
 
-export { getallmodules, getmoduledeps, getmoduleids, getmodulesource, getmoduletype, getmodulewrapper, importcjsamdumd, packagealias, requirepackage };
+const dynamicimport = importcjsamdumd;
+
+export default importcjsamdumd;
+
+export { dynamicimport, getallmodules, getmoduledeps, getmoduleids, getmodulesource, getmoduletype, getmodulewrapper, packagealias, requirepackage };
 //# sourceMappingURL=index.js.map

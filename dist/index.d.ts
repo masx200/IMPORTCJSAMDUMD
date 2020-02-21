@@ -15,4 +15,5 @@ declare function getmodule(packagename: string): Record<any, any>;
 declare const requirepackage: typeof getmodule;
 declare function importcjsamdumd(url: string[]): Promise<MODULE[]>;
 declare function importcjsamdumd(url: string, packagename?: string): Promise<MODULE>;
-export { requirepackage, importcjsamdumd, packagealias, getallmodules, getmoduletype, getmoduledeps, getmodulesource, getmodulewrapper, getmoduleids };
+declare const dynamicimport: typeof importcjsamdumd;
+export { importcjsamdumd as default, requirepackage, dynamicimport, packagealias, getallmodules, getmoduletype, getmoduledeps, getmodulesource, getmodulewrapper, getmoduleids };
