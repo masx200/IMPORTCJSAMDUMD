@@ -1,14 +1,13 @@
 import logger from "./logger.js";
 logger("importcjsamdumd test");
 import * as cjsamdumd from "../dist/index.min.js";
-import {
+import importcjsamdumd, {
     getmoduletype,
     getmoduledeps,
     getmodulesource,
     getmodulewrapper,
     getallmodules,
     getmoduleids,
-    importcjsamdumd,
     packagealias,
     requirepackage
 } from "../dist/index.min.js";
@@ -25,10 +24,11 @@ Object.assign(packagealias, {
         "https://cdn.jsdelivr.net/gh/masx200/masx200.github.io/src/assetsjs/md5.min.js"
 });
 const allpro = Promise.all([
+    importcjsamdumd("./circular.js").catch(console.error),
     importcjsamdumd(
         "./cjs3.js",
         "https://cdn.jsdelivr.net/npm/@masx200/event-emitter-target@1.1.5/dist/index.min.js"
-    ).then(logger),
+    ).then(console.info),
 
     importcjsamdumd([
         "./array.json",
