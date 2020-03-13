@@ -10,7 +10,7 @@
 
 使用 `http` 响应 `headers` 中的"content-type"属性来判断是 `json` 还是 `JavaScript` 模块
 
-实现 ``CommonJS`,amd,umd,cmd` 模块全部异步加载了
+实现 `CommonJS`,amd,umd,cmd` 模块全部异步加载了
 
 支持 模块中的 `top-level-await`
 
