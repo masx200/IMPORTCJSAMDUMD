@@ -1,6 +1,6 @@
 # `importcjsamdumd`
 
-此代码库仅供学习交流使用
+浏览器运行时模块异步模块加载器
 
 ## 动态异步加载" `CommonJS` "和 "umd "和 "amd","cmd"和"ES"和'json' 模块 6 合一
 
