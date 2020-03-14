@@ -1,6 +1,6 @@
 # `importcjsamdumd`
 
-浏览器运行时模块异步模块加载器
+浏览器运行时异步模块加载器
 
 ## 动态异步加载" `CommonJS` "和 "umd "和 "amd","cmd"和"ES"和'json' 模块 6 合一
 
