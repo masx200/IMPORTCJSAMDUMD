@@ -312,11 +312,9 @@ importcjsamdumd(url).then(console.log);
 ## 示例
 
 ```javascript
-importcjsamdumd("https://cdn.staticfile.org/jquery/3.4.1/jquery.js").then(
-    m => {
-        console.log(m.default);
-    }
-);
+importcjsamdumd("https://cdn.staticfile.org/jquery/3.4.1/jquery.js").then(m => {
+    console.log(m.default);
+});
 
 Promise.all([
     importcjsamdumd("https://cdn.bootcss.com/jquery/3.4.1/jquery.js"),
@@ -342,10 +340,7 @@ importcjsamdumd("https://cdn.bootcss.com/jquery/3.4.1/jquery.js")
     .catch(console.error);
 
 Promise.all([
-    importcjsamdumd(
-        "https://cdn.bootcss.com/jquery/3.4.1/jquery.js",
-        "jquery"
-    ),
+    importcjsamdumd("https://cdn.bootcss.com/jquery/3.4.1/jquery.js", "jquery"),
     importcjsamdumd(
         "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js",
         "react"

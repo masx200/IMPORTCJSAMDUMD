@@ -1,6 +1,6 @@
 {
     "type": "module",
-    "version": "2.5.5",
+    "version": "2.6.0",
     "module": "./dist/index.min.js",
     "main": "./dist/index.min.js",
     "types": "./dist/index.d.ts",
@@ -8,8 +8,7 @@
         "registry": "https://registry.npmjs.org/"
     },
     "scripts": {
-        "watch": "rollup -c  rollup.config.js --watch",
-        "prettier": "prettier *.js  *.json *.md ./src/**/*.ts --write ./test/**/*.js",
+        "prettier": "prettier **/*.js  *.json *.md **/*.ts --write ",
         "build": "rollup -c  rollup.config.js",
         "test": "live-server "
     },
@@ -37,7 +36,7 @@
         "rollup-plugin-ts": "^1.2.14",
         "serialize-javascript": "^3.0.0",
         "terser": "^4.6.3",
-        "typescript": "^3.7.5"
+        "typescript": "^3.8.3"
     },
     "dependencies": {}
 }

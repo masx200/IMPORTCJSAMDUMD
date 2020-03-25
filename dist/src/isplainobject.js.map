@@ -1,1 +1,0 @@
-{"version":3,"file":"isplainobject.js","sourceRoot":"","sources":["../../src/isplainobject.ts"],"names":[],"mappings":"AAEA,MAAM,UAAU,aAAa,CAAC,CAAM;IAChC,OAAO,CACH,OAAO,CAAC,KAAK,QAAQ;QACrB,EAAE,CAAC,QAAQ,CAAC,IAAI,CAAC,CAAC,CAAC,KAAK,iBAAiB;QACzC,CAAC,YAAY,MAAM;QACnB,OAAO,CAAC,cAAc,CAAC,CAAC,CAAC,KAAK,MAAM,CAAC,SAAS,CACjD,CAAC;AACN,CAAC"}

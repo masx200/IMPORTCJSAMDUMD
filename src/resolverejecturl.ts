@@ -28,6 +28,7 @@ import {
 import { myrequirefun } from "./myrequirefun";
 import { removerepetition } from "./remove-repetiton";
 import { parseDependencies } from "./util-deps";
+import checkDepsUrl from "./check-deps-url";
 export async function 主核心加载模块函数(
     url: string,
     resolve: (value?: any) => void,
@@ -118,6 +119,7 @@ export async function 主核心加载模块函数(
 
                     // set(cachemoduledeps, url, moduleexportdeps);
                     //   console.log(moduleexport[depssymbol]);
+                    checkDepsUrl(cjsmoduleexportdeps);
                     await importcjsamdumd(cjsmoduleexportdeps);
                     let amdfactory:
                         | Function
@@ -169,6 +171,7 @@ export async function 主核心加载模块函数(
                         // console.log(moduleexport[depssymbol]);
                         // const amdmoduleexportdeps =
                         const moduleexportdeps = [...amddeps];
+                        checkDepsUrl(moduleexportdeps);
                         await importcjsamdumd(
                             moduleexportdeps
                             // moduleexport[depssymbol]

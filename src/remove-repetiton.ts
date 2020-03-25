@@ -1,3 +1,3 @@
-export function removerepetition(arr: any[]) {
+export function removerepetition<T>(arr: T[]): T[] {
     return [...new Set(arr)];
 }

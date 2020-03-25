@@ -1,5 +1,5 @@
 import babel from "rollup-plugin-babel";
-import sourcemaps from "rollup-plugin-sourcemaps";
+// import sourcemaps from "rollup-plugin-sourcemaps";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
@@ -57,7 +57,7 @@ export default [
             }
         ],
         plugins: [
-            sourcemaps(),
+            // sourcemaps(),
             json(),
             resolve(),
             commonjs(),
@@ -76,7 +76,7 @@ export default [
         ],
         plugins: [
             mybabelplugin,
-            sourcemaps(),
+            // sourcemaps(),
             json(),
             resolve(),
             commonjs(),
@@ -93,7 +93,7 @@ export default [
             }
         ],
         plugins: [
-            sourcemaps(),
+            // sourcemaps(),
             mybabelplugin,
             resolve(),
             commonjs(),

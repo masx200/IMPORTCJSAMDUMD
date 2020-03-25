@@ -14,30 +14,35 @@ export default async function(url: string): Promise<Record<string, any>> {
         setTimeout(() => {
             reject(new Error("import module timeout:" + url));
         }, timeout);
-        const mod = await (async () => {
-            const loadpro = concurrentimport?.[url]?.promise;
-            if (loadpro) {
-                return Promise.resolve(loadpro);
-            } else {
-                const defered = promisedefer();
-                concurrentimport[url] = defered;
-                try {
-                    const module = await new Promise((resolve, reject) =>
-                        主核心加载模块函数(url, resolve, reject)
-                    );
-                    defered.resolve(module);
-                    return module;
-                } catch (e) {
-                    defered.reject(e);
-                    /* 如果加载失败允许重新加载 */
-                    setTimeout(() => {
-                        Reflect.set(concurrentimport, url, undefined);
-                    }, 0);
+        /*  const mod = */
 
-                    throw e;
-                }
+        // await (async () => {
+        const loadpro = concurrentimport?.[url]?.promise;
+        if (loadpro) {
+            resolve(Promise.resolve(loadpro));
+            return;
+        } else {
+            const defered = promisedefer();
+            concurrentimport[url] = defered;
+            try {
+                const module = (await new Promise((resolve, reject) =>
+                    主核心加载模块函数(url, resolve, reject)
+                )) as any;
+                defered.resolve(module);
+                resolve(module);
+                return;
+            } catch (e) {
+                defered.reject(e);
+                /* 如果加载失败允许重新加载 */
+                setTimeout(() => {
+                    Reflect.set(concurrentimport, url, undefined);
+                }, 0);
+                console.warn(e);
+                reject(e);
+                return;
             }
-        })();
-        resolve(mod);
+        }
+        // })();
+        // resolve(mod);
     });
 }

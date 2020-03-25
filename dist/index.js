@@ -33,7 +33,6 @@ const asyncfun = new Function("return async function(){}")();
 const AsyncFunctionconstructor = Object.getPrototypeOf(asyncfun).constructor;
 
 async function fetchtext(url) {
-    var _a, _b;
     let codetype;
     const cachedtext = get(cachedurltotext, url);
     const cachedtype = get(cachedurltotype, url);
@@ -45,9 +44,9 @@ async function fetchtext(url) {
             throw new Error("fetch failed " + url);
         }
         const contenttype = response.headers.get("content-type");
-        if ((_a = contenttype) === null || _a === void 0 ? void 0 : _a.includes("javascript")) {
+        if (contenttype === null || contenttype === void 0 ? void 0 : contenttype.includes("javascript")) {
             codetype = "js";
-        } else if ((_b = contenttype) === null || _b === void 0 ? void 0 : _b.includes("json")) {
+        } else if (contenttype === null || contenttype === void 0 ? void 0 : contenttype.includes("json")) {
             codetype = "json";
         } else {
             throw new Error("Invalid content-type: " + contenttype);
@@ -76,8 +75,8 @@ function isplainobject(o) {
 }
 
 function 定义default(target, def) {
-    var _a, _b;
-    def = (_b = (_a = def) === null || _a === void 0 ? void 0 : _a.default, _b !== null && _b !== void 0 ? _b : def);
+    var _a;
+    def = (_a = def === null || def === void 0 ? void 0 : def.default) !== null && _a !== void 0 ? _a : def;
     if (!def) {
         return;
     }
@@ -152,50 +151,47 @@ const 输入的类型错误输入的类型必须是字符串或者数组或对�
 async function oldimportcjsamdumd(url, packagename) {
     var _a;
     if (isArray(url)) {
-        return await (async (...args) => {
-            let suoyouimportpromise = [];
-            const 传入参数arr = args;
-            try {
-                suoyouimportpromise = await 同时发起多个字符串(传入参数arr, oldimportcjsamdumd);
-            } catch (error) {
-                console.warn(error);
-                suoyouimportpromise = await 同时发起多个字符串(传入参数arr, oldimportcjsamdumd);
-            } finally {
-                suoyouimportpromise = await 同时发起多个字符串(传入参数arr, oldimportcjsamdumd);
-            }
-            return suoyouimportpromise;
-        })(...url);
-    } else if (typeof url === "string" || typeof packagename === "string") {
+        const args = url;
+        let suoyouimportpromise = [];
+        const 传入参数arr = args;
+        try {
+            suoyouimportpromise = await 同时发起多个字符串(传入参数arr, oldimportcjsamdumd);
+        } catch (error) {
+            console.warn(error);
+            suoyouimportpromise = await 同时发起多个字符串(传入参数arr, oldimportcjsamdumd);
+        } finally {
+            suoyouimportpromise = await 同时发起多个字符串(传入参数arr, oldimportcjsamdumd);
+        }
+        return suoyouimportpromise;
+    } else if (typeof url === "string") {
         assertstring(url);
         try {
             url = new URL(url).href;
         } catch (_unused) {
-            url = (_a = packagealias[url], _a !== null && _a !== void 0 ? _a : url);
+            url = (_a = packagealias[url]) !== null && _a !== void 0 ? _a : url;
         }
-        return await (async (url, packagename) => {
-            if (String(url).startsWith("./") || String(url).startsWith("../")) {
-                var urlobj = new URL(url, location.href);
-                url = urlobj.origin + urlobj.pathname;
-            }
-            try {
-                url = new URL(url).href;
-            } catch (_unused2) {
-                throw Error("invalid url " + url);
-            }
-            if (typeof packagename === "undefined") {
-                packagename = new URL(url).href;
-            }
-            if (packagename) {
-                packagealias[packagename] = url;
-            }
-            if (typeof packagestore[packagename] !== "undefined" && get(packagestore[packagename], urlsymbol) === url) {
-                return getmodule(packagename);
-            } else if (typeof packagestore[url] !== "undefined" && get(packagestore[url], urlsymbol) === url) {
-                return getmodule(url);
-            } else {
-                return await coreload(url);
-            }
-        })(url, packagename);
+        if (String(url).startsWith("./") || String(url).startsWith("../")) {
+            var urlobj = new URL(url, location.href);
+            url = urlobj.origin + urlobj.pathname;
+        }
+        try {
+            url = new URL(url).href;
+        } catch (_unused2) {
+            throw Error("invalid url " + url);
+        }
+        if (typeof packagename === "undefined") {
+            packagename = new URL(url).href;
+        }
+        if (packagename) {
+            packagealias[packagename] = url;
+        }
+        if (typeof packagestore[packagename] !== "undefined" && get(packagestore[packagename], urlsymbol) === url) {
+            return getmodule(packagename);
+        } else if (typeof packagestore[url] !== "undefined" && get(packagestore[url], urlsymbol) === url) {
+            return getmodule(url);
+        } else {
+            return await coreload(url);
+        }
     } else {
         throw new TypeError(输入的类型错误输入的类型必须是字符串或者数组或对象);
     }
@@ -343,7 +339,7 @@ const myrequirefun = function requireinstead(packagename) {
     assertstring(packagename);
     const findpackage = packagestore[packagename] || packagestore[packagealias[packagename]];
     if (findpackage) {
-        return _a = findpackage.default, _a !== null && _a !== void 0 ? _a : findpackage;
+        return (_a = findpackage.default) !== null && _a !== void 0 ? _a : findpackage;
     } else {
         throw new cantfindError(模块仓库中没有找到 + packagename, packagename);
     }
@@ -409,7 +405,7 @@ function mapaliastourl(arr) {
         if (isurl(name)) {
             return name;
         } else {
-            return _a = packagealias[name], _a !== null && _a !== void 0 ? _a : name;
+            return (_a = packagealias[name]) !== null && _a !== void 0 ? _a : name;
         }
     });
 }
@@ -431,6 +427,18 @@ function parseDependencies(code) {
         return "";
     }));
     return ret;
+}
+
+function assert(con, msg) {
+    if (!con) {
+        throw TypeError(msg);
+    }
+}
+
+function checkDepsUrl(deps) {
+    deps.forEach(d => {
+        assert(isurl(d), "unresolved dependency:" + d);
+    });
 }
 
 async function 主核心加载模块函数(url, resolve, reject) {
@@ -486,12 +494,13 @@ async function 主核心加载模块函数(url, resolve, reject) {
                     let isamd = false;
                     const funparams = [ "require", "exports", "module", "define" ];
                     const funbody = `"use strict";\n/* ${url} */;\n;${scripttext};\n;/* ${url} */;\n`;
-                    const 模块加载函数 = (_a = get(cacheurltocjsfun, url), _a !== null && _a !== void 0 ? _a : new AsyncFunctionconstructor(...funparams, funbody));
+                    const 模块加载函数 = (_a = get(cacheurltocjsfun, url)) !== null && _a !== void 0 ? _a : new AsyncFunctionconstructor(...funparams, funbody);
                     set(cacheurltocjsfun, url, 模块加载函数);
                     const cjsmoduleexportdeps = removerepetition(mapaliastourl(parseDependencies(scripttext).map(urlorname => getnormalizedurl(urlorname, url))));
                     cjsmoduleexportdeps.forEach(d => {
                         dependents.add(d);
                     });
+                    checkDepsUrl(cjsmoduleexportdeps);
                     await importcjsamdumd(cjsmoduleexportdeps);
                     let amdfactory = () => {};
                     const require_require = name => formatedurlrequire(name, url);
@@ -512,6 +521,7 @@ async function 主核心加载模块函数(url, resolve, reject) {
                     if (isamd) {
                         moduletype = "amd";
                         const moduleexportdeps = [ ...amddeps ];
+                        checkDepsUrl(moduleexportdeps);
                         await importcjsamdumd(moduleexportdeps);
                         let amdcallargs;
                         if (moduleexportdeps.length) {
@@ -592,31 +602,32 @@ const timeout = 10 * 1e3;
 
 async function coreload(url) {
     return new Promise(async (resolve, reject) => {
+        var _a;
         setTimeout(() => {
             reject(new Error("import module timeout:" + url));
         }, timeout);
-        const mod = await (async () => {
-            var _a, _b;
-            const loadpro = (_b = (_a = concurrentimport) === null || _a === void 0 ? void 0 : _a[url]) === null || _b === void 0 ? void 0 : _b.promise;
-            if (loadpro) {
-                return Promise.resolve(loadpro);
-            } else {
-                const defered = promisedefer();
-                concurrentimport[url] = defered;
-                try {
-                    const module = await new Promise((resolve, reject) => 主核心加载模块函数(url, resolve, reject));
-                    defered.resolve(module);
-                    return module;
-                } catch (e) {
-                    defered.reject(e);
-                    setTimeout(() => {
-                        Reflect.set(concurrentimport, url, undefined);
-                    }, 0);
-                    throw e;
-                }
+        const loadpro = (_a = concurrentimport === null || concurrentimport === void 0 ? void 0 : concurrentimport[url]) === null || _a === void 0 ? void 0 : _a.promise;
+        if (loadpro) {
+            resolve(Promise.resolve(loadpro));
+            return;
+        } else {
+            const defered = promisedefer();
+            concurrentimport[url] = defered;
+            try {
+                const module = await new Promise((resolve, reject) => 主核心加载模块函数(url, resolve, reject));
+                defered.resolve(module);
+                resolve(module);
+                return;
+            } catch (e) {
+                defered.reject(e);
+                setTimeout(() => {
+                    Reflect.set(concurrentimport, url, undefined);
+                }, 0);
+                console.warn(e);
+                reject(e);
+                return;
             }
-        })();
-        resolve(mod);
+        }
     });
 }
 
