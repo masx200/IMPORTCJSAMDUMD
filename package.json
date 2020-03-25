@@ -19,10 +19,6 @@
     "author": "masx200 <34191203+masx200@users.noreply.github.com>",
     "license": "MIT",
     "devDependencies": {
-
-"eslint": "^6.8.0",
-"minimist":"1.2.5",
-"acorn":"7.1.1",
         "@babel/core": "^7.8.4",
         "@babel/plugin-proposal-optional-catch-binding": "^7.8.3",
         "@babel/preset-env": "^7.8.4",
@@ -30,14 +26,15 @@
         "@rollup/plugin-json": "^4.0.2",
         "@rollup/plugin-node-resolve": "^7.1.1",
         "@types/node": "^13.7.1",
+        "acorn": "7.1.1",
         "live-server": "^1.2.1",
+        "minimist": "1.2.5",
         "prettier": "^1.19.1",
-        "rollup": "^1.31.1",
+        "rollup": "2.2.0",
         "rollup-plugin-babel": "^4.3.3",
         "rollup-plugin-sourcemaps": "^0.5.0",
         "rollup-plugin-terser": "^5.2.0",
         "rollup-plugin-ts": "^1.2.14",
-        "rollup-plugin-typescript2": "^0.26.0",
         "serialize-javascript": "^3.0.0",
         "terser": "^4.6.3",
         "typescript": "^3.7.5"
