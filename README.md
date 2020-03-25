@@ -172,12 +172,12 @@ interface MODULE extends Record<string, any> {
 declare function getmoduletype(url: string): MODULETYPE | undefined;
 declare function getmodule(packagename: string): Record<any, any>;
 declare const requirepackage: typeof getmodule;
-declare function `importcjsamdumd`(url: string[]): Promise<MODULE[]>;
-declare function `importcjsamdumd`(
+declare function importcjsamdumd(url: string[]): Promise<MODULE[]>;
+declare function importcjsamdumd(
     url: string,
     packagename?: string
 ): Promise<MODULE>;
-declare const dynamicimport:typeof `importcjsamdumd`
+declare const dynamicimport: typeof importcjsamdumd;
 ```
 
 ## 动态异步加载 cjs,amd,umd 模块用法:
@@ -203,13 +203,13 @@ Object.assign(packagealias, {
 如果第一个参数是网址，则第二个参数名称可以省略，默认以网址作为名称
 
 ```javascript
-`importcjsamdumd`("网址1", "名称1");
+importcjsamdumd("网址1", "名称1");
 ```
 
 函数返回值为 promise 对象
 
 ```js
-`importcjsamdumd`(
+importcjsamdumd(
     "https://masx200.github.io/`importcjsamdumd`/package.json"
 ).then(console.log);
 ```
@@ -217,9 +217,9 @@ Object.assign(packagealias, {
 主函数,`importcjsamdumd`,返回一个 promise 对象,参数 url 和 name 都是字符串，把通过 url 加载的依赖包放入模块仓库中，命名为 name，promise 之后的.then 函数的回调函数的参数是 module， 模块的默认输出
 
 ```javascript
-`importcjsamdumd`(url, name);
+importcjsamdumd(url, name);
 
-`importcjsamdumd`(url).then(m => console.log(m));
+importcjsamdumd(url).then(m => console.log(m));
 ```
 
 ### 新版用法:
@@ -237,7 +237,7 @@ Object.assign(packagealias, {
 传参 一个或多个`Array`参数,返回`promise`内含一个 `Array`
 
 ```javascript
-`importcjsamdumd`([
+importcjsamdumd([
     "https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js",
     "https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js",
 
@@ -253,16 +253,16 @@ Object.assign(packagealias, {
 
 ```javascript
 (async () => {
-    const react = await `importcjsamdumd`(
+    const react = await importcjsamdumd(
         "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js",
         "react"
     );
     const [reactdom, reactrouterdom] = await Promise.all([
-        `importcjsamdumd`(
+        importcjsamdumd(
             "https://cdn.staticfile.org/react-dom/16.8.6/umd/react-dom.production.min.js",
             "react-dom"
         ),
-        `importcjsamdumd`(
+        importcjsamdumd(
             "https://cdn.staticfile.org/react-router-dom/5.0.0/react-router-dom.min.js",
             "react-router-dom"
         )
@@ -282,16 +282,16 @@ function myonloadfunc(reactmodulearray) {
 ```javascript
 (async () => {
     const [jquery, popper] = await Promise.all([
-        `importcjsamdumd`(
+        importcjsamdum(
             "https://cdn.bootcss.com/jquery/3.4.1/jquery.js",
             "jquery"
         ),
-        `importcjsamdumd`(
+        importcjsamdumd(
             "https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js",
             "popper.js"
         )
     ]);
-    const bootstrap = await `importcjsamdumd`(
+    const bootstrap = await importcjsamdumd(
         "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.js",
         "bootstrap"
     );
@@ -302,7 +302,7 @@ function myonloadfunc(reactmodulearray) {
 ### 如果要动态异步加载 ES 模块,加载 es6 模块的方法:
 
 ```javascript
-`importcjsamdumd`(url).then(console.log);
+importcjsamdumd(url).then(console.log);
 ```
 
 基于 ["es-module-shims"](https://github.com/guybedford/es-module-shims)
@@ -312,50 +312,50 @@ function myonloadfunc(reactmodulearray) {
 ## 示例
 
 ```javascript
-`importcjsamdumd`("https://cdn.staticfile.org/jquery/3.4.1/jquery.js").then(
+importcjsamdumd("https://cdn.staticfile.org/jquery/3.4.1/jquery.js").then(
     m => {
         console.log(m.default);
     }
 );
 
 Promise.all([
-    `importcjsamdumd`("https://cdn.bootcss.com/jquery/3.4.1/jquery.js"),
-    `importcjsamdumd`(
+    importcjsamdumd("https://cdn.bootcss.com/jquery/3.4.1/jquery.js"),
+    importcjsamdumd(
         "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js"
     ),
-    `importcjsamdumd`("https://cdn.staticfile.org/vue/2.6.10/vue.min.js")
+    importcjsamdumd("https://cdn.staticfile.org/vue/2.6.10/vue.min.js")
 ]).then(console.log);
 
-`importcjsamdumd`(
+importcjsamdumd(
     "https://cdn.bootcss.com/Chart.js/2.8.0-rc.1/Chart.bundle.js"
 ).then(console.log);
 
-`importcjsamdumd`(
+importcjsamdumd(
     "https://cdn.bootcss.com/underscore.js/1.9.1/underscore-min.js",
     "underscore"
 )
     .then(console.log)
     .catch(console.error);
 
-`importcjsamdumd`("https://cdn.bootcss.com/jquery/3.4.1/jquery.js")
+importcjsamdumd("https://cdn.bootcss.com/jquery/3.4.1/jquery.js")
     .then(console.log)
     .catch(console.error);
 
 Promise.all([
-    `importcjsamdumd`(
+    importcjsamdumd(
         "https://cdn.bootcss.com/jquery/3.4.1/jquery.js",
         "jquery"
     ),
-    `importcjsamdumd`(
+    importcjsamdumd(
         "https://cdn.staticfile.org/react/16.9.0-alpha.0/umd/react.production.min.js",
         "react"
     ),
-    `importcjsamdumd`("https://cdn.staticfile.org/vue/2.6.10/vue.min.js", "vue")
+    importcjsamdumd("https://cdn.staticfile.org/vue/2.6.10/vue.min.js", "vue")
 ]).then(console.log);
 
 //加载es6模块的方法
 
-`importcjsamdumd`(
+importcjsamdumd(
     "https://cdn.staticfile.org/vue/2.6.10/vue.esm.browser.min.js"
 ).then(console.log);
 ```

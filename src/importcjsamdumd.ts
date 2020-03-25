@@ -25,7 +25,10 @@ export default importcjsamdumd;
 function importcjsamdumd(url: string[]): Promise<MODULE[]>;
 function importcjsamdumd(url: string, packagename?: string): Promise<MODULE>;
 
-async function importcjsamdumd(url: any, packagename?: any): Promise<any> {
+async function importcjsamdumd(
+    url: string | string[],
+    packagename?: string
+): Promise<any> {
     let tryfailedtimes = 0;
 
     return await oldimportcjsamdumd(url, packagename).catch(handleerror);
@@ -60,16 +63,6 @@ async function importcjsamdumd(url: any, packagename?: any): Promise<any> {
                     packagename
                 );
             } else {
-                /*
-else if (isplainobject(url) && Reflect.has(url, eurlorname)) {
-        return await retryimport(
-          get(url, eurlorname),
-          eurlorname,
-          url,
-          packagename
-        );
-      }
-*/
                 throw e;
             }
         } else {
