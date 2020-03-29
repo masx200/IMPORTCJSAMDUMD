@@ -6,11 +6,14 @@
 
 非常简洁小巧的工具，基于 `Promise`
 
-基于 `fetch`，加载的模块如果不同域，则必须支持跨域请求
+基于 `fetch`，加载的模块如果不同域，则必须支持跨域请求，因为要使用模块的源代码来生成包装函数
 
-使用 `http` 响应 `headers` 中的"content-type"属性来判断是 `json` 还是 `JavaScript` 模块
+使用 `http` 响应 `headers` 中的`content-type`属性来判断是 `json` 还是 `JavaScript` 模块
 
-实现 `CommonJS`,amd,umd,cmd` 模块全部异步加载了
+`headers` 中的`content-type`属性必须为`application/JavaScript`或者`application/json`
+
+
+实现 `CommonJS`,`amd,umd,cmd` 模块全部异步加载了
 
 支持 模块中的 `top-level-await`
 
@@ -20,9 +23,11 @@
 
 模块异步加载默认开启了超时，10 秒钟，加载超时则会加载自动失败
 
-把以 URL 作为模块的 id，所以在 amd，cmd 模块中，忽略 define 传入的模块 id
+把以 `URL` 作为模块的 `id`，所以在 `amd，cmd` 模块中，忽略` define`函数 传入的模块` id`
 
 在模块加载未完成的过程中，防止多次重复加载同一个模块
+
+模块加载完成之后会缓存，同一个模块不会重新加载第二次
 
 ## 获取已压缩模块
 
@@ -49,6 +54,47 @@ import importcjsamdumd, {
 } from "@masx200/importcjsamdumd";
 ```
 
+
+
+## 兼容的浏览器
+
+兼容`ECMASCRIPT2017`以上
+
+`EDGE,CHROME,FIREFOX,SAFARI`
+
+## `CommonJS` 提前加载依赖
+
+`CommonJS` 模块依赖收集,基于 `seajs`
+
+https://github.com/seajs/seajs/blob/master/src/util-deps.js
+
+
+# 为了兼容多种模块标准的取舍
+
+## commonjs
+
+1.在同一个模块中，不应该同时使用 `module.exports=`和`exports.xxx=`来导出
+
+2.使用`module.exports=`来导出，等同于使用
+`exports.default=`来导出
+
+
+3.不应该同时使用默认导出`exports.default=`和命名导出`exports.xxx=`
+
+
+4.`require`函数可以传入模块的绝对`URL`或者模块的别名，也可以使用相对`URL`
+
+
+5.`module`对象只有一个属性`exports`,默认为一个`object`空对象类型
+
+6.`module`和`exports`对象没有任何关联了
+
+7.`exports`对象,默认为一个`object`空对象类型
+
+8.依赖的模块都要使用`require`函数声明，通过正则表达式匹配来提前收集依赖模块的路径
+
+9.使用`require`函数导入模块都是先预加依赖载模块之后，再执行模块的主体，不是同步懒加载模块
+
 # 更新 支持 amd ，cmd 模块中新增支持 define 传入 async 函数了 ，支持返回 promise
 
 ```js
@@ -59,7 +105,7 @@ define(async (require, exports, module) => {
 });
 ```
 
-# 更新 `CommonJS` 模块中支持 顶层 await 了，自动把 `CommonJS` 模块包装成 async 函数
+# 更新 `CommonJS` 模块中支持 `顶层 await`了，自动把 `CommonJS` 模块包装成 `async` 函数
 
 ```js
 exports.default = await new Promise(r => {
@@ -75,18 +121,6 @@ exports.default = await new Promise(r => {
 
 });
 ```
-
-## 兼容的浏览器
-
-兼容`ECMASCRIPT2017`以上
-
-`EDGE,CHROME,FIREFOX,SAFARI`
-
-## `CommonJS` 提前加载依赖
-
-`CommonJS` 模块依赖收集,基于 seajs
-
-https://github.com/seajs/seajs/blob/master/src/util-deps.js
 
 # 更新！可以使用相对路径加载同类型的模块！
 
@@ -134,7 +168,7 @@ https://github.com/seajs/seajs/blob/master/src/util-deps.js
 
 # API
 
-https://github.com/masx200/`importcjsamdumd`/blob/master/dist/index.d.ts
+https://github.com/masx200/importcjsamdumd/blob/master/dist/index.d.ts
 
 模块 把 `URL` 地址作为 `id`
 
@@ -208,9 +242,11 @@ importcjsamdumd("网址1", "名称1");
 
 函数返回值为 promise 对象
 
+加载json模块的示例：
+
 ```js
 importcjsamdumd(
-    "https://masx200.github.io/`importcjsamdumd`/package.json"
+    "https://unpkg.com/jquery@3.4.1/package.json"
 ).then(console.log);
 ```
 
