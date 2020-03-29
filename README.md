@@ -79,7 +79,7 @@ https://github.com/seajs/seajs/blob/master/src/util-deps.js
 `exports.default=`来导出
 
 
-3.不应该同时使用默认导出`exports.default=`和命名导出`exports.xxx=`
+3.在同一个模块中，不应该同时使用默认导出`exports.default=`和命名导出`exports.xxx=`
 
 
 4.`require`函数可以传入模块的绝对`URL`或者模块的别名，也可以使用相对`URL`
@@ -87,7 +87,7 @@ https://github.com/seajs/seajs/blob/master/src/util-deps.js
 
 5.`module`对象只有一个属性`exports`,默认为一个`object`空对象类型
 
-6.`module`和`exports`对象没有任何关联了
+6.`module`和`exports`对象是没有任何关联的两个对象
 
 7.`exports`对象,默认为一个`object`空对象类型
 
