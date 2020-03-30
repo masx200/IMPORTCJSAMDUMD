@@ -138,6 +138,14 @@ define(["require","exports","module"],function(require,exports,module){})
 
 11.`define`传入的`factory`函数，支持`async`函数或者返回`Promise`的函数
 
+## ES Module
+
+1.由于没有抽象语法树分析，所以在`es`模块中依赖项只能是`es`模块的绝对`URL`或者相对`URL`，无法使用模块别名
+
+2.在`cjs，cmd，amd，umd`模块中可以依赖其他任何种类的模块，但是`es`模块中只能依赖`es`模块
+
+3.在同一个模块中，不应该同时使用默认导出`export default {bar}`和命名导出`export {bar}`，应该二者中只用一个
+
 # 更新 支持 amd ，cmd 模块中新增支持 define 传入 async 函数了 ，支持返回 promise
 
 ```js
@@ -173,7 +181,7 @@ exports.default = await new Promise(r => {
 
 可以在 `ES` 模块中使用相对路径加载 `ES` 模块了！
 
-甚至可以在 `CommonJS` 模块中加载 ES 模块了!
+甚至可以在 `CommonJS` 模块中加载 `ES` 模块了!
 
 还顺便支持了加载 `json` 模块!
 
