@@ -73,7 +73,7 @@ https://github.com/seajs/seajs/blob/master/src/util-deps.js
 
 ## commonjs
 
-1.在同一个模块中，不应该同时使用 `module.exports=`和`exports.xxx=`来导出
+1.在同一个模块中，不应该同时使用 `module.exports=`和`exports.xxx=`来导出,应该只用一个来导出
 
 2.使用`module.exports=`来导出，等同于使用
 `exports.default=`来导出
@@ -94,6 +94,47 @@ https://github.com/seajs/seajs/blob/master/src/util-deps.js
 8.依赖的模块都要使用`require`函数声明，通过正则表达式匹配来提前收集依赖模块的路径
 
 9.使用`require`函数导入模块都是先预加依赖载模块之后，再执行模块的主体，不是同步懒加载模块
+
+10.支持模块中的 `top-level-await`
+
+## amd / cmd
+
+1.不支持 使用define函数传入模块id，因为模块id始终是模块的URL，例如 
+
+```js
+
+define("foo",[],function(){})
+
+```
+
+2.不支持 在依赖项中使用`module`，`exports`，`require`，例如
+
+
+```js
+
+define(["require","exports","module"],function(require,exports,module){})
+
+```
+3.模块都是先预加依赖载模块之后，再执行模块的主体，不是同步懒加载模块
+
+4.在同一个模块中，不应该同时使用 `module.exports=`和`exports.xxx=`或`return {}`来导出,应该只用一个来导出
+
+5.`cmd`模块中，依赖的模块都要使用`require`函数声明，通过正则表达式匹配来提前收集依赖模块的路径
+
+
+6.如果使用了`define`传入依赖项数组不为空数组，则当成`amd`模块
+
+7.如果使用了`define`只传入了一个函数，则当成`cmd`模块
+
+8.如果只传入`factory`函数，其接受三个参数必须为`require, exports, module`
+
+
+
+9.使用`module.exports=`来导出，等同于使用
+`exports.default=`来导出
+
+10.使用`return {}`来导出，等同于使用
+`exports.default=`来导出
 
 # 更新 支持 amd ，cmd 模块中新增支持 define 传入 async 函数了 ，支持返回 promise
 
@@ -395,7 +436,7 @@ importcjsamdumd(
 
 ## cjs common js
 
-http://wiki.`CommonJS`.org/wiki/Modules/1.1
+http://wiki.CommonJS.org/wiki/Modules/1.1
 
 ```js
 var a = require("./a.js");
@@ -418,7 +459,7 @@ exports.increment = function(val) {
 https://requirejs.org/docs/api.html
 
 ```js
-define("foo/title", ["my/cart", "my/inventory"], function(cart, inventory) {
+define( ["my/cart", "my/inventory"], function(cart, inventory) {
     console.log(cart, inventory);
     return { a: "amd", foo: "bar", doSomething: function() {} };
 });
@@ -442,7 +483,9 @@ define(function(require, exports, module) {
     var a = require("a"),
         b = require("b");
 
-    return function() {};
+    return function() {
+console.log(a,b)
+};
 });
 ```
 
@@ -489,12 +532,14 @@ define(function(require, exports, module) {
 ```
 
 ```js
-define("hello", ["jquery"], function(require, exports, module) {
+define( ["jquery"], function(require, exports, module) {
     var jquery = require("jquery");
 
     module.exports = {
         foo: "bar",
-        doSomething: function() {}
+        doSomething: function() {
+console.log(jquery)
+}
     };
 });
 ```
@@ -563,7 +608,7 @@ fn2();
 
 https://www.jsdelivr.com/
 
-http://staticfile.org/
+https://staticfile.org/
 
 https://www.bootcdn.cn/
 
