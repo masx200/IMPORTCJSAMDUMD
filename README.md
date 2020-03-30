@@ -126,7 +126,7 @@ define(["require","exports","module"],function(require,exports,module){})
 
 7.如果使用了`define`只传入了一个函数，则当成`cmd`模块
 
-8.如果只传入`factory`函数，其接受三个参数必须为`require, exports, module`
+8.如果`define`只传入`factory`函数，其接受三个参数必须为`require, exports, module`
 
 
 
@@ -135,6 +135,8 @@ define(["require","exports","module"],function(require,exports,module){})
 
 10.使用`return {}`来导出，等同于使用
 `exports.default=`来导出
+
+11.`define`传入的`factory`函数，支持`async`函数或者返回`Promise`的函数
 
 # 更新 支持 amd ，cmd 模块中新增支持 define 传入 async 函数了 ，支持返回 promise
 
