@@ -22,7 +22,6 @@ async function oldimportcjsamdumd(
     "use strict";
 
     if (isArray(url)) {
-        // return await (async (...args) => {
         const args = url;
         let suoyouimportpromise = [];
         const 传入参数arr = args;
@@ -45,33 +44,31 @@ async function oldimportcjsamdumd(
         }
         return suoyouimportpromise;
         // })(...url);
-    } else if (
-        typeof url === "string" /*  || typeof packagename === "string" */
-    ) {
-        assertstring(url);
-
+    } else if (typeof url === "string") {
         try {
             url = new URL(url).href;
         } catch {
             url = packagealias[url] ?? url;
         }
-        // return await (async (url: string, packagename?: string) => {
+        assertstring(url);
+
         /* 转换相对路径 */
         if (String(url).startsWith("./") || String(url).startsWith("../")) {
             var urlobj = new URL(url, location.href);
             url = urlobj.origin + urlobj.pathname;
         }
+
         try {
             url = new URL(url).href;
         } catch {
             throw Error("invalid url " + url);
         }
-        if (typeof packagename === "undefined") {
+        if (typeof packagename === "string") {
+            packagealias[packagename] = url;
+        } else if (typeof packagename === "undefined") {
             packagename = new URL(url).href;
         }
-        if (packagename) {
-            packagealias[packagename] = url;
-        }
+
         if (
             typeof packagestore[packagename] !== "undefined" &&
             get(packagestore[packagename], urlsymbol) === url
@@ -85,7 +82,6 @@ async function oldimportcjsamdumd(
         } else {
             return await coreload(url /*, packagename*/);
         }
-        // })(url, packagename);
     } else {
         throw new TypeError(输入的类型错误输入的类型必须是字符串或者数组或对象);
     }
