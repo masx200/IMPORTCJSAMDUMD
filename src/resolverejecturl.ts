@@ -108,18 +108,18 @@ export async function 主核心加载模块函数(
                     //   console.log(模块加载函数);
                     const cjsmoduleexportdeps = removerepetition(
                         mapaliastourl(
-                            parseDependencies(scripttext).map(urlorname => {
+                            parseDependencies(scripttext).map((urlorname) => {
                                 return getnormalizedurl(urlorname, url);
                             })
                         )
                     );
-                    cjsmoduleexportdeps.forEach(d => {
+                    cjsmoduleexportdeps.forEach((d) => {
                         dependents.add(d);
                     });
 
                     // set(cachemoduledeps, url, moduleexportdeps);
                     //   console.log(moduleexport[depssymbol]);
-                    checkDepsUrl(cjsmoduleexportdeps);
+                    checkDepsUrl(cjsmoduleexportdeps, url);
                     await importcjsamdumd(cjsmoduleexportdeps);
                     let amdfactory:
                         | Function
@@ -140,13 +140,13 @@ export async function 主核心加载模块函数(
                             // moduleexport[depssymbol]
                             removerepetition(
                                 mapaliastourl(
-                                    defineglobalDefQueue[1].map(urlorname => {
+                                    defineglobalDefQueue[1].map((urlorname) => {
                                         return getnormalizedurl(urlorname, url);
                                     })
                                 )
                             );
                         amddeps.push(...moduleexportdeps);
-                        moduleexportdeps.forEach(d => dependents.add(d));
+                        moduleexportdeps.forEach((d) => dependents.add(d));
 
                         // set(cachemoduledeps, url, moduleexportdeps);
                     };
@@ -171,7 +171,7 @@ export async function 主核心加载模块函数(
                         // console.log(moduleexport[depssymbol]);
                         // const amdmoduleexportdeps =
                         const moduleexportdeps = [...amddeps];
-                        checkDepsUrl(moduleexportdeps);
+                        checkDepsUrl(moduleexportdeps, url);
                         await importcjsamdumd(
                             moduleexportdeps
                             // moduleexport[depssymbol]

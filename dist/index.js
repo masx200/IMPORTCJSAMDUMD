@@ -435,9 +435,9 @@ function assert(con, msg) {
     }
 }
 
-function checkDepsUrl(deps) {
+function checkDepsUrl(deps, url) {
     deps.forEach(d => {
-        assert(isurl(d), "unresolved dependency:" + d);
+        assert(isurl(d), "unresolved dependency:" + d + ",in module:" + url);
     });
 }
 
@@ -500,7 +500,7 @@ async function 主核心加载模块函数(url, resolve, reject) {
                     cjsmoduleexportdeps.forEach(d => {
                         dependents.add(d);
                     });
-                    checkDepsUrl(cjsmoduleexportdeps);
+                    checkDepsUrl(cjsmoduleexportdeps, url);
                     await importcjsamdumd(cjsmoduleexportdeps);
                     let amdfactory = () => {};
                     const require_require = name => formatedurlrequire(name, url);
@@ -521,7 +521,7 @@ async function 主核心加载模块函数(url, resolve, reject) {
                     if (isamd) {
                         moduletype = "amd";
                         const moduleexportdeps = [ ...amddeps ];
-                        checkDepsUrl(moduleexportdeps);
+                        checkDepsUrl(moduleexportdeps, url);
                         await importcjsamdumd(moduleexportdeps);
                         let amdcallargs;
                         if (moduleexportdeps.length) {
