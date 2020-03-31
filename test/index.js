@@ -12,6 +12,7 @@ import importcjsamdumd, {
     requirepackage
 } from "../dist/index.min.js";
 Object.assign(packagealias, {
+    axios: "https://cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.js",
     "https://cdn.jsdelivr.net/npm/axios@0.19.2/lib/adapters/http.js":
         "https://cdn.jsdelivr.net/npm/axios@0.19.2/lib/adapters/xhr.js",
     react:
@@ -26,6 +27,9 @@ Object.assign(packagealias, {
         "https://cdn.jsdelivr.net/gh/masx200/masx200.github.io/src/assetsjs/md5.min.js"
 });
 const allpro = Promise.all([
+    importcjsamdumd("https://cdn.jsdelivr.net/npm/axios@0.19.2/index.js").then(
+        logger
+    ),
     importcjsamdumd(
         "https://cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.js"
     ).then(logger),
