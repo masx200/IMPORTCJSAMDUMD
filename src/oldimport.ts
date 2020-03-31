@@ -6,6 +6,7 @@ import { getmodule } from "./getmodule.js";
 import { packagestore } from "./importcjsamdumd";
 import { isArray } from "./isarray.js";
 import { urlsymbol } from "./module.js";
+import { assert_url } from "./assert-url";
 const 输入的类型错误输入的类型必须是字符串或者数组或对象 =
     "The type entered is incorrect, the type entered must be a string or an array ";
 
@@ -45,11 +46,12 @@ async function oldimportcjsamdumd(
         return suoyouimportpromise;
         // })(...url);
     } else if (typeof url === "string") {
-        try {
-            url = new URL(url).href;
-        } catch {
-            url = packagealias[url] ?? url;
-        }
+        // try {
+        //     url = new URL(url).href;
+        // } catch {
+        url = packagealias[url] ?? url;
+        // }
+
         assertstring(url);
 
         /* 转换相对路径 */
@@ -58,11 +60,7 @@ async function oldimportcjsamdumd(
             url = urlobj.origin + urlobj.pathname;
         }
 
-        try {
-            url = new URL(url).href;
-        } catch {
-            throw Error("invalid url " + url);
-        }
+        assert_url(url);
         if (typeof packagename === "string") {
             packagealias[packagename] = url;
         } else if (typeof packagename === "undefined") {
@@ -80,7 +78,7 @@ async function oldimportcjsamdumd(
         ) {
             return getmodule(url);
         } else {
-            return await coreload(url /*, packagename*/);
+            return await coreload(url);
         }
     } else {
         throw new TypeError(输入的类型错误输入的类型必须是字符串或者数组或对象);
