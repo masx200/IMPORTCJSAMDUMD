@@ -35,7 +35,7 @@
 
 从 cdn 获取
 
-https://cdn.jsdelivr.net/gh/masx200/importcjsamdumd@latest/dist/index.esm.min.js
+https://unpkg.com/@masx200/importcjsamdumd/dist/index.min.js
 
 # 安装模块
 
