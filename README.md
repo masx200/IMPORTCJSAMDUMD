@@ -35,7 +35,7 @@
 
 从 cdn 获取
 
-https://unpkg.com/@masx200/importcjsamdumd/dist/index.min.js
+https://unpkg.zhimg.com/@masx200/importcjsamdumd@2.6.3/dist/index.min.js
 
 # 安装模块
 
