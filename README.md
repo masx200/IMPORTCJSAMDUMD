@@ -1,3 +1,9 @@
+# 注意,此代码存储库已被弃用,不会再更新维护了.
+
+# Note that this code repository has been deprecated and will not be updated and maintained.
+
+原因：现代模块打包器已经非常流行了，浏览器中动态加载代码已经不好用且过时了。
+
 # `importcjsamdumd`
 
 浏览器运行时异步模块加载器
